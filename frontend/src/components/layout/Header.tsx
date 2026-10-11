@@ -1,90 +1,276 @@
-import { Link } from 'react-router-dom'
-import { Search, Truck, UserCircle, ShoppingBag, User } from 'lucide-react'
+import { useState, type FormEvent } from 'react'
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
+import { Link, NavLink, useNavigate, useSearchParams } from 'react-router-dom'
+import { Search, Truck, UserRound, ShoppingBag, Menu, X, LayoutDashboard, MessageCircle, PenLine } from 'lucide-react'
+import Logo from './Logo'
+import { SHOP_NAV } from './navLinks'
+import { useCart } from '../../hooks/useCart'
+import { useAuth } from '../../hooks/useAuth'
+import { useShop, useWhatsApp } from '../../hooks/useShop'
+import { formatPhone } from '../../lib/phone'
+import { formatClock } from '../../lib/dates'
 
-const NAV_LINKS = [
-  { label: 'Fresh Bouquets', path: '/products/fresh-bouquets' },
-  { label: 'Occasions', path: '/products/occasions' },
-  { label: 'Luxury Hampers', path: '/products/luxury-hampers' },
-  { label: 'Wedding & Events', path: '/wedding-events' },
-  { label: 'Indoor Plants', path: '/products/indoor-plants' },
-  { label: 'About', path: '/about' },
-]
+const EASE = [0.22, 1, 0.36, 1] as const
+
+function SearchBox({ id, onDone, autoFocus = false, initial = '' }: { id: string; onDone?: () => void; autoFocus?: boolean; initial?: string }) {
+  const navigate = useNavigate()
+  const [query, setQuery] = useState(initial)
+
+  function submit(e: FormEvent) {
+    e.preventDefault()
+    const q = query.trim()
+    navigate(q ? `/shop?q=${encodeURIComponent(q)}` : '/shop')
+    onDone?.()
+  }
+
+  return (
+    <form role="search" onSubmit={submit} className="flex items-center gap-2 rounded-sm border border-outline-variant bg-surface-container-lowest px-4 focus-within:border-primary">
+      <Search className="shrink-0 text-secondary" size={18} />
+      <label htmlFor={id} className="sr-only">Search flowers and gifts</label>
+      <input
+        id={id}
+        type="search"
+        value={query}
+        autoFocus={autoFocus}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search roses, lilies, hampers…"
+        className="w-full border-0 bg-transparent py-3 text-[15px] text-on-surface placeholder:text-outline focus:outline-none"
+      />
+      <button type="submit" className="shrink-0 cursor-pointer text-[13px] font-semibold text-primary hover:text-tertiary">Search</button>
+    </form>
+  )
+}
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const { count } = useCart()
+  const { user } = useAuth()
+  const shop = useShop()
+  const whatsapp = useWhatsApp()
+  const close = () => {
+    setMenuOpen(false)
+    setSearchOpen(false)
+  }
+  // Show the current search in the box on the results page (re-mounts when the search changes).
+  const [params] = useSearchParams()
+  const currentQuery = params.get('q') ?? ''
+
+  // Hide the header while scrolling down, bring it back on any scroll up. Moving it with a
+  // transform (not by changing its height) means the page underneath never jumps.
+  const { scrollY } = useScroll()
+  const [hidden, setHidden] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  useMotionValueEvent(scrollY, 'change', (y) => {
+    const previous = scrollY.getPrevious() ?? 0
+    setScrolled(y > 8)
+    setHidden(y > 240 && y > previous + 2)
+    if (y < previous - 2) setHidden(false)
+  })
+
+  const account =
+    user?.role === 'OWNER'
+      ? { to: '/admin', label: 'Owner console', icon: LayoutDashboard }
+      : user
+        ? { to: '/account', label: user.name.split(' ')[0], icon: UserRound }
+        : { to: '/sign-in', label: 'Sign in', icon: UserRound }
+  const AccountIcon = account.icon
+  const barLinks = SHOP_NAV.filter((l) => l.inBar !== false)
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full border-b border-[#dfeae2] bg-[rgba(245,251,246,0.82)] backdrop-blur-xl">
-      <div className="bg-[#1a3a2f] px-4 py-2 text-center text-[11px] font-semibold uppercase tracking-[0.12em] text-[#e9f2ee] lg:px-12">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-1 md:flex-row md:text-left">
-          <span>Same-day flower delivery across Colombo and nearby suburbs</span>
-          <span>WhatsApp: +94 77 123 4567</span>
-        </div>
-      </div>
-
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 lg:px-12">
-        <Link to="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1a3a2f] font-display text-lg font-bold text-white">
-            CP
-          </div>
-          <div>
-            <div className="font-display text-[1.35rem] leading-none text-[#1a3a2f]">Ceylon Blooms</div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-[#5a665f]">Sri Lankan flower studio</div>
-          </div>
-        </Link>
-
-        <div className="hidden flex-1 max-w-md xl:block">
-          <div className="flex items-center rounded-full border border-[#dfeae2] bg-white px-3 shadow-sm">
-            <Search className="text-[#61736b]" size={18} />
-            <input
-              type="text"
-              placeholder="Search bouquets, hampers, roses..."
-              className="w-full border-0 bg-transparent py-2 pl-2 text-sm text-[#1a3a2f] placeholder:text-[#75857b] focus:outline-none"
-            />
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="hidden items-center gap-2 rounded-full border border-[#dfeae2] bg-white px-3 py-2 text-xs font-semibold text-[#1a3a2f] sm:flex">
-            <span className="text-[#5d6d66]">LKR</span>
-            <span>Rs.</span>
-          </div>
-          <Link
-            to="/track-order"
-            className="hidden items-center gap-1 text-sm font-medium text-[#33443d] lg:flex"
-          >
-            <Truck size={16} />
-            Track order
-          </Link>
-          <Link
-            to="/sign-in"
-            className="hidden items-center gap-1 text-sm font-medium text-[#33443d] sm:flex"
-          >
-            <UserCircle size={16} />
-            Sign in
-          </Link>
-          <button className="flex items-center gap-2 rounded-full bg-[#1a3a2f] px-4 py-2 text-sm font-semibold text-white shadow-[0_16px_30px_rgba(26,58,47,0.14)] transition hover:bg-[#143227]">
-            <ShoppingBag size={16} />
-            <span>Cart</span>
-            <span className="rounded-full bg-[#dfeadf] px-2 py-0.5 text-[10px] font-bold text-[#1a3a2f]">2</span>
-          </button>
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1a3a2f] text-white">
-            <User size={16} />
+    <motion.header
+      animate={{ y: hidden && !menuOpen && !searchOpen ? '-100%' : '0%' }}
+      transition={{ duration: 0.3, ease: EASE }}
+      className={`sticky top-0 z-50 w-full border-b bg-surface/90 backdrop-blur-xl transition-shadow duration-300 ${
+        scrolled ? 'border-transparent shadow-[0_10px_30px_-18px_rgba(12,10,9,0.3)]' : 'border-outline-variant'
+      }`}
+    >
+      {/* ---- Info bar: one calm, readable line ---- */}
+      {shop.acceptingOrders ? (
+        <div className="bg-primary text-[13px] text-[#efe6d2]">
+          <div className="mx-auto flex h-9 max-w-7xl items-center justify-center gap-6 px-4 md:justify-between lg:px-12">
+            <p className="truncate">
+              <span className="text-tertiary-fixed-dim">●</span>&nbsp; Same-day delivery<span className="hidden sm:inline"> in Colombo &amp; suburbs</span> — order
+              before <strong className="font-semibold text-white">{formatClock(shop.sameDayCutoff)}</strong>
+            </p>
+            <div className="hidden items-center gap-6 md:flex">
+              <a href={whatsapp('Hello! I have a question about an order.')} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-white">
+                <MessageCircle size={14} className="text-[#25D366]" /> {formatPhone(shop.whatsappNumber)}
+              </a>
+              <Link to="/track-order" className="inline-flex items-center gap-1.5 hover:text-white">
+                <Truck size={14} /> Track order
+              </Link>
+              <Link to="/custom-order" className="hidden items-center gap-1.5 hover:text-white lg:inline-flex">
+                <PenLine size={14} /> Custom orders
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="bg-tertiary-fixed px-4 py-2 text-center text-[13px] text-on-tertiary-fixed">
+          We're not taking online orders right now.{' '}
+          <a href={whatsapp('Hello! Are you taking orders today?')} target="_blank" rel="noopener noreferrer" className="font-semibold underline">
+            Message us on WhatsApp
+          </a>{' '}
+          and we'll help.
+        </div>
+      )}
 
-      <div className="hidden border-t border-[#dfeae2] bg-[#f2f7f4] lg:block">
-        <nav className="mx-auto flex max-w-7xl items-center gap-8 overflow-x-auto px-4 py-3 lg:px-12">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.16em] text-[#465650] transition hover:text-[#1a3a2f]"
-            >
-              {link.label}
-            </Link>
-          ))}
+      {/* ---- Main bar: logo · menu · actions ---- */}
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-4 lg:h-[72px] lg:px-12">
+        <Logo onClick={close} />
+
+        <nav aria-label="Shop categories" className="hidden xl:block">
+          <ul className="flex items-center gap-1">
+            {barLinks.map((link) => (
+              <li key={link.path}>
+                <NavLink
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `relative block rounded-sm px-3 py-2 text-[14.5px] font-medium transition-colors ${
+                      isActive ? 'text-primary' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-primary'
+                    }`
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      {link.short}
+                      {isActive && (
+                        <motion.span
+                          layoutId="nav-underline"
+                          className="bg-brand-gradient absolute inset-x-3 -bottom-[3px] h-0.5"
+                          transition={{ type: 'spring', bounce: 0.2, visualDuration: 0.35 }}
+                        />
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
         </nav>
+
+        <div className="flex items-center gap-1 sm:gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setSearchOpen((v) => !v)
+              setMenuOpen(false)
+            }}
+            aria-expanded={searchOpen}
+            aria-controls="site-search"
+            aria-label={searchOpen ? 'Close search' : 'Search'}
+            className="hidden h-11 w-11 cursor-pointer items-center justify-center rounded-full text-primary transition-colors hover:bg-surface-container-low md:flex"
+          >
+            {searchOpen ? <X size={20} /> : <Search size={20} />}
+          </button>
+          <Link
+            to={account.to}
+            onClick={close}
+            className="hidden h-11 items-center gap-2 rounded-full px-3 text-[14.5px] font-medium text-on-surface-variant transition-colors hover:bg-surface-container-low hover:text-primary sm:flex"
+          >
+            <AccountIcon size={19} />
+            <span className="max-w-28 truncate">{account.label}</span>
+          </Link>
+          <Link
+            to="/cart"
+            onClick={close}
+            aria-label={`Cart, ${count} ${count === 1 ? 'item' : 'items'}`}
+            className="ml-1 flex h-11 items-center gap-2 rounded-sm bg-primary px-4 text-[14px] font-semibold text-white transition-colors hover:bg-primary-container"
+          >
+            <ShoppingBag size={18} />
+            <span className="hidden sm:inline">Cart</span>
+            <motion.span
+              key={count}
+              initial={{ scale: count > 0 ? 1.6 : 1 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', bounce: 0.5, visualDuration: 0.35 }}
+              className="bg-brand-gradient min-w-5 rounded-full px-1.5 py-0.5 text-center text-[11px] font-bold text-primary"
+            >
+              {count}
+            </motion.span>
+          </Link>
+          <button
+            type="button"
+            onClick={() => {
+              setMenuOpen((v) => !v)
+              setSearchOpen(false)
+            }}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-primary hover:bg-surface-container-low xl:hidden"
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
-    </header>
+
+      {/* ---- Desktop search drawer ---- */}
+      <AnimatePresence initial={false}>
+        {searchOpen && (
+          <motion.div
+            key="site-search"
+            id="site-search"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: EASE }}
+            style={{ overflow: 'hidden' }}
+            className="border-t border-outline-variant bg-surface"
+          >
+            <div className="mx-auto max-w-3xl px-4 py-4">
+              <SearchBox key={currentQuery} id="search-desktop" initial={currentQuery} onDone={close} autoFocus />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ---- Mobile / tablet menu ---- */}
+      <AnimatePresence initial={false}>
+        {menuOpen && (
+          <motion.div
+            key="mobile-menu"
+            id="mobile-menu"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            style={{ overflow: 'hidden' }}
+            className="border-t border-outline-variant bg-surface xl:hidden"
+          >
+            <div className="max-h-[calc(100vh-7rem)] overflow-y-auto">
+              <div className="space-y-4 px-4 py-4">
+                <div className="md:hidden">
+                  <SearchBox key={currentQuery} id="search-mobile" initial={currentQuery} onDone={close} />
+                </div>
+                <nav aria-label="Mobile" className="grid grid-cols-1 gap-0.5 sm:grid-cols-2">
+                  {SHOP_NAV.map((link) => (
+                    <NavLink
+                      key={link.path}
+                      to={link.path}
+                      onClick={close}
+                      className={({ isActive }) =>
+                        `rounded-sm px-3 py-3 text-[16px] font-medium ${isActive ? 'bg-primary text-white' : 'text-on-surface hover:bg-surface-container-low'}`
+                      }
+                    >
+                      {link.label}
+                    </NavLink>
+                  ))}
+                </nav>
+                <div className="grid grid-cols-2 gap-2 border-t border-outline-variant pt-4">
+                  <Link to="/track-order" onClick={close} className="flex items-center justify-center gap-2 rounded-sm bg-surface-container-low px-3 py-3 text-[14px] font-medium text-primary">
+                    <Truck size={16} /> Track order
+                  </Link>
+                  <Link to={account.to} onClick={close} className="flex items-center justify-center gap-2 rounded-sm bg-surface-container-low px-3 py-3 text-[14px] font-medium text-primary">
+                    <AccountIcon size={16} /> {account.label}
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   )
 }

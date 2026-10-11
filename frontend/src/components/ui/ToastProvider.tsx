@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
 import { CircleCheck, CircleAlert, Info, X } from 'lucide-react'
 import { ToastContext, type ToastType } from '../../context/toastContext'
 
@@ -39,14 +40,23 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={value}>
       {children}
       <div
-        className="fixed bottom-6 right-6 z-[60] flex flex-col gap-2 max-w-[calc(100vw-3rem)]"
+        className="fixed top-4 inset-x-4 z-[80] flex flex-col items-center gap-2 pointer-events-none"
         role="status"
         aria-live="polite"
       >
+        <AnimatePresence initial={false}>
         {toasts.map((t) => {
           const Icon = ICONS[t.type]
           return (
-            <div key={t.id} className={`flex items-center gap-3 pl-4 pr-2 py-3 rounded-lg shadow-lg text-body-sm ${STYLES[t.type]}`}>
+            <motion.div
+              key={t.id}
+              layout
+              initial={{ opacity: 0, y: -16, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.15 } }}
+              transition={{ type: 'spring', bounce: 0.2, visualDuration: 0.3 }}
+              className={`pointer-events-auto w-full max-w-md flex items-center gap-3 pl-4 pr-2 py-3 rounded-xl shadow-lg text-body-sm ${STYLES[t.type]}`}
+            >
               <Icon size={18} className="shrink-0" />
               <span className="flex-1">{t.message}</span>
               <button
@@ -57,9 +67,10 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
               >
                 <X size={16} />
               </button>
-            </div>
+            </motion.div>
           )
         })}
+        </AnimatePresence>
       </div>
     </ToastContext.Provider>
   )
