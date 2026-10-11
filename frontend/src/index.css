@@ -1,71 +1,73 @@
 @import "tailwindcss";
 
 @theme {
-  /* ---- Ceylon Blooms design system — flexible Sri Lankan florist palette ---- */
-  --color-primary: #02241a;
-  --color-on-primary: #ffffff;
-  --color-primary-container: #1a3a2f;
-  --color-on-primary-container: #82a496;
-  --color-primary-fixed: #c7ebda;
-  --color-primary-fixed-dim: #abcebf;
-  --color-on-primary-fixed: #002117;
-  --color-on-primary-fixed-variant: #2d4d41;
-  --color-inverse-primary: #abcebf;
+  /* ---- Ceylon Petals design system — "luxury noir": ink black, warm stone, metallic gold ----
+     Contrast: body text #0C0A09 / #44403C on #FAFAF9 (16:1 / 9:1). Gold text uses #8A5A0A or
+     #A16207 on light (≥ 5:1); bright gold (#CA8A04 → #F5D27A) only behind dark ink text or on black. */
+  --color-primary: #0c0a09;
+  --color-on-primary: #fafaf9;
+  --color-primary-container: #1c1917;
+  --color-on-primary-container: #e7e5e4;
+  --color-primary-fixed: #f5e6c8;
+  --color-primary-fixed-dim: #e7c873;
+  --color-on-primary-fixed: #2b1d05;
+  --color-on-primary-fixed-variant: #5c4510;
+  --color-inverse-primary: #e7c873;
 
-  --color-secondary: #675c56;
+  --color-secondary: #57534e;
   --color-on-secondary: #ffffff;
-  --color-secondary-container: #efdfd7;
-  --color-on-secondary-container: #6d625c;
-  --color-secondary-fixed: #efdfd7;
-  --color-secondary-fixed-dim: #d3c4bc;
-  --color-on-secondary-fixed: #221a15;
-  --color-on-secondary-fixed-variant: #4f453f;
+  --color-secondary-container: #efebe5;
+  --color-on-secondary-container: #44403c;
+  --color-secondary-fixed: #efebe5;
+  --color-secondary-fixed-dim: #d6d3d1;
+  --color-on-secondary-fixed: #1c1917;
+  --color-on-secondary-fixed-variant: #44403c;
 
-  --color-tertiary: #735c00;
+  --color-tertiary: #8a5a0a;
   --color-on-tertiary: #ffffff;
-  --color-tertiary-container: #cca830;
-  --color-on-tertiary-container: #4f3e00;
-  --color-tertiary-fixed: #ffe088;
-  --color-tertiary-fixed-dim: #e9c349;
-  --color-on-tertiary-fixed: #241a00;
-  --color-on-tertiary-fixed-variant: #574500;
+  --color-tertiary-container: #ca8a04;
+  --color-on-tertiary-container: #1c1917;
+  --color-tertiary-fixed: #fbf1d9;
+  --color-tertiary-fixed-dim: #f5d27a;
+  --color-on-tertiary-fixed: #3d2a02;
+  --color-on-tertiary-fixed-variant: #6b4a04;
 
-  --color-error: #ba1a1a;
+  --color-error: #b42318;
   --color-on-error: #ffffff;
-  --color-error-container: #ffdad6;
-  --color-on-error-container: #93000a;
+  --color-error-container: #fde4e1;
+  --color-on-error-container: #8a1a10;
 
-  --color-background: #f5fbf6;
-  --color-on-background: #171d1a;
+  --color-background: #fafaf9;
+  --color-on-background: #0c0a09;
 
-  --color-surface: #f5fbf6;
-  --color-surface-dim: #d5dbd6;
-  --color-surface-bright: #f5fbf6;
-  --color-surface-tint: #456558;
-  --color-surface-variant: #dee4df;
+  --color-surface: #fafaf9;
+  --color-surface-dim: #e7e5e4;
+  --color-surface-bright: #fafaf9;
+  --color-surface-tint: #a16207;
+  --color-surface-variant: #eeece9;
   --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #eff5f0;
-  --color-surface-container: #e9efea;
-  --color-surface-container-high: #e4eae5;
-  --color-surface-container-highest: #dee4df;
+  --color-surface-container-low: #f6f5f3;
+  --color-surface-container: #f0eeeb;
+  --color-surface-container-high: #e9e6e2;
+  --color-surface-container-highest: #dedad5;
 
-  --color-on-surface: #171d1a;
-  --color-on-surface-variant: #414845;
-  --color-inverse-surface: #2c322f;
-  --color-inverse-on-surface: #ecf2ed;
+  --color-on-surface: #0c0a09;
+  --color-on-surface-variant: #44403c;
+  --color-inverse-surface: #1c1917;
+  --color-inverse-on-surface: #f5f5f4;
 
-  --color-outline: #727974;
-  --color-outline-variant: #c1c8c3;
+  --color-outline: #78716c;
+  --color-outline-variant: #d6d3d1;
 
   /* ---- Fonts ---- */
-  --font-display: "Playfair Display", serif;
-  --font-body: "Plus Jakarta Sans", sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
 
   /* ---- Type scale (matches Stitch design tokens exactly) ---- */
   --text-display-lg: 48px;
   --text-display-lg--line-height: 56px;
   --text-display-lg--letter-spacing: -0.02em;
-  --text-display-lg--font-weight: 600;
+  --text-display-lg--font-weight: 500;
 
   --text-headline-lg: 32px;
   --text-headline-lg--line-height: 40px;
@@ -108,12 +110,15 @@
   --text-currency-md--letter-spacing: -0.01em;
   --text-currency-md--font-weight: 600;
 
-  /* ---- Radius ---- */
-  --radius-sm: 0.25rem;
-  --radius-DEFAULT: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
+  /* ---- Radius: editorial = crisp, barely-rounded corners ---- */
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius-DEFAULT: 3px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 5px;
+  --radius-2xl: 6px;
+  --radius-3xl: 8px;
   --radius-full: 9999px;
 }
 
@@ -121,7 +126,7 @@ body {
   margin: 0;
   padding: 0;
   background:
-    radial-gradient(circle at top, rgba(158, 195, 171, 0.18), transparent 20%),
+    radial-gradient(circle at top, rgba(202, 138, 4, 0.06), transparent 22%),
     var(--color-surface);
   color: var(--color-on-surface);
   font-family: var(--font-body);
@@ -139,4 +144,134 @@ a {
 button,
 input {
   font: inherit;
+}
+
+/* ---- Ambient motion (hero blobs and petals). Simple infinite loops stay in CSS. ---- */
+@keyframes blob-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(4%, -6%, 0) scale(1.08); }
+  66% { transform: translate3d(-5%, 4%, 0) scale(0.95); }
+}
+
+@keyframes petal-fall {
+  0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.9; }
+  90% { opacity: 0.9; }
+  100% { transform: translate3d(var(--petal-sway, 40px), 110vh, 0) rotate(var(--petal-spin, 300deg)); opacity: 0; }
+}
+
+@keyframes gentle-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -10px, 0); }
+}
+
+.animate-blob { animation: blob-drift 18s ease-in-out infinite; }
+.animate-petal { animation: petal-fall linear infinite; }
+.animate-float { animation: gentle-float 6s ease-in-out infinite; }
+
+/* Endless product carousel: the track holds two copies and slides by exactly one. */
+@keyframes carousel-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+.animate-carousel {
+  animation: carousel-scroll var(--carousel-duration, 60s) linear infinite;
+  will-change: transform;
+}
+.carousel:hover .animate-carousel,
+.carousel:focus-within .animate-carousel {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-blob, .animate-petal, .animate-float { animation: none; }
+  .animate-petal { display: none; }
+  /* No auto-scroll: the row becomes a normal swipeable list. */
+  .animate-carousel { animation: none; }
+  .carousel { overflow-x: auto; }
+}
+
+/* ---- Brand gradients: metallic gold on ink ---- */
+@utility bg-brand-gradient {
+  background-image: linear-gradient(120deg, #a16207 0%, #ca8a04 30%, #f5d27a 55%, #d4a72c 75%, #a16207 100%);
+}
+@utility bg-brand-gradient-hover {
+  background-image: linear-gradient(120deg, #b8860b 0%, #e0a91d 30%, #fbe3a1 55%, #e0b53f 75%, #b8860b 100%);
+}
+/* Gold text for light backgrounds — darker stops keep large text above 3:1 contrast. */
+@utility text-gradient {
+  background-image: linear-gradient(110deg, #6b4a04 0%, #a16207 35%, #8a5a0a 60%, #b8860b 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* Bright champagne gold for text over dark photos and black sections. */
+@utility text-gradient-light {
+  background-image: linear-gradient(110deg, #f5e6c8 0%, #f5d27a 35%, #e7c873 60%, #fff3d6 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@utility bg-ink-gradient {
+  background-image: linear-gradient(135deg, #0c0a09 0%, #1c1917 55%, #292524 100%);
+}
+/* Warm off-white with a faint champagne glow, for hero backgrounds. */
+@utility bg-aurora {
+  background-color: #fafaf9;
+  background-image:
+    radial-gradient(40% 50% at 10% 15%, rgba(245, 210, 122, 0.22) 0%, transparent 70%),
+    radial-gradient(35% 45% at 90% 10%, rgba(214, 211, 209, 0.45) 0%, transparent 70%),
+    radial-gradient(45% 55% at 70% 95%, rgba(231, 200, 115, 0.18) 0%, transparent 70%);
+}
+
+/* Primary call-to-action: polished gold pill with ink text (white on gold fails contrast). */
+.btn-gradient {
+  background-image: linear-gradient(120deg, #b8860b 0%, #ca8a04 25%, #f5d27a 55%, #d4a72c 80%, #b8860b 100%);
+  background-size: 180% 100%;
+  background-position: 0% 50%;
+  color: #1c1917;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 14px;
+  border-radius: 2px !important; /* editorial: square buttons, even where a component asks for a pill */
+  box-shadow: 0 14px 30px -16px rgba(161, 98, 7, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: background-position 0.5s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+.btn-gradient:hover { background-position: 100% 50%; box-shadow: 0 18px 36px -14px rgba(161, 98, 7, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.55); }
+.btn-gradient:focus-visible { outline: 2px solid #0c0a09; outline-offset: 3px; }
+.btn-gradient:disabled { opacity: 0.6; box-shadow: none; }
+
+@keyframes gradient-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-gradient { animation: gradient-flow 10s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-gradient { animation: none; }
+}
+
+/* Cormorant is a fine-lined serif: default display text to semibold so headings stay legible.
+   (In the base layer, so explicit weight utilities and type tokens still win.) */
+@layer base {
+  /* Playfair Display: medium weight, slightly tightened for large headings. */
+  .font-display { font-weight: 500; letter-spacing: -0.015em; }
+}
+
+/* ---- Editorial details ---- */
+/* Small uppercase label used above headings ("N° 02 — Collections"). */
+@utility eyebrow {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+/* Hairline gold divider. */
+@utility rule-gold {
+  height: 1px;
+  background-image: linear-gradient(90deg, #a16207, #e7c873 40%, rgba(231, 200, 115, 0) 100%);
 }

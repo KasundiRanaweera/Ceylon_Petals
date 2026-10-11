@@ -1,12 +1,24 @@
 import type { DeliverySlotKey } from '../types/admin'
+import type { DeliveryZone } from '../types'
+import { isoDate } from './dates'
 
-// TODO (Phase 8): load these from the DeliverySlot table (GET /api/delivery-slots)
-// so the owner can edit them in Settings. Keep these keys in sync with that table.
-export const DELIVERY_SLOTS: { key: DeliverySlotKey; label: string; hours: string }[] = [
-  { key: 'morning', label: 'Morning', hours: '9:00 AM – 1:00 PM' },
-  { key: 'afternoon', label: 'Afternoon', hours: '2:00 PM – 6:00 PM' },
-  { key: 'evening', label: 'Evening', hours: '6:00 PM – 9:00 PM' },
-  { key: 'midnight', label: 'Midnight Surprise', hours: '11:45 PM – 12:15 AM' },
+export interface DeliverySlot {
+  key: DeliverySlotKey
+  label: string
+  hours: string
+  /** Hour the slot starts (24h). Same-day slots close 2 hours before this. */
+  startHour: number
+  extraFee: number
+  /** Midnight deliveries need our own van, so they're only offered in same-day zones. */
+  sameDayZonesOnly?: boolean
+}
+
+// TODO (backend): load these from a DeliverySlot table so the owner can edit them in Settings.
+export const DELIVERY_SLOTS: DeliverySlot[] = [
+  { key: 'morning', label: 'Morning', hours: '9:00 AM – 1:00 PM', startHour: 9, extraFee: 0 },
+  { key: 'afternoon', label: 'Afternoon', hours: '2:00 PM – 6:00 PM', startHour: 14, extraFee: 0 },
+  { key: 'evening', label: 'Evening', hours: '6:00 PM – 9:00 PM', startHour: 18, extraFee: 0 },
+  { key: 'midnight', label: 'Midnight Surprise', hours: '11:45 PM – 12:15 AM', startHour: 23, extraFee: 1000, sameDayZonesOnly: true },
 ]
 
 export const SLOT_LABEL: Record<DeliverySlotKey, string> = {
@@ -14,4 +26,31 @@ export const SLOT_LABEL: Record<DeliverySlotKey, string> = {
   afternoon: 'Afternoon',
   evening: 'Evening',
   midnight: 'Midnight Surprise',
+}
+
+export const SLOT_BY_KEY = Object.fromEntries(DELIVERY_SLOTS.map((s) => [s.key, s])) as Record<DeliverySlotKey, DeliverySlot>
+
+function minutesNow(now: Date) {
+  return now.getHours() * 60 + now.getMinutes()
+}
+
+function cutoffMinutes(cutoff: string) {
+  const [h, m] = cutoff.split(':').map(Number)
+  return h * 60 + (m || 0)
+}
+
+/** The first date a customer can choose for this zone. */
+export function earliestDeliveryDate(zone: DeliveryZone | undefined, cutoff: string, now = new Date()): string {
+  if (!zone) return isoDate(1)
+  if (zone.sameDay && minutesNow(now) < cutoffMinutes(cutoff)) return isoDate(0)
+  return zone.sameDay ? isoDate(1) : isoDate(2)
+}
+
+/** Slots that can still be delivered on the chosen date. */
+export function availableSlots(date: string, zone: DeliveryZone | undefined, now = new Date()): DeliverySlot[] {
+  return DELIVERY_SLOTS.filter((slot) => {
+    if (slot.sameDayZonesOnly && !zone?.sameDay) return false
+    if (date === isoDate(0)) return slot.startHour * 60 - 120 > minutesNow(now)
+    return true
+  })
 }
