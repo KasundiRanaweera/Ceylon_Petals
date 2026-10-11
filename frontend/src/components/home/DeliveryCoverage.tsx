@@ -1,41 +1,23 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { MapPin, CheckCircle2 } from 'lucide-react'
-
-const SAME_DAY_ZONES = [
-  'colombo', 'rajagiriya', 'nawala', 'dehiwala', 'mount lavinia',
-  'battaramulla', 'nugegoda', 'kotte', 'kollupitiya', 'bambalapitiya',
-  'havelock', 'cinnamon gardens',
-]
+import { useShop } from '../../hooks/useShop'
+import { DISTRICTS } from '../../data/settings'
+import { formatLKR } from '../../lib/format'
+import { formatClock } from '../../lib/dates'
 
 const COVERAGE_LIST = [
-  'Colombo 01 through 15 (Fort to Mattakkuliya)',
-  'Dehiwala, Mount Lavinia, Rajagiriya & Nawala',
-  'Battaramulla, Nugegoda, Sri Jayawardenepura Kotte',
-  'Negombo & Katunayake Airport Express Corridors',
+  'Colombo 01 – 15 and the Greater Colombo suburbs',
+  'Dehiwala, Mount Lavinia, Rajagiriya, Nugegoda & Kotte',
+  'Gampaha, Negombo & Kalutara on the same day',
+  'Kandy, Galle and more on the next day',
 ]
 
-// Converted from the original vanilla-JS checkDeliveryZone() into React state.
+// Checks the customer's district against the delivery zones the owner sets in Settings.
 export default function DeliveryCoverage() {
-  const [postalInput, setPostalInput] = useState('')
-  const [result, setResult] = useState<{ text: string; sameDay: boolean } | null>(null)
-
-  function checkZone() {
-    const input = postalInput.trim().toLowerCase()
-    if (!input) {
-      setResult({ text: 'Please enter your Colombo neighborhood or district.', sameDay: false })
-      return
-    }
-    const isSameDay =
-      SAME_DAY_ZONES.some((zone) => input.includes(zone)) ||
-      ['01', '02', '03', '04', '05', '07', '08'].some((code) => input.includes(code))
-
-    setResult({
-      text: isSameDay
-        ? `Great news! ${input.toUpperCase()} has Guaranteed Same-Day Express Delivery available right now. Order before 2:00 PM.`
-        : `We deliver to ${input.toUpperCase()}! Standard 24-hr highland delivery or express scheduled van available.`,
-      sameDay: isSameDay,
-    })
-  }
+  const shop = useShop()
+  const [district, setDistrict] = useState('')
+  const zone = shop.deliveryZones.find((z) => z.active && z.district === district)
 
   return (
     <section className="w-full py-14 bg-surface">
@@ -65,28 +47,25 @@ export default function DeliveryCoverage() {
               </div>
 
               <div className="pt-3">
-                <label className="block text-[11px] text-secondary uppercase tracking-wider mb-2">
-                  Check Delivery Slot For Your Area
+                <label htmlFor="coverage-district" className="block text-[11px] text-secondary uppercase tracking-wider mb-2">
+                  Check delivery to your district
                 </label>
-                <div className="flex gap-2">
-                  <input
-                    value={postalInput}
-                    onChange={(e) => setPostalInput(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && checkZone()}
-                    className="flex-1 bg-surface-container-lowest px-4 py-2 rounded-lg text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary shadow-inner"
-                    placeholder="e.g. Colombo 07 or Rajagiriya"
-                    type="text"
-                  />
-                  <button
-                    onClick={checkZone}
-                    className="bg-primary hover:bg-primary-container text-on-primary px-4 py-2 rounded-lg text-label-md transition-colors"
-                  >
-                    Check Slot
-                  </button>
-                </div>
-                {result && (
-                  <p className={`text-body-sm font-medium mt-2 ${result.sameDay ? 'text-emerald-800' : 'text-primary'}`}>
-                    ✓ {result.text}
+                <select
+                  id="coverage-district"
+                  value={district}
+                  onChange={(e) => setDistrict(e.target.value)}
+                  className="w-full bg-surface-container-lowest px-4 py-2.5 rounded-lg text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="">Select your district</option>
+                  {DISTRICTS.map((d) => <option key={d}>{d}</option>)}
+                </select>
+                {district && (
+                  <p className={`text-body-sm font-medium mt-2 ${zone?.sameDay ? 'text-emerald-800' : 'text-primary'}`} aria-live="polite">
+                    {!zone
+                      ? <>We don't deliver to {district} online yet — <Link to="/delivery" className="underline">message us</Link> and we'll try to help.</>
+                      : zone.sameDay
+                        ? `Same-day delivery to ${district} for orders before ${formatClock(shop.sameDayCutoff)}. Delivery fee ${formatLKR(zone.fee)}.`
+                        : `Next-day delivery to ${district}. Delivery fee ${formatLKR(zone.fee)}.`}
                   </p>
                 )}
               </div>
@@ -98,7 +77,7 @@ export default function DeliveryCoverage() {
                   className="w-full h-80 rounded-lg bg-cover bg-center relative overflow-hidden"
                   style={{
                     backgroundImage:
-                      "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDf-WUlqCYIvSdchj307iXMXLEkuCRgWLopfcVljQBMObJwsp90wc7LuwOYKKTod8HqLkybA0rf_LOh4OgpQlVUM9yurbYbhOke3vBZHLEkLvNa6xCnyhC2e6H31PnyXg_7WMMr29kGBxWSO6xKuovFA_pKPnrWKh4eQ1tZUmDA-7gnbU9I_Z2dyztySzy1wb_ShMgmoplUKjK_pt6IstrARZH-unlQfbDvZ_mrRLxtnesLLFolycNepw')",
+                      "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDf-WUlqCYIvSdchj307iXMXLEkuCRgWLopfcVljQBMObJwsp90wc7LuwOYKKTod8HqLkybA0rf_LOh4OgpQlVUM9yurbYbhOke3vBZHLEkLvNa6xCnyhC2e6H31PnyXg_7WMMr29kGBxWSO6xKuovFA_pKPnrWKh4eQ1tZUmDA-7gnbU9I_Z2dyztySzy1wb_ShMgmoplUKjK_pt6IstrARZH-unlQfbDvZ_mrRLxtnesLLFolycNepw=w1408')",
                   }}
                 >
                   <div className="absolute inset-0 bg-primary/20" />
@@ -108,8 +87,8 @@ export default function DeliveryCoverage() {
                   <div className="absolute bottom-10 right-8 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-sm text-primary text-xs font-semibold flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-500" /> Battaramulla &amp; Suburbs: 2-3 Hrs
                   </div>
-                  <div className="absolute top-1/2 left-1/3 bg-primary text-on-primary px-3 py-1 rounded-full shadow-lg text-xs font-bold flex items-center gap-1">
-                    <MapPin size={14} /> Ceylon Blooms Studio
+                  <div className="absolute top-1/2 left-1/3 bg-primary text-on-primary px-3 py-1 rounded-sm shadow-lg text-xs font-bold flex items-center gap-1">
+                    <MapPin size={14} /> Our Colombo studio
                   </div>
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-2 text-center">

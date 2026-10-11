@@ -1,4 +1,5 @@
 import { BadgeCheck, PenLine, Clock } from 'lucide-react'
+import SectionHeading from '../ui/SectionHeading'
 
 const STEPS = [
   {
@@ -26,23 +27,16 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section className="w-full pb-14 bg-surface">
+    <section className="w-full bg-surface py-24">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
-        <div className="text-center max-w-2xl mx-auto mb-8">
-          <span className="text-[11px] text-tertiary uppercase tracking-widest block mb-1">
-            Simple Luxury Ordering
-          </span>
-          <h2 className="font-display text-headline-lg text-primary">How Ceylon Blooms Delivers Joy</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <SectionHeading title="How ordering works" highlight="works" className="mb-12" />
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-12">
           {STEPS.map(({ number, title, description, icon: Icon, footer }) => (
-            <div key={number} className="bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col">
-              <div className="w-12 h-12 rounded-xl bg-primary text-on-primary font-display text-headline-sm flex items-center justify-center mb-4">
-                {number}
-              </div>
-              <h3 className="font-display text-headline-sm text-primary mb-2">{title}</h3>
+            <div key={number} className="flex flex-col border-t border-primary pt-6">
+              <span className="text-gradient mb-4 font-display text-6xl italic leading-none">{String(number).padStart(2, '0')}</span>
+              <h3 className="mb-2 font-display text-[26px] leading-tight text-primary">{title}</h3>
               <p className="text-body-sm text-secondary leading-relaxed">{description}</p>
-              <div className="mt-4 pt-2 flex items-center gap-2 text-tertiary text-xs font-semibold">
+              <div className="eyebrow mt-5 flex items-center gap-2 text-tertiary">
                 <Icon size={18} /> {footer}
               </div>
             </div>

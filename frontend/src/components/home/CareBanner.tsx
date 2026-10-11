@@ -1,8 +1,9 @@
 import { Droplet, Scissors, Snowflake, FlaskConical, Headset } from 'lucide-react'
-import { buildWhatsAppLink } from '../../lib/whatsapp'
+import { useWhatsApp } from '../../hooks/useShop'
 
 export default function CareBanner() {
-  const link = buildWhatsAppLink("Hello Florist, I'd like guidance on caring for my flowers")
+  const whatsapp = useWhatsApp()
+  const link = whatsapp("Hello! I'd like some advice on caring for my flowers.")
 
   return (
     <section className="w-full py-14 bg-surface">
@@ -55,7 +56,7 @@ export default function CareBanner() {
             <img
               className="w-full h-full object-cover"
               alt="Artisan florist trimming rose stems in a Colombo salon"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBniQRGdwXWnArawnX9GlWFoqEVMGcjuKxJk6eN4rWcUBB4TRo8n0juq9henCQ08PvnXhH86dneWgI5yv9ZV7X6QHDMFfWjvFFX1IOxzvn6-cx3VsGtlb32CQI6VgpWa6A-ViS6QXKRl65tTvagIbfZib8wQXvtPFy6BoKm1z9DVs1NOYEYbjo4KQxs-ROUfsM7wdA9I_U9gW1bQoQ68iPdxH-8O8qnnn0j1GxOWn9TRk8-c4DeuSStrA"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBniQRGdwXWnArawnX9GlWFoqEVMGcjuKxJk6eN4rWcUBB4TRo8n0juq9henCQ08PvnXhH86dneWgI5yv9ZV7X6QHDMFfWjvFFX1IOxzvn6-cx3VsGtlb32CQI6VgpWa6A-ViS6QXKRl65tTvagIbfZib8wQXvtPFy6BoKm1z9DVs1NOYEYbjo4KQxs-ROUfsM7wdA9I_U9gW1bQoQ68iPdxH-8O8qnnn0j1GxOWn9TRk8-c4DeuSStrA=w1408"
             />
           </div>
         </div>
