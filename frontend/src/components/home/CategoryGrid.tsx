@@ -1,98 +1,80 @@
 import { Link } from 'react-router-dom'
-import type { Category } from '../../types'
-
-const CATEGORIES: Category[] = [
-  {
-    id: '1',
-    name: 'Luxury Bouquets',
-    slug: 'luxury-bouquets',
-    styleCount: 28,
-    fromPrice: 4200,
-    imageUrl: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: '2',
-    name: 'Romantic Roses',
-    slug: 'romantic-roses',
-    styleCount: 18,
-    fromPrice: 3800,
-    imageUrl: 'https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: '3',
-    name: 'Lilies & Orchids',
-    slug: 'lilies-orchids',
-    styleCount: 16,
-    fromPrice: 5200,
-    imageUrl: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: '4',
-    name: 'Gift Hampers',
-    slug: 'gift-hampers',
-    styleCount: 12,
-    fromPrice: 6500,
-    imageUrl: 'https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: '5',
-    name: 'Wedding Floral',
-    slug: 'wedding-floral',
-    styleCount: 9,
-    fromPrice: 12000,
-    imageUrl: 'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: '6',
-    name: 'Indoor Plants',
-    slug: 'indoor-plants',
-    styleCount: 14,
-    fromPrice: 2900,
-    imageUrl: 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=900&q=80',
-  },
-]
-
-function formatLKR(amount: number) {
-  return `Rs. ${amount.toLocaleString('en-LK')}`
-}
+import { useQuery } from '@tanstack/react-query'
+import { motion } from 'motion/react'
+import { ArrowUpRight } from 'lucide-react'
+import { listCategories, listProducts } from '../../services/catalog'
+import { OCCASIONS } from '../../data/catalog'
+import { fadeUp, staggerContainer } from '../motion/variants'
+import { sizedImage } from '../../lib/images'
+import SectionHeading from '../ui/SectionHeading'
 
 export default function CategoryGrid() {
-  return (
-    <section className="w-full bg-[#f8faf8] py-16">
-      <div className="mx-auto max-w-7xl px-4 lg:px-12">
-        <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#5d6f68]">Curated collections</p>
-            <h2 className="mt-2 font-display text-4xl text-[#1a3a2f] md:text-5xl">Shop by occasion</h2>
-          </div>
-          <p className="max-w-xl text-sm leading-7 text-[#4d5852] md:text-base">
-            Fresh seasonal blooms selected for birthdays, anniversaries, elegant gifting and unforgettable Sri Lankan celebrations.
-          </p>
-        </div>
+  const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: listCategories })
+  const { data: products } = useQuery({ queryKey: ['products', {}], queryFn: () => listProducts() })
+  const countFor = (id: string) => products?.filter((p) => p.categoryId === id).length
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {CATEGORIES.map((cat) => (
-            <Link
-              key={cat.id}
-              to={`/products/${cat.slug}`}
-              className="group overflow-hidden rounded-[1.6rem] border border-[#dfeae2] bg-white shadow-[0_18px_35px_rgba(22,30,28,0.04)] transition hover:-translate-y-1 hover:shadow-[0_26px_45px_rgba(22,30,28,0.08)]"
-            >
-              <div className="relative h-72 overflow-hidden bg-[#edf3ee]">
+  return (
+    <section className="w-full bg-surface py-20">
+      <div className="mx-auto max-w-7xl space-y-10 px-4 lg:px-12">
+        <SectionHeading
+          title="Shop by category"
+          highlight="category"
+          description="Seasonal blooms, gourmet hampers and living plants — all prepared in Colombo on the day of delivery."
+          action={{ label: 'Shop everything', to: '/shop' }}
+        />
+
+        <motion.div
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={staggerContainer(0.07)}
+        >
+          {(categories ?? []).map((cat) => (
+            <motion.div key={cat.id} variants={fadeUp} className="aspect-[4/3]">
+              <Link
+                to={`/products/${cat.slug}`}
+                className="group relative flex h-full overflow-hidden rounded-2xl bg-surface-container shadow-sm transition-shadow duration-300 hover:shadow-[0_30px_60px_-25px_rgba(12,10,9,0.4)]"
+              >
                 <img
-                  src={cat.imageUrl}
-                  alt={cat.name}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  src={sizedImage(cat.imageUrl, 1408)}
+                  alt=""
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-                <span className="absolute right-4 top-4 rounded-full bg-[#1a3a2f]/85 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">
-                  {cat.styleCount} styles
-                </span>
-              </div>
-              <div className="space-y-2 p-5">
-                <h3 className="font-display text-[2rem] text-[#1a3a2f]">{cat.name}</h3>
-                <p className="text-sm text-[#4d5852]">From {formatLKR(cat.fromPrice)}</p>
-              </div>
-            </Link>
+                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+                <div className="relative mt-auto flex w-full items-end justify-between gap-3 p-6">
+                  <div>
+                    {countFor(cat.id) !== undefined && (
+                      <span className="mb-2 inline-block rounded-sm bg-white/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-md">
+                        {countFor(cat.id)} {countFor(cat.id) === 1 ? 'item' : 'items'}
+                      </span>
+                    )}
+                    <h3 className="font-display text-[28px] leading-tight text-white">{cat.name}</h3>
+                    <p className="mt-1 line-clamp-1 max-w-sm text-body-sm text-white/75">{cat.description}</p>
+                  </div>
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-primary transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">
+                    <ArrowUpRight size={20} />
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
           ))}
+        </motion.div>
+
+        <div className="flex flex-col gap-3 rounded-2xl bg-surface-container-low p-6 md:flex-row md:items-center">
+          <h3 className="font-display text-headline-sm text-primary md:mr-4 md:shrink-0">Shop by occasion</h3>
+          <div className="flex flex-wrap gap-2">
+            {OCCASIONS.map((o) => (
+              <Link
+                key={o.slug}
+                to={`/shop?occasion=${o.slug}`}
+                className="rounded-sm border border-outline-variant bg-surface-container-lowest px-4 py-2 text-[12px] font-medium uppercase tracking-[0.14em] text-primary transition-colors hover:border-primary hover:bg-primary hover:text-[#f5e6c8]"
+              >
+                {o.name}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>
