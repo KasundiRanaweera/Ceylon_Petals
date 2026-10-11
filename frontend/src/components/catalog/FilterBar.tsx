@@ -1,54 +1,53 @@
-import { SlidersHorizontal, Filter, ArrowUpDown } from 'lucide-react'
+import { SlidersHorizontal, ArrowUpDown, X } from 'lucide-react'
+import { SORT_OPTIONS, activeFilterCount, type CatalogFilters, type SortKey } from './catalogFilters'
 
 interface FilterBarProps {
   totalCount: number
-  shownCount: number
-  onOpenMobileFilters: () => void
+  filters: CatalogFilters
+  onChange: (changes: Partial<CatalogFilters>) => void
+  onClear: () => void
+  mobileFiltersOpen: boolean
+  onToggleMobileFilters: () => void
 }
 
-export default function FilterBar({ totalCount, shownCount, onOpenMobileFilters }: FilterBarProps) {
+export default function FilterBar({ totalCount, filters, onChange, onClear, mobileFiltersOpen, onToggleMobileFilters }: FilterBarProps) {
+  const active = activeFilterCount(filters)
+
   return (
-    <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div className="flex flex-wrap items-center gap-2 text-label-md">
-        <span className="text-secondary flex items-center gap-1">
-          <SlidersHorizontal size={18} />
-          Filter Catalog:
-        </span>
-        <div className="flex items-center gap-1 bg-surface-container-low px-2 py-1 rounded-lg">
-          <span className="text-[11px] text-secondary">Speed:</span>
-          <button className="bg-primary-container text-on-primary px-2 py-0.5 rounded text-[11px]">Same-Day Express</button>
-          <button className="text-on-surface-variant hover:text-on-surface px-2 py-0.5 rounded text-[11px]">Next Day</button>
-        </div>
-        <div className="flex items-center gap-1 bg-surface-container-low px-2 py-1 rounded-lg">
-          <span className="text-[11px] text-secondary">Price:</span>
-          <button className="hover:bg-surface-container text-on-surface-variant px-2 py-0.5 rounded text-[11px]">&lt; 12k</button>
-          <button className="bg-surface-container-high text-primary font-bold px-2 py-0.5 rounded text-[11px]">12k - 20k</button>
-          <button className="hover:bg-surface-container text-on-surface-variant px-2 py-0.5 rounded text-[11px]">20k+</button>
-        </div>
+    <div className="bg-surface-container-lowest rounded-xl p-3 shadow-sm mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="flex items-center gap-2">
         <button
-          onClick={onOpenMobileFilters}
-          className="lg:hidden ml-auto flex items-center gap-1 bg-surface-container px-2 py-1 rounded-lg text-primary text-[11px]"
+          type="button"
+          onClick={onToggleMobileFilters}
+          aria-expanded={mobileFiltersOpen}
+          className="lg:hidden flex items-center gap-1.5 bg-surface-container px-3 py-2 rounded-lg text-primary text-label-md"
         >
-          <Filter size={16} />
-          All Filters
+          <SlidersHorizontal size={16} />
+          Filters{active > 0 && ` (${active})`}
         </button>
+        <span className="text-body-sm text-secondary" aria-live="polite">
+          <strong className="text-primary">{totalCount}</strong> {totalCount === 1 ? 'item' : 'items'}
+        </span>
+        {active > 0 && (
+          <button type="button" onClick={onClear} className="flex items-center gap-1 text-label-md text-primary hover:underline">
+            <X size={14} /> Clear filters
+          </button>
+        )}
       </div>
 
-      <div className="flex items-center gap-2 justify-between md:justify-end">
-        <span className="text-body-sm text-secondary">
-          Showing <strong>{shownCount} of {totalCount}</strong> arrangements
-        </span>
-        <div className="flex items-center gap-2 bg-surface-container-low px-2 py-1 rounded-lg">
-          <ArrowUpDown size={18} className="text-secondary" />
-          <label className="sr-only" htmlFor="sortDropdown">Sort by</label>
-          <select id="sortDropdown" className="bg-transparent text-label-md text-primary focus:outline-none cursor-pointer">
-            <option value="featured">Featured Curations</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="stems">Stem Count (Largest)</option>
-            <option value="bestseller">Colombo Favorites</option>
-          </select>
-        </div>
+      <div className="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg">
+        <ArrowUpDown size={16} className="text-secondary" />
+        <label className="sr-only" htmlFor="sort">Sort by</label>
+        <select
+          id="sort"
+          value={filters.sort}
+          onChange={(e) => onChange({ sort: e.target.value as SortKey })}
+          className="bg-transparent text-label-md text-primary focus:outline-none cursor-pointer"
+        >
+          {SORT_OPTIONS.map((o) => (
+            <option key={o.id} value={o.id}>{o.label}</option>
+          ))}
+        </select>
       </div>
     </div>
   )

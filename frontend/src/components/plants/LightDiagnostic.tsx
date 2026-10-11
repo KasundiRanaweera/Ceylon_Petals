@@ -99,7 +99,7 @@ export default function LightDiagnostic() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] uppercase tracking-wider text-secondary">Care Profile</span>
-                  <span className="px-3 py-1 rounded-full bg-primary/10 text-label-md text-primary font-semibold">{active.tag}</span>
+                  <span className="px-3 py-1 rounded-sm bg-primary/10 text-label-md text-primary font-semibold">{active.tag}</span>
                 </div>
                 <div>
                   <h3 className="font-display text-headline-md text-primary">{active.title}</h3>

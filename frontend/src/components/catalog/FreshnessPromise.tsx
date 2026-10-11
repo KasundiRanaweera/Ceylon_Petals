@@ -12,7 +12,7 @@ export default function FreshnessPromise() {
           <div className="absolute -right-16 -bottom-16 w-80 h-80 rounded-full bg-primary-container blur-2xl" />
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-3">
-              <div className="inline-flex items-center gap-2 bg-on-primary/10 text-tertiary-fixed px-3 py-1 rounded-full text-[11px] uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 bg-on-primary/10 text-tertiary-fixed px-3 py-1 rounded-sm text-[11px] uppercase tracking-wider">
                 <Snowflake size={16} />
                 Our Freshness Promise
               </div>

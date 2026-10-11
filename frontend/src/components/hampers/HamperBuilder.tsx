@@ -1,6 +1,10 @@
 import { useState, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Package, Gift } from 'lucide-react'
 import BuilderOption, { type BuilderOptionData } from './BuilderOption'
+import { useCart } from '../../hooks/useCart'
+import { formatLKR } from '../../lib/format'
+import { PRODUCT_IMAGES } from '../../data/productImages'
 
 const STEP1_OPTIONS: BuilderOptionData[] = [
   { id: 'roses', name: 'Highland Roses', description: '18 velvety crimson stems in a willow cup.', price: 12000 },
@@ -20,15 +24,13 @@ const STEP3_OPTIONS: BuilderOptionData[] = [
   { id: 'fan', name: 'Hand-carved Sandalwood Keepsake Fan', description: 'Traditional scented artisanal woodwork.', price: 5500 },
 ]
 
-function formatLKR(amount: number) {
-  return `Rs. ${amount.toLocaleString('en-LK')}`
-}
-
 export default function HamperBuilder() {
   const [step1, setStep1] = useState('roses')
   const [step2, setStep2] = useState<string[]>(['pralines'])
   const [step3, setStep3] = useState<string | null>('teacaddy')
-  const [message, setMessage] = useState('')
+  const navigate = useNavigate()
+  const { addCustom, cardMessage, setCardMessage } = useCart()
+  const [message, setMessage] = useState(cardMessage)
 
   function toggleStep2(id: string) {
     setStep2((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
@@ -50,8 +52,21 @@ export default function HamperBuilder() {
 
   const total = selectedItems.reduce((sum, item) => sum + item.price, 0)
 
+  // TODO (backend): store builder options in the database so the owner can edit them and the
+  // server can re-price the custom hamper at checkout instead of trusting this total.
+  function addToCart() {
+    addCustom({
+      name: 'Custom-built hamper',
+      imageUrl: PRODUCT_IMAGES['the-heritage-ceylon-sovereign-crate'],
+      unitPrice: total,
+      options: selectedItems.map((i) => i.name).join(' + '),
+    })
+    if (message.trim()) setCardMessage(message.trim())
+    navigate('/cart')
+  }
+
   return (
-    <section className="w-full bg-surface-container-low py-14">
+    <section id="build-hamper" className="w-full bg-surface-container-low py-14 scroll-mt-36">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <span className="text-[11px] uppercase tracking-widest text-tertiary font-bold">Bespoke Atelier Studio</span>
@@ -136,14 +151,16 @@ export default function HamperBuilder() {
                   <span className="text-primary text-[22px] font-display">{formatLKR(total)}</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[11px] text-tertiary block">Delivery Colombo</span>
-                  <span className="text-body-sm text-primary font-semibold">Free Today</span>
+                  <span className="text-[11px] text-tertiary block">Delivery</span>
+                  <span className="text-body-sm text-primary font-semibold">Added at checkout</span>
                 </div>
               </div>
 
               <div>
-                <label className="block text-label-md text-primary mb-2">Card Message</label>
+                <label htmlFor="hamper-message" className="block text-label-md text-primary mb-2">Card Message</label>
                 <textarea
+                  id="hamper-message"
+                  maxLength={250}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   rows={3}
@@ -152,9 +169,8 @@ export default function HamperBuilder() {
                 />
               </div>
 
-              {/* TODO (Phase 4): wire to CartContext / checkout with the built hamper as a custom order */}
-              <button className="w-full bg-primary hover:bg-primary-container text-on-primary text-label-md py-3 rounded-lg transition-all shadow-md flex items-center justify-center gap-2">
-                <Gift size={20} /> Complete &amp; Order Bespoke Crate
+              <button type="button" onClick={addToCart} className="w-full bg-primary hover:bg-primary-container text-on-primary text-label-md py-3 rounded-lg transition-all shadow-md flex items-center justify-center gap-2">
+                <Gift size={20} /> Add my hamper to cart
               </button>
               <p className="text-[11px] text-center text-secondary">
                 Hand-tied by our florists • Freshness guaranteed
