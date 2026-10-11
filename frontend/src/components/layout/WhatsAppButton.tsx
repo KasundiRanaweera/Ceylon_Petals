@@ -1,24 +1,25 @@
-import { MessageCircle } from 'lucide-react'
-import { buildWhatsAppLink } from '../../lib/whatsapp'
+import { useLocation } from 'react-router-dom'
+import WhatsAppIcon from '../ui/WhatsAppIcon'
+import { useWhatsApp } from '../../hooks/useShop'
 
+// Floating WhatsApp shortcut: just the icon, always in the corner.
 export default function WhatsAppButton() {
-  const link = buildWhatsAppLink('Hello Ceylon Blooms Concierge, I would like to order bespoke blooms')
+  const whatsapp = useWhatsApp()
+  // Product pages have their own sticky WhatsApp + Add bar on phones.
+  const onProductPage = useLocation().pathname.startsWith('/product/')
 
   return (
-    <aside className="fixed bottom-6 right-6 z-40 flex items-center gap-3">
-      <div className="hidden md:flex items-center bg-surface-container-lowest text-on-surface shadow-[0_12px_32px_-4px_rgba(26,58,47,0.12)] px-4 py-2 rounded-full text-body-sm">
-        <span className="w-2 h-2 rounded-full bg-tertiary-container mr-2 animate-pulse" />
-        Chat with Floral Concierge
-      </div>
-      <a
-        href={link}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Chat with Floral Concierge on WhatsApp"
-        className="flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-[0_12px_32px_-4px_rgba(26,58,47,0.25)] hover:scale-105 transition-transform"
-      >
-        <MessageCircle size={28} />
-      </a>
-    </aside>
+    <a
+      href={whatsapp("Hello! I'd like to order some flowers.")}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat with us on WhatsApp"
+      title="WhatsApp"
+      className={`fixed bottom-6 right-6 z-40 h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_12px_32px_-4px_rgba(12,10,9,0.3)] transition-transform hover:scale-105 ${
+        onProductPage ? 'hidden lg:flex' : 'flex'
+      }`}
+    >
+      <WhatsAppIcon size={28} />
+    </a>
   )
 }

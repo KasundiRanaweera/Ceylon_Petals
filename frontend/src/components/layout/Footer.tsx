@@ -1,99 +1,120 @@
-import { Link } from 'react-router-dom'
-import { BadgeCheck, MapPin } from 'lucide-react'
-
-const CUSTOMER_CARE_LINKS = [
-  { label: 'Delivery Areas Colombo 01-15 & Greater Colombo', path: '/delivery-areas' },
-  { label: 'Care Instructions', path: '/care-instructions' },
-  { label: 'Card Message Guide', path: '/card-message-guide' },
-  { label: 'Frequently Asked Questions', path: '/faq' },
-  { label: 'Refund & Replacement Policy', path: '/refund-policy' },
-  { label: 'Live Courier Tracking', path: '/track-order' },
-]
-
-const COLLECTION_LINKS = [
-  { label: 'Nuwara Eliya Garden Roses', path: '/products/roses' },
-  { label: 'Artisanal Ceylon Tea & Hamper Crates', path: '/products/luxury-hampers' },
-  { label: 'Bespoke Anniversary Arrangements', path: '/products/occasions' },
-  { label: 'Botanical Installation Consults', path: '/wedding-events' },
-  { label: 'Exotic Tropical Indoor Stems', path: '/products/indoor-plants' },
-  { label: 'Private Conservatory Visits', path: '/about' },
-]
-
-const PAYMENT_BADGES = ['PayHere Certified', 'Visa', 'MasterCard', 'Sampath Vishwa', 'AMEX', 'Cash on Delivery']
+import { Link, useLocation } from 'react-router-dom'
+import { MapPin, Phone, Mail, Clock, Sparkles, ArrowRight } from 'lucide-react'
+import WhatsAppIcon from '../ui/WhatsAppIcon'
+import { Reveal } from '../motion/Reveal'
+import { Petals } from '../motion/Ambient'
+import Logo from './Logo'
+import { HELP_NAV, SHOP_NAV } from './navLinks'
+import { useShop, useWhatsApp } from '../../hooks/useShop'
+import { formatPhone } from '../../lib/phone'
 
 export default function Footer() {
+  const shop = useShop()
+  const whatsapp = useWhatsApp()
+  const { pathname } = useLocation()
+  // Keep the checkout and login pages focused.
+  const showCta = !['/checkout', '/sign-in', '/register'].includes(pathname) && !pathname.startsWith('/payment')
+
   return (
-    <footer className="w-full bg-surface-container-low pt-14 pb-6 text-on-surface-variant">
+    <footer className="w-full bg-surface-container-low pt-14 pb-24 sm:pb-6 text-on-surface-variant">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="h-7 w-7 rounded-full bg-primary flex items-center justify-center text-on-primary font-display text-xs font-bold">
-                CB
+        {showCta && (
+          <Reveal className="relative mb-14 overflow-hidden rounded-2xl bg-ink-gradient px-6 py-10 text-white sm:px-10 lg:px-14">
+            <Petals color="#e7c873" />
+            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-xl space-y-2">
+                <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-tertiary-fixed">
+                  <Sparkles size={14} /> Not sure what to send?
+                </p>
+                <h2 className="font-display text-3xl leading-tight sm:text-4xl">Tell us who it's for — our florists will suggest something lovely.</h2>
               </div>
-              <span className="font-display text-headline-sm text-primary">Ceylon Blooms</span>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <a
+                  href={whatsapp("Hello! Could you help me choose flowers?")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-sm bg-[#25D366] px-6 py-3 text-title-md text-primary hover:bg-[#1EBE5D]"
+                >
+                  <WhatsAppIcon size={18} /> Ask on WhatsApp
+                </a>
+                <Link to="/custom-order" className="inline-flex items-center justify-center gap-2 rounded-sm bg-white/12 px-6 py-3 text-title-md text-white ring-1 ring-white/25 backdrop-blur-md hover:bg-white/20">
+                  Custom order <ArrowRight size={17} />
+                </Link>
+              </div>
             </div>
+          </Reveal>
+        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+          <div className="space-y-4">
+            <Logo />
             <p className="text-body-sm text-secondary leading-relaxed">
-              Ceylon Blooms brings together premium seasonal flowers, local craftsmanship, and islandwide delivery for meaningful occasions across Sri Lanka.
+              Fresh flowers, hampers and plants, hand-arranged in Colombo and delivered with care across Sri Lanka.
             </p>
-            <div className="flex items-center gap-2 text-primary text-[11px]">
-              <BadgeCheck size={16} />
-              Certified Ethical Highland Flora
-            </div>
+            <a
+              href={whatsapp('Hello! I have a question.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Message Ceylon Petals on WhatsApp"
+              title="WhatsApp"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-primary transition-colors hover:bg-[#1EBE5D]"
+            >
+              <WhatsAppIcon size={22} />
+            </a>
           </div>
 
           <div>
-            <h3 className="font-display text-headline-sm text-primary mb-4">Customer Care</h3>
+            <h3 className="font-display text-headline-sm text-primary mb-4">Shop</h3>
             <ul className="space-y-2 text-body-sm">
-              {CUSTOMER_CARE_LINKS.map((link) => (
+              {SHOP_NAV.slice(0, 7).map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="hover:text-on-surface transition-colors">
-                    {link.label}
-                  </Link>
+                  <Link to={link.path} className="hover:text-primary transition-colors">{link.label}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h3 className="font-display text-headline-sm text-primary mb-4">Floral Collections</h3>
+            <h3 className="font-display text-headline-sm text-primary mb-4">Help</h3>
             <ul className="space-y-2 text-body-sm">
-              {COLLECTION_LINKS.map((link) => (
+              {HELP_NAV.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="hover:text-on-surface transition-colors">
-                    {link.label}
-                  </Link>
+                  <Link to={link.path} className="hover:text-primary transition-colors">{link.label}</Link>
                 </li>
               ))}
+              <li>
+                <Link to="/custom-order" className="hover:text-primary transition-colors">Bulk & corporate orders</Link>
+              </li>
             </ul>
           </div>
 
-          <div>
-            <h3 className="font-display text-headline-sm text-primary mb-4">Studio &amp; Service</h3>
-            <p className="text-body-sm text-secondary mb-2">Visit our Colombo studio:</p>
-            <div className="flex items-start gap-2 text-body-sm text-on-surface mb-4">
-              <MapPin size={18} className="text-primary mt-0.5" />
-              <span>Colombo 03, Sri Lanka</span>
-            </div>
-            <span className="text-[11px] uppercase tracking-wider text-secondary block mb-2">
-              Secure islandwide checkout
-            </span>
-            <div className="flex flex-wrap gap-2 text-[11px] text-secondary">
-              {PAYMENT_BADGES.map((badge) => (
-                <span key={badge} className="bg-surface px-2 py-0.5 rounded">{badge}</span>
-              ))}
-            </div>
+          <div className="space-y-3 text-body-sm">
+            <h3 className="font-display text-headline-sm text-primary mb-4">Visit or call</h3>
+            <p className="flex items-start gap-2"><MapPin size={16} className="text-primary mt-0.5 shrink-0" />{shop.address}</p>
+            <p className="flex items-center gap-2">
+              <Phone size={16} className="text-primary shrink-0" />
+              <a href={`tel:${shop.phone.replace(/\s/g, '')}`} className="hover:text-primary">{shop.phone}</a>
+            </p>
+            <p className="flex items-center gap-2">
+              <WhatsAppIcon size={16} className="text-[#1a9e4b] shrink-0" />
+              <a href={whatsapp('Hello! I have a question.')} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+                {formatPhone(shop.whatsappNumber)}
+              </a>
+            </p>
+            <p className="flex items-center gap-2">
+              <Mail size={16} className="text-primary shrink-0" />
+              <a href={`mailto:${shop.email}`} className="hover:text-primary">{shop.email}</a>
+            </p>
+            <p className="flex items-center gap-2"><Clock size={16} className="text-primary shrink-0" />{shop.openingHours}</p>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between pt-4 border-t border-surface-container text-body-sm text-secondary">
-          <p>© 2026 Ceylon Blooms. All rights reserved. Sri Lanka.</p>
-          <div className="flex items-center gap-4 text-[11px]">
-            <span>Sustainable Blooms</span>
-            <span>•</span>
-            <span>Ethical Sourcing</span>
-            <span>•</span>
-            <span>Punctual White-Glove Handover</span>
+        <div className="flex flex-col md:flex-row items-center justify-between gap-2 pt-4 border-t border-surface-container text-body-sm text-secondary">
+          <p>© {new Date().getFullYear()} {shop.shopName}. All rights reserved.</p>
+          <div className="flex items-center gap-4 text-[12px]">
+            <Link to="/privacy" className="hover:text-primary">Privacy & terms</Link>
+            <Link to="/refund-policy" className="hover:text-primary">Refund policy</Link>
+            <Link to="/admin/login" className="hover:text-primary">Owner login</Link>
           </div>
         </div>
       </div>
