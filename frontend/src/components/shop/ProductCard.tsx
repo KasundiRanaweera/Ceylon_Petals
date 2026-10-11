@@ -1,0 +1,141 @@
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { AnimatePresence, motion } from 'motion/react'
+import { ShoppingBag, MessageCircle, Truck, Check } from 'lucide-react'
+import type { Product } from '../../types'
+import { formatLKR } from '../../lib/format'
+import { discountPercent, effectivePrice, isLowStock } from '../../lib/pricing'
+import { productOrderMessage } from '../../lib/whatsapp'
+import { useCart } from '../../hooks/useCart'
+import { useWhatsApp } from '../../hooks/useShop'
+import { imageSrcSet, sizedImage } from '../../lib/images'
+
+// The one product card used on every listing (home, categories, occasions, hampers, plants, search),
+// so products look and behave the same wherever a customer finds them.
+interface ProductCardProps {
+  product: Product
+  /** A visual duplicate (e.g. the second copy in a looping carousel): still clickable, but kept out of the tab order. */
+  copy?: boolean
+  /** Override the image `sizes` hint when the card is shown at a fixed width. */
+  sizes?: string
+  /** Carousel layout: no description, one-line title, so every card is exactly the same height. */
+  compact?: boolean
+}
+
+export default function ProductCard({ product, copy = false, sizes, compact = false }: ProductCardProps) {
+  const tab = copy ? -1 : undefined
+  const { addProduct } = useCart()
+  const whatsapp = useWhatsApp()
+  const price = effectivePrice(product)
+  const off = discountPercent(product)
+  const soldOut = product.stock <= 0
+  const href = `/product/${product.slug}`
+  const [added, setAdded] = useState(false)
+
+  useEffect(() => {
+    if (!added) return
+    const id = setTimeout(() => setAdded(false), 1600)
+    return () => clearTimeout(id)
+  }, [added])
+
+  return (
+    <article className="group w-full h-full flex flex-col transition-transform duration-300 ease-out hover:-translate-y-1.5 motion-reduce:hover:translate-y-0">
+      <Link to={href} className="relative block aspect-square overflow-hidden rounded-sm bg-surface-container shadow-[0_0_0_rgba(0,0,0,0)] transition-shadow duration-300 group-hover:shadow-[0_24px_40px_-24px_rgba(12,10,9,0.45)]" tabIndex={-1} aria-hidden="true">
+        <img
+          src={sizedImage(product.images[0], 960)}
+          srcSet={imageSrcSet(product.images[0])}
+          // The photos are landscape (11:6) and the card is square, so the image is drawn
+          // 1.83× wider than the card. These sizes include that, so retina screens get a sharp file.
+          sizes={sizes ?? "(min-width: 1024px) 760px, (min-width: 640px) 84vw, 170vw"}
+          alt=""
+          loading="lazy"
+          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${soldOut ? 'opacity-60 grayscale-[40%]' : ''}`}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5">
+          {product.badge && (
+            <span className="bg-primary px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[#f5e6c8]">{product.badge}</span>
+          )}
+          {off > 0 && (
+            <span className="bg-brand-gradient px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+              {off}% off
+            </span>
+          )}
+        </div>
+        {soldOut ? (
+          <span className="absolute inset-x-3 bottom-3 text-center bg-surface-container-lowest/95 text-on-surface text-label-md py-1.5 rounded-lg">
+            Sold out today
+          </span>
+        ) : (
+          isLowStock(product) && (
+            <span className="absolute bottom-3 left-3 bg-surface-container-lowest/95 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-error">
+              Only {product.stock} left
+            </span>
+          )
+        )}
+      </Link>
+
+      <div className="flex-1 flex flex-col gap-3 border-b border-outline-variant pb-5 pt-4">
+        <div className="flex-1">
+          {product.sameDay ? (
+            <p className="eyebrow mb-1.5 flex items-center gap-1.5 text-tertiary">
+              <Truck size={13} /> Same-day delivery
+            </p>
+          ) : (
+            // Keep the same height as the same-day line, so titles and prices line up.
+            compact && <p className="eyebrow mb-1.5 text-secondary">Made to order</p>
+          )}
+          <h3 className={`font-display text-[22px] leading-tight text-primary ${compact ? 'truncate' : ''}`}>
+            <Link to={href} tabIndex={tab} className="hover:text-surface-tint transition-colors">
+              {product.name}
+            </Link>
+          </h3>
+          {!compact && <p className="text-body-sm text-on-surface-variant line-clamp-2 mt-1">{product.shortDescription}</p>}
+        </div>
+
+        <div className="flex items-baseline gap-2">
+          <span className="text-[17px] font-medium tracking-wide text-primary">{formatLKR(price)}</span>
+          {off > 0 && <span className="text-body-sm text-secondary line-through">{formatLKR(product.price)}</span>}
+        </div>
+
+        <div className="flex gap-2">
+          <motion.button
+            type="button"
+            onClick={() => setAdded(addProduct(product))}
+            disabled={soldOut}
+            tabIndex={tab}
+            whileTap={{ scale: 0.97 }}
+            className={`flex-1 cursor-pointer overflow-hidden text-label-md py-2.5 rounded-sm flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+              added ? 'bg-emerald-700 text-white' : 'btn-gradient'
+            }`}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={added ? 'added' : 'add'}
+                initial={{ y: 14, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -14, opacity: 0 }}
+                transition={{ duration: 0.18 }}
+                className="flex items-center gap-1.5"
+              >
+                {added ? <Check size={17} /> : <ShoppingBag size={17} />}
+                {soldOut ? 'Sold out' : added ? 'Added' : 'Add to cart'}
+              </motion.span>
+            </AnimatePresence>
+          </motion.button>
+          <a
+            href={whatsapp(productOrderMessage(product))}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Order ${product.name} on WhatsApp`}
+            tabIndex={tab}
+            title="Order on WhatsApp"
+            className="w-11 shrink-0 bg-[#25D366] text-white hover:bg-[#1EBE5D] rounded-sm flex items-center justify-center transition-colors"
+          >
+            <MessageCircle size={18} />
+          </a>
+        </div>
+      </div>
+    </article>
+  )
+}
