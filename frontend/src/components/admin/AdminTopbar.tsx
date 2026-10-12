@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Menu, Flower2, Globe, Store, User } from 'lucide-react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { Menu, Globe, Store, LogOut, LayoutDashboard } from 'lucide-react'
+import { currentAdminPage } from './adminNav'
+import { useAuth } from '../../hooks/useAuth'
 
 interface AdminTopbarProps {
   onMenuClick: () => void
@@ -29,9 +32,18 @@ function useColomboTime() {
 
 export default function AdminTopbar({ onMenuClick, shopOpen }: AdminTopbarProps) {
   const time = useColomboTime()
+  const { user, signOut } = useAuth()
+  const navigate = useNavigate()
+  const page = currentAdminPage(useLocation().pathname)
+  const PageIcon = page?.icon ?? LayoutDashboard
+
+  async function handleSignOut() {
+    await signOut()
+    navigate('/admin/login')
+  }
 
   return (
-    <header className="fixed top-0 left-0 lg:left-72 right-0 h-20 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-30">
+    <header className="print:hidden fixed top-0 left-0 lg:left-72 right-0 h-20 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-30">
       <div className="w-full h-20 px-4 lg:px-8 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
           <button
@@ -42,13 +54,13 @@ export default function AdminTopbar({ onMenuClick, shopOpen }: AdminTopbarProps)
           >
             <Menu size={22} />
           </button>
-          <div className="hidden sm:flex items-center gap-2 text-primary">
-            <Flower2 size={20} />
-            <span className="font-display text-headline-sm text-primary">Owner Dashboard</span>
+          <div className="flex min-w-0 items-center gap-2 text-primary">
+            <PageIcon size={20} className="shrink-0 text-tertiary" />
+            <span className="truncate font-display text-headline-sm text-primary">{page?.label ?? 'Owner Dashboard'}</span>
           </div>
           <div className="hidden md:block h-4 w-px bg-outline-variant mx-1" />
           <div
-            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-label-md ${
+            className={`hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-sm text-label-md ${
               shopOpen ? 'bg-primary-fixed text-on-primary-fixed' : 'bg-tertiary-fixed text-on-tertiary-fixed'
             }`}
           >
@@ -72,15 +84,20 @@ export default function AdminTopbar({ onMenuClick, shopOpen }: AdminTopbarProps)
             <span className="hidden sm:inline">View Storefront</span>
           </a>
           <div className="hidden sm:block h-5 w-px bg-outline-variant" />
-          {/* TODO: show the logged-in owner's name once authentication is wired up */}
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex flex-col text-right">
-              <span className="text-title-md text-primary leading-tight">Shop Owner</span>
-              <span className="text-[11px] text-on-surface-variant">Administrator</span>
+              <span className="text-title-md text-primary leading-tight">{user?.name ?? 'Owner'}</span>
+              <span className="text-[11px] text-on-surface-variant">Shop owner</span>
             </div>
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-              <User size={18} className="text-on-primary" />
-            </div>
+            <button
+              type="button"
+              onClick={handleSignOut}
+              title="Sign out"
+              aria-label="Sign out"
+              className="w-9 h-9 rounded-full bg-primary text-on-primary flex items-center justify-center hover:bg-primary-container"
+            >
+              <LogOut size={16} />
+            </button>
           </div>
         </div>
       </div>

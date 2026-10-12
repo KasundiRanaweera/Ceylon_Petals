@@ -14,7 +14,7 @@ export default function OrderBoard({ orders, onStatusChange, onPaymentChange }: 
   const today = isoDate(0)
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 items-start">
+    <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 items-start">
       {DELIVERY_SLOTS.map((slot) => {
         const slotOrders = orders.filter((o) => o.deliverySlot === slot.key)
         return (
@@ -24,7 +24,7 @@ export default function OrderBoard({ orders, onStatusChange, onPaymentChange }: 
                 <h3 className="font-display text-headline-sm text-primary">{slot.label}</h3>
                 <p className="text-[11px] text-secondary">{slot.hours}</p>
               </div>
-              <span className="bg-surface-container-lowest text-primary text-label-md rounded-full px-2.5 py-0.5">
+              <span className="bg-surface-container-lowest text-primary text-label-md rounded-sm px-2.5 py-0.5">
                 {slotOrders.length}
               </span>
             </header>

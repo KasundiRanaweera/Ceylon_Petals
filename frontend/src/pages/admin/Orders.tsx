@@ -1,13 +1,12 @@
 import { useMemo, useState } from 'react'
 import { Download, SearchX } from 'lucide-react'
-import type { AdminOrder, OrderStatus, PaymentStatus } from '../../types/admin'
-import { ALL_ORDERS } from '../../lib/sampleAdminData'
+import { useAdminOrders } from '../../hooks/useAdminData'
+import { formatPlacedAt, isoDate } from '../../lib/dates'
 import { ORDER_STATUS_LABEL, PAYMENT_METHOD_LABEL, PAYMENT_STATUS_LABEL } from '../../lib/orderStatus'
 import { SLOT_LABEL } from '../../lib/deliverySlots'
-import { isoDate } from '../../lib/dates'
 import { downloadCsv } from '../../lib/exportCsv'
 import { useToast } from '../../hooks/useToast'
-import ConfirmDialog from '../../components/ui/ConfirmDialog'
+import { useOrderStatusFlow } from '../../components/admin/orders/useOrderStatusFlow'
 import OrdersStats from '../../components/admin/orders/OrdersStats'
 import OrdersToolbar from '../../components/admin/orders/OrdersToolbar'
 import OrderBoard from '../../components/admin/orders/OrderBoard'
@@ -27,14 +26,15 @@ import {
 //  - records payments that happen outside the website (cash on delivery, WhatsApp orders, refunds)
 //  - messages the customer on WhatsApp, and exports the list as a spreadsheet
 //
-// TODO (Phase 5): load orders from GET /api/admin/orders and send every change to
-// PATCH /api/admin/orders/:id (status) and PATCH /api/admin/orders/:id/payment.
+// Orders come from services/orders (the mock API now, GET /api/admin/orders later), so orders
+// placed at checkout appear here and every change is saved.
 export default function Orders() {
   const { showToast } = useToast()
-  const [orders, setOrders] = useState<AdminOrder[]>(ALL_ORDERS)
+  const { data, isLoading } = useAdminOrders()
+  const orders = useMemo(() => data ?? [], [data])
+  const { changeStatus, changePayment, cancelDialog } = useOrderStatusFlow()
   const [filters, setFilters] = useState<OrderFilters>(DEFAULT_FILTERS)
   const [view, setView] = useState<OrdersView>('board')
-  const [pendingCancel, setPendingCancel] = useState<AdminOrder | null>(null)
 
   function updateFilters(changes: Partial<OrderFilters>) {
     setFilters((prev) => ({ ...prev, ...changes }))
@@ -44,45 +44,14 @@ export default function Orders() {
   // The status tabs show how many orders each status has *within the other active filters*.
   const counts = useMemo(() => countByStatus(filterOrders(orders, filters, { ignoreStatus: true })), [orders, filters])
 
-  function applyStatus(order: AdminOrder, status: OrderStatus) {
-    setOrders((prev) => prev.map((o) => (o.id === order.id ? { ...o, status } : o)))
-    showToast(`${order.orderNumber} is now ${ORDER_STATUS_LABEL[status]}`)
-  }
-
-  function handleStatusChange(order: AdminOrder, status: OrderStatus) {
-    if (status === order.status) return
-    if (status === 'CANCELLED') {
-      setPendingCancel(order) // ask first
-      return
-    }
-    applyStatus(order, status)
-    if (status === 'DELIVERED' && order.paymentMethod !== 'CARD' && order.paymentStatus === 'PENDING') {
-      showToast(`${order.orderNumber} was unpaid. Mark it as paid once you have collected the money.`, 'info')
-    }
-  }
-
-  function confirmCancel() {
-    if (!pendingCancel) return
-    applyStatus(pendingCancel, 'CANCELLED')
-    if (pendingCancel.paymentStatus === 'PAID') {
-      showToast('This order was paid. Refund the customer, then mark the payment as refunded.', 'info')
-    }
-    setPendingCancel(null)
-  }
-
-  function handlePaymentChange(order: AdminOrder, paymentStatus: PaymentStatus) {
-    setOrders((prev) => prev.map((o) => (o.id === order.id ? { ...o, paymentStatus } : o)))
-    showToast(`${order.orderNumber} payment marked as ${PAYMENT_STATUS_LABEL[paymentStatus].toLowerCase()}`)
-  }
-
   function exportOrders() {
     const header = [
       'Order', 'Placed', 'Delivery date', 'Delivery slot', 'Customer', 'Customer phone',
-      'Recipient', 'Area', 'Items', 'Total (LKR)', 'Payment method', 'Payment status', 'Order status',
+      'Recipient', 'Recipient phone', 'Address', 'Area', 'District', 'Items', 'Card message', 'Total (LKR)', 'Payment method', 'Payment status', 'Order status',
     ]
     const rows = filtered.map((o) => [
-      o.orderNumber, o.placedAt, o.deliveryDate, SLOT_LABEL[o.deliverySlot], o.customerName, o.customerPhone,
-      o.recipientName, o.area, o.itemsSummary, o.total, PAYMENT_METHOD_LABEL[o.paymentMethod],
+      o.orderNumber, formatPlacedAt(o.createdAt), o.deliveryDate, SLOT_LABEL[o.deliverySlot], o.customerName, o.customerPhone,
+      o.recipientName, o.recipientPhone ?? '', o.address ?? '', o.area, o.district ?? '', o.itemsSummary, o.cardMessage ?? '', o.total, PAYMENT_METHOD_LABEL[o.paymentMethod],
       PAYMENT_STATUS_LABEL[o.paymentStatus], ORDER_STATUS_LABEL[o.status],
     ])
     downloadCsv(`orders-${isoDate(0)}.csv`, [header, ...rows])
@@ -90,10 +59,8 @@ export default function Orders() {
   }
 
   function clearFilters() {
-    setFilters({ query: '', date: 'all', status: 'ALL', payment: 'ALL' })
+    setFilters({ ...DEFAULT_FILTERS })
   }
-
-  const cancelPaid = pendingCancel?.paymentStatus === 'PAID'
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -131,7 +98,9 @@ export default function Orders() {
         </button>
       </div>
 
-      {filtered.length === 0 ? (
+      {isLoading ? (
+        <div className="bg-surface-container-lowest rounded-xl shadow-sm h-64 animate-pulse" aria-busy="true" />
+      ) : filtered.length === 0 ? (
         <div className="bg-surface-container-lowest rounded-xl shadow-sm p-12 text-center space-y-3">
           <div className="w-12 h-12 mx-auto rounded-full bg-surface-container flex items-center justify-center text-primary">
             <SearchX size={22} />
@@ -143,25 +112,11 @@ export default function Orders() {
           </button>
         </div>
       ) : view === 'board' ? (
-        <OrderBoard orders={filtered} onStatusChange={handleStatusChange} onPaymentChange={handlePaymentChange} />
+        <OrderBoard orders={filtered} onStatusChange={changeStatus} onPaymentChange={changePayment} />
       ) : (
-        <OrdersTable orders={filtered} onStatusChange={handleStatusChange} onPaymentChange={handlePaymentChange} />
+        <OrdersTable orders={filtered} onStatusChange={changeStatus} onPaymentChange={changePayment} />
       )}
-
-      <ConfirmDialog
-        open={pendingCancel !== null}
-        title={`Cancel order ${pendingCancel?.orderNumber ?? ''}?`}
-        message={
-          cancelPaid
-            ? 'The customer has already paid for this order. Cancelling does not refund them automatically, so you will need to refund them yourself.'
-            : 'The customer will not receive this order. You can message them on WhatsApp to explain.'
-        }
-        confirmLabel="Yes, cancel order"
-        cancelLabel="Keep order"
-        tone="danger"
-        onConfirm={confirmCancel}
-        onCancel={() => setPendingCancel(null)}
-      />
+      {cancelDialog}
     </div>
   )
 }

@@ -2,14 +2,15 @@ import { Link } from 'react-router-dom'
 import { Receipt, MessageCircle } from 'lucide-react'
 import type { AdminOrder } from '../../../types/admin'
 import { buildWhatsAppLink } from '../../../lib/whatsapp'
+import { useShop } from '../../../hooks/useShop'
 
 // "View details" + "WhatsApp the customer" buttons, used in both the board and the table.
 export default function OrderActions({ order }: { order: AdminOrder }) {
-  // TODO: use the shop name from ShopSettings instead of the fixed text below.
+  const { shopName } = useShop()
   const message =
     order.status === 'DELIVERED'
-      ? `Hello ${order.customerName}, your order ${order.orderNumber} has been delivered to ${order.recipientName}. Thank you for choosing Ceylon Petals!`
-      : `Hello ${order.customerName}, this is Ceylon Petals regarding your order ${order.orderNumber}.`
+      ? `Hello ${order.customerName}, your order ${order.orderNumber} has been delivered to ${order.recipientName}. Thank you for choosing ${shopName}!`
+      : `Hello ${order.customerName}, this is ${shopName} regarding your order ${order.orderNumber}.`
 
   return (
     <div className="flex items-center gap-2">

@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
-import { RECENT_CUSTOMERS } from '../../../lib/sampleAdminData'
+import { useQuery } from '@tanstack/react-query'
+import { listCustomers } from '../../../services/shop'
+import { formatPlacedAt } from '../../../lib/dates'
 
 function initials(name: string) {
   return name
@@ -10,13 +12,20 @@ function initials(name: string) {
     .toUpperCase()
 }
 
+// Newest sign-ups.
 export default function RecentCustomers() {
+  const { data } = useQuery({ queryKey: ['admin', 'customers'], queryFn: listCustomers })
+  const recent = (data ?? [])
+    .filter((c) => c.registered && c.joinedAt)
+    .sort((a, b) => b.joinedAt!.localeCompare(a.joinedAt!))
+    .slice(0, 4)
+
   return (
     <div className="bg-surface-container-lowest rounded-xl shadow-sm p-4 space-y-4">
       <h3 className="font-display text-headline-sm text-primary">Recent Customers</h3>
 
       <ul className="space-y-3">
-        {RECENT_CUSTOMERS.map((c) => (
+        {recent.map((c) => (
           <li key={c.id} className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-primary text-on-primary flex items-center justify-center text-label-md font-bold shrink-0">
               {initials(c.name)}
@@ -26,16 +35,14 @@ export default function RecentCustomers() {
               <p className="text-[11px] text-secondary truncate">{c.email}</p>
             </div>
             <div className="text-right shrink-0">
-              <p className="text-[11px] text-secondary">{c.joined}</p>
+              <p className="text-[11px] text-secondary">Joined {formatPlacedAt(c.joinedAt!).split(',')[0]}</p>
               <p className="text-[11px] text-primary font-semibold">{c.orders} {c.orders === 1 ? 'order' : 'orders'}</p>
             </div>
           </li>
         ))}
       </ul>
 
-      <Link to="/admin/customers" className="inline-block text-label-md text-primary hover:underline">
-        View all customers
-      </Link>
+      <Link to="/admin/customers" className="inline-block text-label-md text-primary hover:underline">View all customers</Link>
     </div>
   )
 }
