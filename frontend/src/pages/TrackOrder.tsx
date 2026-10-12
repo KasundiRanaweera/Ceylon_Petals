@@ -1,8 +1,71 @@
+import { useState, type FormEvent } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+import { Search, MessageCircle } from 'lucide-react'
+import PageHeader from '../components/ui/PageHeader'
+import { FormError, TextField } from '../components/ui/Field'
+import OrderTimeline from '../components/orders/OrderTimeline'
+import OrderSummary from '../components/orders/OrderSummary'
+import { trackOrder } from '../services/orders'
+import { useWhatsApp } from '../hooks/useShop'
+
 export default function TrackOrder() {
+  const [params] = useSearchParams()
+  const [orderNumber, setOrderNumber] = useState(params.get('order') ?? '')
+  const [phone, setPhone] = useState('')
+  const whatsapp = useWhatsApp()
+  const lookup = useMutation({ mutationFn: () => trackOrder(orderNumber, phone) })
+
+  function submit(e: FormEvent) {
+    e.preventDefault()
+    if (orderNumber.trim() && phone.trim()) lookup.mutate()
+  }
+
+  const order = lookup.data
+
   return (
-    <section className="section-shell py-16">
-      <h1 className="font-display text-4xl text-[#1a3a2f]">Track Order</h1>
-      <p className="mt-4 text-[#4d5852]">This page will track the delivery status of an order.</p>
-    </section>
+    <div className="flex flex-col w-full">
+      <PageHeader
+        title="Track your order"
+        subtitle="Enter your order number (e.g. CP-1049) and the phone number used for the order."
+        breadcrumbs={[{ label: 'Track order' }]}
+      />
+
+      <section className="max-w-4xl mx-auto w-full px-4 lg:px-12 py-10 space-y-6">
+        <form onSubmit={submit} className="bg-surface-container-lowest rounded-xl shadow-sm p-6 grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-4 items-end">
+          <TextField id="track-order" label="Order number" required placeholder="CP-1049" value={orderNumber} onChange={(e) => setOrderNumber(e.target.value)} />
+          <TextField id="track-phone" label="Phone number" required type="tel" placeholder="077 123 4567" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <button
+            type="submit"
+            disabled={lookup.isPending}
+            className="h-[46px] px-6 rounded-lg btn-gradient text-label-md flex items-center justify-center gap-2  disabled:opacity-60"
+          >
+            <Search size={16} /> {lookup.isPending ? 'Finding…' : 'Track'}
+          </button>
+        </form>
+
+        <FormError message={lookup.error ? lookup.error.message : null} />
+
+        {order && (
+          <div className="bg-surface-container-lowest rounded-xl shadow-sm p-6 space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h2 className="font-display text-headline-md text-primary">Order {order.orderNumber}</h2>
+              <a
+                href={whatsapp(`Hello! I'm asking about order ${order.orderNumber}.`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-label-md text-white bg-[#25D366] px-4 py-2 rounded-lg"
+              >
+                <MessageCircle size={16} /> Ask about this order
+              </a>
+            </div>
+            <OrderTimeline order={order} />
+            <div className="border-t border-surface-container pt-6">
+              <OrderSummary order={order} />
+            </div>
+          </div>
+        )}
+      </section>
+    </div>
   )
 }
