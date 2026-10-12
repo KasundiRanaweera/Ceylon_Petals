@@ -6,7 +6,7 @@ import {
   PAYMENT_STATUS_STYLE,
 } from '../../../lib/orderStatus'
 import { formatLKR } from '../../../lib/format'
-import { formatDeliveryDate } from '../../../lib/dates'
+import { formatDeliveryDate, formatPlacedAt } from '../../../lib/dates'
 import { SLOT_LABEL } from '../../../lib/deliverySlots'
 import OrderStatusSelect from './OrderStatusSelect'
 import OrderActions from './OrderActions'
@@ -21,7 +21,7 @@ interface OrdersTableProps {
 export default function OrdersTable({ orders, onStatusChange, onPaymentChange }: OrdersTableProps) {
   return (
     <div className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto relative">
         <table className="w-full text-left min-w-[900px]">
           <thead>
             <tr className="bg-surface-container-low text-[11px] uppercase tracking-wider text-secondary">
@@ -38,7 +38,7 @@ export default function OrdersTable({ orders, onStatusChange, onPaymentChange }:
               <tr key={order.id} className="hover:bg-surface-container-low/50 transition-colors align-top">
                 <td className="px-4 py-3">
                   <span className="block text-title-md text-primary">{order.orderNumber}</span>
-                  <span className="block text-[11px] text-secondary">Placed {order.placedAt}</span>
+                  <span className="block text-[11px] text-secondary">Placed {formatPlacedAt(order.createdAt)}</span>
                 </td>
                 <td className="px-4 py-3">
                   <div className="text-title-md text-on-surface">

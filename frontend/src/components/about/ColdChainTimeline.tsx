@@ -25,7 +25,7 @@ const STEPS: TimelineStep[] = [
       "Stems are cut early, while it's cool and the plants are well hydrated. They're placed in water right away to seal the cut and keep them fresh for the journey.",
     stat1Label: 'Harvest Time', stat1Value: 'Early Morning',
     stat2Label: 'Post-Cut Care', stat2Value: 'Immediate Hydration',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuByYR6Z0imMMYt82L9LK-wGOElBMLbuVxAURK_jXN5kOU5LhgoyYF7ogjzqSZvaccDhycA3pAlXeHGXGqsg6rBY0j1VtMIrmZCuzy7qmYi4txSJOG2Q01G8PrYW2a1U5ZToGKUDOmOhHju6j_-1z1QWZH3IqJrPii-SHz-gRO99-2DVrgZ6eObwPUpOwqufYCOUlaDku1yM-YGq7q_Go6NUNb601oY9EeYYKSqxGT8Ne-rdUQoGos-hrg',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuByYR6Z0imMMYt82L9LK-wGOElBMLbuVxAURK_jXN5kOU5LhgoyYF7ogjzqSZvaccDhycA3pAlXeHGXGqsg6rBY0j1VtMIrmZCuzy7qmYi4txSJOG2Q01G8PrYW2a1U5ZToGKUDOmOhHju6j_-1z1QWZH3IqJrPii-SHz-gRO99-2DVrgZ6eObwPUpOwqufYCOUlaDku1yM-YGq7q_Go6NUNb601oY9EeYYKSqxGT8Ne-rdUQoGos-hrg=w1408',
     imageCaption: 'Cut fresh in the highlands each morning',
   },
   {
@@ -35,7 +35,7 @@ const STEPS: TimelineStep[] = [
       "Stems travel down to Colombo in cooled, insulated transport, kept out of direct heat and sunlight for the journey from the hills to our studio.",
     stat1Label: 'Transit Conditions', stat1Value: 'Cool & Shaded',
     stat2Label: 'Handling', stat2Value: 'Minimal Movement',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDfEZqb2rdYT4qfGPZRsWQ5iDVPOIlF_jALfnqg4VwbWA_oB2uthdliMNCr6QA7mOdmlhfCl6Bdn8_5Ex6HiNw6xY0oQthmh9EYZl9gQoshKe-qiajs3OrkhO1x2EBkPjdW40m5LMljcSANV3Jk89CnVgTdykF_tbsXw31IFUDgC_RnW5jaN5Sbn8W5q3pQgwb7DKtP6KjJ3lepFLuHYc6e2mosvAcj7a3omEE7paKtMEuexyGOjNOAJA',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDfEZqb2rdYT4qfGPZRsWQ5iDVPOIlF_jALfnqg4VwbWA_oB2uthdliMNCr6QA7mOdmlhfCl6Bdn8_5Ex6HiNw6xY0oQthmh9EYZl9gQoshKe-qiajs3OrkhO1x2EBkPjdW40m5LMljcSANV3Jk89CnVgTdykF_tbsXw31IFUDgC_RnW5jaN5Sbn8W5q3pQgwb7DKtP6KjJ3lepFLuHYc6e2mosvAcj7a3omEE7paKtMEuexyGOjNOAJA=w1408',
     imageCaption: 'Cooled transport from hills to city',
   },
   {
@@ -45,7 +45,7 @@ const STEPS: TimelineStep[] = [
       'Each stem is re-cut underwater and conditioned before our florists hand-select and arrange blooms, finishing every piece with quality ribbon and packaging.',
     stat1Label: 'Technique', stat1Value: 'Underwater Re-Cut',
     stat2Label: 'Finishing', stat2Value: 'Hand-Tied & Wrapped',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuByYR6Z0imMMYt82L9LK-wGOElBMLbuVxAURK_jXN5kOU5LhgoyYF7ogjzqSZvaccDhycA3pAlXeHGXGqsg6rBY0j1VtMIrmZCuzy7qmYi4txSJOG2Q01G8PrYW2a1U5ZToGKUDOmOhHju6j_-1z1QWZH3IqJrPii-SHz-gRO99-2DVrgZ6eObwPUpOwqufYCOUlaDku1yM-YGq7q_Go6NUNb601oY9EeYYKSqxGT8Ne-rdUQoGos-hrg',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuByYR6Z0imMMYt82L9LK-wGOElBMLbuVxAURK_jXN5kOU5LhgoyYF7ogjzqSZvaccDhycA3pAlXeHGXGqsg6rBY0j1VtMIrmZCuzy7qmYi4txSJOG2Q01G8PrYW2a1U5ZToGKUDOmOhHju6j_-1z1QWZH3IqJrPii-SHz-gRO99-2DVrgZ6eObwPUpOwqufYCOUlaDku1yM-YGq7q_Go6NUNb601oY9EeYYKSqxGT8Ne-rdUQoGos-hrg=w1408',
     imageCaption: 'Arranged fresh at our Colombo studio',
   },
   {
@@ -55,7 +55,7 @@ const STEPS: TimelineStep[] = [
       'Finished arrangements are delivered by our own couriers across Colombo and nearby suburbs, handed over directly rather than left unattended where possible.',
     stat1Label: 'Delivery Style', stat1Value: 'Direct Handover',
     stat2Label: 'Coverage', stat2Value: 'Colombo & Suburbs',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDfEZqb2rdYT4qfGPZRsWQ5iDVPOIlF_jALfnqg4VwbWA_oB2uthdliMNCr6QA7mOdmlhfCl6Bdn8_5Ex6HiNw6xY0oQthmh9EYZl9gQoshKe-qiajs3OrkhO1x2EBkPjdW40m5LMljcSANV3Jk89CnVgTdykF_tbsXw31IFUDgC_RnW5jaN5Sbn8W5q3pQgwb7DKtP6KjJ3lepFLuHYc6e2mosvAcj7a3omEE7paKtMEuexyGOjNOAJA',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDfEZqb2rdYT4qfGPZRsWQ5iDVPOIlF_jALfnqg4VwbWA_oB2uthdliMNCr6QA7mOdmlhfCl6Bdn8_5Ex6HiNw6xY0oQthmh9EYZl9gQoshKe-qiajs3OrkhO1x2EBkPjdW40m5LMljcSANV3Jk89CnVgTdykF_tbsXw31IFUDgC_RnW5jaN5Sbn8W5q3pQgwb7DKtP6KjJ3lepFLuHYc6e2mosvAcj7a3omEE7paKtMEuexyGOjNOAJA=w1408',
     imageCaption: 'Delivered fresh across Colombo',
   },
 ]
@@ -104,7 +104,7 @@ export default function ColdChainTimeline() {
         <div className="bg-surface-container-lowest rounded-xl p-8 lg:p-14 shadow-md">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-6 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-fixed">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-secondary-container text-on-secondary-fixed">
                 <span className="text-[11px] font-bold">{active.tag}</span>
               </div>
               <h3 className="font-display text-headline-lg text-primary leading-tight">{active.title}</h3>

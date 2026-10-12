@@ -8,7 +8,7 @@ const TEAM = [
     name: 'Head Florist',
     role: 'Bouquets & Everyday Arrangements',
     bio: 'Leads the design of our seasonal bouquets and gift arrangements, focused on clean, modern floral styling.',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDk0dEIHVWeW5dPvCldIXiQ0JW0r-WRJFtTVERxSjjo72pIXp3MQj7dCW_0VthvjhIIBaa1u-fTOR5G6Lhql4_d3WrPM2vyI1rY4dR5pGTDtzBJSDXfEpyIfV4mt83Etf9bJjpFOMOXt47ANcMAhiH4G5kCUyW7iVmO3jjMYkjC1preflAe8zCAKf5Fuj3h5bp-riVHcMdzgvKlznpYZRokH1CS3_hlb5gihAPXnl2QV0X6I2ow2SiDHg',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDk0dEIHVWeW5dPvCldIXiQ0JW0r-WRJFtTVERxSjjo72pIXp3MQj7dCW_0VthvjhIIBaa1u-fTOR5G6Lhql4_d3WrPM2vyI1rY4dR5pGTDtzBJSDXfEpyIfV4mt83Etf9bJjpFOMOXt47ANcMAhiH4G5kCUyW7iVmO3jjMYkjC1preflAe8zCAKf5Fuj3h5bp-riVHcMdzgvKlznpYZRokH1CS3_hlb5gihAPXnl2QV0X6I2ow2SiDHg=w1408',
     badge: 'Bouquets & Gifting',
   },
   {
@@ -16,16 +16,16 @@ const TEAM = [
     name: 'Wedding & Events Lead',
     role: 'Poruwa & Ceremony Design',
     bio: 'Specializes in traditional and modern Poruwa florals, bringing together local customs with contemporary styling.',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD-43xV13C8zFHi87kmn-WGv5PpL7cB27EiKs4FurQT3obzntlIBUgyEUVk6T7xX7WDaJx_tEN35GzOvpXf0ni3GxjCg-JWyUYDDqAYdOgk-NhiqdcskqHULL18AOHNTL8eDKQtpW52lawjV2qNLYNtMNoLeP7R3VrMopudrAQqQbWZq9eMZNdctAZzvD8GhwUPtulqszSnpGRg8K0gfjRwj2mO1ENEg5i7fD0FTzLpABhL1ermPy7dfQ',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD-43xV13C8zFHi87kmn-WGv5PpL7cB27EiKs4FurQT3obzntlIBUgyEUVk6T7xX7WDaJx_tEN35GzOvpXf0ni3GxjCg-JWyUYDDqAYdOgk-NhiqdcskqHULL18AOHNTL8eDKQtpW52lawjV2qNLYNtMNoLeP7R3VrMopudrAQqQbWZq9eMZNdctAZzvD8GhwUPtulqszSnpGRg8K0gfjRwj2mO1ENEg5i7fD0FTzLpABhL1ermPy7dfQ=w1408',
     badge: 'Wedding & Events',
   },
 ]
 
 const BOTANICALS = [
-  { icon: Flower2, name: 'Lotus (Nelum)', desc: 'A flower associated with purity, often used in ceremonial settings.' },
-  { icon: Sprout, name: 'Jasmine (Pichcha)', desc: 'Fragrant night-blooming jasmine, hand-strung for special occasions.' },
-  { icon: Leaf, name: 'Betel Leaves', desc: 'Traditionally used in Sri Lankan ceremonies to symbolise goodwill.' },
-  { icon: Award, name: 'Areca Blossoms', desc: 'Golden blossoms sometimes used in celebratory arrangements.' },
+  { icon: Flower2, name: 'Lotus (Nelum)', desc: 'Offered at the temple on Poya days and used to dress the Poruwa — a symbol of purity.' },
+  { icon: Sprout, name: 'Jasmine (Pichcha)', desc: 'Strung by hand into garlands and bridal hair circlets; its scent fills every Poruwa.' },
+  { icon: Leaf, name: 'Betel Leaves (Bulath)', desc: 'Offered in a sheaf to elders and guests as a mark of respect, at weddings and at Avurudu.' },
+  { icon: Award, name: 'Blue Water Lily (Nil Manel)', desc: "Sri Lanka's national flower — a quiet, graceful bloom for remembrance and offerings." },
 ]
 
 export default function TeamSection() {

@@ -16,17 +16,30 @@ export interface AdminNavItem {
   label: string
   icon: LucideIcon
   end?: boolean
+  /** Sidebar heading this link sits under. */
+  group: 'Sell' | 'Catalogue' | 'People' | 'Insights'
+  /** Live count shown as a badge (see AdminSidebar). */
+  badge?: 'pendingOrders' | 'lowStock' | 'newInquiries'
 }
 
-// One list drives the sidebar AND the "coming soon" placeholder titles.
+// One list drives the sidebar groups and the page title in the top bar.
 export const ADMIN_NAV: AdminNavItem[] = [
-  { path: '/admin', label: 'Overview', icon: LayoutDashboard, end: true },
-  { path: '/admin/orders', label: 'Orders', icon: ClipboardList },
-  { path: '/admin/products', label: 'Products', icon: Package },
-  { path: '/admin/categories', label: 'Categories', icon: Tags },
-  { path: '/admin/inventory', label: 'Inventory', icon: Boxes },
-  { path: '/admin/customers', label: 'Customers', icon: Users },
-  { path: '/admin/inquiries', label: 'Custom Inquiries', icon: MessageSquareText },
-  { path: '/admin/analytics', label: 'Analytics', icon: TrendingUp },
-  { path: '/admin/settings', label: 'Settings', icon: Settings },
+  { path: '/admin', label: 'Overview', icon: LayoutDashboard, end: true, group: 'Sell' },
+  { path: '/admin/orders', label: 'Orders', icon: ClipboardList, group: 'Sell', badge: 'pendingOrders' },
+  { path: '/admin/products', label: 'Products', icon: Package, group: 'Catalogue' },
+  { path: '/admin/categories', label: 'Categories', icon: Tags, group: 'Catalogue' },
+  { path: '/admin/inventory', label: 'Inventory', icon: Boxes, group: 'Catalogue', badge: 'lowStock' },
+  { path: '/admin/customers', label: 'Customers', icon: Users, group: 'People' },
+  { path: '/admin/inquiries', label: 'Custom Inquiries', icon: MessageSquareText, group: 'People', badge: 'newInquiries' },
+  { path: '/admin/analytics', label: 'Analytics', icon: TrendingUp, group: 'Insights' },
+  { path: '/admin/settings', label: 'Settings', icon: Settings, group: 'Insights' },
 ]
+
+export const ADMIN_GROUPS = ['Sell', 'Catalogue', 'People', 'Insights'] as const
+
+/** The nav entry for the current path (longest match), for the top-bar title. */
+export function currentAdminPage(pathname: string): AdminNavItem | undefined {
+  return [...ADMIN_NAV]
+    .sort((a, b) => b.path.length - a.path.length)
+    .find((n) => (n.end ? pathname === n.path : pathname.startsWith(n.path)))
+}

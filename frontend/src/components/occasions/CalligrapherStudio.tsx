@@ -1,5 +1,9 @@
 import { useState } from 'react'
-import { PenTool, BookOpen, BadgeCheck, Brush } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { PenTool, BookOpen, BadgeCheck, Brush, Check } from 'lucide-react'
+import { useCart } from '../../hooks/useCart'
+import { useShop } from '../../hooks/useShop'
+import { useToast } from '../../hooks/useToast'
 
 const CARD_THEMES = [
   {
@@ -34,6 +38,15 @@ export default function CalligrapherStudio() {
   const [themeId, setThemeId] = useState('anniversary')
   const [waxId, setWaxId] = useState('emerald')
   const [message, setMessage] = useState(CARD_THEMES[0].defaultMessage)
+  const { cardMessage, setCardMessage } = useCart()
+  const { shopName } = useShop()
+  const { showToast } = useToast()
+  const saved = cardMessage === message.trim() && message.trim() !== ''
+
+  function saveForOrder() {
+    setCardMessage(message.trim())
+    showToast('Card message saved — it will be filled in at checkout')
+  }
 
   const theme = CARD_THEMES.find((t) => t.id === themeId)!
   const wax = WAX_COLORS.find((w) => w.id === waxId)!
@@ -120,6 +133,18 @@ export default function CalligrapherStudio() {
                 <Brush size={18} />
                 <span>Handwritten with black ink by our resident calligrapher.</span>
               </div>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={saveForOrder}
+                  disabled={!message.trim()}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg btn-gradient text-label-md  disabled:opacity-50"
+                >
+                  {saved ? <Check size={16} /> : <PenTool size={16} />} {saved ? 'Saved for your order' : 'Use this message for my order'}
+                </button>
+                {saved && <Link to="/cart" className="text-label-md text-primary hover:underline">Go to cart</Link>}
+              </div>
             </div>
 
             {/* Live preview */}
@@ -133,7 +158,7 @@ export default function CalligrapherStudio() {
 
                 <div className="flex justify-between items-start">
                   <div className="space-y-0.5">
-                    <span className="font-display text-[16px] text-primary tracking-widest uppercase block">Ceylon Petals</span>
+                    <span className="font-display text-[16px] text-primary tracking-widest uppercase block">{shopName}</span>
                     <span className="text-[9px] uppercase tracking-widest text-[#7D7065]">{theme.previewLabel}</span>
                   </div>
                   <div className="w-8 h-8 rounded-full bg-[#EFE9DF] flex items-center justify-center text-[#7D7065]">
@@ -153,7 +178,7 @@ export default function CalligrapherStudio() {
                     <span>COLOMBO</span>
                   </div>
                   <div
-                    className="flex items-center gap-2 text-[#FAF7F2] px-4 py-1.5 rounded-full shadow-md transition-all duration-300"
+                    className="flex items-center gap-2 text-[#FAF7F2] px-4 py-1.5 rounded-sm shadow-md transition-all duration-300"
                     style={{ backgroundColor: wax.hex }}
                   >
                     <BadgeCheck size={16} className="text-[#CCA830]" />

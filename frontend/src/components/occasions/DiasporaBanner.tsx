@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import { Globe, Camera, CreditCard, Clock, MessageCircle } from 'lucide-react'
-import { buildWhatsAppLink } from '../../lib/whatsapp'
+import { useWhatsApp } from '../../hooks/useShop'
 
 export default function DiasporaBanner() {
-  const link = buildWhatsAppLink("Hello, I'd like to send flowers to a loved one in Colombo from overseas")
+  const whatsapp = useWhatsApp()
+  const link = whatsapp("Hello, I'd like to send flowers to a loved one in Colombo from overseas")
 
   return (
     <section className="max-w-7xl mx-auto w-full px-4 lg:px-12 py-14">
@@ -12,7 +13,7 @@ export default function DiasporaBanner() {
         <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-tertiary-container/10 blur-3xl pointer-events-none" />
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div className="lg:col-span-8 space-y-4">
-            <div className="inline-flex items-center gap-2 bg-primary-container text-primary-fixed px-4 py-1 rounded-full text-[11px] tracking-wider uppercase">
+            <div className="inline-flex items-center gap-2 bg-primary-container text-primary-fixed px-4 py-1 rounded-sm text-[11px] tracking-wider uppercase">
               <Globe size={15} />
               Serving Overseas Patrons (UK, Australia, USA, UAE & Canada)
             </div>

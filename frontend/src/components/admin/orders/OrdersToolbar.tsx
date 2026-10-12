@@ -47,7 +47,7 @@ export default function OrdersToolbar({ filters, onFiltersChange, counts, view, 
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center bg-surface-container rounded-lg p-0.5" role="tablist" aria-label="Delivery date">
+          <div className="flex flex-wrap items-center bg-surface-container rounded-lg p-0.5" role="tablist" aria-label="Delivery date">
             {DATE_OPTIONS.map((d) => (
               <button
                 key={d.id}
@@ -102,13 +102,13 @@ export default function OrdersToolbar({ filters, onFiltersChange, counts, view, 
         </div>
       </div>
 
-      <div className="flex items-center gap-2 overflow-x-auto pb-1">
+      <div className="flex flex-wrap items-center gap-2">
         {statusTabs.map((t) => (
           <button
             key={t.id}
             type="button"
             onClick={() => onFiltersChange({ status: t.id })}
-            className={`px-3 py-1 rounded-full text-label-md whitespace-nowrap transition-colors ${
+            className={`px-3 py-1 rounded-sm text-label-md whitespace-nowrap transition-colors ${
               filters.status === t.id
                 ? 'bg-primary text-on-primary'
                 : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container'

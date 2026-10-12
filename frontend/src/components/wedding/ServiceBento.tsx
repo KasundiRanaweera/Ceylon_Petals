@@ -19,7 +19,7 @@ const SPECIALTIES: Specialty[] = [
     title: 'Traditional & Modern Poruwa Floral Mandaps',
     description:
       'We create Poruwa platforms that honour traditional Sinhala and Tamil customs while elevating their visual impact — dressed with fresh lotuses, cascading orchids, braided jasmine garlands, and ceremonial Pun Kalas toppers.',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA5Q4aqW-ew5uLrir3Dy2_I1ZA7AE5TUICN1mQ7E1b1IlKXJACHRy5ig3RYiPSrKdDf0_LVNksYNEyGL26PrhF17mteCNLvnZeEjYwRr3mKPPEVF6DuA2ONJW9d_4kqPfIcpAhSIr4PFU145LZsLVCp6QLZvhakAnYBGONqp5EYn0d0C7fnuwdeH8Z0Gm8_WBRgeicgeo1LY8DBDKV8Or1XDHzfq1CNGriKRI1tYp-_efCLbr1MkC1L_g',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA5Q4aqW-ew5uLrir3Dy2_I1ZA7AE5TUICN1mQ7E1b1IlKXJACHRy5ig3RYiPSrKdDf0_LVNksYNEyGL26PrhF17mteCNLvnZeEjYwRr3mKPPEVF6DuA2ONJW9d_4kqPfIcpAhSIr4PFU145LZsLVCp6QLZvhakAnYBGONqp5EYn0d0C7fnuwdeH8Z0Gm8_WBRgeicgeo1LY8DBDKV8Or1XDHzfq1CNGriKRI1tYp-_efCLbr1MkC1L_g=w1408',
     imageCaption: 'Custom timber frame with fresh floral dressing',
     span: 'lg:col-span-7',
   },
@@ -30,7 +30,7 @@ const SPECIALTIES: Specialty[] = [
     title: 'Bridal Bouquets & Floral Jewellery',
     description:
       'Hand-tied bouquets, organic cascades, and fresh-flower jewellery including jasmine (Pichcha) hair circlets, wrist corsages, and traditional floral arrangements for the bridal party.',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAQTEagWelwt_Trt9342FrfDE8V8Cxo_H5NkvTWUN0qnFQykzc_S32qHeJ-gkWOz_hjNEc_VUUtQSS8nOK8hOTyaBVuj2BwTdsNs36Mo-w_UlwXfRLzI1l41CIPXvQjCwtBnEyMDyrhXk1cXrotGztnIqtixDZMMvdYbao6CZSWWi8wGUbF1NcFyQVT671xPRjjr1YmBnd8I--LNjX7DDV8XmbXnwFTXMzff-i9jiQyJi5Zg8MO8mtnZg',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAQTEagWelwt_Trt9342FrfDE8V8Cxo_H5NkvTWUN0qnFQykzc_S32qHeJ-gkWOz_hjNEc_VUUtQSS8nOK8hOTyaBVuj2BwTdsNs36Mo-w_UlwXfRLzI1l41CIPXvQjCwtBnEyMDyrhXk1cXrotGztnIqtixDZMMvdYbao6CZSWWi8wGUbF1NcFyQVT671xPRjjr1YmBnd8I--LNjX7DDV8XmbXnwFTXMzff-i9jiQyJi5Zg8MO8mtnZg=w1408',
     imageCaption: 'Scented jasmine & imported stems',
     span: 'lg:col-span-5',
   },
@@ -41,7 +41,7 @@ const SPECIALTIES: Specialty[] = [
     title: 'Reception Tablescapes & Centerpieces',
     description:
       'Garden roses, textured ferns, elevated pedestals, and candlelit arrangements that create a warm, atmospheric setting without blocking conversation across the table.',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBvGd2P6Gl2BiOxWLjrXCPCvhl0eeq0Bf3f80mHnEBYQ3pc01MALOW5RFezfQI481Y7TrCSh8BA8pHhIllkApDAVbDtDrEYph8p0TazRVvFqQMq5XFBzhPcgmSIXAbXUT0jDI-LZPzVt6oW9VFkpKFJfKaQv_kcR69ByeqXhA30oNFqRPuZw-Sykype6jhHjceUDhNxOg-agmpqBNmTF47dY5sBrE7CDm1F4UT6hYnWqbC59vm_W-BvPQ',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBvGd2P6Gl2BiOxWLjrXCPCvhl0eeq0Bf3f80mHnEBYQ3pc01MALOW5RFezfQI481Y7TrCSh8BA8pHhIllkApDAVbDtDrEYph8p0TazRVvFqQMq5XFBzhPcgmSIXAbXUT0jDI-LZPzVt6oW9VFkpKFJfKaQv_kcR69ByeqXhA30oNFqRPuZw-Sykype6jhHjceUDhNxOg-agmpqBNmTF47dY5sBrE7CDm1F4UT6hYnWqbC59vm_W-BvPQ=w1408',
     imageCaption: 'Ambient candlelight & elevated florals',
     span: 'lg:col-span-5',
   },
@@ -52,7 +52,7 @@ const SPECIALTIES: Specialty[] = [
     title: 'Settee Backs & Church Aisles',
     description:
       'Tailored backdrops for couple portraits and aisle installations. We serve destination weddings island-wide — from Galle Fort and Kandy to Nuwara Eliya, Bentota beach villas, and Colombo ballrooms.',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAkp0p71R6mh7XkXkEhzniGf1nlzjBGlSascXCUFV6hqeWu_mX0fDJHz26za2-7o22nRghrZQWKZl6bAKBuN73CgBtiRPBRGiZya2y-IoXP8q2KEw1RpRTtVIxkPuCO_WVmNlp_fpuxxmqVPZuhvCLdEvYGcZ_qj4j8Fow2TXJkz8mxuyJ8bT4W4OgoTkZJfF4tH0MAj805dZgcIxl_jrxG5UqLexH-tbqjHGkUEUO2yaadqy_St1uLKw',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAkp0p71R6mh7XkXkEhzniGf1nlzjBGlSascXCUFV6hqeWu_mX0fDJHz26za2-7o22nRghrZQWKZl6bAKBuN73CgBtiRPBRGiZya2y-IoXP8q2KEw1RpRTtVIxkPuCO_WVmNlp_fpuxxmqVPZuhvCLdEvYGcZ_qj4j8Fow2TXJkz8mxuyJ8bT4W4OgoTkZJfF4tH0MAj805dZgcIxl_jrxG5UqLexH-tbqjHGkUEUO2yaadqy_St1uLKw=w1408',
     imageCaption: 'Serving Colombo, Galle, Kandy & beyond',
     span: 'lg:col-span-7',
   },
@@ -85,7 +85,7 @@ export default function ServiceBento() {
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="bg-surface-container px-3 py-0.5 rounded-full text-[11px] uppercase tracking-widest text-primary">{s.tag}</span>
+                  <span className="bg-surface-container px-3 py-0.5 rounded-sm text-[11px] uppercase tracking-widest text-primary">{s.tag}</span>
                   <span className="text-[11px] text-secondary">{s.index}</span>
                 </div>
                 <h3 className="font-display text-headline-md text-primary">{s.title}</h3>

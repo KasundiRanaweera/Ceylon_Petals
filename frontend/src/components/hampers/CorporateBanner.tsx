@@ -1,5 +1,6 @@
 import { Building2, BadgeCheck, MessageCircle, Download, Phone } from 'lucide-react'
-import { buildWhatsAppLink } from '../../lib/whatsapp'
+import { Link } from 'react-router-dom'
+import { useShop, useWhatsApp } from '../../hooks/useShop'
 
 const TRUST_POINTS = [
   'Tax Invoicing & Credit Facilities',
@@ -8,14 +9,16 @@ const TRUST_POINTS = [
 ]
 
 export default function CorporateBanner() {
-  const link = buildWhatsAppLink('Hello, I would like to enquire about corporate gifting hampers')
+  const whatsapp = useWhatsApp()
+  const { phone } = useShop()
+  const link = whatsapp('Hello, I would like to enquire about corporate gifting hampers')
 
   return (
     <section className="w-full bg-primary-container text-on-primary py-14 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7 space-y-4">
-            <div className="inline-flex items-center gap-2 bg-surface-container-lowest/10 px-3 py-1 rounded-full">
+            <div className="inline-flex items-center gap-2 bg-surface-container-lowest/10 px-3 py-1 rounded-sm">
               <Building2 size={16} className="text-tertiary-fixed" />
               <span className="text-[11px] tracking-widest uppercase text-tertiary-fixed">Corporate &amp; Diplomatic Accounts</span>
             </div>
@@ -43,13 +46,12 @@ export default function CorporateBanner() {
               >
                 <MessageCircle size={24} /> WhatsApp Corporate Concierge
               </a>
-              {/* TODO: link to a real catalogue PDF once the owner has one to upload */}
-              <button
-                type="button"
+              <Link
+                to="/custom-order?type=corporate"
                 className="bg-surface-container-lowest/10 hover:bg-surface-container-lowest/20 text-on-primary px-6 py-3 rounded-lg text-title-md inline-flex items-center justify-center gap-2 transition-all"
               >
-                <Download size={20} /> Request Corporate Catalogue
-              </button>
+                <Download size={20} /> Request a corporate quote
+              </Link>
             </div>
           </div>
 
@@ -70,7 +72,7 @@ export default function CorporateBanner() {
                 <Phone size={32} className="text-tertiary-fixed" />
                 <div>
                   <span className="text-[11px] text-on-primary-container block">DIRECT CORPORATE DESK</span>
-                  <span className="text-title-md text-on-primary">+94 11 234 5678 (Ext. 4 — Hampers)</span>
+                  <span className="text-title-md text-on-primary">{phone}</span>
                 </div>
               </div>
             </div>

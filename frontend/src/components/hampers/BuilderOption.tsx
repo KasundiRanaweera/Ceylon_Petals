@@ -1,14 +1,11 @@
 import { CheckCircle2, Circle } from 'lucide-react'
+import { formatLKR } from '../../lib/format'
 
 export interface BuilderOptionData {
   id: string
   name: string
   description: string
   price: number
-}
-
-function formatLKR(amount: number) {
-  return `Rs. ${amount.toLocaleString('en-LK')}`
 }
 
 export default function BuilderOption({
@@ -24,6 +21,7 @@ export default function BuilderOption({
     <button
       type="button"
       onClick={onSelect}
+      aria-pressed={selected}
       className={`text-left cursor-pointer p-4 rounded-lg bg-surface-container transition-all hover:bg-secondary-container/50 ${
         selected ? 'ring-2 ring-primary' : ''
       }`}

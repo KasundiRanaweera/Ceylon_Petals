@@ -1,5 +1,6 @@
 import { Leaf, Sparkles, TreeDeciduous, HeartPulse, Send } from 'lucide-react'
-import { buildWhatsAppLink } from '../../lib/whatsapp'
+import { useShop, useWhatsApp } from '../../hooks/useShop'
+import { formatPhone } from '../../lib/phone'
 
 const OFFERS = [
   { icon: Sparkles, text: 'Organic compost available on request' },
@@ -8,7 +9,9 @@ const OFFERS = [
 ]
 
 export default function PlantCareBanner() {
-  const link = buildWhatsAppLink('Hello, I need help with a plant care question')
+  const whatsapp = useWhatsApp()
+  const { whatsappNumber } = useShop()
+  const link = whatsapp('Hello, I need help with a plant care question')
 
   return (
     <section className="px-4 lg:px-12 py-20 bg-surface">
@@ -19,7 +22,7 @@ export default function PlantCareBanner() {
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 bg-surface-container-lowest/15 backdrop-blur-md px-4 py-1 rounded-full text-on-primary text-[11px]">
+              <div className="inline-flex items-center gap-2 bg-surface-container-lowest/15 backdrop-blur-md px-4 py-1 rounded-sm text-on-primary text-[11px]">
                 <Leaf size={16} className="text-tertiary-fixed" />
                 Plant Care Support
               </div>
@@ -48,7 +51,7 @@ export default function PlantCareBanner() {
                   </div>
                   <div>
                     <span className="text-[11px] uppercase tracking-wider text-secondary block">Plant Care Line</span>
-                    <span className="text-title-md text-primary font-bold">+94 77 123 4567</span>
+                    <span className="text-title-md text-primary font-bold">{formatPhone(whatsappNumber)}</span>
                   </div>
                 </div>
                 <p className="text-body-sm text-secondary mb-4">

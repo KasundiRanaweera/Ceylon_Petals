@@ -21,7 +21,7 @@ const ITEMS: PortfolioItem[] = [
     quote:
       'The Poruwa left our elders spellbound. The fragrance of fresh jasmine and lotus stayed with us throughout the ceremony.',
     scale: 'Traditional Sinhala Rite • Full Poruwa & Reception',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_OhzMRsVsJsJJkLj2xxwNcD45McmXDDWYJP4UUGSKia9hZrMPCQpeyerCcTwI0f2yc8yrwYVW5w546ld5FUCOduk-4aItId01e4cc9OMhxr2Jj73bMIB3EjC0gVvvtZ8iZQbOFGm5MG_zVcOY4DzOcKm1-0HKzvY461yxMcrwTkle_XRjkT7HXAvAEJWXKIAwzLYxSE53j4bHYVIaujFr4GNVEawuKASjZhDKnXprlOOufD_1zWTAXw',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_OhzMRsVsJsJJkLj2xxwNcD45McmXDDWYJP4UUGSKia9hZrMPCQpeyerCcTwI0f2yc8yrwYVW5w546ld5FUCOduk-4aItId01e4cc9OMhxr2Jj73bMIB3EjC0gVvvtZ8iZQbOFGm5MG_zVcOY4DzOcKm1-0HKzvY461yxMcrwTkle_XRjkT7HXAvAEJWXKIAwzLYxSE53j4bHYVIaujFr4GNVEawuKASjZhDKnXprlOOufD_1zWTAXw=w1408',
   },
   {
     id: '2',
@@ -31,7 +31,7 @@ const ITEMS: PortfolioItem[] = [
     quote:
       'Planning from Melbourne was stress-free. They understood our wish for tropical flora layered with garden blooms, and the bridal bouquet held up beautifully in the coastal heat.',
     scale: 'Rampart Archways & Banquet Tables • Overseas Couple',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuANU_fGF1su4RYXhyVcLxrADLaki9WHd98aXpMOUO3fcxJLXDVys44GvqWuJCv_MdFlTcV3Eic7oYeexSx3bF1BDdSc9jG-6fIkTZP0pJQbWPCaVoPwZNUfd23GAmpkUVN_SngKfCT5sBq8xJ-dRVn-FS64F-VlACS7uoS3uF1Gd9qdsaKtSTzDojk4qyiANCEqiQMkyyB7wEb1bLg9dznwFLJrC8uz9zh-RQNPEes-9LPe6VIlXYxceg',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuANU_fGF1su4RYXhyVcLxrADLaki9WHd98aXpMOUO3fcxJLXDVys44GvqWuJCv_MdFlTcV3Eic7oYeexSx3bF1BDdSc9jG-6fIkTZP0pJQbWPCaVoPwZNUfd23GAmpkUVN_SngKfCT5sBq8xJ-dRVn-FS64F-VlACS7uoS3uF1Gd9qdsaKtSTzDojk4qyiANCEqiQMkyyB7wEb1bLg9dznwFLJrC8uz9zh-RQNPEes-9LPe6VIlXYxceg=w1408',
   },
   {
     id: '3',
@@ -41,7 +41,7 @@ const ITEMS: PortfolioItem[] = [
     quote:
       'The head-table floral arrangement took our breath away. The team set everything up overnight and every bloom looked fresh on the day.',
     scale: 'Suspended Florals & Ceremonial Mandap',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC3c_dSFotztpOokndsiilEzUGI1Jfpk8lvdnLsoximZCtAQLg0zWDqH5IFkIM4vQ4FUMAlOSayf_zoqDM9JdH53qeEQ3pSEiu5g1vqY20ROc782FKr7Tx64fHmaaCKti1rTbhsLV0FYgp7Wz5sBGvjCoOsuXlu4qbKPMiNoeKYIfOz6CRM6HZ5P0ZYsBXaVrlOjSvSuww5eUN92pzyHbXtyeZmhzP5XsIwWjWtIubcK_n5daghdTghXg',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC3c_dSFotztpOokndsiilEzUGI1Jfpk8lvdnLsoximZCtAQLg0zWDqH5IFkIM4vQ4FUMAlOSayf_zoqDM9JdH53qeEQ3pSEiu5g1vqY20ROc782FKr7Tx64fHmaaCKti1rTbhsLV0FYgp7Wz5sBGvjCoOsuXlu4qbKPMiNoeKYIfOz6CRM6HZ5P0ZYsBXaVrlOjSvSuww5eUN92pzyHbXtyeZmhzP5XsIwWjWtIubcK_n5daghdTghXg=w1408',
   },
 ]
 

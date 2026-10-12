@@ -1,6 +1,10 @@
 import { useState, type FormEvent } from 'react'
+import { useMutation } from '@tanstack/react-query'
 import { Clock, Layers, MessageCircle, CalendarPlus } from 'lucide-react'
-import { buildWhatsAppLink } from '../../lib/whatsapp'
+import { useWhatsApp } from '../../hooks/useShop'
+import { createInquiry } from '../../services/shop'
+import { FormError } from '../ui/Field'
+import { isoDate } from '../../lib/dates'
 
 const VENUES = [
   'Colombo Hotel Ballroom',
@@ -36,7 +40,8 @@ export default function ConsultationSection() {
     budget: BUDGETS[2],
     notes: '',
   })
-  const [submitted, setSubmitted] = useState(false)
+  const whatsapp = useWhatsApp()
+  const submit = useMutation({ mutationFn: createInquiry })
 
   function update(field: keyof typeof form, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -44,11 +49,20 @@ export default function ConsultationSection() {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    // TODO: POST this to the backend (BespokeInquiry table) once the API exists.
-    setSubmitted(true)
+    submit.mutate({
+      type: 'WEDDING',
+      name: form.names,
+      email: form.email,
+      phone: form.phone,
+      eventDate: form.date,
+      location: form.venue,
+      budget: form.budget,
+      details: form.notes.trim() || `${form.ceremony} at ${form.venue}`,
+      extra: { 'Ceremony format': form.ceremony },
+    })
   }
 
-  const whatsappLink = buildWhatsAppLink('Hello, I would like to enquire about a wedding floral commission.')
+  const whatsappLink = whatsapp('Hello, I would like to enquire about wedding flowers.')
 
   return (
     <section id="consultation" className="w-full bg-surface-container-low py-14 lg:py-24">
@@ -117,7 +131,7 @@ export default function ConsultationSection() {
                 </div>
                 <div className="space-y-1">
                   <label className="text-label-md text-primary" htmlFor="event_date">Ceremony Date *</label>
-                  <input id="event_date" required type="date" className={inputClass}
+                  <input id="event_date" required type="date" min={isoDate(1)} className={inputClass}
                     value={form.date} onChange={(e) => update('date', e.target.value)} />
                 </div>
               </div>
@@ -166,18 +180,21 @@ export default function ConsultationSection() {
                   value={form.notes} onChange={(e) => update('notes', e.target.value)} />
               </div>
 
+              <FormError message={submit.error ? submit.error.message : null} />
+
               <button
                 type="submit"
+                disabled={submit.isPending}
                 className="w-full bg-primary hover:bg-primary-container text-on-primary text-title-md py-4 rounded-lg shadow-md transition-all flex items-center justify-center gap-2"
               >
                 <CalendarPlus size={20} />
-                <span>Submit Commission Request</span>
+                <span>{submit.isPending ? 'Sending…' : 'Request a consultation'}</span>
               </button>
 
-              {submitted && (
+              {submit.data && (
                 <div role="status" className="p-4 bg-primary-fixed text-on-primary-fixed rounded-lg text-center text-body-sm">
-                  <strong>Thank you.</strong> Your request has been received. Our team will review your
-                  date and venue and get back to you shortly.
+                  <strong>Thank you.</strong> Your request {submit.data.reference} has been received. Our wedding team will
+                  review your date and venue and contact you within one working day.
                 </div>
               )}
             </form>

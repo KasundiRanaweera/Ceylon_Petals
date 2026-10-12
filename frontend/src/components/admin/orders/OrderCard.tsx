@@ -8,7 +8,7 @@ import {
   PAYMENT_STATUS_STYLE,
 } from '../../../lib/orderStatus'
 import { formatLKR } from '../../../lib/format'
-import { formatDeliveryDate } from '../../../lib/dates'
+import { formatDeliveryDate, formatPlacedAt } from '../../../lib/dates'
 import OrderStatusSelect from './OrderStatusSelect'
 import OrderActions from './OrderActions'
 import PaymentAction from './PaymentAction'
@@ -27,9 +27,9 @@ export default function OrderCard({ order, showDate, onStatusChange, onPaymentCh
     <article className="bg-surface-container-lowest rounded-xl shadow-sm p-3 space-y-3">
       <div className="flex items-start justify-between gap-2">
         <div>
-          <span className="block text-title-md text-primary">{order.orderNumber}</span>
+          <span className="block whitespace-nowrap text-title-md text-primary">{order.orderNumber}</span>
           <span className="block text-[11px] text-secondary">
-            {showDate ? `${formatDeliveryDate(order.deliveryDate)} • ` : ''}Placed {order.placedAt}
+            {showDate ? `${formatDeliveryDate(order.deliveryDate)} • ` : ''}Placed {formatPlacedAt(order.createdAt ?? order.placedAt)}
           </span>
         </div>
         <OrderStatusSelect
@@ -57,7 +57,7 @@ export default function OrderCard({ order, showDate, onStatusChange, onPaymentCh
       </div>
 
       <div className="flex items-center justify-between gap-2">
-        <span className="text-currency-md text-primary">{formatLKR(order.total)}</span>
+        <span className="whitespace-nowrap text-currency-md text-primary">{formatLKR(order.total)}</span>
         <div className="flex flex-wrap justify-end gap-1">
           <span className="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant">
             {PAYMENT_METHOD_LABEL[order.paymentMethod]}
