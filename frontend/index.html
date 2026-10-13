@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Start downloading the home hero photo straight away, before the app's JavaScript runs. -->
+    <link
+      rel="preload"
+      as="image"
+      href="/images/hero/flower-wall-1920.webp"
+      imagesrcset="/images/hero/flower-wall-1280.webp 1280w, /images/hero/flower-wall-1920.webp 1920w, /images/hero/flower-wall-2560.webp 2560w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
