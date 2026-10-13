@@ -1,0 +1,1682 @@
+{
+  "occasions": [
+    {
+      "slug": "anniversary",
+      "name": "Anniversary",
+      "description": "Rose cascades and keepsake boxes for the years you have shared."
+    },
+    {
+      "slug": "birthday",
+      "name": "Birthday",
+      "description": "Bright, cheerful colour and treats to make their day."
+    },
+    {
+      "slug": "love",
+      "name": "Love & Romance",
+      "description": "Red roses and soft pastels to say what words cannot."
+    },
+    {
+      "slug": "wedding",
+      "name": "Wedding & Poruwa",
+      "description": "Auspicious arrangements for Poruwa ceremonies and receptions."
+    },
+    {
+      "slug": "sympathy",
+      "name": "Sympathy & Condolence",
+      "description": "Quiet white lilies and tributes, delivered with discretion."
+    },
+    {
+      "slug": "get-well",
+      "name": "Get Well Soon",
+      "description": "Gentle blooms and plants to lift their spirits."
+    },
+    {
+      "slug": "congratulations",
+      "name": "Congratulations",
+      "description": "For promotions, graduations and new beginnings."
+    },
+    {
+      "slug": "corporate",
+      "name": "Corporate Gifting",
+      "description": "Hampers and arrangements for clients, teams and events."
+    }
+  ],
+  "categories": [
+    {
+      "slug": "fresh-bouquets",
+      "name": "Fresh Bouquets",
+      "sortOrder": 1,
+      "isActive": true,
+      "description": "Hand-tied bouquets cut fresh from Sri Lanka's central highlands, wrapped with silk ribbon and a free card.",
+      "imageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuAyQftHf58rcwEtPmCx9JHr2nFHRAgK8k2Hgea3-ozumimyLBZPV_33Ay2PKygTYORuIYEWaR10b0eNBV0TQnwJka75lbND3XI5OR0lQ9F3MicnJD_Z6yOg7ZKxV-KKcpSKl-Aei2AQ2forclrx0TBtJVLVNOgplOcUrs088YBBPHemRz6GHMb4vMf0PE8J2DSYiXMAjimlrkArWHOOXejqlsJSSu3NK6JNFYFyaJc36qZG7gM4VxUE6w"
+    },
+    {
+      "slug": "roses",
+      "name": "Roses",
+      "sortOrder": 2,
+      "isActive": true,
+      "description": "Long-stem Nuwara Eliya roses in bunches, boxes and grand arrangements.",
+      "imageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuC3ohq50wAO2s5IZXu1cIEf4-RdSQp7bkpy-NZjh7W3h4EpwNozewmVLQey2ScYBVDdN2rqP1lSuiaOK9zGB8LhkEkXOvVXfqPPNEfp8nRcNNJa97hdycvt9CjfWvVt3gqYjeptjll4A6rzUbzMOfTUVMR7Tll2z2TVSr9h3Xfr_i3SNpL07i-Vi2YIZCCvT5qJ8gY3ulQGTUIIs0wMPRlqCx7yTqENIrGe-Pwnt-Kk5Mfnr8NzNYiN4Q"
+    },
+    {
+      "slug": "lilies-orchids",
+      "name": "Lilies & Orchids",
+      "sortOrder": 3,
+      "isActive": true,
+      "description": "Fragrant oriental lilies and long-lasting orchids for elegant gifting.",
+      "imageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuBHTy9-9M-eLEakKabJmqt5zWWcDXxIZYvDfx6HTFrrAWQD33D6lvhOPxiCjPNxNzpUFQzK6dbnMLHlPcHUTKfiS-ux5HzC2TcZIb4Rj4deXn4gbLHNsBKWy34ep5fXDDaaP8gBhSLLWxZuw6qliv8vopsVyG4pMDSC4RCNluX5_XrNM1wjYGAUdVtE9MNCTpuByO72uPqEmTWbQCovqUOMjSr0A0gQHDSL3bR5u324kDpW7c3I1yaNOQ"
+    },
+    {
+      "slug": "luxury-hampers",
+      "name": "Luxury Hampers",
+      "sortOrder": 4,
+      "isActive": true,
+      "description": "Flowers paired with Ceylon tea, fine chocolates and keepsakes in woven crates.",
+      "imageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuBB_xsvYpM5O2HSf6ZwanAfZ0vTgs1oL8HdaQhBznujkgCiPmMWXhC08ejvy__7U5JB5jQYd5wq4FLXLEywN16q98w1LwsgRO96TpdVKAlqhWGeSAwsS7IpgQIr6wFhRiK5NRx2NWU3Qj2uA6Tg5LiohtAJcpK6Aygr8xt3r2EZfyhBFzeGBe-rWDPo9kxbVrT5Pgbean0WywtAzP_uD2Uthh0_7u2eo044ZhSBCiYcU6XgH3AuanBDsg"
+    },
+    {
+      "slug": "indoor-plants",
+      "name": "Indoor Plants",
+      "sortOrder": 5,
+      "isActive": true,
+      "description": "Healthy indoor plants acclimatised for Colombo homes, potted in handmade ceramics.",
+      "imageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuCTe5znAJn-OYFPhIqoJ9GBT4sIOXM_qnrM3FvDSmwIEx72zfW2M8Y34x9XTuMhBVcnDBsdsZ3uYaPo32jPGYHzFu6nRxitZ6a0eawWG1PmldsdBTfe1NKI5WcFovrLoUSsiRTWJJ3FerPCHtP1HMNNXstWSAU4WqJfwnlwE-hJAOyvGa-HaNLT27CJCcJVOP0TFFqwzO7GlI-GqqO0H0eXBHYSrtxCeqnBCikXsCmnfPLMs9DE9mQ_xA"
+    },
+    {
+      "slug": "sympathy",
+      "name": "Sympathy & Tributes",
+      "sortOrder": 6,
+      "isActive": true,
+      "description": "White lilies, wreaths and standing tributes delivered with care and discretion.",
+      "imageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuAWMA20Kzm3CF_ESxpvHEJE_86BrERtPTXV2t_Zmzfyv3eXI_H6T_jcq04qMks9NkF61bysuOJkVnkURzOss9HJ_Cqx6J8zWU0V6DSEMlYn7GZjtEIo-KvYIjT57XAcuIkA34SEgkqZ1K5n-1KAdOvXYW4WyYqnJAZShwpv87MiAtjZmei-2Crjuc7GFBmbQWwJqGkYtHeipTDv3bl40dcrHiSepCHytcL9hxCgOKtY69cOhsnwns4_Zg"
+    }
+  ],
+  "products": [
+    {
+      "tags": [],
+      "details": [
+        "36 long-stem highland roses",
+        "Cinnamon quills & eucalyptus",
+        "Linen wrap with silk ribbon",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "nuwara-eliya-crimson-empress",
+      "name": "Nuwara Eliya Crimson Empress",
+      "occasions": [
+        "anniversary",
+        "love",
+        "birthday"
+      ],
+      "shortDescription": "36 long-stem velvet roses with cinnamon quills and silver dollar eucalyptus.",
+      "description": "Our signature rose bouquet: 36 long-stem crimson roses grown in the cool hills of Nuwara Eliya, finished with Ceylon cinnamon quills and silver dollar eucalyptus, and hand-tied in linen wrap.",
+      "price": 18500,
+      "stock": 14,
+      "isFeatured": true,
+      "badge": "Bestseller",
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Red"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuC3ohq50wAO2s5IZXu1cIEf4-RdSQp7bkpy-NZjh7W3h4EpwNozewmVLQey2ScYBVDdN2rqP1lSuiaOK9zGB8LhkEkXOvVXfqPPNEfp8nRcNNJa97hdycvt9CjfWvVt3gqYjeptjll4A6rzUbzMOfTUVMR7Tll2z2TVSr9h3Xfr_i3SNpL07i-Vi2YIZCCvT5qJ8gY3ulQGTUIIs0wMPRlqCx7yTqENIrGe-Pwnt-Kk5Mfnr8NzNYiN4Q"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "28 highland stems",
+        "Free glass vase",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "highland-blush-symphony",
+      "name": "Highland Blush Symphony",
+      "occasions": [
+        "birthday",
+        "love",
+        "congratulations"
+      ],
+      "shortDescription": "Pink garden roses, white lisianthus and gypsophila in pearl wrapping.",
+      "description": "Soft pink garden roses, ruffled white lisianthus and clouds of gypsophila, wrapped in pearl paper. Comes with a free glass vase so it can go straight on display.",
+      "price": 15200,
+      "stock": 18,
+      "isFeatured": true,
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses",
+        "Lisianthus",
+        "Gypsophila"
+      ],
+      "colours": [
+        "Pink",
+        "White"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuAyQftHf58rcwEtPmCx9JHr2nFHRAgK8k2Hgea3-ozumimyLBZPV_33Ay2PKygTYORuIYEWaR10b0eNBV0TQnwJka75lbND3XI5OR0lQ9F3MicnJD_Z6yOg7ZKxV-KKcpSKl-Aei2AQ2forclrx0TBtJVLVNOgplOcUrs088YBBPHemRz6GHMb4vMf0PE8J2DSYiXMAjimlrkArWHOOXejqlsJSSu3NK6JNFYFyaJc36qZG7gM4VxUE6w"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "10 multi-bloom lily stems",
+        "Up to 14 days vase life",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 10,
+      "slug": "casablanca-pure-ivory-lilies",
+      "name": "Casablanca Pure Ivory Lilies",
+      "occasions": [
+        "sympathy",
+        "get-well",
+        "congratulations"
+      ],
+      "shortDescription": "Multi-bud oriental lilies yielding up to 30 fragrant blossoms.",
+      "description": "Ten multi-bud Casablanca lilies that open into up to 30 fragrant white blossoms over the week, arranged with tropical greenery. One of our longest-lasting bouquets.",
+      "price": 19800,
+      "stock": 3,
+      "isFeatured": false,
+      "badge": "Fragrant",
+      "sameDay": true,
+      "flowerTypes": [
+        "Lilies"
+      ],
+      "colours": [
+        "White"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuDnyVFNmZfHK5Ea9tTiWr5ORtFMFgzr0WhkL64m_zBG85ue6T0wK43EBeBb2s4LPvxrETqTxpGRLrcso5dTGRDQUrIeasYYnnv-BD_j0ef0nlavwTWzPs3S2Y58e3P2TdhAFGTYD51wSxFtezNRA8pbbw3GochDtfFW42Of4GEP8acXrWqvZeLWf2GyJrvkRXm9_jil0QROB-tw95bHb48dC9gOcYzKDWGtYakftpd1mzbJPnbgWWG9dQ"
+      ],
+      "isActive": true,
+      "category": "lilies-orchids"
+    },
+    {
+      "tags": [],
+      "details": [
+        "5 giant hydrangea heads",
+        "Kraft and tissue wrap",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "misty-blue-hydrangea",
+      "name": "Misty Blue Hydrangea",
+      "occasions": [
+        "birthday",
+        "get-well"
+      ],
+      "shortDescription": "Pillow-soft blue hydrangeas grown in the central highlands.",
+      "description": "Five giant heads of blue hydrangea grown in the central highlands — a soft, sculptural bouquet that fills a room. Available in small numbers each day.",
+      "price": 16500,
+      "stock": 3,
+      "isFeatured": false,
+      "badge": "Limited",
+      "sameDay": true,
+      "flowerTypes": [
+        "Hydrangeas"
+      ],
+      "colours": [
+        "Blue"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuD6-Rhb2OjfEZsI-nR5vKA5SVFWqaA_MbUj75DKhE-WdB3VS2a85svj9bwTH__nDcR8grF-xmvMpY_2B2sj1Lu5xmPZUt8M1PQteVxfD9FOqUv-qa5u-pXOeN5cn5mBel-1EVAOqMKUJic6U1kLhKhcRtR5FAjPZgZxtLeDW3OxADFCqLR-IxmFV-opsBL_JdTFvzCW1EUVoz_9Dj7pipR0gWqRUJNOpQwaAJFl1tiRrhCboKT4t2ZUig"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "22 orchid sprays",
+        "Wooden gift crate",
+        "Up to 3 weeks indoors"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "golden-orchid-cascade",
+      "name": "Golden Orchid Cascade",
+      "occasions": [
+        "congratulations",
+        "corporate",
+        "anniversary"
+      ],
+      "shortDescription": "Golden orchids cascading with tropical foliage — lasts up to three weeks.",
+      "description": "Twenty-two sprays of golden orchids cascading over tropical foliage, presented in a gift crate. Orchids last up to three weeks indoors, making this ideal for offices.",
+      "price": 24000,
+      "stock": 9,
+      "isFeatured": true,
+      "badge": "Long-lasting",
+      "sameDay": true,
+      "flowerTypes": [
+        "Orchids"
+      ],
+      "colours": [
+        "Yellow"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBHTy9-9M-eLEakKabJmqt5zWWcDXxIZYvDfx6HTFrrAWQD33D6lvhOPxiCjPNxNzpUFQzK6dbnMLHlPcHUTKfiS-ux5HzC2TcZIb4Rj4deXn4gbLHNsBKWy34ep5fXDDaaP8gBhSLLWxZuw6qliv8vopsVyG4pMDSC4RCNluX5_XrNM1wjYGAUdVtE9MNCTpuByO72uPqEmTWbQCovqUOMjSr0A0gQHDSL3bR5u324kDpW7c3I1yaNOQ"
+      ],
+      "isActive": true,
+      "category": "lilies-orchids"
+    },
+    {
+      "tags": [],
+      "details": [
+        "32 wild & spray stems",
+        "Kraft wrap with twine"
+      ],
+      "lowStockThreshold": 10,
+      "slug": "pastel-dawn-cottage-bunch",
+      "name": "Pastel Dawn Cottage Bunch",
+      "occasions": [
+        "birthday",
+        "get-well",
+        "love"
+      ],
+      "shortDescription": "Peach carnations, chamomile and ferns in a relaxed garden style.",
+      "description": "A relaxed, garden-gathered bouquet of peach carnations, chamomile blossoms and ferns. Cheerful and easy-going — perfect for \"just because\".",
+      "price": 15000,
+      "discountPrice": 13800,
+      "stock": 4,
+      "isFeatured": false,
+      "badge": "On sale",
+      "sameDay": true,
+      "flowerTypes": [
+        "Carnations",
+        "Chamomile"
+      ],
+      "colours": [
+        "Peach",
+        "White"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBgbK-b0XREStEbcvJ_lHOD3qrq4-kARyOjLhScvwfzWcY_gCSyXPWeHwwq-lNTSu63_-On3GZAKYPToy8kuXsLJ2_-qePwp6liyOhO7mpnCqN7e1dYlfcYQc6WyWevaH3yZnsRPL_x5C-X5e83Kre6mYTOijTDTrPvcLTXLedigD5tHaS6kRkj4V_UUvuSCTJoAQzwNikznCSptGXNcLErpZbolPeD1UsuoLId2MaO7re0kKdIaNGbMg"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "18 highland roses",
+        "Eucalyptus foliage",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 8,
+      "slug": "velvet-rose-and-eucalyptus-petite",
+      "name": "Velvet Rose & Eucalyptus Petite",
+      "occasions": [
+        "love",
+        "birthday",
+        "anniversary"
+      ],
+      "shortDescription": "18 hand-selected crimson roses framed with blue eucalyptus.",
+      "description": "An intimate bunch of 18 crimson highland roses framed with cooling blue eucalyptus. Our best everyday value rose bouquet.",
+      "price": 9500,
+      "stock": 2,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Red"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBczUFB6mrXVfswOk3dxDdIodjbAJUGiXSPLwf4grgMZDBjfUS2mAQQjbeUF8SU-yapoEV0o0-AEXrlbOXOpcroGRfLnRNXYOc09_RC4aPMpEzJ9eUWLUCsZj2NZzFIa4HM8tPwmAoOKWvmA5EBElIOPR9U8mjxtXNr9w4OEJnz7bAWdz13dn9pEII_IWLLdTFxj8s-cOT6ZQGx7iNQh87hL8cABcoOFebqsUtqQ5YiN8D7doqq6wpbuQ"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "60 premium stems",
+        "Keepsake ceramic urn",
+        "Hand delivery by our team"
+      ],
+      "lowStockThreshold": 2,
+      "slug": "grand-botanical-collection",
+      "name": "Grand Botanical Collection",
+      "occasions": [
+        "anniversary",
+        "congratulations",
+        "corporate"
+      ],
+      "shortDescription": "60 premium stems of roses, lilies and golden orchids in a ceramic urn.",
+      "description": "Our most distinguished arrangement — 60 premium stems combining garden roses, lilies and golden orchids, hand-delivered in a ceramic urn. Only two are made each day.",
+      "price": 32000,
+      "stock": 2,
+      "isFeatured": true,
+      "badge": "Signature",
+      "sameDay": false,
+      "flowerTypes": [
+        "Roses",
+        "Lilies",
+        "Orchids"
+      ],
+      "colours": [
+        "Mixed"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBEMhv86bqAAIxQphaUMdz5j0HNu3HO_woBFXHx2PTjqSdYRqwkNAyBk1loaGmpULmN0WU3wBHLLXwcBl9vSx64SSvKYA-fm5km1OFH357wrSlC9JsP75OXtGIAmSj7DHttScUKa_EsuQxrrW-pWSKSqsZ0QV0IkYICaV6TFnM75XzxJcAn5PZbmqoPTVrAxa4sX8klzgNucO3fEXQpfwV3-xBnxrvHSlGthKsiDiIFesYXRjp79zrKkw"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "50 crimson roses",
+        "Linen weave wrap",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "the-colombo-velvet-grandeur",
+      "name": "The Colombo Velvet Grandeur",
+      "occasions": [
+        "anniversary",
+        "love"
+      ],
+      "shortDescription": "50 crimson roses wrapped in hunter-green linen weave.",
+      "description": "Fifty hand-selected crimson roses wrapped in hunter-green linen weave. A statement anniversary gift delivered across Colombo within hours.",
+      "price": 32500,
+      "stock": 6,
+      "isFeatured": true,
+      "badge": "Signature",
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Red"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuCBOsR_nIeJS-o1iYzI4mhWLeBFiwHwQIL2uKmGd68uPettfbPL7GmURhr5sIh45_gMb79gL45yQNc4ztYSPZ_ZB3W6QaU_liqKZ4USPr7CA7BDIOStnG3Ib3d-kwXVSb8V841ZxKMifsb9Tmzr1uxml6XxKnP6xh-bo7K86ZF4hXn4jd5dV5JiCBpaLtikEbtANTG61CBfF00VOccoQ9dij_zH5L9I0iG5MY2TLUxW2UVU51izzEnq4g"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Tea roses & jasmine",
+        "Reusable velvet box",
+        "Calligraphy card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "victoria-pavilion-velvet-box",
+      "name": "Victoria Pavilion Velvet Box",
+      "occasions": [
+        "anniversary",
+        "love"
+      ],
+      "shortDescription": "Pastel tea roses and jasmine in a reusable emerald velvet box.",
+      "description": "Pastel tea roses and fragrant jasmine set in a reusable emerald velvet keepsake box, with a calligraphy card included.",
+      "price": 24000,
+      "stock": 8,
+      "isFeatured": false,
+      "badge": "Keepsake box",
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses",
+        "Jasmine"
+      ],
+      "colours": [
+        "Pink",
+        "White"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuAKAoFzJbJrpBFu5-bHKJQQss8Q27FiMwlXEMYMXQjU0rDQhQlJtM9x8g8vfYCiVvsCtqSP-UGk4oztNDkd7x-HyaOIitFhXQl9bqlExueVClmw4an_zTu734b8w0oLg9iRp799jy8jndC8-JSVCYZUHZ5JUkBHeiMcQugfW932xIroQ908fFdZRi1Mb0NHjluB4GxSY0BCt7lC5qB0dPHOaP5R7aLm1mQnioBF7LSACTB7GAEPTNWgAQ"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [
+        "tea",
+        "choc"
+      ],
+      "details": [
+        "Fresh lilies",
+        "Single-estate Ceylon tea",
+        "Dark chocolate truffles",
+        "Woven crate"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "highland-rose-and-tea-hamper",
+      "name": "Highland Rose & Tea Hamper",
+      "occasions": [
+        "anniversary",
+        "corporate"
+      ],
+      "shortDescription": "Fresh lilies with premium Ceylon tea and dark chocolate truffles.",
+      "description": "Fresh-stem lilies paired with premium single-estate Ceylon tea and dark chocolate truffles, packed in a woven crate.",
+      "price": 41000,
+      "stock": 5,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Lilies"
+      ],
+      "colours": [
+        "White"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuCxvXpI2jzOvfzocwLczDXckwXYDa8D3XZef7PGzwgtWI-f4XxquOiyIh9DBJ1G-3HsUvnxOgSj_9GJF0d44TmHrvXVE2lxxgDmnKvVaEaRu3TvUpgB3J_xvVS59Gfc7KB4oReEeOfi_L2sdkFpW6QRW3PFpBM2O_NKoFHYtwVvuaZbuBvpREYRct2_fd6COK4XWHOqVG4BLX35MAmzVpnoZf7g79adS9mR9cAQXR-eVjgtl8L2kwG1eQ"
+      ],
+      "isActive": true,
+      "category": "luxury-hampers"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Sunflowers & ranunculus",
+        "18\" helium balloon",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "sunburst-morning-jubilee",
+      "name": "Sunburst Morning Jubilee",
+      "occasions": [
+        "birthday",
+        "congratulations",
+        "get-well"
+      ],
+      "shortDescription": "Sunflowers, peach ranunculus and chamomile with a balloon.",
+      "description": "Golden sunflowers, peach ranunculus and chamomile sprays, delivered with an 18\" helium balloon and a ribbon tag.",
+      "price": 16800,
+      "stock": 12,
+      "isFeatured": true,
+      "sameDay": true,
+      "flowerTypes": [
+        "Sunflowers",
+        "Ranunculus"
+      ],
+      "colours": [
+        "Yellow",
+        "Peach"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuDMIZqVkOQeq2FAMFsk9aMCGG5KXWrUmov8NvHGVBxddJzflfVXh-PZHyrhb8hMel1BrAgR2O9NxIpg9R-UoeH51ln-saI5Y_DgHSEza4m-h4AK9EMtTsDeciwOwVdAJhamVKX0LeeWTj6q58acmx2c06POJlEg_Sb0sQuJmo_2a3ew6eO3beoISU-qjDEL0bhziwGOnTBPwg8xBmZEG-ys938JYVtrqfzXkltBcKomKG5sZLw73bimVQ"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [
+        "choc"
+      ],
+      "details": [
+        "Hydrangeas & blush roses",
+        "Swiss chocolate pralines",
+        "Gift crate"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "blush-blossom-and-chocolate-crate",
+      "name": "Blush Blossom & Chocolate Crate",
+      "occasions": [
+        "birthday",
+        "love"
+      ],
+      "shortDescription": "Blue hydrangeas and blush roses with Swiss chocolate pralines.",
+      "description": "Imported blue hydrangeas and blush roses in a gift crate, with a selection of Swiss chocolate pralines.",
+      "price": 28500,
+      "stock": 7,
+      "isFeatured": false,
+      "badge": "Bestseller",
+      "sameDay": true,
+      "flowerTypes": [
+        "Hydrangeas",
+        "Roses"
+      ],
+      "colours": [
+        "Blue",
+        "Pink"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBemwSEVoYmn8eJ5QZ5KXOu0BVEZg_7cB-3aeTJRDRH4oVrRXT8ZsBeuB_emUnzbs_gbz1JFoNyOuZi8JGzI49wfEgDNdzdrLV-Gg5kwxnO0giaSUuwPBxSDj__w874qb6i6A4540C9GpQ8yZa6K2ZrHl-7LX6QET3SM71H57daWZoXJ4iP2FxK7ojYN2PJ2brHvPm61lDgvQxBhWPYSoOoSDZxcJsK2zFVFuO-nivfzGfcqxQ73ELIaQ"
+      ],
+      "isActive": true,
+      "category": "luxury-hampers"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Lavender orchids",
+        "Glass cylinder vase"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "lavender-mist-cylinder",
+      "name": "Lavender Mist Cylinder",
+      "occasions": [
+        "birthday",
+        "congratulations"
+      ],
+      "shortDescription": "Lavender orchids with silver dollar eucalyptus in a modern vase.",
+      "description": "Lavender orchids resting alongside silver dollar eucalyptus in a modern glass cylinder vase.",
+      "price": 19200,
+      "stock": 10,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Orchids"
+      ],
+      "colours": [
+        "Purple"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBEdvAdzqSOGGJ5OP0cyKobGRYg9Fr7Oe-k-QyU2numUM9Fbspt921MXmaDQpptFGDhj_UNu7L8gAQfcvQ_WvRg5vnDjMPk2iXKlG1-myFYIrAUoGJ1pTvTjqySKeV8BJXoPv20b4UnAvo8u_Aq8f_JBO3Jf7K3hL1ah_UuZfTXJ-ECubAgRvoZjq5AHuQXawNi9jtDyiTwrRR5h7w_j9GiEVdEKC_T8BV9qZ8se9xgelAR9UJIgtyCMw"
+      ],
+      "isActive": true,
+      "category": "lilies-orchids"
+    },
+    {
+      "tags": [],
+      "details": [
+        "White lilies & carnations",
+        "Condolence card",
+        "Discreet delivery"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "serenity-mountain-casablanca",
+      "name": "Serenity Mountain Casablanca",
+      "occasions": [
+        "sympathy"
+      ],
+      "shortDescription": "White oriental lilies, carnations and silver willow with a condolence card.",
+      "description": "White oriental lilies, white carnations and silver willow in a subdued wrap, with a discreet condolence card. Delivered by uniformed staff.",
+      "price": 21000,
+      "stock": 9,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Lilies",
+        "Carnations"
+      ],
+      "colours": [
+        "White"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuAWMA20Kzm3CF_ESxpvHEJE_86BrERtPTXV2t_Zmzfyv3eXI_H6T_jcq04qMks9NkF61bysuOJkVnkURzOss9HJ_Cqx6J8zWU0V6DSEMlYn7GZjtEIo-KvYIjT57XAcuIkA34SEgkqZ1K5n-1KAdOvXYW4WyYqnJAZShwpv87MiAtjZmei-2Crjuc7GFBmbQWwJqGkYtHeipTDv3bl40dcrHiSepCHytcL9hxCgOKtY69cOhsnwns4_Zg"
+      ],
+      "isActive": true,
+      "category": "sympathy"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Standing easel tribute",
+        "Custom banner inscription",
+        "Funeral-home delivery"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "the-colombo-sanctuary-easel",
+      "name": "The Colombo Sanctuary Easel",
+      "occasions": [
+        "sympathy"
+      ],
+      "shortDescription": "Standing tribute of white gladioli, orchids and areca fronds.",
+      "description": "A standing floral tribute of white gladioli, dendrobium orchids and areca fronds on an easel, with a custom banner inscription.",
+      "price": 38000,
+      "stock": 4,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Gladioli",
+        "Orchids"
+      ],
+      "colours": [
+        "White"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuAgKd_d0t0zqqUxS7VsRkSuOjkUCLKgO0T-_GyTQUmtsALetQzX9laY4WG2wg9-r-IBRyNLhlsS5_nat1TmuL0niNiIA3cGNZr3wTcvFZQ0QU3hVy-GayGCPq1JizzVsFnFqqzZvO3w6Uy5pJ0tR3X_keMafwRT2GFsot2Xtp4MbDde_U8oM_wGJEM4_O97GCrWN_gTcxwNgWO8LP9SMSlruTltV93uHzYXeXyQusIjs_ghOPF3dRcPgA"
+      ],
+      "isActive": true,
+      "category": "sympathy"
+    },
+    {
+      "tags": [],
+      "details": [
+        "White tuberoses",
+        "Ceramic vessel"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "ivory-tuberose-and-fern-urn",
+      "name": "Ivory Tuberose & Fern Urn",
+      "occasions": [
+        "sympathy"
+      ],
+      "shortDescription": "Fragrant white tuberoses and moss in an unglazed ceramic vessel.",
+      "description": "Fragrant white tuberoses and delicate moss arranged in an unglazed ceramic vessel — a gentle tribute for the home.",
+      "price": 18500,
+      "stock": 6,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Tuberoses"
+      ],
+      "colours": [
+        "White"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBrtOVhxkceMVD_sRu5FDuFJDFXWWZpPjXV7x2rMpFsF9JjrPT1q3J3sUUz25UD7qN8Kmz7c4Rysk8wG5SQCvEwGryW2dLFVxIXoh63_eOeqM3BwQUCRdfNvspXjhOSG8XYA5hjqQTOxGqYJvZei3yJVqwnZCocCvZ4IU49cDMnVsvuBCH05pE9KZuyZZSQaJAsOjMsxgD6IwckAGkK_XAYMhCBfpTsOZOosZLPRQSkhVROjrbwRtXshg"
+      ],
+      "isActive": true,
+      "category": "sympathy"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Golden orchids & tea roses",
+        "Betel vine accents",
+        "Handcrafted urn"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "the-golden-sigiriya-sovereign",
+      "name": "The Golden Sigiriya Sovereign",
+      "occasions": [
+        "wedding",
+        "congratulations"
+      ],
+      "shortDescription": "Golden orchids and yellow tea roses with betel vine for Poruwa ceremonies.",
+      "description": "Golden orchids combined with yellow tea roses, framed with traditional betel vine for Poruwa ceremonies and formal occasions. Includes a handcrafted urn.",
+      "price": 45000,
+      "stock": 3,
+      "isFeatured": false,
+      "badge": "Poruwa",
+      "sameDay": false,
+      "flowerTypes": [
+        "Orchids",
+        "Roses"
+      ],
+      "colours": [
+        "Yellow"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBajifZ4ldmLubDVw9YDeI18q1XC_Sm38kLeLBYFYx3MiLP0EirkarBnl3d4Wgiw844wWhptzMt2FHd1hYoStng2WKA4bUbvG1WhKh9oa6XL3OInYYlEWjXo2nTm9cxAHYPYzOEpQzxesnXtMXvHd5ZyP9JW-MbZisFn5vDKb-KoMlJmO92OQrb3pFVm__hlUYcVXruV1yjrKvp4osq1hvF-XFAV78W6miyZ4gCGca6IKywUrW01d6D3A"
+      ],
+      "isActive": true,
+      "category": "lilies-orchids"
+    },
+    {
+      "tags": [
+        "executive",
+        "tea"
+      ],
+      "details": [
+        "Agapanthus & calla lilies",
+        "Premium Ceylon tea",
+        "VAT invoice on request"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "executive-congratulations-hamper",
+      "name": "Executive Congratulations Hamper",
+      "occasions": [
+        "corporate",
+        "congratulations"
+      ],
+      "shortDescription": "Agapanthus, calla lilies and premium Ceylon tea for executive gifting.",
+      "description": "Blue agapanthus, white calla lilies and premium Ceylon tea for promotions and corporate gifting. VAT invoices available.",
+      "price": 52000,
+      "stock": 4,
+      "isFeatured": false,
+      "sameDay": false,
+      "flowerTypes": [
+        "Lilies"
+      ],
+      "colours": [
+        "Blue",
+        "White"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuAOTURzzQYpdgfJXn1F2dzVNuljttAeOddnPbZBlkpWQU_hm6qeSWD2mVFm62ts4MdwECFopD6rkNmtv7wjgaxBsnNXZFLHDzDjv07TzBzdN2UwJWZgT2HrcuxaqvOpyYJ1lnICR6OEehANsMhLmtECmhTO40t2lMdmaYYugW9pjVkGvaWRNOVpOTAz8EqZCpINSXPUHUR9y1b2a37zueyGmaFR-iYqWfq7EyMedj23SwA1KGhcsXiGPg"
+      ],
+      "isActive": true,
+      "category": "luxury-hampers"
+    },
+    {
+      "tags": [
+        "executive",
+        "tea",
+        "choc"
+      ],
+      "details": [
+        "Garden roses",
+        "Estate tea in brass caddy",
+        "Fine chocolates",
+        "Willow crate"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "the-heritage-ceylon-sovereign-crate",
+      "name": "The Heritage Ceylon Sovereign Crate",
+      "occasions": [
+        "corporate",
+        "anniversary"
+      ],
+      "shortDescription": "Crimson garden roses, estate tea in a brass caddy, and fine chocolates.",
+      "description": "Crimson garden roses, single-estate tea in a handcrafted brass caddy, and a selection of fine chocolates in a woven willow crate.",
+      "price": 38500,
+      "stock": 5,
+      "isFeatured": true,
+      "badge": "Signature",
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Red"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuA1DZbuQrWe9DHbQzno6YA5aDAiz3fPS3Ph5QEqWGUwNS_UVZ5kWQpgkVtdajPVKoPRY9hkQ4ug5AM8k8N9X4t_R3NV9c4aED9cRb1x17g7sdA9z_bNkFACd4Plr3nHHdG_VWyntwSFVyfKC__5AC9VtP9a-SvMUfL-1eoClkOAgk2O_IbOIgkKDlxYT__RbgYo3QuXrqADkOgnZKGAqo927Gn12XKZBqFvLH3ImMicJa9TKjyB64d80Q"
+      ],
+      "isActive": true,
+      "category": "luxury-hampers"
+    },
+    {
+      "tags": [
+        "choc"
+      ],
+      "details": [
+        "Pastel roses",
+        "French macarons",
+        "Wild honey",
+        "Botanical candle"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "atelier-sweet-romance-chest",
+      "name": "Sweet Romance Chest",
+      "occasions": [
+        "love",
+        "anniversary"
+      ],
+      "shortDescription": "Pastel roses, French macarons, wild honey and a scented candle.",
+      "description": "Pastel roses, French macarons, wild honey and a scented botanical candle, finished with a free ribbon wrap.",
+      "price": 26000,
+      "stock": 8,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Pink"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuAw8XzWG6xkvZ5CBAsAjp2vvS1PfwcLxhdxFNcFQ4pVbWGyh9AtsEE2a33edgbMzRXyKyhoy4CECkh7kxo7cNzsl1MfTb6Tkn4OH197UHIP_eljndRpiUDd_BHg32SZYg4WQ8gH-793R8MYmXNrEMhzKwrAGqj8pT6a1fTKimT-Ez1BNuxMuDeQ0-J8cKIAwk6XIuV45XZ3-qy5Q7PvlwXGtOlJpAHRGYf6B11gK7E7g8LuzG51KZNhUA"
+      ],
+      "isActive": true,
+      "category": "luxury-hampers"
+    },
+    {
+      "tags": [
+        "executive",
+        "tea",
+        "choc"
+      ],
+      "details": [
+        "Orchid arrangement",
+        "Macadamias & truffles",
+        "Rare Ceylon black tea"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "the-diplomatic-gourmet-hamper",
+      "name": "The Diplomatic Gourmet Hamper",
+      "occasions": [
+        "corporate"
+      ],
+      "shortDescription": "Tall orchids, macadamias, truffles and rare Ceylon black tea.",
+      "description": "A tall orchid arrangement with roasted macadamias, chocolate truffles and rare Ceylon black tea, presented in an official casket.",
+      "price": 45000,
+      "stock": 3,
+      "isFeatured": false,
+      "sameDay": false,
+      "flowerTypes": [
+        "Orchids"
+      ],
+      "colours": [
+        "White"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuCWKWWk27C0BGfLplPklyU6nsQAos-D4OxRqgA4YPSELsdclfNE8kzb3FmwMg0VrdF-YKxVHtZMHfxEeJcyHXlTXtLwV748vE26w_JDua-KH9LuqSTFNYdDZ0ZELbnqSXs1Zwnk4lX5CUHcOPGZCV53a1We7uNrHE7QeRnFJq5mnTNAKx1cy5nKZ8rqG2qfs0gIWqvX5wuwV1T8o3h4DKRgIk-3Bpxwjb7k0ILMtpYfusEKiLhE7L4wgA"
+      ],
+      "isActive": true,
+      "category": "luxury-hampers"
+    },
+    {
+      "tags": [
+        "choc"
+      ],
+      "details": [
+        "24 crimson roses",
+        "Fine pralines",
+        "Velvet hatbox"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "velvet-bloom-and-chocolate-box",
+      "name": "Velvet Bloom & Chocolate Box",
+      "occasions": [
+        "love",
+        "birthday",
+        "anniversary"
+      ],
+      "shortDescription": "24 crimson roses beside fine pralines in a velvet hatbox.",
+      "description": "Twenty-four long-stem crimson roses beside a selection of fine pralines in a reusable velvet keepsake hatbox.",
+      "price": 21500,
+      "stock": 11,
+      "isFeatured": false,
+      "badge": "Bestseller",
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Red"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBB_xsvYpM5O2HSf6ZwanAfZ0vTgs1oL8HdaQhBznujkgCiPmMWXhC08ejvy__7U5JB5jQYd5wq4FLXLEywN16q98w1LwsgRO96TpdVKAlqhWGeSAwsS7IpgQIr6wFhRiK5NRx2NWU3Qj2uA6Tg5LiohtAJcpK6Aygr8xt3r2EZfyhBFzeGBe-rWDPo9kxbVrT5Pgbean0WywtAzP_uD2Uthh0_7u2eo044ZhSBCiYcU6XgH3AuanBDsg"
+      ],
+      "isActive": true,
+      "category": "luxury-hampers"
+    },
+    {
+      "tags": [
+        "wellness"
+      ],
+      "details": [
+        "Ceylon cinnamon quills",
+        "Aromatherapy candle",
+        "Fresh lilies",
+        "Pine wood box"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "ceylon-spice-and-highland-botanical-crate",
+      "name": "Ceylon Spice & Highland Botanical Crate",
+      "occasions": [
+        "get-well",
+        "corporate"
+      ],
+      "shortDescription": "Cinnamon quills, an aromatherapy candle, lilies and eucalyptus.",
+      "description": "Organic Ceylon cinnamon quills, an aromatherapy candle, fresh mountain lilies and eucalyptus stems in a pine wood box.",
+      "price": 29000,
+      "stock": 6,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Lilies"
+      ],
+      "colours": [
+        "White"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBx7qTMRzhknRLXFgxcQ6TftA-ab_pe6Ywq-NguNXF5OLTFhFA5N-fwJeG86Y8bTsQPQZFdruhABM8AjYWslTbbclgsxofBLnYLjz9n8h6opCmg-sN6tuEqNrFELoSzHm7_nHewRgxcyl2i8Bq3oIQfgo0OCOx096VsQPWXsG1OSxx83kDAzYJipt_s0wpsCcD3LITRCNcxhoQCM_uG8yscY52wrClGaUTSbRps0PGEjN-cvU5CJU7owA"
+      ],
+      "isActive": true,
+      "category": "luxury-hampers"
+    },
+    {
+      "tags": [
+        "tea",
+        "wellness"
+      ],
+      "details": [
+        "Ceramic teaware",
+        "Blush flowers",
+        "Whole-leaf estate tea"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "the-connoisseur-tea-and-floral-gift",
+      "name": "The Connoisseur Tea & Floral Gift",
+      "occasions": [
+        "birthday",
+        "get-well",
+        "corporate"
+      ],
+      "shortDescription": "Ceramic teaware, blush flowers and whole-leaf estate tea.",
+      "description": "Artisanal ceramic teaware, garden-fresh blush flowers and whole-leaf estate tea in an airtight tin.",
+      "price": 18900,
+      "stock": 9,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Pink"
+      ],
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuANPr3j62I-kQhGwnB1XE3XUPnBiapj_lVF86RFSoW1E4bJO4CNdkP676ibHJ9lIeqVOIlZNmcx6dOiyiNVQe8xlVoUUnVLRrX8dTaL8qGjuSToTqHYfQphYcwVpHXHb9u-wh4Qy-IZMWhfJUfVmghxE-q722RzEjs6PTLghR0U_OoeZ9K1ya0lvPZKck0wwjJnF5ZkHVQiytxBC4LlFFwxWs4saLZQ0Qr7Rm_rTFgL6SIxvXETPRWNDQ"
+      ],
+      "isActive": true,
+      "category": "luxury-hampers"
+    },
+    {
+      "tags": [
+        "air-purifying"
+      ],
+      "details": [
+        "Glazed ceramic pot",
+        "Moss pole support",
+        "Care card included"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "monstera-deliciosa-sovereign",
+      "name": "Monstera Deliciosa",
+      "occasions": [
+        "congratulations",
+        "get-well"
+      ],
+      "shortDescription": "Split-leaf monstera trained on a moss pole, in a glazed ceramic pot.",
+      "description": "Architectural split leaves trained on a moss pole — suited to well-lit living rooms and verandahs. Potted in a glazed ceramic pot.",
+      "price": 14500,
+      "stock": 7,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [],
+      "colours": [
+        "Green"
+      ],
+      "attributes": {
+        "Light": "Bright, filtered light",
+        "Pet safe": "No — keep away from pets",
+        "Care": "Water every 5–7 days",
+        "Pot": "Glazed ceramic"
+      },
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuCTe5znAJn-OYFPhIqoJ9GBT4sIOXM_qnrM3FvDSmwIEx72zfW2M8Y34x9XTuMhBVcnDBsdsZ3uYaPo32jPGYHzFu6nRxitZ6a0eawWG1PmldsdBTfe1NKI5WcFovrLoUSsiRTWJJ3FerPCHtP1HMNNXstWSAU4WqJfwnlwE-hJAOyvGa-HaNLT27CJCcJVOP0TFFqwzO7GlI-GqqO0H0eXBHYSrtxCeqnBCikXsCmnfPLMs9DE9mQ_xA"
+      ],
+      "isActive": true,
+      "category": "indoor-plants"
+    },
+    {
+      "tags": [
+        "low-light"
+      ],
+      "details": [
+        "Brass plant stand",
+        "Care card included"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "highland-cloud-fern",
+      "name": "Highland Cloud Fern",
+      "occasions": [
+        "get-well"
+      ],
+      "shortDescription": "Lacy cascading fern for shaded rooms, on a brass stand.",
+      "description": "A lacy, cascading fern acclimatised for shaded living areas that naturally helps keep indoor air humid. Supplied on a brass stand.",
+      "price": 8900,
+      "stock": 10,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [],
+      "colours": [
+        "Green"
+      ],
+      "attributes": {
+        "Light": "Low, indirect light",
+        "Pet safe": "Yes",
+        "Care": "Mist daily",
+        "Pot": "Brass stand"
+      },
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuB56tW1G789AtSIRLThBfu9ppqw-tn04jkqauBKJPmA1klkel2bfTn79OXuEk5yyUP3a1iwtO_XT_rlnV0wVN2uIcWJhceGXL4Sn3EYWSEquBT-ud5eCK3Z0tZMT_vAbFnogwH3o4YmOUY_X1zbwbhALPPwvI8N1HVwDwj5w1z0hkOKFKXmXNJkGNTgMkyTLp2EeHbLiUjZIzvGjnTupVD1kbh5rY7iOv1GuvEV6gcq3VqjhvLOXfLptg"
+      ],
+      "isActive": true,
+      "category": "indoor-plants"
+    },
+    {
+      "tags": [
+        "air-purifying"
+      ],
+      "details": [
+        "Approx. 5 ft tall",
+        "Terracotta pot",
+        "Delivered by our team"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "ficus-lyrata-specimen-tree",
+      "name": "Ficus Lyrata (Fiddle-Leaf Fig)",
+      "occasions": [
+        "congratulations",
+        "corporate"
+      ],
+      "shortDescription": "Five-foot fiddle-leaf fig in a hand-turned terracotta pot.",
+      "description": "A five-foot statement plant with large violin-shaped leaves, in a hand-turned terracotta pot.",
+      "price": 24000,
+      "stock": 3,
+      "isFeatured": false,
+      "sameDay": false,
+      "flowerTypes": [],
+      "colours": [
+        "Green"
+      ],
+      "attributes": {
+        "Light": "Bright, filtered light",
+        "Pet safe": "No — keep away from pets",
+        "Care": "Water every 7 days",
+        "Pot": "Terracotta"
+      },
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuDo3XfEb-1ph8YnhMSPooMeaAf3rOoVcK6IR2xd3pYCmAT9IvU8g47SuXCBQ6DOIiBWXL9G-f6ADrqFFOq-bI6_JRPFjqLHS9sul0nbihtwBPeNb3h_ugl_8Xo0o3C0ozvSuQZ6sKS3bzJsB_MkQi33JLJnQdKDqMMX8IJdEGQFu9MZGAFFoo8uN50OCgTyq0HnXlbvWDxQIf9gn3pfvlXJoUuUOiXvEvXQOjY_wTYG5jz8NITt-iECjA"
+      ],
+      "isActive": true,
+      "category": "indoor-plants"
+    },
+    {
+      "tags": [
+        "low-light",
+        "air-purifying"
+      ],
+      "details": [
+        "Fluted ceramic pot",
+        "Coir totem"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "cascading-golden-pothos-totem",
+      "name": "Golden Pothos Totem",
+      "occasions": [
+        "get-well",
+        "corporate"
+      ],
+      "shortDescription": "Pothos on a coir totem — happy in low light and air-conditioned rooms.",
+      "description": "Golden pothos trained on a coconut coir totem. Very tolerant of low light and air-conditioned offices.",
+      "price": 6800,
+      "stock": 15,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [],
+      "colours": [
+        "Green"
+      ],
+      "attributes": {
+        "Light": "Low, indirect light",
+        "Pet safe": "No — keep away from pets",
+        "Care": "Water every 7–10 days",
+        "Pot": "Fluted ceramic"
+      },
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuCwUC7WwqfFeT1Y05CDWqmqGWdMAxyMMiE1fADz1YPnMCDgcPSeAsLRPLoxHha5tGxzLgBJxPZDQT0umqlWkHunvKTAzMFC928qAdyphfAyUZWqdEt_RGq94hmBgDdrFkke2LsAcvB1hGjYFu9rII17pi115S75Gv1HDOJ11CAHsBMVwn7R1meeY-zu2vA9cnrItQ-567rVFz_8HLXhuHytfH3Sz49t4aBySkRGB_UTpb48f7OiTxLmIg"
+      ],
+      "isActive": true,
+      "category": "indoor-plants"
+    },
+    {
+      "tags": [
+        "rare-orchids"
+      ],
+      "details": [
+        "Living orchid plants",
+        "Ceramic bowl",
+        "Blooms 8+ weeks"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "dendrobium-orchid-composition",
+      "name": "Dendrobium Orchid Bowl",
+      "occasions": [
+        "congratulations",
+        "get-well",
+        "birthday"
+      ],
+      "shortDescription": "Living orchid stems in a ceramic bowl over moss — blooms 8+ weeks.",
+      "description": "Several living dendrobium orchid stems in a shallow ceramic bowl over moss — a centrepiece that keeps blooming for eight weeks or more.",
+      "price": 16500,
+      "stock": 8,
+      "isFeatured": true,
+      "sameDay": true,
+      "flowerTypes": [
+        "Orchids"
+      ],
+      "colours": [
+        "Purple",
+        "White"
+      ],
+      "attributes": {
+        "Light": "Bright, filtered light",
+        "Pet safe": "Yes",
+        "Care": "Water weekly",
+        "Pot": "Ceramic bowl"
+      },
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBRkXYHAmTAB5Qjis07aYRULA-EVJRc5w_Xo_ovoh9262RbaFQPkgJQR8uuExDAZrqyrP984_MNOl6Ii3bP3-jnlQLQz_ytg_MIM7vSSxbpgLZKFq5vMf-sSSYF75aeg6xmrIXTZJwXYhmRdlbnKrc-0gxryqiPfAj8OMQdbLCC1EX_KfXhAKMXe_3aIAGgFt0PlaaX94dW_81jnq8OlFLesJulrLYfhdvBmeiETs3TXm2nHvl0IYh9Rg"
+      ],
+      "isActive": true,
+      "category": "indoor-plants"
+    },
+    {
+      "tags": [
+        "rare-orchids",
+        "low-light"
+      ],
+      "details": [
+        "Stoneware pot",
+        "Care card included"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "calathea-orbifolia",
+      "name": "Calathea Orbifolia",
+      "occasions": [
+        "get-well"
+      ],
+      "shortDescription": "Broad silver-striped leaves that fold at nightfall.",
+      "description": "Broad round leaves striped in silver-green that gently fold up at nightfall. Happy in shade, safe for pets.",
+      "price": 11200,
+      "stock": 6,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [],
+      "colours": [
+        "Green"
+      ],
+      "attributes": {
+        "Light": "Low to medium shade",
+        "Pet safe": "Yes",
+        "Care": "Keep soil lightly moist",
+        "Pot": "Stoneware"
+      },
+      "images": [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuAupjUQk0aC5Jl1vBKgZOu8QlO6TrJjHYtRbr7g9xNYLNsJ66D4AhK8R25DzHnObDrACSUpa1CeI4M-2peEA0pKO2xGv-kiCFo2OLfqheSjK2RS_oNHkMBExlGydvz3SerzlKhWVvWWwl6oLwIpW8aVTJmO9TApQ99GORTmxxhfP5gQ36zuo-f2jBr2MH_iSnsX9oLx3ky3tv4FoGRBjFxB0Bza_E4Qu1rPRma5t98basPMJMqql4av4Q"
+      ],
+      "isActive": true,
+      "category": "indoor-plants"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Approx. 30 stems",
+        "Silk ribbon handle",
+        "Matching buttonhole on request",
+        "Order 3+ days ahead"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "poruwa-blush-bridal-bouquet",
+      "name": "Poruwa Blush Bridal Bouquet",
+      "occasions": [
+        "wedding",
+        "anniversary"
+      ],
+      "shortDescription": "Garden roses, lisianthus and soft greens for the Poruwa ceremony.",
+      "description": "A loose, romantic bridal bouquet of blush garden roses, pink lisianthus, astrantia and soft greens, hand-tied with silk ribbon. Made the morning of your Poruwa ceremony and delivered to the hotel or home in Colombo, Kandy or Galle.",
+      "price": 28500,
+      "stock": 6,
+      "isFeatured": true,
+      "badge": "Bridal",
+      "sameDay": false,
+      "flowerTypes": [
+        "Roses",
+        "Lisianthus"
+      ],
+      "colours": [
+        "Pink",
+        "Cream",
+        "Green"
+      ],
+      "images": [
+        "/images/products/poruwa-blush-bridal-bouquet-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "40 roses and wax flower",
+        "Satin-wrapped handle",
+        "Delivered chilled",
+        "Order 3+ days ahead"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "kandyan-bride-round-rose-bouquet",
+      "name": "Kandyan Bride Round Rose Bouquet",
+      "occasions": [
+        "wedding"
+      ],
+      "shortDescription": "A classic domed bouquet of blush roses and wax flower.",
+      "description": "A neat, domed bouquet of blush and dusty-pink roses with Geraldton wax flower — the classic shape that sits beautifully with a Kandyan osariya or a white saree. Wired, ribboned and kept chilled until it reaches the bride.",
+      "price": 32000,
+      "stock": 5,
+      "isFeatured": false,
+      "badge": "Bridal",
+      "sameDay": false,
+      "flowerTypes": [
+        "Roses",
+        "Wax flower"
+      ],
+      "colours": [
+        "Pink",
+        "Blush"
+      ],
+      "images": [
+        "/images/products/kandyan-bride-round-rose-bouquet-1280.webp"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "15 roses",
+        "Ribbon-tied stems",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "sunset-rose-bridesmaid-posy",
+      "name": "Sunset Rose Bridesmaid Posy",
+      "occasions": [
+        "wedding",
+        "birthday",
+        "congratulations"
+      ],
+      "shortDescription": "Cream and flame-tipped roses in a hand-held posy.",
+      "description": "Cream roses with flame-tipped orange \"sunset\" roses, gathered into a compact posy. Lovely for bridesmaids and flower girls — or simply as a bright birthday surprise.",
+      "price": 12500,
+      "stock": 10,
+      "isFeatured": false,
+      "badge": "New",
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Cream",
+        "Orange"
+      ],
+      "images": [
+        "/images/products/sunset-rose-bridesmaid-posy-1280.webp"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "24 garden roses",
+        "Silver foliage and astilbe",
+        "Tissue and kraft wrap",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "dusky-mauve-garden-roses",
+      "name": "Dusky Mauve Garden Roses",
+      "occasions": [
+        "anniversary",
+        "love",
+        "birthday"
+      ],
+      "shortDescription": "Mauve, ivory and antique-pink roses with silver foliage.",
+      "description": "An elegant, muted bouquet of mauve, ivory and antique-pink garden roses with astilbe and silver foliage. Grown in the cool hills around Nuwara Eliya, where roses keep their soft colours.",
+      "price": 19500,
+      "stock": 7,
+      "isFeatured": true,
+      "badge": "New",
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses",
+        "Astilbe"
+      ],
+      "colours": [
+        "Mauve",
+        "Ivory",
+        "Pink"
+      ],
+      "images": [
+        "/images/products/dusky-mauve-garden-roses-1280.webp"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "18 coral roses",
+        "Kraft wrap with ribbon",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "coral-rose-velvet-bunch",
+      "name": "Coral Rose Velvet Bunch",
+      "occasions": [
+        "love",
+        "birthday",
+        "anniversary"
+      ],
+      "shortDescription": "Ruffled coral roses — warm, romantic and full-headed.",
+      "description": "Full, ruffled coral roses gathered into a simple, generous bunch. Warm and romantic without being red — a favourite for birthdays and \"thinking of you\".",
+      "price": 14800,
+      "stock": 9,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Coral",
+        "Pink"
+      ],
+      "images": [
+        "/images/products/coral-rose-velvet-bunch-1280.webp"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "25 mixed stems",
+        "Pink tissue wrap",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "fuchsia-celebration-bouquet",
+      "name": "Fuchsia Celebration Bouquet",
+      "occasions": [
+        "birthday",
+        "congratulations",
+        "love"
+      ],
+      "shortDescription": "Pink lisianthus, carnations and lime-green accents.",
+      "description": "A joyful mix of pink lisianthus, ruffled carnations, lime-green buttons and trailing greens. Bright enough for a birthday party, a graduation at BMICH or a new job.",
+      "price": 11800,
+      "stock": 12,
+      "isFeatured": true,
+      "badge": "Bestseller",
+      "sameDay": true,
+      "flowerTypes": [
+        "Lisianthus",
+        "Carnations"
+      ],
+      "colours": [
+        "Pink",
+        "Lime"
+      ],
+      "images": [
+        "/images/products/fuchsia-celebration-bouquet-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "12 carnations and fern",
+        "Kraft paper wrap",
+        "Lasts up to 10 days"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "kraft-wrapped-carnation-bunch",
+      "name": "Kraft-Wrapped Carnation Bunch",
+      "occasions": [
+        "birthday",
+        "get-well",
+        "congratulations"
+      ],
+      "shortDescription": "Peach and white carnations with fern, in kraft paper.",
+      "description": "An easy, cheerful bunch of peach and white carnations with fresh fern, wrapped in kraft paper. Carnations last well in Colombo heat — up to ten days in fresh water.",
+      "price": 6500,
+      "stock": 15,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Carnations"
+      ],
+      "colours": [
+        "Peach",
+        "White"
+      ],
+      "images": [
+        "/images/products/kraft-wrapped-carnation-bunch-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Glass jar included",
+        "Arranged in water",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "morning-carnation-and-eucalyptus-jar",
+      "name": "Morning Carnation & Eucalyptus Jar",
+      "occasions": [
+        "get-well",
+        "birthday"
+      ],
+      "shortDescription": "Coral carnations and eucalyptus, ready in a glass jar.",
+      "description": "Coral carnations, spray roses and eucalyptus arranged in a glass jar with a pink ribbon — no vase needed. A sweet bedside or desk gift for someone in hospital or recovering at home.",
+      "price": 8900,
+      "stock": 10,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Carnations",
+        "Spray roses",
+        "Eucalyptus"
+      ],
+      "colours": [
+        "Coral",
+        "Green"
+      ],
+      "images": [
+        "/images/products/morning-carnation-and-eucalyptus-jar-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Approx. 20 stems",
+        "Twine-tied",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "highland-wildflower-posy",
+      "name": "Highland Wildflower Posy",
+      "occasions": [
+        "get-well",
+        "birthday",
+        "love"
+      ],
+      "shortDescription": "Blush roses, hypericum berries and wild greens.",
+      "description": "A garden-gathered posy of blush roses, orange hypericum berries and feathery wild greens — inspired by the hedgerows of the Nuwara Eliya hills.",
+      "price": 9800,
+      "stock": 8,
+      "isFeatured": false,
+      "badge": "New",
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses",
+        "Hypericum"
+      ],
+      "colours": [
+        "Blush",
+        "Orange",
+        "Green"
+      ],
+      "images": [
+        "/images/products/highland-wildflower-posy-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "10 gerberas",
+        "Leafy greens",
+        "Free handwritten card"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "avurudu-sunshine-gerberas",
+      "name": "Avurudu Sunshine Gerberas",
+      "occasions": [
+        "birthday",
+        "congratulations",
+        "get-well"
+      ],
+      "shortDescription": "Bright gerberas in pink, orange, yellow and white.",
+      "description": "A sunny bunch of gerberas in Avurudu colours — pink, orange, yellow and white — with glossy greens. Grown in the Kandy and Nuwara Eliya districts and loved for New Year visits and birthdays.",
+      "price": 7500,
+      "stock": 14,
+      "isFeatured": false,
+      "badge": "Avurudu",
+      "sameDay": true,
+      "flowerTypes": [
+        "Gerberas"
+      ],
+      "colours": [
+        "Pink",
+        "Orange",
+        "Yellow",
+        "White"
+      ],
+      "images": [
+        "/images/products/avurudu-sunshine-gerberas-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "7 anthuriums",
+        "Gypsophila and palm",
+        "Standing vase included",
+        "Lasts up to 3 weeks"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "scarlet-anthurium-altar-arrangement",
+      "name": "Scarlet Anthurium Altar Arrangement",
+      "occasions": [
+        "wedding",
+        "corporate",
+        "congratulations"
+      ],
+      "shortDescription": "Red anthuriums and gypsophila in a tall standing vase.",
+      "description": "Glossy red anthuriums — grown in the Gampaha and Kandy districts — rising over clouds of gypsophila and palm leaves in a tall standing vase. Made for church altars, hotel lobbies and office openings.",
+      "price": 16500,
+      "stock": 6,
+      "isFeatured": false,
+      "badge": "Long-lasting",
+      "sameDay": true,
+      "flowerTypes": [
+        "Anthuriums",
+        "Gypsophila"
+      ],
+      "colours": [
+        "Red",
+        "White"
+      ],
+      "images": [
+        "/images/products/scarlet-anthurium-altar-arrangement-1280.webp"
+      ],
+      "isActive": true,
+      "category": "lilies-orchids"
+    },
+    {
+      "tags": [],
+      "details": [
+        "3 orchid sprays",
+        "Gift box or vase",
+        "Lasts up to 4 weeks"
+      ],
+      "lowStockThreshold": 5,
+      "slug": "ivory-phalaenopsis-spray",
+      "name": "Ivory Phalaenopsis Spray",
+      "occasions": [
+        "sympathy",
+        "corporate",
+        "congratulations"
+      ],
+      "shortDescription": "Long arching sprays of white moth orchids.",
+      "description": "Long, arching sprays of white phalaenopsis (moth) orchids — calm, elegant and very long-lasting. A respectful sympathy gift, or a refined thank-you for a client.",
+      "price": 22500,
+      "stock": 5,
+      "isFeatured": false,
+      "badge": "Long-lasting",
+      "sameDay": true,
+      "flowerTypes": [
+        "Orchids"
+      ],
+      "colours": [
+        "White"
+      ],
+      "images": [
+        "/images/products/ivory-phalaenopsis-spray-1280.webp"
+      ],
+      "isActive": true,
+      "category": "lilies-orchids"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Bundle of 10 blooms",
+        "Delivered before 8 AM",
+        "Wrapped in banana leaf"
+      ],
+      "lowStockThreshold": 6,
+      "slug": "olu-water-lily-pooja-offering",
+      "name": "Olu Water Lily Pooja Offering",
+      "occasions": [
+        "sympathy"
+      ],
+      "shortDescription": "Fresh water lilies for temple offerings on Poya days.",
+      "description": "Freshly picked olu (water lilies), cleaned and bundled for temple offerings — for Poya days, Vesak, almsgivings and remembrance. Delivered early morning so they open at the temple.",
+      "price": 2800,
+      "stock": 20,
+      "isFeatured": false,
+      "badge": "Poya day",
+      "sameDay": true,
+      "flowerTypes": [
+        "Water lilies"
+      ],
+      "colours": [
+        "Pink"
+      ],
+      "images": [
+        "/images/products/olu-water-lily-pooja-offering-1280.webp"
+      ],
+      "isActive": true,
+      "category": "lilies-orchids"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Approx. 60 blossoms",
+        "Woven palm-leaf tray",
+        "Delivered before 8 AM"
+      ],
+      "lowStockThreshold": 6,
+      "slug": "araliya-temple-blossoms",
+      "name": "Araliya Temple Blossoms",
+      "occasions": [
+        "sympathy"
+      ],
+      "shortDescription": "Fragrant white araliya flowers for pooja and remembrance.",
+      "description": "Fragrant white araliya (frangipani) blossoms, hand-picked at dawn and laid in a woven tray — for pooja at the temple, a funeral house or a quiet remembrance at home.",
+      "price": 2200,
+      "stock": 20,
+      "isFeatured": false,
+      "badge": "Poya day",
+      "sameDay": true,
+      "flowerTypes": [
+        "Araliya"
+      ],
+      "colours": [
+        "White",
+        "Yellow"
+      ],
+      "images": [
+        "/images/products/araliya-temple-blossoms-1280.webp"
+      ],
+      "isActive": true,
+      "category": "sympathy"
+    }
+  ]
+}

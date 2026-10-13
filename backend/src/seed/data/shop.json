@@ -1,0 +1,82 @@
+{
+  "settings": {
+    "shopName": "Ceylon Petals",
+    "tagline": "Sri Lankan flower studio",
+    "whatsappNumber": "94771234567",
+    "phone": "+94 11 234 5678",
+    "email": "hello@ceylonpetals.lk",
+    "address": "42 Flower Road, Colombo 07, Sri Lanka",
+    "openingHours": "8:00 AM – 9:00 PM, every day",
+    "sameDayCutoff": "14:00",
+    "acceptingOrders": true,
+    "freeDeliveryOver": 25000
+  },
+  "deliveryZones": [
+    {
+      "district": "Colombo",
+      "fee": 500,
+      "sameDay": true,
+      "active": true
+    },
+    {
+      "district": "Gampaha",
+      "fee": 900,
+      "sameDay": true,
+      "active": true
+    },
+    {
+      "district": "Kalutara",
+      "fee": 1000,
+      "sameDay": true,
+      "active": true
+    },
+    {
+      "district": "Kandy",
+      "fee": 1800,
+      "sameDay": false,
+      "active": true
+    },
+    {
+      "district": "Galle",
+      "fee": 1800,
+      "sameDay": false,
+      "active": true
+    },
+    {
+      "district": "Matara",
+      "fee": 2200,
+      "sameDay": false,
+      "active": true
+    },
+    {
+      "district": "Kurunegala",
+      "fee": 1800,
+      "sameDay": false,
+      "active": true
+    },
+    {
+      "district": "Nuwara Eliya",
+      "fee": 2200,
+      "sameDay": false,
+      "active": true
+    }
+  ],
+  "promoCodes": [
+    {
+      "code": "WELCOME10",
+      "type": "PERCENT",
+      "value": 10,
+      "minOrder": 10000,
+      "active": true,
+      "description": "10% off your first order"
+    },
+    {
+      "code": "AVURUDU1000",
+      "type": "FIXED",
+      "value": 1000,
+      "minOrder": 15000,
+      "active": false,
+      "description": "Rs. 1,000 off for Avurudu"
+    }
+  ]
+}
