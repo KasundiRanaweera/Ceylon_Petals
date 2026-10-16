@@ -13,6 +13,7 @@ export type ErrorCode =
   | 'CONFLICT'
   | 'UNPROCESSABLE'
   | 'TOO_MANY_REQUESTS'
+  | 'SERVICE_UNAVAILABLE'
   | 'INTERNAL_ERROR'
 
 export class AppError extends Error {
@@ -37,3 +38,5 @@ export const conflict = (message: string, details?: unknown) => new AppError(409
 export const unprocessable = (message: string, details?: unknown) => new AppError(422, 'UNPROCESSABLE', message, details)
 export const tooManyRequests = (message = 'Too many attempts. Please wait a moment and try again.') =>
   new AppError(429, 'TOO_MANY_REQUESTS', message)
+/** A feature that is switched off or not set up yet, e.g. card payments. */
+export const serviceUnavailable = (message: string) => new AppError(503, 'SERVICE_UNAVAILABLE', message)

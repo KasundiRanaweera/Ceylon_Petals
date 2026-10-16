@@ -113,6 +113,7 @@ const prismaMock = {
 vi.mock('../lib/prisma.js', () => ({ prisma: prismaMock }))
 
 const { createApp } = await import('../app.js')
+const { env } = await import('../config/env.js')
 const { signAuthToken } = await import('../lib/tokens.js')
 const { colomboNow, addDays } = await import('../lib/colomboTime.js')
 
@@ -435,6 +436,22 @@ describe('POST /api/orders (checkout)', () => {
       const byOwner = await post('/api/orders').set('Cookie', owner.cookie).send(baseOrder())
       expect(byOwner.body.customerId).toBeUndefined()
     })
+  })
+
+  it('refuses a card order while card payment is switched off, but cash and WhatsApp still work', async () => {
+    const original = env.payhere.mode
+    env.payhere.mode = 'disabled'
+    try {
+      const card = await checkout(baseOrder({ paymentMethod: 'CARD' }))
+      expect(card.status).toBe(422)
+      expect(card.body.error.message).toMatch(/Card payment is not available/)
+      expect(stockOf(ID.roses)).toBe(5)
+      expect((await checkout(baseOrder({ paymentMethod: 'CASH_ON_DELIVERY' }))).status).toBe(201)
+      expect((await checkout(baseOrder({ paymentMethod: 'WHATSAPP' }))).status).toBe(201)
+    } finally {
+      env.payhere.mode = original
+    }
+    expect((await checkout(baseOrder({ paymentMethod: 'CARD' }))).status).toBe(201)
   })
 
   it('blocks checkout posted from another website', async () => {

@@ -26,6 +26,22 @@ const schema = z.object({
   // Browser origins allowed to call the API. Comma separated, e.g. "http://localhost:5173,https://shop.vercel.app".
   FRONTEND_URL: z.string().default('http://localhost:5173'),
 
+  // ---- Card payments (PayHere) ----
+  // simulated: a fake gateway for local development, no real money and no PayHere account needed.
+  // sandbox:   PayHere's test environment (needs the sandbox merchant id/secret and a public API address).
+  // live:      real payments.
+  // disabled:  card payment is switched off; customers use cash on delivery or WhatsApp.
+  // Default: "simulated" while developing, "disabled" in production until you choose sandbox or live.
+  PAYHERE_MODE: z.enum(['disabled', 'simulated', 'sandbox', 'live']).optional(),
+  PAYHERE_MERCHANT_ID: z.string().optional(),
+  // From PayHere -> Settings -> Domains & Credentials. Anyone who has it can fake payments.
+  PAYHERE_MERCHANT_SECRET: z.string().optional(),
+  // Where PayHere can reach this API from the internet, e.g. https://flower-api.onrender.com
+  // (on your own PC use a tunnel such as ngrok). Used to build the payment callback address.
+  PUBLIC_API_URL: z.string().optional(),
+  // A card order that is not paid within this time is cancelled and its stock goes back on sale.
+  PAYMENT_WINDOW_MINUTES: z.coerce.number().int().min(5).max(1440).default(30),
+
   // Owner account created by the seed script.
   OWNER_NAME: z.string().optional(),
   OWNER_EMAIL: z.string().optional(),
@@ -41,11 +57,42 @@ if (!parsed.success) {
   process.exit(1)
 }
 
+const data = parsed.data
+const payhereMode = data.PAYHERE_MODE ?? (data.NODE_ENV === 'production' ? 'disabled' : 'simulated')
+
+const problems: string[] = []
+if (data.NODE_ENV === 'production' && payhereMode === 'simulated') {
+  problems.push("PAYHERE_MODE cannot be 'simulated' in production, because the fake gateway would let anyone mark an order as paid. Use 'sandbox', 'live' or 'disabled'.")
+}
+if (payhereMode === 'sandbox' || payhereMode === 'live') {
+  if (!data.PAYHERE_MERCHANT_ID) problems.push(`PAYHERE_MERCHANT_ID is required when PAYHERE_MODE is '${payhereMode}'`)
+  if (!data.PAYHERE_MERCHANT_SECRET) problems.push(`PAYHERE_MERCHANT_SECRET is required when PAYHERE_MODE is '${payhereMode}'`)
+  if (!data.PUBLIC_API_URL) problems.push(`PUBLIC_API_URL is required when PAYHERE_MODE is '${payhereMode}' (PayHere must be able to reach your API)`)
+}
+if (problems.length > 0) {
+  console.error('Invalid environment configuration:')
+  for (const problem of problems) console.error(`  - ${problem}`)
+  console.error('Fix backend/.env and start the server again.')
+  process.exit(1)
+}
+
+const corsOrigins = data.FRONTEND_URL.split(',')
+  .map((origin) => origin.trim().replace(/\/$/, ''))
+  .filter(Boolean)
+
 export const env = {
-  ...parsed.data,
-  isProduction: parsed.data.NODE_ENV === 'production',
-  isTest: parsed.data.NODE_ENV === 'test',
-  corsOrigins: parsed.data.FRONTEND_URL.split(',')
-    .map((origin) => origin.trim().replace(/\/$/, ''))
-    .filter(Boolean),
+  ...data,
+  isProduction: data.NODE_ENV === 'production',
+  isTest: data.NODE_ENV === 'test',
+  corsOrigins,
+  payhere: {
+    mode: payhereMode as 'disabled' | 'simulated' | 'sandbox' | 'live',
+    merchantId: data.PAYHERE_MERCHANT_ID ?? '',
+    merchantSecret: data.PAYHERE_MERCHANT_SECRET ?? '',
+    checkoutUrl: payhereMode === 'live' ? 'https://www.payhere.lk/pay/checkout' : 'https://sandbox.payhere.lk/pay/checkout',
+    notifyUrl: `${(data.PUBLIC_API_URL ?? '').replace(/\/$/, '')}/api/payments/payhere/notify`,
+    // Where PayHere sends the customer back to: the first frontend address.
+    returnBase: corsOrigins[0] ?? 'http://localhost:5173',
+    windowMinutes: data.PAYMENT_WINDOW_MINUTES,
+  },
 }

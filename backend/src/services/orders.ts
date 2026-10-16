@@ -1,4 +1,5 @@
 import type { Prisma } from '../generated/prisma/client.js'
+import { env } from '../config/env.js'
 import { prisma } from '../lib/prisma.js'
 import { notFound, unprocessable } from '../lib/errors.js'
 import { addDays, colomboNow, dateOnly } from '../lib/colomboTime.js'
@@ -103,7 +104,7 @@ export const orderInclude = {
   history: { orderBy: { createdAt: 'asc' } },
 } satisfies Prisma.OrderInclude
 
-type OrderRow = Prisma.OrderGetPayload<{ include: typeof orderInclude }>
+export type OrderRow = Prisma.OrderGetPayload<{ include: typeof orderInclude }>
 
 export function toOrderDto(o: OrderRow): OrderDto {
   const items: OrderItemDto[] = o.items.map((i) => ({
@@ -285,6 +286,9 @@ export async function createOrder(input: CheckoutInput, user?: UserDto): Promise
       if (!zone) {
         throw unprocessable(`We don't deliver to ${input.district} yet. Message us on WhatsApp and we'll try to help.`)
       }
+      if (input.paymentMethod === 'CARD' && env.payhere.mode === 'disabled') {
+        throw unprocessable('Card payment is not available right now. Please choose cash on delivery or order on WhatsApp.')
+      }
       if (priced.promoError) throw unprocessable(priced.promoError)
 
       // Delivery rules, in Sri Lankan time.
@@ -393,7 +397,7 @@ export interface Viewer {
  * One order, for someone who may be allowed to see it: the owner, the signed-in customer who
  * placed it, or whoever holds the checkout token. Everyone else gets a plain 404.
  */
-export async function getOrderForViewer(orderNumber: string, viewer: Viewer): Promise<OrderDto> {
+export async function findOrderRowForViewer(orderNumber: string, viewer: Viewer): Promise<OrderRow> {
   const number = parseOrderNumber(orderNumber)
   const order = number === null ? null : await prisma.order.findUnique({ where: { number }, include: orderInclude })
   const allowed =
@@ -402,7 +406,11 @@ export async function getOrderForViewer(orderNumber: string, viewer: Viewer): Pr
       (order.userId !== null && viewer.user?.id === order.userId) ||
       (viewer.token !== undefined && verifyOrderToken(viewer.token, order.number)))
   if (!order || !allowed) throw notFound('Order not found')
-  return toOrderDto(order)
+  return order
+}
+
+export async function getOrderForViewer(orderNumber: string, viewer: Viewer): Promise<OrderDto> {
+  return toOrderDto(await findOrderRowForViewer(orderNumber, viewer))
 }
 
 export async function listMyOrders(userId: string): Promise<OrderDto[]> {

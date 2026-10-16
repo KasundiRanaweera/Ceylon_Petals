@@ -81,3 +81,12 @@ export const quoteLimiter = rateLimit({
   limit: 150,
   keyGenerator: ipOf,
 })
+
+/** Starting a card payment: 30 per 15 minutes per address. */
+export const paymentLimiter = rateLimit({
+  ...common,
+  windowMs: 15 * 60 * 1000,
+  limit: 30,
+  skip: skipInTests,
+  keyGenerator: ipOf,
+})

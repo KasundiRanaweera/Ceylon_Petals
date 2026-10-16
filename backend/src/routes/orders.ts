@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { DISTRICTS } from '../lib/districts.js'
 import { SLOT_KEYS } from '../lib/deliverySlots.js'
 import { dateSchema, emailSchema, phoneSchema, textSchema, uuidSchema } from '../lib/validation.js'
+import { viewerFrom } from '../lib/viewer.js'
 import { noStore } from '../middleware/noStore.js'
 import { orderLimiter, quoteLimiter, trackLimiter } from '../middleware/rateLimit.js'
 import { createOrder, getOrderForViewer, quoteOrder, trackOrder } from '../services/orders.js'
@@ -80,7 +81,5 @@ ordersRouter.post('/track', trackLimiter, async (req, res) => {
 // GET /api/orders/CP-1049   (owner, the customer who placed it, or the holder of the checkout token)
 // The token comes in the X-Order-Token header (or ?token=).
 ordersRouter.get('/:orderNumber', async (req, res) => {
-  const queryToken = typeof req.query['token'] === 'string' ? req.query['token'] : undefined
-  const token = req.get('x-order-token') ?? queryToken
-  res.json(await getOrderForViewer(req.params.orderNumber, { user: req.user, token }))
+  res.json(await getOrderForViewer(req.params.orderNumber, viewerFrom(req)))
 })
