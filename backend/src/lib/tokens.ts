@@ -28,3 +28,28 @@ export function verifyAuthToken(token: string): VerifiedToken | null {
     return null
   }
 }
+
+// ---------------------------------------------------------------- order view tokens
+
+// A guest has no account, but right after checkout they must be able to see their order
+// confirmation. Order numbers are sequential (CP-1050, CP-1051 ...), so the number alone must
+// never be enough to read an order. Checkout therefore returns a signed token that only the
+// person who placed the order has. It works for 24 hours and only for that one order.
+
+const ORDER_TOKEN_HOURS = 24
+
+export function signOrderToken(orderNumber: number): string {
+  return jwt.sign({ purpose: 'order-view', n: orderNumber }, env.JWT_SECRET, {
+    algorithm: 'HS256',
+    expiresIn: ORDER_TOKEN_HOURS * 60 * 60,
+  })
+}
+
+export function verifyOrderToken(token: string, orderNumber: number): boolean {
+  try {
+    const payload = jwt.verify(token, env.JWT_SECRET, { algorithms: ['HS256'] })
+    return typeof payload !== 'string' && payload['purpose'] === 'order-view' && payload['n'] === orderNumber
+  } catch {
+    return false
+  }
+}
