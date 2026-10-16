@@ -42,6 +42,12 @@ const schema = z.object({
   // A card order that is not paid within this time is cancelled and its stock goes back on sale.
   PAYMENT_WINDOW_MINUTES: z.coerce.number().int().min(5).max(1440).default(30),
 
+  // ---- Product photo uploads (Cloudinary) ----
+  // Optional. Without them the owner can still paste a link to a photo. cloudinary.com has a free plan.
+  CLOUDINARY_CLOUD_NAME: z.string().optional(),
+  CLOUDINARY_API_KEY: z.string().optional(),
+  CLOUDINARY_API_SECRET: z.string().optional(),
+
   // Owner account created by the seed script.
   OWNER_NAME: z.string().optional(),
   OWNER_EMAIL: z.string().optional(),
@@ -85,6 +91,13 @@ export const env = {
   isProduction: data.NODE_ENV === 'production',
   isTest: data.NODE_ENV === 'test',
   corsOrigins,
+  cloudinary: {
+    configured: Boolean(data.CLOUDINARY_CLOUD_NAME && data.CLOUDINARY_API_KEY && data.CLOUDINARY_API_SECRET),
+    cloudName: data.CLOUDINARY_CLOUD_NAME ?? '',
+    apiKey: data.CLOUDINARY_API_KEY ?? '',
+    apiSecret: data.CLOUDINARY_API_SECRET ?? '',
+    folder: 'ceylon-petals/products',
+  },
   payhere: {
     mode: payhereMode as 'disabled' | 'simulated' | 'sandbox' | 'live',
     merchantId: data.PAYHERE_MERCHANT_ID ?? '',
