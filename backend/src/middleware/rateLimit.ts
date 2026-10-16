@@ -1,5 +1,6 @@
 import type { Request, RequestHandler } from 'express'
 import rateLimit, { ipKeyGenerator } from 'express-rate-limit'
+import { env } from '../config/env.js'
 import { tooManyRequests } from '../lib/errors.js'
 
 // Slows down password guessing and fake sign-ups. Counters live in memory, which is fine for a
@@ -10,6 +11,13 @@ const handler: RequestHandler = (_req, _res, next) => next(tooManyRequests())
 const common = { standardHeaders: 'draft-8', legacyHeaders: false, handler } as const
 
 const ipOf = (req: Request) => ipKeyGenerator(req.ip ?? '')
+
+/**
+ * Only ever true when NODE_ENV is "test": the automated tests place many orders from one address,
+ * so these limits are off for them unless a test sends "x-test-limit" to check the limit itself.
+ * In production, development and every other environment this is always false.
+ */
+const skipInTests = (req: Request) => env.isTest && !req.get('x-test-limit')
 
 /**
  * Failed sign-ins: 10 per 15 minutes for the same email from the same address.
@@ -41,4 +49,35 @@ export const passwordChangeLimiter = rateLimit({
   limit: 5,
   skipSuccessfulRequests: true,
   keyGenerator: (req) => req.user?.id ?? ipOf(req),
+})
+
+/** Placing orders: 20 per hour per address. Stops someone flooding the shop with fake orders. */
+export const orderLimiter = rateLimit({
+  ...common,
+  skip: skipInTests,
+  windowMs: 60 * 60 * 1000,
+  limit: 20,
+  keyGenerator: ipOf,
+})
+
+/**
+ * Order tracking: 15 wrong lookups per 15 minutes per address. Order numbers are sequential, so
+ * without this someone could try many numbers with guessed phone numbers.
+ */
+export const trackLimiter = rateLimit({
+  ...common,
+  skip: skipInTests,
+  windowMs: 15 * 60 * 1000,
+  limit: 15,
+  skipSuccessfulRequests: true,
+  keyGenerator: ipOf,
+})
+
+/** The checkout summary is recalculated whenever the form changes, so allow plenty. */
+export const quoteLimiter = rateLimit({
+  ...common,
+  skip: skipInTests,
+  windowMs: 5 * 60 * 1000,
+  limit: 150,
+  keyGenerator: ipOf,
 })

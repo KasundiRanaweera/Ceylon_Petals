@@ -4,11 +4,14 @@ import { setSessionCookie } from '../lib/cookies.js'
 import { DISTRICTS } from '../lib/districts.js'
 import { idParams, passwordSchema, phoneSchema, textSchema } from '../lib/validation.js'
 import { requireAuth } from '../middleware/auth.js'
+import { noStore } from '../middleware/noStore.js'
 import { passwordChangeLimiter } from '../middleware/rateLimit.js'
+import { listMyOrders } from '../services/orders.js'
 import { changePassword, createAddress, deleteAddress, listAddresses, updateAddress, updateProfile } from '../services/account.js'
 
 // Everything under /api/me needs a signed-in user.
 export const accountRouter = Router()
+accountRouter.use(noStore)
 accountRouter.use(requireAuth)
 
 const profileBody = z.object({
@@ -71,4 +74,9 @@ accountRouter.delete('/addresses/:id', async (req, res) => {
   const { id } = idParams.parse(req.params)
   await deleteAddress(req.user!.id, id)
   res.status(204).end()
+})
+
+// GET /api/me/orders  ->  this customer's orders, newest first
+accountRouter.get('/orders', async (req, res) => {
+  res.json(await listMyOrders(req.user!.id))
 })
