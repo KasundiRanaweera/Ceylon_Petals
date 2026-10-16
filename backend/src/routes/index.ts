@@ -6,9 +6,10 @@ import { accountRouter } from './account.js'
 import { ordersRouter } from './orders.js'
 import { settingsRouter } from './settings.js'
 import { paymentsRouter } from './payments.js'
+import { inquiriesRouter } from './inquiries.js'
+import { adminRouter } from './admin/index.js'
 
-// Every route group is mounted here. Later steps add one line each:
-//   router.use('/admin', adminRouter)          (Step 10)
+// Every route group is mounted here, one line each.
 export const apiRouter = Router()
 
 apiRouter.use('/health', healthRouter)
@@ -17,4 +18,6 @@ apiRouter.use('/me', accountRouter) // profile, password, saved addresses, my or
 apiRouter.use('/orders', ordersRouter) // quote, checkout, tracking, one order
 apiRouter.use('/settings', settingsRouter) // public shop settings
 apiRouter.use('/payments', paymentsRouter) // PayHere card payments
+apiRouter.use('/inquiries', inquiriesRouter) // custom order requests from the website
+apiRouter.use('/admin', adminRouter) // the owner console (owner role only)
 apiRouter.use(catalogRouter) // /products, /products/:slug, /categories, /occasions

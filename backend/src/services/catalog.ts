@@ -12,7 +12,7 @@ import { effectivePrice } from '../lib/pricing.js'
 // data, because the frontend compares them to slugs in several places. Slugs are unique and
 // never change, so they are safe to use as public ids.
 
-const productInclude = {
+export const productInclude = {
   images: { orderBy: { position: 'asc' }, select: { url: true } },
   occasions: { select: { slug: true } },
   category: { select: { slug: true } },

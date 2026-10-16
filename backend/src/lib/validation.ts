@@ -40,3 +40,9 @@ export const paginationQuery = z.object({
   page: z.coerce.number().int().min(1).default(1),
   pageSize: z.coerce.number().int().min(1).max(100).default(20),
 })
+
+/** An empty form field ("" or just spaces) means "not given". */
+export const blankToUndefined = (value: unknown) => (typeof value === 'string' && value.trim() === '' ? undefined : value)
+
+/** Optional text that may be sent as an empty string. */
+export const optionalText = (max: number) => z.preprocess(blankToUndefined, z.string().trim().max(max).optional())
