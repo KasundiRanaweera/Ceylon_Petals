@@ -8,7 +8,7 @@ import { FormError, SelectField, TextAreaField, TextField } from '../../componen
 import { adminGetProduct, adminListCategories, deleteProduct, saveProduct, type ProductInput } from '../../services/catalog'
 import { OCCASIONS } from '../../data/catalog'
 import { useToast } from '../../hooks/useToast'
-import { resizeImage } from '../../lib/images'
+import { uploadPhoto } from '../../services/uploads'
 import { formatLKR } from '../../lib/format'
 import type { OccasionSlug, Product } from '../../types'
 
@@ -86,6 +86,7 @@ function Editor({ product }: { product: Product | null }) {
   const [form, setForm] = useState<FormState>(() => toForm(product))
   const [imageUrl, setImageUrl] = useState('')
   const [uploadError, setUploadError] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const { data: categories = [] } = useQuery({ queryKey: ['admin', 'categories'], queryFn: adminListCategories })
 
@@ -117,16 +118,22 @@ function Editor({ product }: { product: Product | null }) {
   async function addFiles(files: FileList | null) {
     if (!files) return
     setUploadError(null)
-    try {
-      const urls = await Promise.all([...files].map((f) => resizeImage(f)))
-      setForm((f) => ({ ...f, images: [...f.images, ...urls] }))
-    } catch (err) {
-      setUploadError((err as Error).message)
+    setUploading(true)
+    // One at a time, so a bad photo is reported by name and the good ones before it are kept.
+    for (const file of files) {
+      try {
+        const url = await uploadPhoto(file)
+        setForm((f) => ({ ...f, images: [...f.images, url] }))
+      } catch (err) {
+        setUploadError((err as Error).message)
+        break
+      }
     }
+    setUploading(false)
   }
 
   function addUrl() {
-    if (!/^https?:\/\//.test(imageUrl.trim())) {
+    if (!/^https:\/\//.test(imageUrl.trim())) {
       setUploadError('Paste a full image link starting with https://')
       return
     }
@@ -222,8 +229,8 @@ function Editor({ product }: { product: Product | null }) {
             )}
             <div className="flex flex-col sm:flex-row gap-3">
               <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-on-primary text-label-md cursor-pointer hover:bg-primary-container">
-                <ImagePlus size={16} /> Upload photos
-                <input type="file" accept="image/*" multiple className="sr-only" onChange={(e) => { addFiles(e.target.files); e.target.value = '' }} />
+                <ImagePlus size={16} /> {uploading ? 'Uploading…' : 'Upload photos'}
+                <input type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple disabled={uploading} className="sr-only" onChange={(e) => { addFiles(e.target.files); e.target.value = '' }} />
               </label>
               <div className="flex flex-1 gap-2">
                 <label htmlFor="image-url" className="sr-only">Image link</label>

@@ -20,7 +20,8 @@ export default function AdminLayout() {
   const toggle = useMutation({
     mutationFn: (next: boolean) => updateSettings({ acceptingOrders: next }),
     onSuccess: (settings) => {
-      queryClient.setQueryData(['settings'], settings)
+      queryClient.invalidateQueries({ queryKey: ['settings'] })
+      queryClient.invalidateQueries({ queryKey: ['admin', 'settings'] })
       showToast(settings.acceptingOrders ? 'The shop is taking orders again' : 'Online orders paused — customers will be asked to WhatsApp you', 'info')
     },
   })

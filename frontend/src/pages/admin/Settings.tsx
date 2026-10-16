@@ -1,21 +1,23 @@
 import { useState, type FormEvent } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Plus, Trash2, RotateCcw } from 'lucide-react'
+import { Plus, Trash2 } from 'lucide-react'
 import AdminPageHeader from '../../components/admin/AdminPageHeader'
-import ConfirmDialog from '../../components/ui/ConfirmDialog'
 import { FormError, TextField } from '../../components/ui/Field'
-import { getSettings, resetDemoData, updateSettings } from '../../services/shop'
-import { newId } from '../../services/mockDb'
+import { getAdminSettings, updateSettings } from '../../services/shop'
 import { DISTRICTS } from '../../data/settings'
 import { useToast } from '../../hooks/useToast'
 import { formatPhone } from '../../lib/phone'
 import type { DeliveryZone, PromoCode, ShopSettings } from '../../types'
 
+// Rows in the zone and promo tables need a key while they are being edited; the server identifies them by district / code.
+let rowCounter = 0
+const newId = (prefix: string) => `${prefix}-new-${++rowCounter}`
+
 const section = 'bg-surface-container-lowest rounded-xl shadow-sm p-6 space-y-4'
 const cell = 'bg-surface-container-low rounded-lg px-2.5 py-1.5 text-body-sm focus:outline-none focus:ring-1 focus:ring-primary'
 
 export default function Settings() {
-  const { data, isLoading } = useQuery({ queryKey: ['settings'], queryFn: getSettings })
+  const { data, isLoading } = useQuery({ queryKey: ['admin', 'settings'], queryFn: getAdminSettings })
   if (isLoading || !data) return <div className="max-w-5xl mx-auto bg-surface-container-lowest rounded-xl h-96 animate-pulse" aria-busy="true" />
   return <SettingsForm initial={data} />
 }
@@ -24,26 +26,17 @@ function SettingsForm({ initial }: { initial: ShopSettings }) {
   const queryClient = useQueryClient()
   const { showToast } = useToast()
   const [form, setForm] = useState<ShopSettings>({ ...initial, whatsappNumber: formatPhone(initial.whatsappNumber) })
-  const [confirmReset, setConfirmReset] = useState(false)
   const set = <K extends keyof ShopSettings>(k: K, v: ShopSettings[K]) => setForm((f) => ({ ...f, [k]: v }))
 
   const save = useMutation({
     mutationFn: () => updateSettings(form),
     onSuccess: (saved) => {
-      queryClient.setQueryData(['settings'], saved)
+      queryClient.setQueryData(['admin', 'settings'], saved)
+      queryClient.invalidateQueries({ queryKey: ['settings'] })
       setForm({ ...saved, whatsappNumber: formatPhone(saved.whatsappNumber) })
       showToast('Settings saved — the shop is updated')
     },
   })
-  const reset = useMutation({
-    mutationFn: resetDemoData,
-    onSuccess: () => {
-      queryClient.invalidateQueries()
-      showToast('Demo data restored', 'info')
-      window.location.reload()
-    },
-  })
-
   function updateZone(id: string, changes: Partial<DeliveryZone>) {
     set('deliveryZones', form.deliveryZones.map((z) => (z.id === id ? { ...z, ...changes } : z)))
   }
@@ -216,30 +209,6 @@ function SettingsForm({ initial }: { initial: ShopSettings }) {
         )}
       </section>
 
-      <section className={`${section} border border-error-container`}>
-        <h2 className="font-display text-headline-sm text-primary">Demo data</h2>
-        <p className="text-body-sm text-secondary">
-          While the site runs without a backend, everything is saved in this browser. Restore the sample products, orders and customers here
-          (useful when the sample delivery dates have gone out of date).
-        </p>
-        <button type="button" onClick={() => setConfirmReset(true)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container text-error text-label-md hover:bg-error-container">
-          <RotateCcw size={15} /> Reset demo data
-        </button>
-      </section>
-
-      <ConfirmDialog
-        open={confirmReset}
-        title="Reset all demo data?"
-        message="This removes every product, order, customer and setting change made in this browser and restores the samples."
-        confirmLabel="Reset"
-        cancelLabel="Cancel"
-        tone="danger"
-        onConfirm={() => {
-          setConfirmReset(false)
-          reset.mutate()
-        }}
-        onCancel={() => setConfirmReset(false)}
-      />
     </form>
   )
 }
