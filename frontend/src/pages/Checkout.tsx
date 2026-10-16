@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ShoppingBag, CreditCard, Banknote, MessageCircle, Lock, Tag } from 'lucide-react'
@@ -8,7 +8,7 @@ import { FormError, SelectField, TextAreaField, TextField } from '../components/
 import { useCart } from '../hooks/useCart'
 import { useAuth } from '../hooks/useAuth'
 import { useShop } from '../hooks/useShop'
-import { createOrder, quoteOrder } from '../services/orders'
+import { createOrder, quoteOrder, type OrderQuote } from '../services/orders'
 import { listAddresses, saveAddress } from '../services/auth'
 import { DISTRICTS } from '../data/settings'
 import { availableSlots, earliestDeliveryDate } from '../lib/deliverySlots'
@@ -91,10 +91,16 @@ function CheckoutForm() {
   const zone = shop.deliveryZones.find((z) => z.active && z.district === form.district)
   const earliest = earliestDeliveryDate(zone, shop.sameDayCutoff)
   const slots = zone ? availableSlots(form.deliveryDate, zone) : []
-  const quote = useMemo(
-    () => quoteOrder(items, form.district, form.deliverySlot, appliedPromo),
-    [items, form.district, form.deliverySlot, appliedPromo]
-  )
+  // The server works out every price, so the summary always matches what is charged.
+  const quoteQuery = useQuery({
+    queryKey: ['quote', items.map((i) => [i.id, i.quantity, i.productId, i.hamper]), form.district, form.deliverySlot, appliedPromo],
+    queryFn: () => quoteOrder(items, form.district, form.deliverySlot, appliedPromo),
+    placeholderData: (previous) => previous,
+    enabled: items.length > 0,
+    retry: false,
+  })
+  const cartTotal = items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0)
+  const quote: OrderQuote = quoteQuery.data ?? { subtotal: cartTotal, deliveryFee: null, discount: 0, total: cartTotal }
 
   const placeOrder = useMutation({
     mutationFn: createOrder,
@@ -133,16 +139,20 @@ function CheckoutForm() {
     setForm((prev) => ({ ...prev, recipientName: prev.customerName, recipientPhone: prev.customerPhone }))
   }
 
-  function applyPromoCode() {
+  async function applyPromoCode() {
     const code = promoInput.trim()
     if (!code) return
-    const result = quoteOrder(items, form.district, form.deliverySlot, code)
-    if (result.promoError) {
-      setAppliedPromo('')
-      setPromoMessage(result.promoError)
-    } else {
-      setAppliedPromo(code)
-      setPromoMessage(null)
+    try {
+      const result = await quoteOrder(items, form.district, form.deliverySlot, code)
+      if (result.promoError) {
+        setAppliedPromo('')
+        setPromoMessage(result.promoError)
+      } else {
+        setAppliedPromo(code)
+        setPromoMessage(null)
+      }
+    } catch (error) {
+      setPromoMessage((error as Error).message)
     }
   }
 
@@ -170,7 +180,6 @@ function CheckoutForm() {
       return
     }
     placeOrder.mutate({
-      customerId: user?.role === 'CUSTOMER' ? user.id : undefined,
       customerName: form.customerName,
       customerPhone: form.customerPhone,
       customerEmail: form.customerEmail,
@@ -401,7 +410,7 @@ function CheckoutForm() {
             </div>
           </dl>
 
-          <FormError message={placeOrder.error ? placeOrder.error.message : null} />
+          <FormError message={placeOrder.error ? placeOrder.error.message : quoteQuery.error ? quoteQuery.error.message : null} />
 
           <button
             type="submit"

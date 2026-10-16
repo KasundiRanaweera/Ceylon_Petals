@@ -59,6 +59,13 @@ export interface Product {
   createdAt: string
 }
 
+export interface HamperRecipe {
+  /** Ids from the hamper builder, e.g. base 'roses', treats ['pralines'], keepsake 'candle'. */
+  base: string
+  treats: string[]
+  keepsake: string | null
+}
+
 export interface CartItem {
   /** Line id. Same product + same options share a line. */
   id: string
@@ -70,6 +77,8 @@ export interface CartItem {
   quantity: number
   /** Free-text extras, e.g. the contents of a custom-built hamper. */
   options?: string
+  /** For a custom-built hamper: the parts chosen. The server prices it; the browser never sends a price. */
+  hamper?: HamperRecipe
   /** Most the customer can add (the product's stock). */
   maxQuantity?: number
 }

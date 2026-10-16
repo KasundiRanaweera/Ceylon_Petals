@@ -1,11 +1,12 @@
 import { createContext } from 'react'
-import type { CartItem, Product } from '../types'
+import type { CartItem, HamperRecipe, Product } from '../types'
 
 export interface CustomCartLine {
   name: string
   imageUrl: string
   unitPrice: number
   options?: string
+  hamper?: HamperRecipe
 }
 
 export interface CartContextValue {

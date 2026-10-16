@@ -25,9 +25,14 @@ function write(key: string, value: unknown) {
   }
 }
 
+// Carts saved by older versions of the site hold sample products and hampers without a recipe.
+// The server cannot sell those, so they are dropped instead of failing at checkout.
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+const sellable = (item: CartItem) => (item.hamper ? true : Boolean(item.productId && UUID.test(item.productId)))
+
 export default function CartProvider({ children }: { children: ReactNode }) {
   const { showToast } = useToast()
-  const [items, setItems] = useState<CartItem[]>(() => read(CART_KEY, []))
+  const [items, setItems] = useState<CartItem[]>(() => read<CartItem[]>(CART_KEY, []).filter(sellable))
   const [cardMessage, setCardMessage] = useState<string>(() => read(MESSAGE_KEY, ''))
 
   useEffect(() => write(CART_KEY, items), [items])

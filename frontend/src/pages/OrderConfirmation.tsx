@@ -1,10 +1,10 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { CircleCheck, MessageCircle, CircleAlert, RotateCcw } from 'lucide-react'
 import NotFound from './NotFound'
 import OrderTimeline from '../components/orders/OrderTimeline'
 import OrderSummary from '../components/orders/OrderSummary'
-import { getOrderByNumber, retryCardPayment } from '../services/orders'
+import { getOrderByNumber } from '../services/orders'
 import { useAuth } from '../hooks/useAuth'
 import { useWhatsApp } from '../hooks/useShop'
 import { placedOrderMessage } from '../lib/whatsapp'
@@ -15,16 +15,21 @@ export default function OrderConfirmation() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const whatsapp = useWhatsApp()
-  const { data: order, isLoading } = useQuery({ queryKey: ['order', orderNumber], queryFn: () => getOrderByNumber(orderNumber) })
-  const retry = useMutation({
-    mutationFn: () => retryCardPayment(orderNumber),
-    onSuccess: () => navigate(`/payment/${orderNumber}`),
+  const { data: order, isLoading } = useQuery({
+    queryKey: ['order', orderNumber],
+    queryFn: () => getOrderByNumber(orderNumber),
+    // PayHere tells our server about the payment a moment after the customer returns: keep checking until it does.
+    refetchInterval: (query) => {
+      const o = query.state.data
+      return o && o.paymentMethod === 'CARD' && o.paymentStatus === 'PENDING' && o.status === 'PENDING' ? 3000 : false
+    },
   })
 
   if (isLoading) return <div className="min-h-[60vh]" aria-busy="true" />
   if (!order) return <NotFound />
 
   const failed = order.status === 'PAYMENT_FAILED'
+  const confirmingPayment = order.paymentMethod === 'CARD' && order.paymentStatus === 'PENDING' && order.status === 'PENDING'
   const needsWhatsApp = order.paymentMethod === 'WHATSAPP' && order.status === 'PENDING'
 
   return (
@@ -41,6 +46,13 @@ export default function OrderConfirmation() {
           {!failed && <> · We'll send updates to {formatPhone(order.customerPhone)}</>}
         </p>
       </div>
+
+      {confirmingPayment && (
+        <p className="text-center text-body-md text-secondary" role="status">
+          Confirming your card payment with PayHere… this page updates by itself. If you have not paid yet,{' '}
+          <Link to={`/payment/${order.orderNumber}`} className="text-primary underline">continue to payment</Link>.
+        </p>
+      )}
 
       {needsWhatsApp && (
         <div className="bg-[#25D366]/10 rounded-xl p-6 text-center space-y-3">
@@ -62,9 +74,8 @@ export default function OrderConfirmation() {
         <div className="flex flex-wrap justify-center gap-3">
           <button
             type="button"
-            onClick={() => retry.mutate()}
-            disabled={retry.isPending}
-            className="inline-flex items-center gap-2 btn-gradient text-title-md px-6 py-3 rounded-lg  disabled:opacity-60"
+            onClick={() => navigate(`/payment/${orderNumber}`)}
+            className="inline-flex items-center gap-2 btn-gradient text-title-md px-6 py-3 rounded-lg"
           >
             <RotateCcw size={18} /> Try paying again
           </button>

@@ -52,14 +52,16 @@ export default function HamperBuilder() {
 
   const total = selectedItems.reduce((sum, item) => sum + item.price, 0)
 
-  // TODO (backend): store builder options in the database so the owner can edit them and the
-  // server can re-price the custom hamper at checkout instead of trusting this total.
+  // The cart keeps the recipe (which parts were picked). At checkout the server adds up the price
+  // from its own list, so the total shown here is only a preview.
   function addToCart() {
+    if (!step1) return
     addCustom({
       name: 'Custom-built hamper',
       imageUrl: PRODUCT_IMAGES['the-heritage-ceylon-sovereign-crate'],
       unitPrice: total,
       options: selectedItems.map((i) => i.name).join(' + '),
+      hamper: { base: step1, treats: step2, keepsake: step3 },
     })
     if (message.trim()) setCardMessage(message.trim())
     navigate('/cart')
