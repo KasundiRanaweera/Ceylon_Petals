@@ -1,43 +1,16 @@
 import type { Address, User } from '../types'
-import { commit, db, delay, fail, newId, type StoredUser } from './mockDb'
-import { isValidPhone, normalizePhone } from '../lib/phone'
+import { del, get, patch, post, put } from '../lib/api'
 
-// Future endpoints:
-//   POST /api/auth/register   POST /api/auth/login   POST /api/auth/logout   GET /api/auth/me
-//   PATCH /api/me             GET/POST /api/me/addresses   PUT/DELETE /api/me/addresses/:id
-//
-// The backend should keep the session in an httpOnly cookie. Here we only remember the user id.
+// Talks to the backend's /api/auth and /api/me routes.
+// The login itself is an httpOnly cookie set by the server: this code never sees or stores a token.
 
-const SESSION_KEY = 'ceylon-petals-session'
-
-function publicUser(user: StoredUser): User {
-  return { id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role, createdAt: user.createdAt }
-}
-
+/** Who is signed in, or null for a visitor. (The server answers 200 with null for visitors.) */
 export function getSessionUser(): Promise<User | null> {
-  let id: string | null = null
-  try {
-    id = localStorage.getItem(SESSION_KEY)
-  } catch {
-    id = null
-  }
-  const user = id ? db().users.find((u) => u.id === id) : undefined
-  return delay(user ? publicUser(user) : null, 0)
-}
-
-function startSession(user: StoredUser) {
-  try {
-    localStorage.setItem(SESSION_KEY, user.id)
-  } catch {
-    // Session just won't survive a reload.
-  }
+  return get<User | null>('/auth/me').catch(() => null)
 }
 
 export function signIn(email: string, password: string): Promise<User> {
-  const user = db().users.find((u) => u.email.toLowerCase() === email.trim().toLowerCase())
-  if (!user || user.password !== password) return fail('That email and password do not match. Please try again.', 400)
-  startSession(user)
-  return delay(publicUser(user), 400)
+  return post<User>('/auth/login', { email, password })
 }
 
 export interface RegisterInput {
@@ -49,99 +22,38 @@ export interface RegisterInput {
 
 /** Public sign-up always creates a CUSTOMER. Owner accounts are only ever created on the server. */
 export function register(input: RegisterInput): Promise<User> {
-  const email = input.email.trim().toLowerCase()
-  if (!input.name.trim()) return fail('Please enter your name.')
-  if (!/^\S+@\S+\.\S+$/.test(email)) return fail('Please enter a valid email address.')
-  if (!isValidPhone(input.phone)) return fail('Please enter a valid phone number.')
-  if (input.password.length < 8) return fail('Your password needs at least 8 characters.')
-  if (db().users.some((u) => u.email === email)) return fail('An account with this email already exists. Try signing in.')
-
-  const user: StoredUser = {
-    id: newId('u'),
-    name: input.name.trim(),
-    email,
-    phone: normalizePhone(input.phone),
-    role: 'CUSTOMER',
-    createdAt: new Date().toISOString(),
-    password: input.password,
-  }
-  db().users.push(user)
-  commit()
-  startSession(user)
-  return delay(publicUser(user), 400)
+  return post<User>('/auth/register', input)
 }
 
 export function signOut(): Promise<void> {
-  try {
-    localStorage.removeItem(SESSION_KEY)
-  } catch {
-    // nothing to clear
-  }
-  return delay(undefined, 0)
+  return post<void>('/auth/logout').then(() => undefined)
 }
 
-export function updateProfile(userId: string, changes: { name: string; phone: string }): Promise<User> {
-  const user = db().users.find((u) => u.id === userId)
-  if (!user) return fail('Please sign in again.')
-  if (!changes.name.trim()) return fail('Please enter your name.')
-  if (!isValidPhone(changes.phone)) return fail('Please enter a valid phone number.')
-  user.name = changes.name.trim()
-  user.phone = normalizePhone(changes.phone)
-  commit()
-  return delay(publicUser(user))
+// The user id arguments below are kept so the pages did not need to change; the server uses the
+// signed-in user from the cookie, so they can never be used to touch someone else's account.
+
+export function updateProfile(_userId: string, changes: { name: string; phone: string }): Promise<User> {
+  return patch<User>('/me', changes)
 }
 
-export function changePassword(userId: string, current: string, next: string): Promise<void> {
-  const user = db().users.find((u) => u.id === userId)
-  if (!user) return fail('Please sign in again.')
-  if (user.password !== current) return fail('Your current password is not correct.')
-  if (next.length < 8) return fail('Your new password needs at least 8 characters.')
-  user.password = next
-  commit()
-  return delay(undefined)
+export function changePassword(_userId: string, currentPassword: string, newPassword: string): Promise<void> {
+  return post<User>('/me/password', { currentPassword, newPassword }).then(() => undefined)
 }
 
 // ---------------- Saved addresses ----------------
 
-export function listAddresses(userId: string): Promise<Address[]> {
-  return delay(db().addresses.filter((a) => a.userId === userId))
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function listAddresses(_userId: string): Promise<Address[]> {
+  return get<Address[]>('/me/addresses')
 }
 
 export type AddressInput = Omit<Address, 'id' | 'userId'> & { id?: string }
 
-export function saveAddress(userId: string, input: AddressInput): Promise<Address> {
-  if (!input.recipientName.trim() || !input.line1.trim() || !input.city.trim() || !input.district) {
-    return fail('Please fill in the name, address, city and district.')
-  }
-  if (!isValidPhone(input.phone)) return fail('Please enter a valid phone number.')
-  const all = db().addresses
-  const mine = all.filter((a) => a.userId === userId)
-  const makeDefault = input.isDefault || mine.length === 0
-  if (makeDefault) mine.forEach((a) => (a.isDefault = false))
-
-  const existing = input.id ? mine.find((a) => a.id === input.id) : undefined
-  const saved: Address = {
-    ...input,
-    id: existing?.id ?? newId('a'),
-    userId,
-    phone: normalizePhone(input.phone),
-    label: input.label.trim() || 'Address',
-    isDefault: makeDefault,
-  }
-  if (existing) all[all.indexOf(existing)] = saved
-  else all.push(saved)
-  commit()
-  return delay(saved)
+export function saveAddress(_userId: string, input: AddressInput): Promise<Address> {
+  const { id, ...body } = input
+  return id ? put<Address>(`/me/addresses/${id}`, body) : post<Address>('/me/addresses', body)
 }
 
-export function deleteAddress(userId: string, id: string): Promise<void> {
-  const data = db()
-  const removed = data.addresses.find((a) => a.id === id && a.userId === userId)
-  data.addresses = data.addresses.filter((a) => a !== removed)
-  if (removed?.isDefault) {
-    const next = data.addresses.find((a) => a.userId === userId)
-    if (next) next.isDefault = true
-  }
-  commit()
-  return delay(undefined)
+export function deleteAddress(_userId: string, id: string): Promise<void> {
+  return del(`/me/addresses/${id}`)
 }
