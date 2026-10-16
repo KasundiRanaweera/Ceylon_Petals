@@ -3,10 +3,12 @@ import { z } from 'zod'
 import { clearSessionCookie, setSessionCookie } from '../lib/cookies.js'
 import { emailSchema, passwordSchema, phoneSchema, textSchema } from '../lib/validation.js'
 import { requireAuth } from '../middleware/auth.js'
+import { noStore } from '../middleware/noStore.js'
 import { loginLimiter, registerLimiter } from '../middleware/rateLimit.js'
 import { loginWithPassword, registerCustomer, revokeAllSessions } from '../services/auth.js'
 
 export const authRouter = Router()
+authRouter.use(noStore)
 
 // Unknown fields (for example "role": "OWNER") are dropped by Zod and never reach the service.
 const registerBody = z.object({

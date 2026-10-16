@@ -1,6 +1,7 @@
 import type { Prisma } from '../generated/prisma/client.js'
 import { prisma } from '../lib/prisma.js'
 import { notFound } from '../lib/errors.js'
+import { effectivePrice } from '../lib/pricing.js'
 
 // Catalogue reads for the public shop. Everything here only ever returns what a customer is
 // allowed to see: active products that sit in an active category.
@@ -124,8 +125,7 @@ export function matchesSearch(p: ProductDto, query: string): boolean {
   return words(query).every((word) => haystack.includes(word))
 }
 
-export const effectivePrice = (p: Pick<ProductDto, 'price' | 'discountPrice'>) =>
-  p.discountPrice != null && p.discountPrice < p.price ? p.discountPrice : p.price
+export { effectivePrice }
 
 export type SortKey = 'featured' | 'price-asc' | 'price-desc' | 'newest'
 
