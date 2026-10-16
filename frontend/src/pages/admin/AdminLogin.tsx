@@ -2,14 +2,12 @@ import { useState, type FormEvent } from 'react'
 import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import { Lock } from 'lucide-react'
 import { FormError, TextField } from '../../components/ui/Field'
-import DemoAccountHint from '../../components/auth/DemoAccountHint'
 import PasswordField from '../../components/auth/PasswordField'
 import { Blobs } from '../../components/motion/Ambient'
 import { motion } from 'motion/react'
 import { EASE_OUT } from '../../components/motion/variants'
 import { useAuth } from '../../hooks/useAuth'
 import { useShop } from '../../hooks/useShop'
-import { DEMO_OWNER } from '../../data/seed'
 import { safeNext } from '../../lib/redirect'
 
 // Owner sign-in. Only accounts with the OWNER role get in — a customer account is refused here
@@ -75,7 +73,6 @@ export default function AdminLogin() {
             {busy ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
-        <DemoAccountHint email={DEMO_OWNER.email} password={DEMO_OWNER.password} />
         <Link to="/" className="block text-center text-label-md text-primary hover:underline">← Back to the shop</Link>
       </motion.div>
     </div>

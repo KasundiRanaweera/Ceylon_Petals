@@ -5,11 +5,9 @@ import { LogIn, UserPlus, Loader2, ShoppingBag } from 'lucide-react'
 import AuthLayout from '../components/auth/AuthLayout'
 import AuthTabs from '../components/auth/AuthTabs'
 import PasswordField from '../components/auth/PasswordField'
-import DemoAccountHint from '../components/auth/DemoAccountHint'
 import { FormError, TextField } from '../components/ui/Field'
 import { useAuth } from '../hooks/useAuth'
 import { useWhatsApp } from '../hooks/useShop'
-import { DEMO_CUSTOMER } from '../data/seed'
 import { safeNext } from '../lib/redirect'
 import { EASE_OUT } from '../components/motion/variants'
 
@@ -68,7 +66,6 @@ function SignInForm({ next }: { next: string }) {
         {busy ? <Loader2 size={18} className="animate-spin" /> : <LogIn size={18} />}
         {busy ? 'Signing in…' : 'Sign in'}
       </button>
-      <DemoAccountHint email={DEMO_CUSTOMER.email} password={DEMO_CUSTOMER.password} />
     </form>
   )
 }
