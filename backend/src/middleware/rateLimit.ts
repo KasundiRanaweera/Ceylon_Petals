@@ -90,3 +90,21 @@ export const paymentLimiter = rateLimit({
   skip: skipInTests,
   keyGenerator: ipOf,
 })
+
+/** Custom order requests: 10 per hour per address, so the owner's inbox cannot be flooded. */
+export const inquiryLimiter = rateLimit({
+  ...common,
+  windowMs: 60 * 60 * 1000,
+  limit: 10,
+  skip: skipInTests,
+  keyGenerator: ipOf,
+})
+
+/** Photo upload signatures (owner only). */
+export const uploadSignLimiter = rateLimit({
+  ...common,
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  skip: skipInTests,
+  keyGenerator: (req) => req.user?.id ?? ipOf(req),
+})

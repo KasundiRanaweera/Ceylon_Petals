@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { z } from 'zod'
 import { DISTRICTS } from '../lib/districts.js'
 import { SLOT_KEYS } from '../lib/deliverySlots.js'
-import { dateSchema, emailSchema, phoneSchema, textSchema, uuidSchema } from '../lib/validation.js'
+import { blankToUndefined, dateSchema, emailSchema, optionalText, phoneSchema, textSchema, uuidSchema } from '../lib/validation.js'
 import { viewerFrom } from '../lib/viewer.js'
 import { noStore } from '../middleware/noStore.js'
 import { orderLimiter, quoteLimiter, trackLimiter } from '../middleware/rateLimit.js'
@@ -27,9 +27,7 @@ const cartLine = z.union([
 const items = z.array(cartLine).min(1, 'Your cart is empty.').max(30, 'Your cart has too many items.')
 
 // "" (an empty form field) means "not given".
-const blankToUndefined = (value: unknown) => (typeof value === 'string' && value.trim() === '' ? undefined : value)
 const optionalSlot = z.preprocess(blankToUndefined, z.enum(SLOT_KEYS).optional())
-const optionalText = (max: number) => z.preprocess(blankToUndefined, z.string().trim().max(max).optional())
 
 const quoteBody = z.object({
   items,
