@@ -15,6 +15,8 @@ const schema = z.object({
   DIRECT_URL: z.string().optional(),
 
   // Signs login cookies. Anyone who knows it can pretend to be any user, so keep it long and secret.
+  // How many proxies sit in front of the API (Render = 1; Vercel rewrite + Render = 2). Decides which address counts as the visitor's.
+  TRUST_PROXY_HOPS: z.coerce.number().int().min(0).max(5).default(1),
   JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters'),
   JWT_EXPIRES_IN_DAYS: z.coerce.number().int().positive().default(7),
   // How slow password hashing is. Higher is safer but slower. 12 is a good default in 2026.
