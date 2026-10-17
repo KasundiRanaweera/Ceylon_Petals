@@ -139,6 +139,19 @@ function CheckoutForm() {
     setErrors((prev) => ({ ...prev, [field]: undefined }))
   }
 
+  // A district without same-day delivery (e.g. Kandy) starts later. Move the date forward when it is now
+  // too early, and drop a time slot that this district does not offer, so the order is never refused for it.
+  function changeDistrict(district: string) {
+    const nextZone = shop.deliveryZones.find((z) => z.active && z.district === district)
+    const first = firstDateFor(nextZone)
+    setForm((prev) => {
+      const deliveryDate = prev.deliveryDate < first ? first : prev.deliveryDate
+      const keepSlot = prev.deliverySlot && availableSlots(deliveryDate, nextZone).some((s) => s.key === prev.deliverySlot)
+      return { ...prev, district, deliveryDate, deliverySlot: keepSlot ? prev.deliverySlot : '' }
+    })
+    setErrors((prev) => ({ ...prev, district: undefined, deliveryDate: undefined, deliverySlot: undefined }))
+  }
+
   function applySavedAddress(a: Address) {
     setForm((prev) => ({ ...prev, recipientName: a.recipientName, recipientPhone: formatPhone(a.phone), address: a.line1, area: a.city, district: a.district }))
     setErrors({})
@@ -271,7 +284,7 @@ function CheckoutForm() {
               <TextField id="recipientPhone" label="Recipient's phone" required type="tel" placeholder="077 123 4567" value={form.recipientPhone} onChange={(e) => update('recipientPhone', e.target.value)} error={errors.recipientPhone} hint="Our rider calls this number on arrival." />
               <TextField id="address" label="Street address" required autoComplete="street-address" placeholder="House no., street, apartment" className="sm:col-span-2" value={form.address} onChange={(e) => update('address', e.target.value)} error={errors.address} />
               <TextField id="area" label="City / area" required placeholder="e.g. Colombo 07, Nugegoda, Kandy" value={form.area} onChange={(e) => update('area', e.target.value)} error={errors.area} />
-              <SelectField id="district" label="District" required value={form.district} onChange={(e) => update('district', e.target.value)} error={errors.district}>
+              <SelectField id="district" label="District" required value={form.district} onChange={(e) => changeDistrict(e.target.value)} error={errors.district}>
                 {DISTRICTS.map((d) => {
                   const z = shop.deliveryZones.find((x) => x.active && x.district === d)
                   return <option key={d} value={d}>{d}{z ? '' : ' — WhatsApp only'}</option>
