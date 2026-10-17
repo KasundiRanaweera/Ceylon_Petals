@@ -39,6 +39,11 @@ api.interceptors.response.use(
     }
     const { status, data } = error.response
     const body = data?.error
+    // 502/503/504 with no message from our API means the API itself is not answering (in development:
+    // the backend is not running). Say that, instead of a vague "something went wrong".
+    if (!body && (status === 502 || status === 503 || status === 504)) {
+      throw new ApiError("The shop's server isn't responding right now. Please try again in a moment.", status, 'SERVER_UNAVAILABLE')
+    }
     // For form mistakes the first detail is the friendliest sentence ("Please enter your name").
     const message =
       (body?.code === 'VALIDATION_ERROR' && body.details?.[0]?.message) ||
