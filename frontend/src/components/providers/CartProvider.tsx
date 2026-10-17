@@ -63,6 +63,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                 imageUrl: product.images[0],
                 unitPrice: effectivePrice(product),
                 quantity,
+                sameDay: product.sameDay,
                 maxQuantity: product.stock,
               },
             ]
@@ -75,7 +76,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
 
   const addCustom = useCallback(
     (line: CustomCartLine) => {
-      setItems((prev) => [...prev, { ...line, id: `custom-${Date.now()}`, quantity: 1 }])
+      setItems((prev) => [...prev, { ...line, id: `custom-${Date.now()}`, quantity: 1, sameDay: false }])
       showToast(`Added ${line.name} to your cart`)
     },
     [showToast]

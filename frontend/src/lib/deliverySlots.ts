@@ -1,6 +1,6 @@
 import type { DeliverySlotKey } from '../types/admin'
 import type { DeliveryZone } from '../types'
-import { isoDate } from './dates'
+import { colomboMinutes, isoDate } from './dates'
 
 export interface DeliverySlot {
   key: DeliverySlotKey
@@ -31,7 +31,7 @@ export const SLOT_LABEL: Record<DeliverySlotKey, string> = {
 export const SLOT_BY_KEY = Object.fromEntries(DELIVERY_SLOTS.map((s) => [s.key, s])) as Record<DeliverySlotKey, DeliverySlot>
 
 function minutesNow(now: Date) {
-  return now.getHours() * 60 + now.getMinutes()
+  return colomboMinutes(now)
 }
 
 function cutoffMinutes(cutoff: string) {
@@ -41,16 +41,16 @@ function cutoffMinutes(cutoff: string) {
 
 /** The first date a customer can choose for this zone. */
 export function earliestDeliveryDate(zone: DeliveryZone | undefined, cutoff: string, now = new Date()): string {
-  if (!zone) return isoDate(1)
-  if (zone.sameDay && minutesNow(now) < cutoffMinutes(cutoff)) return isoDate(0)
-  return zone.sameDay ? isoDate(1) : isoDate(2)
+  if (!zone) return isoDate(1, now)
+  if (zone.sameDay && minutesNow(now) < cutoffMinutes(cutoff)) return isoDate(0, now)
+  return zone.sameDay ? isoDate(1, now) : isoDate(2, now)
 }
 
 /** Slots that can still be delivered on the chosen date. */
 export function availableSlots(date: string, zone: DeliveryZone | undefined, now = new Date()): DeliverySlot[] {
   return DELIVERY_SLOTS.filter((slot) => {
     if (slot.sameDayZonesOnly && !zone?.sameDay) return false
-    if (date === isoDate(0)) return slot.startHour * 60 - 120 > minutesNow(now)
+    if (date === isoDate(0, now)) return slot.startHour * 60 - 120 > minutesNow(now)
     return true
   })
 }

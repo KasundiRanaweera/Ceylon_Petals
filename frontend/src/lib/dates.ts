@@ -4,10 +4,34 @@ function pad(n: number) {
   return String(n).padStart(2, '0')
 }
 
-export function isoDate(offsetDays = 0): string {
-  const d = new Date()
-  d.setDate(d.getDate() + offsetDays)
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+// The shop runs on Colombo time (UTC+5:30, no daylight saving), whatever the visitor's own clock says.
+// "Today" for delivery dates, order lists and reports always means today in Colombo, which is also
+// what the server uses to accept or refuse a delivery date.
+const colomboClock = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Asia/Colombo',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+})
+
+function colomboParts(at: Date) {
+  const get = (type: string) => Number(colomboClock.formatToParts(at).find((p) => p.type === type)?.value)
+  return { year: get('year'), month: get('month'), day: get('day'), minutes: get('hour') * 60 + get('minute') }
+}
+
+/** Minutes since midnight in Colombo. */
+export function colomboMinutes(at: Date = new Date()): number {
+  return colomboParts(at).minutes
+}
+
+/** Colombo's 'YYYY-MM-DD' for today (offset 0), tomorrow (1), yesterday (-1)... */
+export function isoDate(offsetDays = 0, now: Date = new Date()): string {
+  const { year, month, day } = colomboParts(now)
+  const d = new Date(Date.UTC(year, month - 1, day + offsetDays))
+  return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`
 }
 
 export function formatDeliveryDate(iso: string): string {
@@ -44,12 +68,12 @@ export function formatLongDate(iso?: string): string {
   })
 }
 
-/** Local 'YYYY-MM-DD' for an ISO timestamp. */
+/** The Colombo 'YYYY-MM-DD' of an ISO timestamp (the day an order was placed, as the shop sees it). */
 export function localDay(isoTimestamp?: string): string {
   const ts = isoTimestamp ?? ''
   if (!ts) return isoDate(0)
-  const d = new Date(ts)
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+  const { year, month, day } = colomboParts(new Date(ts))
+  return `${year}-${pad(month)}-${pad(day)}`
 }
 
 /** "14:00" → "2 PM", "14:30" → "2:30 PM". */

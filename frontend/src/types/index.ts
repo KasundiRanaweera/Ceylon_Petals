@@ -79,6 +79,8 @@ export interface CartItem {
   options?: string
   /** For a custom-built hamper: the parts chosen. The server prices it; the browser never sends a price. */
   hamper?: HamperRecipe
+  /** False for made-to-order products and custom hampers: they can never be delivered on the day they are ordered. */
+  sameDay?: boolean
   /** Most the customer can add (the product's stock). */
   maxQuantity?: number
 }

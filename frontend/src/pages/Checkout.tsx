@@ -12,6 +12,7 @@ import { createOrder, quoteOrder, type OrderQuote } from '../services/orders'
 import { listAddresses, saveAddress } from '../services/auth'
 import { DISTRICTS } from '../data/settings'
 import { availableSlots, earliestDeliveryDate } from '../lib/deliverySlots'
+import { isoDate } from '../lib/dates'
 import { formatClock, formatLongDate } from '../lib/dates'
 import { formatLKR } from '../lib/format'
 import { formatPhone, isValidPhone } from '../lib/phone'
@@ -58,6 +59,14 @@ function CheckoutForm() {
   const { user } = useAuth()
   const shop = useShop()
 
+  // Made-to-order items (and custom hampers) are never delivered the same day they are ordered.
+  const madeToOrder = items.filter((i) => i.hamper || i.sameDay === false)
+  // The first date the whole cart can be delivered: today's date is out when something needs making first.
+  const firstDateFor = (z: Parameters<typeof earliestDeliveryDate>[0]) => {
+    const first = earliestDeliveryDate(z, shop.sameDayCutoff)
+    return madeToOrder.length > 0 && first === isoDate(0) ? isoDate(1) : first
+  }
+
   const [form, setForm] = useState<FormState>(() => {
     const zone = shop.deliveryZones.find((z) => z.district === 'Colombo')
     return {
@@ -69,7 +78,7 @@ function CheckoutForm() {
       address: '',
       area: '',
       district: 'Colombo',
-      deliveryDate: earliestDeliveryDate(zone, shop.sameDayCutoff),
+      deliveryDate: firstDateFor(zone),
       deliverySlot: '',
       cardMessage,
       deliveryNotes: '',
@@ -89,7 +98,7 @@ function CheckoutForm() {
   })
 
   const zone = shop.deliveryZones.find((z) => z.active && z.district === form.district)
-  const earliest = earliestDeliveryDate(zone, shop.sameDayCutoff)
+  const earliest = firstDateFor(zone)
   const slots = zone ? availableSlots(form.deliveryDate, zone) : []
   // The server works out every price, so the summary always matches what is charged.
   const quoteQuery = useQuery({
@@ -280,6 +289,11 @@ function CheckoutForm() {
           {/* 3. When */}
           <section className="bg-surface-container-lowest rounded-xl shadow-sm p-6 space-y-4">
             <h2 className="font-display text-headline-sm text-primary">3. Delivery date & time</h2>
+            {madeToOrder.length > 0 && (
+              <p className="text-body-sm text-secondary">
+                {madeToOrder.length === 1 ? madeToOrder[0].name : 'Some items in your cart'} {madeToOrder.length === 1 ? 'is' : 'are'} made to order, so delivery starts from {formatLongDate(isoDate(1))}.
+              </p>
+            )}
             {zone && (
               <p className="text-body-sm text-secondary">
                 {zone.sameDay
