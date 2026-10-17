@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
-import { env } from './config/env.js'
+import { env, isAllowedOrigin } from './config/env.js'
 import { apiRouter } from './routes/index.js'
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js'
 import { requestLogger } from './middleware/requestLogger.js'
@@ -24,7 +24,7 @@ export function createApp() {
     cors({
       // Only our own frontend may call the API from a browser. Requests with no Origin header
       // (curl, PayHere's server callback) are not browser requests, so they pass.
-      origin: (origin, callback) => callback(null, !origin || env.corsOrigins.includes(origin)),
+      origin: (origin, callback) => callback(null, !origin || isAllowedOrigin(origin)),
       credentials: true,
     })
   )

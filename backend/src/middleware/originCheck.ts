@@ -1,5 +1,5 @@
 import type { RequestHandler } from 'express'
-import { env } from '../config/env.js'
+import { isAllowedOrigin } from '../config/env.js'
 import { forbidden } from '../lib/errors.js'
 
 // Protection against cross-site request forgery (CSRF).
@@ -17,7 +17,7 @@ const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS'])
 export const rejectForeignOrigins: RequestHandler = (req, _res, next) => {
   if (SAFE_METHODS.has(req.method)) return next()
   const origin = req.get('origin')
-  if (origin && !env.corsOrigins.includes(origin.replace(/\/$/, ''))) {
+  if (origin && !isAllowedOrigin(origin)) {
     return next(forbidden('This request was blocked because it came from an unknown website'))
   }
   next()

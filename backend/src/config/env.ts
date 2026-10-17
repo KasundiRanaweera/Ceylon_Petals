@@ -88,6 +88,17 @@ const corsOrigins = data.FRONTEND_URL.split(',')
   .map((origin) => origin.trim().replace(/\/$/, ''))
   .filter(Boolean)
 
+/**
+ * Is this browser origin one of our own websites? In development any localhost port counts, because
+ * Vite moves to 5174, 5175... when 5173 is busy and sign-in would otherwise be refused. In production
+ * only the addresses in FRONTEND_URL are accepted.
+ */
+export function isAllowedOrigin(origin: string): boolean {
+  const clean = origin.replace(/\/$/, '')
+  if (corsOrigins.includes(clean)) return true
+  return data.NODE_ENV === 'development' && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(clean)
+}
+
 export const env = {
   ...data,
   isProduction: data.NODE_ENV === 'production',
