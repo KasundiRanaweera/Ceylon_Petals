@@ -9,19 +9,26 @@ interface ProductGridProps {
   loading?: boolean
   /** Shown when there are no products. */
   empty?: ReactNode
-  columns?: 3 | 4
+  /**
+   * 3: listings beside the filter sidebar (2 per row on phones, 3 from laptops).
+   * 'wide': full-width listing pages (2 / 3 / 4 per row).
+   * 4: the home page and related products.
+   */
+  columns?: 3 | 4 | 'wide'
 }
 
 export default function ProductGrid({ products, loading = false, empty, columns = 3 }: ProductGridProps) {
   const grid =
     columns === 4
       ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'
-      : 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5'
+      : columns === 'wide'
+        ? 'grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-3 gap-y-6 sm:gap-5'
+        : 'grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-6 sm:gap-5'
 
   if (loading || !products) {
     return (
       <div className={grid} aria-busy="true" aria-label="Loading products">
-        {Array.from({ length: columns === 4 ? 4 : 6 }).map((_, i) => (
+        {Array.from({ length: columns === 3 ? 6 : 4 }).map((_, i) => (
           <div key={i} className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm animate-pulse">
             <div className="aspect-[4/5] bg-surface-container" />
             <div className="p-4 space-y-2">

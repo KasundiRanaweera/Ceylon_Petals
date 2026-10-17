@@ -40,6 +40,7 @@ export default function ProductShowcase() {
         />
 
         <ProductGrid
+          columns="wide"
           products={filtered}
           loading={!products}
           empty={<p className="text-center text-secondary py-10">No hampers in this collection right now — try building your own below.</p>}

@@ -46,7 +46,7 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
           srcSet={imageSrcSet(product.images[0])}
           // The photos are landscape (11:6) and the card is square, so the image is drawn
           // 1.83× wider than the card. These sizes include that, so retina screens get a sharp file.
-          sizes={sizes ?? "(min-width: 1024px) 760px, (min-width: 640px) 84vw, 170vw"}
+          sizes={sizes ?? "(min-width: 1024px) 560px, (min-width: 640px) 60vw, 90vw"}
           alt=""
           loading="lazy"
           className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${soldOut ? 'opacity-60 grayscale-[40%]' : ''}`}
@@ -75,17 +75,20 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
         )}
       </Link>
 
-      <div className="flex-1 flex flex-col gap-3 border-b border-outline-variant pb-5 pt-4">
+      <div className="flex-1 flex flex-col gap-2.5 sm:gap-3 border-b border-outline-variant pb-4 sm:pb-5 pt-3 sm:pt-4">
         <div className="flex-1">
           {product.sameDay ? (
             <p className="eyebrow mb-1.5 flex items-center gap-1.5 text-tertiary">
-              <Truck size={13} /> Same-day delivery
+              <Truck size={13} aria-hidden="true" />
+              {/* The full words wrap on narrow two-per-row phone cards. */}
+              <span className="sm:hidden">Same-day</span>
+              <span className="hidden sm:inline">Same-day delivery</span>
             </p>
           ) : (
             // Keep the same height as the same-day line, so titles and prices line up.
             compact && <p className="eyebrow mb-1.5 text-secondary">Made to order</p>
           )}
-          <h3 className={`font-display text-[22px] leading-tight text-primary ${compact ? 'truncate' : ''}`}>
+          <h3 className={`font-display text-[17px] sm:text-[20px] lg:text-[22px] leading-tight text-primary ${compact ? 'truncate' : ''}`}>
             <Link to={href} tabIndex={tab} className="hover:text-surface-tint transition-colors">
               {product.name}
             </Link>
@@ -94,7 +97,7 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
         </div>
 
         <div className="flex items-baseline gap-2">
-          <span className="text-[17px] font-medium tracking-wide text-primary">{formatLKR(price)}</span>
+          <span className="text-[15px] sm:text-[17px] font-medium tracking-wide text-primary">{formatLKR(price)}</span>
           {off > 0 && <span className="text-body-sm text-secondary line-through">{formatLKR(product.price)}</span>}
         </div>
 
@@ -119,7 +122,13 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
                 className="flex items-center gap-1.5"
               >
                 {added ? <Check size={17} /> : <ShoppingBag size={17} />}
-                {soldOut ? 'Sold out' : added ? 'Added' : 'Add to cart'}
+                {soldOut ? 'Sold out' : added ? 'Added' : (
+                  <>
+                    {/* Narrow two-per-row cards on small phones only fit the short word. */}
+                    <span className="min-[420px]:hidden">Add</span>
+                    <span className="hidden min-[420px]:inline">Add to cart</span>
+                  </>
+                )}
               </motion.span>
             </AnimatePresence>
           </motion.button>

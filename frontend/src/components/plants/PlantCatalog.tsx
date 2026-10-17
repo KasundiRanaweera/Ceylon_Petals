@@ -73,6 +73,7 @@ export default function PlantCatalog() {
         </div>
 
         <ProductGrid
+          columns="wide"
           products={filtered}
           loading={!plants}
           empty={<p className="text-center text-secondary py-10">No plants match these filters yet — try resetting them.</p>}

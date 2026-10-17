@@ -27,13 +27,13 @@ export default function Occasions() {
       <OccasionTabs active={active} onChange={changeTab} products={products} />
 
       {visible.slice(0, 2).map((o, i) => (
-        <OccasionSection key={o.slug} occasion={o} products={byOccasion(o.slug)} limit={active === 'all' ? 3 : undefined} shaded={i % 2 === 1} />
+        <OccasionSection key={o.slug} occasion={o} products={byOccasion(o.slug)} limit={active === 'all' ? 4 : undefined} shaded={i % 2 === 1} />
       ))}
 
       <CalligrapherStudio />
 
       {visible.slice(2).map((o, i) => (
-        <OccasionSection key={o.slug} occasion={o} products={byOccasion(o.slug)} limit={3} shaded={i % 2 === 1} />
+        <OccasionSection key={o.slug} occasion={o} products={byOccasion(o.slug)} limit={4} shaded={i % 2 === 1} />
       ))}
 
       <DiasporaBanner />

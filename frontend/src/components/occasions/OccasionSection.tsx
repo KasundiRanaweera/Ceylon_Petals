@@ -27,7 +27,7 @@ export default function OccasionSection({ occasion, products, limit, shaded = fa
             See all {products ? `(${products.length})` : ''} <ArrowRight size={15} />
           </Link>
         </div>
-        <ProductGrid products={shown} loading={!products} />
+        <ProductGrid products={shown} loading={!products} columns="wide" />
       </div>
     </section>
   )
