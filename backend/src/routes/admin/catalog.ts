@@ -19,15 +19,30 @@ export const adminCatalogRouter = Router()
 
 // ---------------------------------------------------------------- products
 
-const photo = z
-  .string()
-  .trim()
-  .max(1000)
-  .url('Please use a full photo link')
-  .refine((u) => u.startsWith('https://'), 'Photo links must start with https://')
+// A photo is either a full https:// link (Cloudinary or any image address), or one of the shop's own
+// files under /images/ (the sample products ship with these). Anything else, such as data: images,
+// plain http:// or other relative paths, is refused.
+const SITE_PHOTO = /^\/images\/[A-Za-z0-9._/-]+$/
+function isPhotoLink(value: string): boolean {
+  if (value.startsWith('https://')) {
+    try {
+      return Boolean(new URL(value).hostname)
+    } catch {
+      return false
+    }
+  }
+  return SITE_PHOTO.test(value) && !value.includes('..') && !value.includes('//')
+}
+const PHOTO_HINT = "Use a photo link that starts with https:// (or upload a photo instead)"
+
+const photo = z.string().trim().max(1000).refine(isPhotoLink, PHOTO_HINT)
 
 const shortList = (max: number, itemMax: number) => z.array(z.string().trim().min(1).max(itemMax)).max(max).default([])
-const money = z.number('Please enter a number').int('Use whole rupees').min(1, 'Please enter a price above zero').max(10_000_000)
+const money = z
+  .number('Please enter a number')
+  .int('Use whole rupees')
+  .min(1, 'Please enter a price above zero')
+  .max(10_000_000, 'That price is too high. Please check it (the most is Rs. 10,000,000)')
 
 const productBody = z.object({
   name: textSchema('the product name', 150),
@@ -103,7 +118,7 @@ const categoryBody = z.object({
     .string()
     .trim()
     .max(1000)
-    .refine((u) => u === '' || u.startsWith('https://'), 'The photo link must start with https://')
+    .refine((u) => u === '' || isPhotoLink(u), PHOTO_HINT)
     .default(''),
   sortOrder: z.number().int().min(0).max(1000).default(0),
   isActive: z.boolean().default(true),

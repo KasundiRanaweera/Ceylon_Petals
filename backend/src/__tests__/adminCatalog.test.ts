@@ -79,14 +79,24 @@ describe('creating products', () => {
       }
     })
 
-    it('only accepts https photo links (no data: images, no plain http)', async () => {
+    it("only accepts https photo links or the shop's own /images/ files (no data: images, no plain http)", async () => {
       expect((await bad({ images: ['data:image/png;base64,AAAA'] })).status).toBe(400)
       expect((await bad({ images: ['http://img.example/a.jpg'] })).status).toBe(400)
       expect((await bad({ images: ['javascript:alert(1)'] })).status).toBe(400)
+      expect((await bad({ images: ['/etc/passwd'] })).status).toBe(400)
+      expect((await bad({ images: ['/images/../secret.webp'] })).status).toBe(400)
+      expect((await bad({ images: ['//evil.example/x.jpg'] })).status).toBe(400)
+      expect((await bad({ images: ['/images/products/ok.webp'] })).status).toBe(201)
       expect((await bad({ images: Array.from({ length: 11 }, (_, i) => `https://i/${i}.jpg`) })).status).toBe(400)
     })
 
-    it('the sale price must be below the regular price', async () => {
+    it('a price that is far too high gets a clear message, not "Please enter a number"', async () => {
+      const res = await bad({ price: 2202702203200 })
+      expect(res.status).toBe(400)
+      expect(res.body.error.details[0].message).toMatch(/too high/)
+    })
+
+  it('the sale price must be below the regular price', async () => {
       const res = await bad({ discountPrice: 9500 })
       expect(res.status).toBe(422)
       expect(res.body.error.message).toBe('The sale price must be lower than the regular price.')
@@ -118,6 +128,15 @@ describe('editing products', () => {
     expect(res.body.occasions).toEqual(['sympathy'])
     expect(res.body.images).toEqual(['https://i/new2.jpg', 'https://i/new1.jpg'])
     expect(await prisma.productImage.count()).toBe(2) // the old photos are gone, not piled up
+  })
+
+  it("can change the price of a product whose photos are the shop's own /images/ files", async () => {
+    const own = ['/images/products/a-1280.webp', '/images/products/b-1280.webp']
+    const created = (await admin('post', '/products').send(validProduct({ images: own }))).body
+    const res = await admin('put', `/products/${created.id}`).send(validProduct({ images: own, price: 12500 }))
+    expect(res.status).toBe(200)
+    expect(res.body.price).toBe(12500)
+    expect(res.body.images).toEqual(own)
   })
 
   it('can remove a sale price, a badge and plant facts again', async () => {
@@ -201,6 +220,7 @@ describe('categories', () => {
     expect(res.body).toMatchObject({ id: 'roses', slug: 'roses', name: 'Garden Roses', imageUrl: 'https://img.example/c.jpg' })
     expect((await admin('put', '/categories/missing').send({ name: 'X' })).status).toBe(404)
     expect((await admin('put', '/categories/roses').send({ name: 'X', imageUrl: 'http://insecure' })).status).toBe(400)
+    expect((await admin('put', '/categories/roses').send({ name: 'X', imageUrl: '/images/categories/roses.webp' })).status).toBe(200)
   })
 
   it('cannot be deleted while it holds products', async () => {
