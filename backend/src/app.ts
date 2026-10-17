@@ -14,8 +14,10 @@ export function createApp() {
   const app = express()
 
   app.disable('x-powered-by')
-  // Behind Render/Railway the real client address is in a header; needed for rate limiting later.
-  if (env.isProduction) app.set('trust proxy', 1)
+  // Behind Render/Railway (and a Vercel rewrite) the real visitor address is in a header. Rate limits
+  // and logs need it, so we trust exactly TRUST_PROXY_HOPS proxies and no more (more would let
+  // visitors fake their address).
+  if (env.isProduction) app.set('trust proxy', env.TRUST_PROXY_HOPS)
 
   app.use(helmet())
   app.use(

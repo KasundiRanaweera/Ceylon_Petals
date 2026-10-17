@@ -1,0 +1,50 @@
+# Render Blueprint for the Ceylon Petals API.
+# Render dashboard -> New -> Blueprint -> pick this repository. Secrets marked "sync: false"
+# are typed into the Render dashboard (never committed). Full guide: docs/DEPLOYMENT.md
+services:
+  - type: web
+    name: ceylon-petals-api
+    runtime: node
+    rootDir: backend
+    plan: starter # the free plan sleeps when idle, so the first visitor waits ~1 minute and the payment callback can be missed
+    region: singapore # closest to Sri Lanka and to the ap-south-1 database
+    # Dev dependencies are needed to build (TypeScript, Prisma). Migrations run before the new version goes live.
+    buildCommand: npm ci --include=dev && npm run build && npm run db:deploy
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 22
+      # Your website's address(es), comma separated. Must match exactly (https, no trailing slash).
+      - key: FRONTEND_URL
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: COOKIE_SAME_SITE
+        value: lax
+      # 2 = the website forwards /api to this API through Vercel (recommended setup). Use 1 for a custom api.* domain.
+      - key: TRUST_PROXY_HOPS
+        value: 2
+      # disabled until PayHere has approved your domain; then sandbox, then live.
+      - key: PAYHERE_MODE
+        value: disabled
+      - key: PAYHERE_MERCHANT_ID
+        sync: false
+      - key: PAYHERE_MERCHANT_SECRET
+        sync: false
+      # This service's own public address, e.g. https://ceylon-petals-api.onrender.com
+      - key: PUBLIC_API_URL
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false

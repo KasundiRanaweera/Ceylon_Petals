@@ -1,263 +1,287 @@
-import { useRef, type PointerEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from 'motion/react'
-import { ArrowRight, ChevronDown, PenLine, Star, Truck } from 'lucide-react'
+import { motion, useReducedMotion } from 'motion/react'
+import { useQuery } from '@tanstack/react-query'
+import { ArrowRight, Leaf, PenLine, Truck } from 'lucide-react'
 import WhatsAppIcon from '../ui/WhatsAppIcon'
-import { EASE_OUT, fadeUp, staggerContainer, pressable } from '../motion/variants'
-import { useWhatsApp } from '../../hooks/useShop'
+import { EASE_OUT, fadeUp, pressable, staggerContainer } from '../motion/variants'
+import { useWhatsApp, useShop } from '../../hooks/useShop'
+import { useCutoffCountdown } from '../../hooks/useCutoffCountdown'
+import { listProducts } from '../../services/catalog'
+import { getSettings } from '../../services/shop'
+import { formatClock } from '../../lib/dates'
+import { formatLKR } from '../../lib/format'
+import { imageSrcSet, sizedImage } from '../../lib/images'
+import { effectivePrice } from '../../lib/pricing'
+import type { Product } from '../../types'
 
 const MotionLink = motion.create(Link)
 
-// Full-width wall of pink peonies (CC0, Mira Bozhko via Wikimedia Commons), stored at
-// 1280 / 1920 / 2560 px so it stays sharp edge to edge. A soft cream glow in the centre keeps
-// the words clear. To use your own licensed photo, save it as flower-wall-1280/1920/2560.webp
-// in public/images/hero.
+// Full-width wall of pink peonies (CC0, Mira Bozhko via Wikimedia Commons), stored at 1280 / 1920 /
+// 2560 px. To use your own licensed photo, save it as flower-wall-1280/1920/2560.webp in public/images/hero.
 const HERO_PHOTO = '/images/hero/flower-wall'
 
-const TRUST = [
-  { icon: Truck, label: 'Same-day in Colombo', filled: false },
-  { icon: PenLine, label: 'Free handwritten card', filled: false },
-  { icon: Star, label: 'Freshness guaranteed', filled: true },
+// The occasions people shop for most. Each opens the shop already filtered.
+const QUICK_OCCASIONS = [
+  { slug: 'birthday', label: 'Birthday' },
+  { slug: 'anniversary', label: 'Anniversary' },
+  { slug: 'love', label: 'Love' },
+  { slug: 'sympathy', label: 'Sympathy' },
+  { slug: 'wedding', label: 'Wedding' },
 ]
 
-// Petals drifting at different depths. `depth` scales how far each one moves with the pointer,
-// so near petals glide more than far ones — a simple, convincing 3D parallax.
-const PETALS = [
-  { left: '30%', top: '16%', size: 14, depth: 0.3, color: '#f4c6cf', delay: 0 },
-  { left: '68%', top: '12%', size: 18, depth: 0.6, color: '#f7d3c4', delay: 1.4 },
-  { left: '24%', top: '74%', size: 22, depth: 0.9, color: '#f4c6cf', delay: 0.6 },
-  { left: '74%', top: '70%', size: 16, depth: 0.5, color: '#e7c873', delay: 2.2 },
-  { left: '50%', top: '90%', size: 12, depth: 0.2, color: '#f7d3c4', delay: 3 },
+const PROMISES = [
+  { icon: Truck, label: 'Same-day in Colombo' },
+  { icon: PenLine, label: 'Free handwritten card' },
+  { icon: Leaf, label: 'Freshness guaranteed' },
 ]
 
-function Petal({ p, mx, my }: { p: (typeof PETALS)[number]; mx: MotionValue<number>; my: MotionValue<number> }) {
-  const x = useTransform(mx, (v) => v * 70 * p.depth)
-  const y = useTransform(my, (v) => v * 45 * p.depth)
+function formatCountdown(minutes: number): string {
+  const h = Math.floor(minutes / 60)
+  const m = minutes % 60
+  if (h === 0) return `${m} min`
+  return m === 0 ? `${h} h` : `${h} h ${m} min`
+}
+
+// One live line that tells the visitor what ordering today means, from the shop's own settings
+// (cut-off time, whether orders are open) and the real Colombo clock.
+// Whether same-day delivery to Colombo is on offer right now, from the shop's settings.
+function offersSameDay(shop: ReturnType<typeof useShop>): boolean {
+  return shop.acceptingOrders && (shop.deliveryZones.find((z) => z.district === 'Colombo')?.sameDay ?? false)
+}
+
+function DeliveryStatus() {
+  const shop = useShop()
+  // Same query (and cache) as useShop: we only need to know whether the real settings have arrived.
+  const { isSuccess } = useQuery({ queryKey: ['settings'], queryFn: getSettings, staleTime: 5 * 60_000 })
+  const left = useCutoffCountdown(shop.sameDayCutoff)
+  const sameDay = offersSameDay(shop)
+
+  let tone = 'bg-emerald-600'
+  let text: string
+  let short: string // phones: one line
+  if (!shop.acceptingOrders) {
+    tone = 'bg-amber-500'
+    text = 'Online orders are paused. Message us on WhatsApp.'
+    short = 'Online orders paused. WhatsApp us.'
+  } else if (sameDay && left !== null) {
+    text = `Order within ${formatCountdown(left)} for same-day delivery in Colombo`
+    short = `Same-day in Colombo: ${formatCountdown(left)} left`
+  } else if (sameDay) {
+    text = `Order now, delivered from tomorrow (same-day orders close at ${formatClock(shop.sameDayCutoff)})`
+    short = 'Order now for delivery tomorrow'
+  } else {
+    text = 'Order now, delivered from tomorrow'
+    short = 'Order now for delivery tomorrow'
+  }
+
   return (
-    <motion.span aria-hidden="true" className="pointer-events-none absolute" style={{ left: p.left, top: p.top, x, y }}>
-      <motion.svg
-        width={p.size}
-        height={p.size}
-        viewBox="0 0 24 24"
-        style={{ filter: p.depth > 0.8 ? 'blur(1.2px)' : undefined, opacity: 0.55 + p.depth * 0.4, transformPerspective: 400 }}
-        animate={{ y: [0, -20, 0], rotateX: [0, 180, 360], rotateY: [0, 120, 360], rotateZ: [0, 40, 0] }}
-        transition={{ duration: 9 + p.depth * 4, repeat: Infinity, ease: 'easeInOut', delay: p.delay }}
-      >
-        <path d="M12 2C7 6 5 11 7 16c1.2 3 3 5 5 6 2-1 3.8-3 5-6 2-5 0-10-5-14z" fill={p.color} />
-      </motion.svg>
-    </motion.span>
+    // Keeps its space but stays invisible until the shop's real settings load, so it never shows a guess.
+    <p
+      aria-hidden={!isSuccess}
+      className={`inline-flex max-w-full items-center gap-2.5 rounded-full border border-outline-variant bg-white/80 py-2 pl-3 pr-4 text-[13px] font-medium text-primary shadow-sm backdrop-blur-sm sm:text-[14px] ${isSuccess ? '' : 'invisible'}`}
+    >
+      <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+        <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 motion-reduce:hidden ${tone}`} />
+        <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${tone}`} />
+      </span>
+      <span className="sm:hidden lg:inline xl:hidden">{short}</span>
+      <span className="hidden sm:inline lg:hidden xl:inline">{text}</span>
+    </p>
   )
 }
 
-// Each word flips up into place around its bottom edge, like a card turning towards you.
-function FlipWords({ text, delay, className = '' }: { text: string; delay: number; className?: string }) {
-  const words = text.split(' ')
+// A real product from the shop, in its own space (name and price sit below the photo, never on it).
+function ProductTile({ product, className = '' }: { product: Product; className?: string }) {
   return (
-    <span className={`inline-block ${className}`}>
-      {words.map((word, i) => (
-        <span key={i} className="inline-block whitespace-nowrap">
-          <motion.span
-            className="inline-block origin-bottom"
-            initial={{ rotateX: -95, opacity: 0, y: 18 }}
-            animate={{ rotateX: 0, opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: delay + i * 0.12, ease: EASE_OUT }}
-            style={{ transformPerspective: 900 }}
-          >
-            {word}
-          </motion.span>
-          {i < words.length - 1 && ' '}
-        </span>
-      ))}
-    </span>
-  )
-}
-
-// The flower wall, in layers of motion:
-//  1. it settles in from a gentle zoom,
-//  2. then slowly "breathes" — a long, endless zoom-and-pan (Ken Burns), so the flowers feel alive,
-//  3. it drifts against the pointer for depth,
-//  4. and a soft band of sunlight passes across it every few seconds.
-// The source is 2560 px wide, so the slow zoom never makes it look soft.
-function FlowerWall({ mx, my, lift, still }: { mx: MotionValue<number>; my: MotionValue<number>; lift: MotionValue<number>; still: boolean }) {
-  const x = useTransform(mx, (v) => v * -24)
-  const y = useTransform(my, (v) => v * -16)
-  return (
-    <motion.div className="absolute -inset-8 -z-20 overflow-hidden" style={{ y: lift }}>
-      <motion.div className="h-full w-full" style={{ x, y }}>
-        <motion.div
-          className="h-full w-full"
-          // Visible from the very first frame (no fade-in), then it slowly breathes.
-          initial={false}
-          animate={still ? { scale: 1 } : { scale: [1, 1.07, 1], x: ['0%', '-1.5%', '0%'], y: ['0%', '-1%', '0%'] }}
-          transition={still ? { duration: 0 } : { duration: 30, ease: 'easeInOut', repeat: Infinity }}
-        >
-          <img
-            src={`${HERO_PHOTO}-1920.webp`}
-            srcSet={`${HERO_PHOTO}-1280.webp 1280w, ${HERO_PHOTO}-1920.webp 1920w, ${HERO_PHOTO}-2560.webp 2560w`}
-            sizes="100vw"
-            alt="A wall of soft pink peonies"
-            fetchPriority="high"
-            loading="eager"
-            decoding="sync"
-            className="h-full w-full object-cover"
-          />
-        </motion.div>
-      </motion.div>
-      {/* Sunlight sweep */}
-      {!still && (
-        <motion.span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-16deg] bg-gradient-to-r from-transparent via-white/35 to-transparent mix-blend-soft-light"
-          initial={{ x: '0%' }}
-          animate={{ x: '520%' }}
-          transition={{ duration: 4.5, delay: 2, ease: 'easeInOut', repeat: Infinity, repeatDelay: 6 }}
+    <Link
+      to={`/product/${product.slug}`}
+      className={`group flex min-h-0 flex-col gap-3 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${className}`}
+    >
+      <div className="min-h-0 flex-1 overflow-hidden rounded-2xl bg-surface-container shadow-[0_24px_40px_-28px_rgba(28,25,23,0.55)]">
+        <img
+          src={sizedImage(product.images[0], 640)}
+          srcSet={imageSrcSet(product.images[0])}
+          sizes="(min-width: 1024px) 22vw, 44vw"
+          alt=""
+          loading="eager"
+          decoding="async"
+          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none"
         />
-      )}
-    </motion.div>
+      </div>
+      <div className="flex items-baseline justify-between gap-3 px-0.5">
+        <span className="truncate text-[14px] font-medium text-primary group-hover:underline">{product.name}</span>
+        <span className="shrink-0 text-[14px] font-semibold text-tertiary">{formatLKR(effectivePrice(product))}</span>
+      </div>
+    </Link>
+  )
+}
+
+function TileSkeleton() {
+  return (
+    <div className="flex min-h-0 flex-1 flex-col gap-3" aria-hidden="true">
+      <div className="min-h-0 flex-1 animate-pulse rounded-2xl bg-surface-container motion-reduce:animate-none" />
+      <div className="h-4 w-2/3 animate-pulse rounded bg-surface-container motion-reduce:animate-none" />
+    </div>
   )
 }
 
 export default function Hero() {
   const whatsapp = useWhatsApp()
+  const shop = useShop()
   const reduce = useReducedMotion()
 
-  // ---- Pointer position across the hero, -0.5 … 0.5, smoothed with a spring ----
-  const section = useRef<HTMLElement>(null)
-  const rawX = useMotionValue(0)
-  const rawY = useMotionValue(0)
-  const mx = useSpring(rawX, { stiffness: 60, damping: 18 })
-  const my = useSpring(rawY, { stiffness: 60, damping: 18 })
-  function onMove(e: PointerEvent<HTMLElement>) {
-    if (e.pointerType !== 'mouse' || reduce || !section.current) return
-    const r = section.current.getBoundingClientRect()
-    rawX.set((e.clientX - r.left) / r.width - 0.5)
-    rawY.set((e.clientY - r.top) / r.height - 0.5)
-  }
-  function onLeave() {
-    rawX.set(0)
-    rawY.set(0)
-  }
-
-  // ---- Scroll: the words lift away faster than the flowers ----
-  const { scrollYProgress } = useScroll({ target: section, offset: ['start start', 'end start'] })
-  const wordsLift = useTransform(scrollYProgress, [0, 1], [0, -110])
-  const photoLift = useTransform(scrollYProgress, [0, 1], [0, 60])
-
-  // ---- Magnetic "Shop Flowers" button ----
-  const magX = useSpring(0, { stiffness: 200, damping: 15 })
-  const magY = useSpring(0, { stiffness: 200, damping: 15 })
-  function magnet(e: PointerEvent<HTMLAnchorElement>) {
-    if (e.pointerType !== 'mouse' || reduce) return
-    const r = e.currentTarget.getBoundingClientRect()
-    magX.set((e.clientX - r.left - r.width / 2) * 0.25)
-    magY.set((e.clientY - r.top - r.height / 2) * 0.35)
-  }
+  // Same query as the "Most-loved arrangements" grid, so this costs no extra request.
+  const { data: products, isError } = useQuery({ queryKey: ['products', {}], queryFn: () => listProducts() })
+  const picks = products
+    ? products.filter((p) => p.isFeatured && p.stock > 0 && p.images.length > 0 && p.categoryId !== 'indoor-plants').slice(0, 2)
+    : []
+  const showTiles = !isError && (!products || picks.length > 0)
 
   return (
     // Fills the first screen exactly: the viewport minus the sticky header (101px phone, 109px desktop).
     <section
-      ref={section}
-      onPointerMove={onMove}
-      onPointerLeave={onLeave}
-      className="relative isolate flex h-[calc(100svh-101px)] min-h-[600px] overflow-hidden bg-[#f3d9df] text-primary lg:h-[calc(100svh-109px)] lg:max-h-[900px] lg:min-h-[600px]"
+      aria-labelledby="home-hero-title"
+      className="bg-aurora relative isolate flex min-h-[calc(100svh-101px)] overflow-hidden lg:min-h-[max(640px,calc(100svh-109px))]"
     >
-      {/* ---- Full-width flower wall ---- */}
-      <FlowerWall mx={mx} my={my} lift={photoLift} still={Boolean(reduce)} />
-      {/* A soft cream glow behind the words, so they read clearly over the flowers. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_60%,rgba(250,244,238,0.96)_0%,rgba(250,244,238,0.88)_45%,rgba(250,244,238,0)_85%)] sm:bg-[radial-gradient(ellipse_46%_62%_at_50%_50%,rgba(250,244,238,0.96)_0%,rgba(250,244,238,0.88)_48%,rgba(250,244,238,0)_80%)]"
-      />
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-4 py-8 lg:grid-cols-12 lg:gap-10 lg:px-12 lg:py-10">
+        {/* ---------------- Words ---------------- */}
+        <motion.div
+          className="lg:col-span-6"
+          initial="hidden"
+          animate="show"
+          variants={staggerContainer(0.09, 0.1)}
+        >
+          <motion.div variants={fadeUp}>
+            <DeliveryStatus />
+          </motion.div>
 
-      {!reduce && (
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-[5]">
-          {PETALS.map((p, i) => (
-            <Petal key={i} p={p} mx={mx} my={my} />
-          ))}
-        </div>
-      )}
-
-      {/* ---- Centred words ---- */}
-      <div className="relative mx-auto flex w-full max-w-3xl items-end justify-center px-5 pb-24 pt-10 text-center sm:items-center sm:pb-10">
-        <motion.div style={{ y: wordsLift }} initial="hidden" animate="show" variants={staggerContainer(0.1, 0.25)}>
-          <motion.p variants={fadeUp} className="eyebrow flex items-center justify-center gap-3 font-bold text-[#7a4f05]">
-            <span className="h-px w-6 bg-[#c8930a]/60 sm:w-8" aria-hidden="true" />
-            <span><span className="hidden sm:inline">Ceylon Petals · </span>Sri Lankan Flower Studio</span>
-            <span className="h-px w-6 bg-[#c8930a]/60 sm:w-8" aria-hidden="true" />
+          <motion.p variants={fadeUp} className="eyebrow mt-6 flex items-center gap-3 font-bold text-[#7a4f05]">
+            <span className="h-px w-8 bg-[#c8930a]/60" aria-hidden="true" />
+            <span><span className="hidden sm:inline">Ceylon Petals · </span>Sri Lankan flower studio</span>
           </motion.p>
 
-          <h1
-            aria-label="Make Every Moment Bloom"
-            className="mt-5 font-display text-[clamp(2.6rem,min(6.4vw,11vh),6rem)] leading-[1.04] tracking-[-0.02em] text-primary [text-shadow:0_2px_18px_rgba(255,250,244,0.9)]"
+          <motion.h1
+            id="home-hero-title"
+            variants={fadeUp}
+            className="mt-4 font-display text-[clamp(2rem,10vw,4.4rem)] lg:text-[clamp(2.4rem,min(4.7vw,8.6vh),4.6rem)] leading-[1.05] tracking-[-0.02em] text-primary"
           >
-            <span aria-hidden="true">
-              <FlipWords text="Make Every" delay={0.4} className="block" />
-              <span className="block whitespace-nowrap">
-                <FlipWords text="Moment" delay={0.65} />{' '}
-                <motion.em
-                  className="text-gradient inline-block pr-2 font-normal italic"
-                  initial={{ opacity: 0, rotateY: -70, x: -20, filter: 'blur(8px)' }}
-                  animate={{ opacity: 1, rotateY: 0, x: 0, filter: 'blur(0px)' }}
-                  transition={{ duration: 1.1, delay: 0.95, ease: EASE_OUT }}
-                  style={{ transformPerspective: 900 }}
-                >
-                  Bloom
-                </motion.em>
-              </span>
+            Make every
+            <br />
+            <span className="whitespace-nowrap">
+            moment{' '}
+            {/* A small photo set into the headline, the height of the lettering. */}
+            <span
+              aria-hidden="true"
+              className="ml-1 mr-[0.22em] inline-block h-[0.74em] w-[1.7em] overflow-hidden rounded-full align-[-0.06em] shadow-[0_8px_20px_-10px_rgba(28,25,23,0.6)]"
+            >
+              <img
+                src={`${HERO_PHOTO}-1280.webp`}
+                alt=""
+                className="h-full w-full object-cover object-[78%_40%]"
+                width={170}
+                height={74}
+                decoding="async"
+              />
             </span>
-          </h1>
+            <em className="pr-2 font-normal italic text-tertiary">bloom</em>
+            </span>
+          </motion.h1>
 
-          <motion.p variants={fadeUp} className="mx-auto mt-5 max-w-xl text-[16px] font-medium leading-relaxed text-primary [text-shadow:0_1px_12px_rgba(255,250,244,0.95)] sm:text-[18px]">
-            Thoughtfully arranged fresh flowers, elegant bouquets and meaningful gifts for birthdays, anniversaries,
-            weddings and every special moment. Delivered with love across Sri Lanka.
+          <motion.p variants={fadeUp} className="mt-5 max-w-[34rem] text-[16px] leading-relaxed text-secondary sm:text-[18px]">
+            Hand-tied bouquets, hampers and gifts from our Colombo studio, delivered fresh across Sri Lanka.
+            {offersSameDay(shop) && <> Same-day delivery in Colombo for orders placed before {formatClock(shop.sameDayCutoff)}.</>}
           </motion.p>
 
-          <motion.div variants={fadeUp} className="mt-8 flex flex-col justify-center gap-3 min-[400px]:flex-row sm:gap-4">
+          <motion.div variants={fadeUp} className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-4">
             <MotionLink
               to="/shop"
               {...pressable}
-              onPointerMove={magnet}
-              onPointerLeave={() => {
-                magX.set(0)
-                magY.set(0)
-              }}
-              style={{ x: magX, y: magY }}
-              className="btn-gradient inline-flex items-center justify-center gap-3 whitespace-nowrap px-7 py-4 shadow-[0_18px_40px_-16px_rgba(200,147,10,0.75)] sm:px-8"
+              className="btn-gradient inline-flex min-h-[52px] items-center justify-center gap-3 whitespace-nowrap px-8 shadow-[0_18px_40px_-16px_rgba(200,147,10,0.75)]"
             >
-              Shop Flowers <ArrowRight size={16} />
+              Shop flowers <ArrowRight size={16} aria-hidden="true" />
             </MotionLink>
-            <motion.a
+            <a
               href={whatsapp("Hello Ceylon Petals! I'd like to order some flowers.")}
               target="_blank"
               rel="noopener noreferrer"
-              {...pressable}
-              className="inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-sm border border-outline-variant bg-white px-7 py-4 text-[14px] font-semibold uppercase tracking-[0.08em] text-primary shadow-sm transition-colors hover:border-primary hover:bg-primary hover:text-white sm:px-8"
+              className="inline-flex min-h-[44px] items-center gap-2 text-[15px] font-medium text-primary underline decoration-primary/30 underline-offset-4 transition-colors hover:decoration-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
-              <WhatsAppIcon size={18} className="text-[#1a9e4b]" /> Order on WhatsApp
-            </motion.a>
+              <WhatsAppIcon size={18} className="text-[#1a9e4b]" /> or order on WhatsApp
+            </a>
           </motion.div>
 
-          <motion.ul variants={fadeUp} className="mt-9 hidden flex-wrap items-center justify-center gap-3 sm:flex">
-            {TRUST.map(({ icon: Icon, label, filled }) => (
-              <li key={label} className="flex items-center gap-2 rounded-full bg-white/75 px-3 py-1.5 text-[14px] font-medium text-primary shadow-sm backdrop-blur-sm">
-                <Icon size={16} className="text-tertiary" fill={filled ? 'currentColor' : 'none'} /> {label}
+          <motion.div variants={fadeUp} className="mt-7">
+            <p className="eyebrow text-secondary">Shop by occasion</p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {QUICK_OCCASIONS.map((o) => (
+                <li key={o.slug}>
+                  <Link
+                    to={`/shop?occasion=${o.slug}`}
+                    className="inline-flex min-h-[44px] items-center rounded-full border border-outline-variant bg-white/80 px-4 text-[14px] font-medium text-primary transition-colors duration-200 hover:border-primary hover:bg-primary hover:text-on-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  >
+                    {o.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.ul variants={fadeUp} className="mt-7 hidden flex-wrap gap-x-6 gap-y-2 border-t border-outline-variant/70 pt-5 sm:[@media(min-height:820px)]:flex">
+            {PROMISES.map(({ icon: Icon, label }) => (
+              <li key={label} className="flex items-center gap-2 text-[14px] font-medium text-on-surface-variant">
+                <Icon size={16} className="text-tertiary" aria-hidden="true" /> {label}
               </li>
             ))}
           </motion.ul>
         </motion.div>
-      </div>
 
-      {/* ---- Scroll cue ---- */}
-      <motion.a
-        href="#home-next"
-        aria-label="Scroll to explore"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8 }}
-        className="absolute bottom-4 left-1/2 hidden -translate-x-1/2 text-primary/40 hover:text-primary lg:block"
-      >
-        <ChevronDown size={24} className="animate-bounce" />
-      </motion.a>
+        {/* ---------------- Pictures: an arched photo beside two real products ---------------- */}
+        <div
+          className={`grid h-[min(420px,56svh)] gap-4 sm:h-[min(520px,60svh)] lg:col-span-6 lg:h-[min(560px,calc(100svh-230px))] lg:gap-5 ${
+            showTiles ? 'grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]' : 'mx-auto w-full max-w-md grid-cols-1'
+          }`}
+        >
+          <motion.div
+            className="relative min-h-0 overflow-hidden rounded-t-full rounded-b-[2rem] bg-[#f3d9df] shadow-[0_40px_60px_-36px_rgba(28,25,23,0.6)]"
+            // Only rises into place (never starts invisible), so the main photo counts as painted at once.
+            initial={reduce ? false : { y: 36 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.9, delay: 0.1, ease: EASE_OUT }}
+          >
+            {/* The one slow, endless movement in the hero: the flowers gently breathe. */}
+            <motion.img
+              src={`${HERO_PHOTO}-1280.webp`}
+              srcSet={`${HERO_PHOTO}-1280.webp 1280w, ${HERO_PHOTO}-1920.webp 1920w`}
+              sizes="(min-width: 1280px) 320px, (min-width: 1024px) 25vw, 50vw"
+              alt="A wall of soft pink peonies"
+              fetchPriority="high"
+              loading="eager"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover"
+              animate={reduce ? undefined : { scale: [1, 1.07, 1] }}
+              transition={reduce ? undefined : { duration: 26, ease: 'easeInOut', repeat: Infinity }}
+            />
+          </motion.div>
+
+          {showTiles && (
+            <motion.div
+              className="flex min-h-0 flex-col gap-4 pt-8 lg:gap-5 lg:pt-14"
+              initial={reduce ? false : { opacity: 0, y: 36 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.38, ease: EASE_OUT }}
+            >
+              {picks.length > 0 ? (
+                picks.map((p) => <ProductTile key={p.id} product={p} className="flex-1" />)
+              ) : (
+                <>
+                  <TileSkeleton />
+                  <TileSkeleton />
+                </>
+              )}
+            </motion.div>
+          )}
+        </div>
+      </div>
     </section>
   )
 }
