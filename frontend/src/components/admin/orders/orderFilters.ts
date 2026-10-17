@@ -13,7 +13,8 @@ export interface OrderFilters {
   payment: PaymentFilter
 }
 
-export const DEFAULT_FILTERS: OrderFilters = { query: '', date: 'today', status: 'ALL', payment: 'ALL' }
+// Opens on every date: an order due next week should be visible the moment it arrives.
+export const DEFAULT_FILTERS: OrderFilters = { query: '', date: 'all', status: 'ALL', payment: 'ALL' }
 
 function matchesDate(order: AdminOrder, date: DateFilter): boolean {
   if (date === 'all') return true

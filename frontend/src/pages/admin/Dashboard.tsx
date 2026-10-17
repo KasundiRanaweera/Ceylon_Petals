@@ -96,7 +96,7 @@ export default function Dashboard() {
       <section aria-labelledby="attention-title">
         <h2 id="attention-title" className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-secondary">Needs your attention</h2>
         <motion.ul
-          className="grid grid-cols-2 gap-3 lg:grid-cols-4"
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4"
           initial="hidden"
           animate="show"
           variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06 } } }}
@@ -114,10 +114,10 @@ export default function Dashboard() {
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="flex items-baseline gap-2">
-                    <span className="font-display text-headline-sm text-primary">{count}</span>
-                    <span className="truncate text-title-md text-on-surface">{label}</span>
+                    <span className="text-headline-sm font-semibold tabular-nums text-primary">{count}</span>
+                    <span className="text-title-md leading-snug text-on-surface">{label}</span>
                   </span>
-                  <span className="block truncate text-body-sm text-secondary">{count > 0 ? hint : 'All clear'}</span>
+                  <span className="block text-body-sm text-secondary">{count > 0 ? hint : 'All clear'}</span>
                 </span>
                 <ChevronRight size={18} className="shrink-0 text-outline transition-transform group-hover:translate-x-0.5" />
               </Link>

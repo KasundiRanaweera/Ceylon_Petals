@@ -275,3 +275,10 @@ input {
   height: 1px;
   background-image: linear-gradient(90deg, #a16207, #e7c873 40%, rgba(231, 200, 115, 0) 100%);
 }
+
+/* ---- Owner console: figures ---- */
+/* The display serif draws zeros like the letter "o" and drops digits below the line ("0 Orders" read as
+   "o Orders"). Inside the console, numbers use lining, equal-width figures so they read as numbers. */
+.admin-console {
+  font-variant-numeric: lining-nums tabular-nums;
+}

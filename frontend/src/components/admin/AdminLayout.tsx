@@ -27,7 +27,7 @@ export default function AdminLayout() {
   })
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="admin-console min-h-screen bg-background">
       <AdminSidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}

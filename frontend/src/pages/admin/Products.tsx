@@ -140,7 +140,52 @@ export default function Products() {
         <EmptyState icon={PackageSearch} title="No products found" message="Try another search or filter." />
       ) : (
         <div className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
-          <div className="overflow-x-auto relative">
+          {/* Phones: one card per product, so price, stock and actions never hide off to the side. */}
+          <ul className="divide-y divide-surface-container md:hidden">
+            {filtered.map((p) => (
+              <li key={p.id} className={`space-y-3 p-4 ${p.isActive ? '' : 'opacity-60'}`}>
+                <div className="flex items-start gap-3">
+                  <img src={p.images[0]} alt="" className="h-16 w-14 shrink-0 rounded-lg bg-surface-container object-cover" />
+                  <div className="min-w-0 flex-1">
+                    <Link to={`/admin/products/${p.id}`} className="block text-title-md text-primary hover:underline">{p.name}</Link>
+                    <span className="block text-body-sm text-secondary">{categoryName(p.categoryId)}</span>
+                    <span className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+                      <span className="text-currency-md tabular-nums text-primary">{formatLKR(effectivePrice(p))}</span>
+                      <span className={`text-label-md ${p.stock === 0 ? 'text-error' : p.stock <= p.lowStockThreshold ? 'text-tertiary' : 'text-on-surface-variant'}`}>
+                        {p.stock === 0 ? 'Sold out' : `${p.stock} in stock`}
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => toggleActive.mutate(p)}
+                    className={`inline-flex min-h-[40px] items-center gap-1.5 rounded-lg px-3 text-label-md ${p.isActive ? 'bg-primary-fixed text-on-primary-fixed' : 'bg-surface-container-high text-on-surface-variant'}`}
+                  >
+                    {p.isActive ? <Eye size={14} /> : <EyeOff size={14} />} {p.isActive ? 'Shown' : 'Hidden'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => toggleFeatured.mutate(p)}
+                    aria-pressed={p.isFeatured}
+                    aria-label={p.isFeatured ? `Remove ${p.name} from featured` : `Feature ${p.name}`}
+                    className={`flex h-10 w-10 items-center justify-center rounded-lg ${p.isFeatured ? 'bg-tertiary-fixed text-tertiary' : 'bg-surface-container-low text-outline'}`}
+                  >
+                    <Star size={16} fill={p.isFeatured ? 'currentColor' : 'none'} />
+                  </button>
+                  <span className="flex-1" />
+                  <Link to={`/admin/products/${p.id}`} aria-label={`Edit ${p.name}`} className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container-low text-primary">
+                    <Pencil size={16} />
+                  </Link>
+                  <button type="button" onClick={() => setDeleting(p)} aria-label={`Delete ${p.name}`} className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container-low text-error">
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div className="relative hidden overflow-x-auto md:block">
             <table className="w-full text-left min-w-[860px]">
               <thead>
                 <tr className="bg-surface-container-low text-[11px] uppercase tracking-wider text-secondary">
