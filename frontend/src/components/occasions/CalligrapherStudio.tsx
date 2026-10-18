@@ -28,8 +28,8 @@ const CARD_THEMES = [
 
 const WAX_COLORS = [
   { id: 'ember', hex: '#1C1410', label: 'Ember Black' },
-  { id: 'orange', hex: '#EA580C', label: 'Burnt Orange' },
-  { id: 'amber', hex: '#F59E0B', label: 'Amber Gold' },
+  { id: 'gold', hex: '#CCA830', label: 'Royal Gold' },
+  { id: 'orange', hex: '#C2410C', label: 'Burnt Orange' },
 ]
 
 // Converted from the original vanilla-JS DOM manipulation (selectWax, selectCardTheme,

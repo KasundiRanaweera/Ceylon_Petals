@@ -20,7 +20,7 @@ export default function WeddingHero() {
           >
             Book a consultation <ArrowRight size={16} />
           </a>
-          <a href="#portfolio" className="inline-flex items-center gap-2 border-b border-[#fdba74] pb-1 text-[13px] font-medium uppercase tracking-[0.14em] text-white hover:text-tertiary-fixed-dim">
+          <a href="#portfolio" className="inline-flex items-center gap-2 border-b border-[#e7c873] pb-1 text-[13px] font-medium uppercase tracking-[0.14em] text-white hover:text-tertiary-fixed-dim">
             <Images size={18} /> View our work
           </a>
         </>

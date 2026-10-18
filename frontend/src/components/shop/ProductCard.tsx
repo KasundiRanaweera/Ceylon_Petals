@@ -54,7 +54,7 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
         <div className="absolute inset-0 bg-gradient-to-t from-primary/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
         <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5">
           {product.badge && (
-            <span className="bg-primary px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[#ffedd5]">{product.badge}</span>
+            <span className="bg-primary px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[#f5e6c8]">{product.badge}</span>
           )}
           {off > 0 && (
             <span className="bg-brand-gradient px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">

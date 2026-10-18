@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from 'motion/react'
 import { useQuery } from '@tanstack/react-query'
 import { ArrowRight } from 'lucide-react'
-import BloomFlower from './BloomFlower'
+import RoseSequence from './RoseSequence'
 import WhatsAppIcon from '../ui/WhatsAppIcon'
 import { EASE_OUT, fadeUp, pressable, staggerContainer } from '../motion/variants'
 import { useShop, useWhatsApp } from '../../hooks/useShop'
@@ -14,17 +14,17 @@ import { listWords, sameDayDistricts } from '../../lib/shopInfo'
 
 const MotionLink = motion.create(Link)
 
-// The first screen: a flower that opens from bud to full bloom as you scroll.
+// The first screen: a real rose that opens from bud to full bloom as you scroll.
 //
-// The section is a tall "scroll track". Inside it the content is pinned (sticky) while the
-// visitor scrolls through the track, and that scroll position drives the bloom (0 = bud, 1 = full
-// bloom). Scrolling back up closes it again. With "reduce motion" the flower simply shows in full
-// bloom and the section is a normal height.
+// The section is a tall "scroll track". Its content stays pinned (sticky) while the visitor scrolls
+// through the track, and that scroll position chooses the frame of the rose time-lapse (0 = bud,
+// 1 = full bloom). Scrolling back up closes it again. With "reduce motion" the rose simply shows in
+// full bloom and the section is a normal height.
 
 const STAGES = [
   { at: 0, title: 'Bud', text: 'Cut at dawn in the hills' },
-  { at: 0.42, title: 'Unfurling', text: 'Hand-tied in our Colombo studio' },
-  { at: 0.8, title: 'Full bloom', text: 'Opening at their door' },
+  { at: 0.4, title: 'Unfurling', text: 'Hand-tied in our Colombo studio' },
+  { at: 0.78, title: 'Full bloom', text: 'Opening at their door' },
 ]
 
 function formatLeft(minutes: number): string {
@@ -41,9 +41,9 @@ function DeliveryStatus() {
   const sameDay = shop.acceptingOrders ? sameDayDistricts(shop) : []
 
   let text: string
-  let tone = 'bg-[#fb923c]'
+  let tone = 'bg-[#f5d27a]'
   if (!shop.acceptingOrders) {
-    tone = 'bg-[#fcd34d]'
+    tone = 'bg-[#fb923c]'
     text = 'Online orders are paused. Message us on WhatsApp.'
   } else if (sameDay.length > 0 && left !== null) {
     text = `Order within ${formatLeft(left)} for same-day delivery in ${listWords(sameDay)}`
@@ -54,7 +54,7 @@ function DeliveryStatus() {
   return (
     <p
       aria-hidden={!isSuccess}
-      className={`inline-flex max-w-full items-center gap-2.5 rounded-full border border-white/15 bg-white/5 py-2 pl-3 pr-4 text-[13px] font-medium text-[#ffedd5] backdrop-blur-sm sm:text-[14px] ${isSuccess ? '' : 'invisible'}`}
+      className={`inline-flex max-w-full items-center gap-2.5 rounded-full border border-white/15 bg-white/5 py-2 pl-3 pr-4 text-[13px] font-medium text-[#f5e6c8] backdrop-blur-sm sm:text-[14px] ${isSuccess ? '' : 'invisible'}`}
     >
       <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
         <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 motion-reduce:hidden ${tone}`} />
@@ -65,7 +65,7 @@ function DeliveryStatus() {
   )
 }
 
-// The three stage captions under the flower; each fades in for its part of the scroll.
+// The three stage captions under the rose; each fades in for its part of the scroll.
 function StageCaption({ progress, index }: { progress: MotionValue<number>; index: number }) {
   const start = STAGES[index].at
   const end = STAGES[index + 1]?.at ?? 1.01
@@ -75,8 +75,8 @@ function StageCaption({ progress, index }: { progress: MotionValue<number>; inde
   const y = useTransform(progress, [start - 0.08, start + 0.04], first ? [0, 0] : [12, 0])
   return (
     <motion.div style={{ opacity, y }} className="absolute inset-x-0 text-center">
-      <p className="eyebrow text-[#fdba74]">{STAGES[index].title}</p>
-      <p className="mt-1 font-display text-[19px] italic text-[#ffedd5]">{STAGES[index].text}</p>
+      <p className="eyebrow text-[#e7c873]">{STAGES[index].title}</p>
+      <p className="mt-1 font-display text-[19px] italic text-[#f5e6c8]">{STAGES[index].text}</p>
     </motion.div>
   )
 }
@@ -94,15 +94,15 @@ export default function Hero() {
   const progress = reduce ? fullBloom : smooth
 
   const barWidth = useTransform(progress, (v) => `${Math.round(v * 100)}%`)
-  const flowerScale = useTransform(progress, [0, 1], [0.95, 1])
-  const flowerY = useTransform(progress, [0, 1], [18, 0])
+  // The rose comes slightly closer as it opens.
+  const roseScale = useTransform(progress, [0, 1], [0.94, 1.04])
   const sameDay = sameDayDistricts(shop)
 
   return (
     <section
       ref={track}
       aria-labelledby="home-hero-title"
-      // The extra height is the distance the visitor scrolls while the flower opens.
+      // The extra height is the distance the visitor scrolls while the rose opens.
       className={`bg-ink-gradient relative text-on-primary ${reduce ? '' : 'h-[220vh] lg:h-[250vh]'}`}
     >
       <div className="sticky top-[101px] flex h-[calc(100svh-101px)] min-h-[620px] items-center overflow-hidden lg:top-[109px] lg:h-[calc(100svh-109px)]">
@@ -123,7 +123,7 @@ export default function Hero() {
               to <em className="text-gradient-light whitespace-nowrap pr-2 font-normal italic">full bloom</em>
             </motion.h1>
 
-            <motion.p variants={fadeUp} className="mt-6 max-w-[34rem] text-[16px] leading-relaxed text-[#f1e7dc]/80 sm:text-[18px]">
+            <motion.p variants={fadeUp} className="mt-6 max-w-[34rem] text-[16px] leading-relaxed text-[#efe6d2]/80 sm:text-[18px]">
               Hand-tied bouquets, hampers and gifts from our Colombo studio, made fresh every morning and delivered across Sri Lanka
               {sameDay.length > 0 && shop.acceptingOrders ? <>, same-day before {formatClock(shop.sameDayCutoff)}</> : null}.
             </motion.p>
@@ -136,44 +136,57 @@ export default function Hero() {
                 href={whatsapp(`Hello ${shop.shopName}! I'd like to order some flowers.`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold text-white underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-[#fb923c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                className="inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold text-white underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-[#e7c873] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
               >
                 <WhatsAppIcon size={18} className="text-[#25D366]" /> or order on WhatsApp
               </a>
             </motion.div>
           </motion.div>
 
-          {/* ---------------- The flower on its stage ---------------- */}
+          {/* ---------------- The real rose ---------------- */}
           <div className="order-1 flex flex-col items-center lg:order-2">
-            <div className="relative aspect-square w-[min(72vw,34svh)] sm:w-[min(60vw,40svh)] lg:w-[min(100%,60svh,560px)]">
-              {/* the stage: a soft glow and two fine rings, so even the small bud sits in a balanced frame */}
-              <div aria-hidden="true" className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(249,115,22,0.22),rgba(249,115,22,0.06)_45%,transparent_70%)]" />
-              <div aria-hidden="true" className="absolute inset-[6%] rounded-full border border-white/10" />
-              <div aria-hidden="true" className="absolute inset-[18%] rounded-full border border-white/5" />
+            <div className="relative flex w-full justify-center">
+              {/* A pool of black behind the rose, so the footage's black background melts into the scene */}
+              <div aria-hidden="true" className="absolute -inset-[14%] rounded-full bg-[radial-gradient(closest-side,#000_55%,rgba(0,0,0,0.6)_75%,transparent_100%)]" />
               <motion.div
-                className="absolute inset-[4%]"
-                style={{ scale: flowerScale, y: flowerY }}
+                // The frames are 1000 x 804; the soft oval edge fades the footage into that black.
+                className="relative aspect-[1000/804] w-[min(88vw,48svh)] sm:w-[min(70vw,56svh)] lg:w-[min(100%,82svh,640px)] [mask-image:radial-gradient(ellipse_50%_58%_at_50%_47%,black_42%,transparent_100%)]"
+                style={{ scale: roseScale }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, ease: EASE_OUT }}
               >
-                <BloomFlower progress={progress} />
+                <RoseSequence progress={progress} still={Boolean(reduce)} />
               </motion.div>
             </div>
 
-            {/* What stage the flower is at, and how far it has opened */}
+            {/* What stage the rose is at, and how far it has opened */}
             {!reduce && (
-              <div className="mt-4 hidden w-full max-w-xs sm:block lg:mt-6" aria-hidden="true">
+              <div className="mt-2 hidden w-full max-w-xs sm:block" aria-hidden="true">
                 <div className="relative h-12">
                   {STAGES.map((_, i) => (
                     <StageCaption key={i} progress={progress} index={i} />
                   ))}
                 </div>
                 <div className="mt-3 h-[3px] overflow-hidden rounded-full bg-white/10">
-                  <motion.div style={{ width: barWidth }} className="h-full rounded-full bg-gradient-to-r from-[#ea580c] to-[#fdba74]" />
+                  <motion.div style={{ width: barWidth }} className="h-full rounded-full bg-gradient-to-r from-[#d4a72c] to-[#f5d27a]" />
                 </div>
               </div>
             )}
+
+            {/* The footage's licence asks for this credit. */}
+            <p className="mt-3 text-[11px] text-white/45">
+              Rose time-lapse:{' '}
+              <a
+                href="https://commons.wikimedia.org/wiki/File:Time-lapse_of_opening_red_rose_isolated_on_black_background.Blooming_red_roses_flower_buds.webm"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-white/25 underline-offset-2 hover:text-white/75"
+              >
+                Alex Tr
+              </a>
+              , CC BY 3.0, colour-graded
+            </p>
           </div>
         </div>
       </div>

@@ -1,37 +1,36 @@
 @import "tailwindcss";
 
 @theme {
-  /* ---- Ceylon Petals design system: "ember" (black + orange) ----
-     Warm black for text and dark sections, an orange gradient for actions and highlights, on warm
-     cream. Contrast: text #14110F on #FBF8F5 (17:1); muted #4A423C (9:1); orange text #C2410C (5.2:1);
-     buttons use BLACK text on the orange gradient (#EA580C -> #FB923C, 5.9:1 or better). */
-  --color-primary: #14110f;
-  --color-on-primary: #fff7ef;
-  --color-primary-container: #221c17;
-  --color-on-primary-container: #f1e7dc;
-  --color-primary-fixed: #ffedd5;
-  --color-primary-fixed-dim: #fdba74;
-  --color-on-primary-fixed: #431407;
-  --color-on-primary-fixed-variant: #7c2d12;
-  --color-inverse-primary: #fdba74;
+  /* ---- Ceylon Petals design system (text, buttons, highlights: gold + ink; backgrounds: black + orange gradients) — "luxury noir": ink black, warm stone, metallic gold ----
+     Contrast: body text #0C0A09 / #44403C on #FAFAF9 (16:1 / 9:1). Gold text uses #8A5A0A or
+     #A16207 on light (≥ 5:1); bright gold (#CA8A04 → #F5D27A) only behind dark ink text or on black. */
+  --color-primary: #0c0a09;
+  --color-on-primary: #fafaf9;
+  --color-primary-container: #1c1917;
+  --color-on-primary-container: #e7e5e4;
+  --color-primary-fixed: #f5e6c8;
+  --color-primary-fixed-dim: #e7c873;
+  --color-on-primary-fixed: #2b1d05;
+  --color-on-primary-fixed-variant: #5c4510;
+  --color-inverse-primary: #e7c873;
 
-  --color-secondary: #5c534c;
+  --color-secondary: #57534e;
   --color-on-secondary: #ffffff;
-  --color-secondary-container: #f1ebe4;
-  --color-on-secondary-container: #4a423c;
-  --color-secondary-fixed: #f1ebe4;
-  --color-secondary-fixed-dim: #ddd3c8;
-  --color-on-secondary-fixed: #221c17;
-  --color-on-secondary-fixed-variant: #4a423c;
+  --color-secondary-container: #efebe5;
+  --color-on-secondary-container: #44403c;
+  --color-secondary-fixed: #efebe5;
+  --color-secondary-fixed-dim: #d6d3d1;
+  --color-on-secondary-fixed: #1c1917;
+  --color-on-secondary-fixed-variant: #44403c;
 
-  --color-tertiary: #c2410c;
+  --color-tertiary: #8a5a0a;
   --color-on-tertiary: #ffffff;
-  --color-tertiary-container: #f97316;
-  --color-on-tertiary-container: #1a0a00;
-  --color-tertiary-fixed: #ffedd5;
-  --color-tertiary-fixed-dim: #fdba74;
-  --color-on-tertiary-fixed: #431407;
-  --color-on-tertiary-fixed-variant: #9a3412;
+  --color-tertiary-container: #ca8a04;
+  --color-on-tertiary-container: #1c1917;
+  --color-tertiary-fixed: #fbf1d9;
+  --color-tertiary-fixed-dim: #f5d27a;
+  --color-on-tertiary-fixed: #3d2a02;
+  --color-on-tertiary-fixed-variant: #6b4a04;
 
   --color-error: #b42318;
   --color-on-error: #ffffff;
@@ -39,12 +38,12 @@
   --color-on-error-container: #8a1a10;
 
   --color-background: #fbf8f5;
-  --color-on-background: #14110f;
+  --color-on-background: #0c0a09;
 
   --color-surface: #fbf8f5;
   --color-surface-dim: #ebe4dc;
   --color-surface-bright: #fbf8f5;
-  --color-surface-tint: #c2410c;
+  --color-surface-tint: #a16207;
   --color-surface-variant: #f0ebe5;
   --color-surface-container-lowest: #ffffff;
   --color-surface-container-low: #f7f2ec;
@@ -52,17 +51,17 @@
   --color-surface-container-high: #e9e2d9;
   --color-surface-container-highest: #ded6cc;
 
-  --color-on-surface: #14110f;
-  --color-on-surface-variant: #4a423c;
-  --color-inverse-surface: #221c17;
-  --color-inverse-on-surface: #f7f2ec;
+  --color-on-surface: #0c0a09;
+  --color-on-surface-variant: #44403c;
+  --color-inverse-surface: #1c1917;
+  --color-inverse-on-surface: #f5f5f4;
 
-  --color-outline: #7c726a;
-  --color-outline-variant: #ddd5cc;
+  --color-outline: #78716c;
+  --color-outline-variant: #d6d3d1;
 
   /* ---- Fonts ---- */
   --font-display: "Playfair Display", Georgia, serif;
-  --font-body: "Nunito Sans", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
 
   /* ---- Type scale (matches Stitch design tokens exactly) ---- */
   --text-display-lg: 48px;
@@ -194,14 +193,14 @@ input {
 
 /* ---- Brand gradients: metallic gold on ink ---- */
 @utility bg-brand-gradient {
-  background-image: linear-gradient(120deg, #ea580c 0%, #f97316 40%, #fdba74 75%, #fb923c 100%);
+  background-image: linear-gradient(120deg, #a16207 0%, #ca8a04 30%, #f5d27a 55%, #d4a72c 75%, #a16207 100%);
 }
 @utility bg-brand-gradient-hover {
-  background-image: linear-gradient(120deg, #f97316 0%, #fb923c 40%, #fed7aa 75%, #fdba74 100%);
+  background-image: linear-gradient(120deg, #b8860b 0%, #e0a91d 30%, #fbe3a1 55%, #e0b53f 75%, #b8860b 100%);
 }
 /* Gold text for light backgrounds — darker stops keep large text above 3:1 contrast. */
 @utility text-gradient {
-  background-image: linear-gradient(110deg, #9a3412 0%, #c2410c 40%, #ea580c 70%, #c2410c 100%);
+  background-image: linear-gradient(110deg, #6b4a04 0%, #a16207 35%, #8a5a0a 60%, #b8860b 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -209,7 +208,7 @@ input {
 }
 /* Bright champagne gold for text over dark photos and black sections. */
 @utility text-gradient-light {
-  background-image: linear-gradient(110deg, #fdba74 0%, #fb923c 40%, #fcd34d 75%, #fdba74 100%);
+  background-image: linear-gradient(110deg, #f5e6c8 0%, #f5d27a 35%, #e7c873 60%, #fff3d6 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -238,7 +237,7 @@ input {
 /* A thin blush -> gold line for section dividers and card tops. */
 @utility rule-dawn {
   height: 2px;
-  background-image: linear-gradient(90deg, #14110f 0%, #ea580c 50%, #fdba74 100%);
+  background-image: linear-gradient(90deg, #ea580c 0%, #d4a72c 55%, #f5d27a 100%);
 }
 /* Warm off-white with a faint champagne glow, for hero backgrounds. */
 @utility bg-aurora {
@@ -252,20 +251,20 @@ input {
 
 /* Primary call-to-action: polished gold pill with ink text (white on gold fails contrast). */
 .btn-gradient {
-  background-image: linear-gradient(120deg, #ea580c 0%, #f97316 40%, #fb923c 70%, #ea580c 100%);
+  background-image: linear-gradient(120deg, #b8860b 0%, #ca8a04 25%, #f5d27a 55%, #d4a72c 80%, #b8860b 100%);
   background-size: 180% 100%;
   background-position: 0% 50%;
-  color: #14110f; /* black on orange reads clearly (white on orange does not) */
-  font-weight: 700;
+  color: #1c1917;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 14px;
-  border-radius: 999px !important;
-  box-shadow: 0 14px 30px -16px rgba(234, 88, 12, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  border-radius: 2px !important; /* editorial: square buttons, even where a component asks for a pill */
+  box-shadow: 0 14px 30px -16px rgba(161, 98, 7, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.45);
   transition: background-position 0.5s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }
-.btn-gradient:hover { background-position: 100% 50%; box-shadow: 0 18px 36px -14px rgba(234, 88, 12, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
-.btn-gradient:focus-visible { outline: 2px solid #14110f; outline-offset: 3px; }
+.btn-gradient:hover { background-position: 100% 50%; box-shadow: 0 18px 36px -14px rgba(161, 98, 7, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.55); }
+.btn-gradient:focus-visible { outline: 2px solid #0c0a09; outline-offset: 3px; }
 .btn-gradient:disabled { opacity: 0.6; box-shadow: none; }
 
 @keyframes gradient-flow {
@@ -297,7 +296,7 @@ input {
 /* Hairline gold divider. */
 @utility rule-gold {
   height: 1px;
-  background-image: linear-gradient(90deg, #ea580c, #fdba74 40%, rgba(253, 186, 116, 0) 100%);
+  background-image: linear-gradient(90deg, #a16207, #e7c873 40%, rgba(231, 200, 115, 0) 100%);
 }
 
 /* ---- Figures ---- */

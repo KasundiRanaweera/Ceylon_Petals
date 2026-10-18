@@ -20,7 +20,7 @@ export default function AboutHero() {
           <Link to="/shop" className="btn-gradient inline-flex items-center gap-3 px-7 py-4">
             Shop the collection <ArrowRight size={16} />
           </Link>
-          <a href="#visit" className="inline-flex items-center gap-2 border-b border-[#fdba74] pb-1 text-[13px] font-medium uppercase tracking-[0.14em] text-white hover:text-tertiary-fixed-dim">
+          <a href="#visit" className="inline-flex items-center gap-2 border-b border-[#e7c873] pb-1 text-[13px] font-medium uppercase tracking-[0.14em] text-white hover:text-tertiary-fixed-dim">
             Visit our studio
           </a>
         </>

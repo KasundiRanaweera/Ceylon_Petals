@@ -39,7 +39,7 @@ const average = TESTIMONIALS.reduce((sum, t) => sum + t.rating, 0) / TESTIMONIAL
 
 function Stars({ rating, size = 16 }: { rating: number; size?: number }) {
   return (
-    <span className="flex gap-0.5 text-[#ea580c]" role="img" aria-label={`${rating} out of 5 stars`}>
+    <span className="flex gap-0.5 text-[#c8930a]" role="img" aria-label={`${rating} out of 5 stars`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star key={i} size={size} fill={i < rating ? 'currentColor' : 'none'} />
       ))}
@@ -77,11 +77,11 @@ export default function Testimonials() {
               transition={{ duration: 0.6, delay: i * 0.1, ease: EASE_OUT }}
             >
               <figure className="relative flex h-full flex-col rounded-sm border border-outline-variant bg-surface-container-lowest p-7 shadow-[0_20px_40px_-30px_rgba(12,10,9,0.35)] transition-shadow hover:shadow-[0_24px_48px_-24px_rgba(12,10,9,0.35)]">
-                <Quote size={36} className="absolute right-6 top-6 text-[#fdba74]/50" aria-hidden="true" />
+                <Quote size={36} className="absolute right-6 top-6 text-[#e7c873]/50" aria-hidden="true" />
                 <Stars rating={t.rating} />
                 <blockquote className="mt-5 flex-1 text-[16.5px] leading-relaxed text-on-surface">“{t.message}”</blockquote>
                 <figcaption className="mt-6 flex items-center gap-3 border-t border-outline-variant pt-5">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-[14px] font-semibold text-[#fdba74]">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-[14px] font-semibold text-[#e7c873]">
                     {t.initials}
                   </span>
                   <span className="min-w-0">

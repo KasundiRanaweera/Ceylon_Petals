@@ -14,7 +14,7 @@ export default function Logo({ onClick }: { onClick?: () => void }) {
   const { shopName, tagline } = useShop()
   return (
     <Link to="/" onClick={onClick} className="flex min-w-0 items-center gap-2.5 sm:gap-3" aria-label={`${shopName} home`}>
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink-gradient ring-1 ring-[#ea580c]/70 sm:h-10 sm:w-10">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink-gradient ring-1 ring-[#d4a72c]/70 sm:h-10 sm:w-10">
         <span className="text-gradient-light font-display text-[17px] italic">{initials(shopName)}</span>
       </div>
       <div>

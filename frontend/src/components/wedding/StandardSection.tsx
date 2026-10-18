@@ -63,7 +63,7 @@ export default function StandardSection() {
                   {FLOW_STEPS.map((s) => (
                     <g key={s.num}>
                       <circle className="fill-primary stroke-tertiary-fixed" cx={s.x} cy="65" r="22" strokeWidth="2" />
-                      <text fill="#fdba74" fontFamily="Plus Jakarta Sans" fontSize="12" fontWeight="700" textAnchor="middle" x={s.x} y="69">{s.num}</text>
+                      <text fill="#ffe088" fontFamily="Plus Jakarta Sans" fontSize="12" fontWeight="700" textAnchor="middle" x={s.x} y="69">{s.num}</text>
                       <text fill="#ffffff" fontFamily="Plus Jakarta Sans" fontSize="10" textAnchor="middle" x={s.x} y="105">{s.label}</text>
                     </g>
                   ))}
