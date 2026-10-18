@@ -48,7 +48,12 @@ export default function PlantCatalog() {
     <section id="plantsGrid" className="px-4 lg:px-12 py-12 scroll-mt-32">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="bg-surface-container-lowest rounded-xl shadow-sm p-4 space-y-3">
-          <PillTabs label="Plant collections" active={collection} onChange={setCollection} options={COLLECTIONS} />
+          <PillTabs
+            label="Plant collections"
+            active={collection}
+            onChange={setCollection}
+            options={COLLECTIONS.map((c) => ({ ...c, count: plants ? (c.id === 'all' ? plants.length : plants.filter((p) => p.tags.includes(c.id)).length) : null }))}
+          />
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-3">
               <label htmlFor="plant-light" className="sr-only">Light</label>

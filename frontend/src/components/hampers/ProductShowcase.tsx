@@ -36,7 +36,7 @@ export default function ProductShowcase() {
           label="Hamper collections"
           active={active}
           onChange={setActive}
-          options={COLLECTIONS.map((c) => ({ id: c.id, label: c.id === 'all' && products ? `${c.label} (${products.length})` : c.label }))}
+          options={COLLECTIONS.map((c) => ({ id: c.id, label: c.label, count: products ? (c.id === 'all' ? products.length : products.filter((p) => p.tags.includes(c.id)).length) : null }))}
         />
 
         <ProductGrid

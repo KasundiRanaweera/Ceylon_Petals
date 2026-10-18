@@ -4,6 +4,7 @@ import { motion } from 'motion/react'
 import { ArrowUpRight } from 'lucide-react'
 import { listCategories, listProducts } from '../../services/catalog'
 import { OCCASIONS } from '../../data/catalog'
+import PillTabs from '../ui/PillTabs'
 import { fadeUp, staggerContainer } from '../motion/variants'
 import { sizedImage } from '../../lib/images'
 import SectionHeading from '../ui/SectionHeading'
@@ -62,19 +63,9 @@ export default function CategoryGrid() {
           ))}
         </motion.div>
 
-        <div className="flex flex-col gap-3 rounded-2xl bg-surface-container-low p-6 md:flex-row md:items-center">
+        <div className="bg-dawn-soft flex flex-col gap-3 rounded-2xl p-6 md:flex-row md:items-center">
           <h3 className="font-display text-headline-sm text-primary md:mr-4 md:shrink-0">Shop by occasion</h3>
-          <div className="flex flex-wrap gap-2">
-            {OCCASIONS.map((o) => (
-              <Link
-                key={o.slug}
-                to={`/shop?occasion=${o.slug}`}
-                className="rounded-sm border border-outline-variant bg-surface-container-lowest px-4 py-2 text-[12px] font-medium uppercase tracking-[0.14em] text-primary transition-colors hover:border-primary hover:bg-primary hover:text-[#f5e6c8]"
-              >
-                {o.name}
-              </Link>
-            ))}
-          </div>
+          <PillTabs wrap label="Shop by occasion" active="" options={OCCASIONS.map((o) => ({ id: o.slug, label: o.name, to: `/shop?occasion=${o.slug}` }))} />
         </div>
       </div>
     </section>

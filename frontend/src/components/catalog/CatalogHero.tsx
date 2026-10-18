@@ -1,9 +1,10 @@
-import { NavLink } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Clock, Leaf } from 'lucide-react'
 import PageHero, { type HeroImage } from '../ui/PageHero'
 import type { Crumb } from '../ui/Breadcrumbs'
-import { listCategories } from '../../services/catalog'
+import { listCategories, listProducts } from '../../services/catalog'
+import PillTabs from '../ui/PillTabs'
 import { useShop } from '../../hooks/useShop'
 import { useCutoffCountdown } from '../../hooks/useCutoffCountdown'
 import { formatClock } from '../../lib/dates'
@@ -41,10 +42,15 @@ function CutoffCard() {
 
 export default function CatalogHero({ title, subtitle, breadcrumbs, eyebrow = 'Fresh every morning', image }: CatalogHeroProps) {
   const { data: categories = [] } = useQuery({ queryKey: ['categories'], queryFn: listCategories })
-  const pill = ({ isActive }: { isActive: boolean }) =>
-    `relative -mb-px whitespace-nowrap border-b-2 pb-3 pt-1 text-[12px] font-medium uppercase tracking-[0.16em] transition-colors ${
-      isActive ? 'border-tertiary-container text-primary' : 'border-transparent text-secondary hover:text-primary'
-    }`
+  // Same query as the shop grid, so the counts cost no extra request.
+  const { data: products } = useQuery({ queryKey: ['products', {}], queryFn: () => listProducts() })
+  const { pathname } = useLocation()
+  const active = pathname.startsWith('/products/') ? pathname.split('/')[2] : 'all'
+  const count = (slug?: string) => (products ? products.filter((p) => !slug || p.categoryId === slug).length : null)
+  const options = [
+    { id: 'all', label: 'All', to: '/shop', count: count() },
+    ...categories.map((c) => ({ id: c.slug, label: c.name, to: `/products/${c.slug}`, count: count(c.slug) })),
+  ]
 
   return (
     <PageHero
@@ -58,14 +64,7 @@ export default function CatalogHero({ title, subtitle, breadcrumbs, eyebrow = 'F
       actions={image ? <CutoffCard /> : undefined}
       size="compact"
     >
-      <nav aria-label="Categories" className="flex items-center gap-7 overflow-x-auto border-b border-outline-variant">
-        <NavLink to="/shop" end className={pill}>All</NavLink>
-        {categories.map((c) => (
-          <NavLink key={c.id} to={`/products/${c.slug}`} className={pill}>
-            {c.name}
-          </NavLink>
-        ))}
-      </nav>
+      <PillTabs label="Categories" active={active} options={options} />
     </PageHero>
   )
 }
