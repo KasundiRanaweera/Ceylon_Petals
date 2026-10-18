@@ -1,11 +1,13 @@
 import { Home as HomeIcon, MapPin, Clock, MessageCircle, Phone, Landmark } from 'lucide-react'
 import { useShop, useWhatsApp } from '../../hooks/useShop'
+import { studioArea } from '../../lib/shopInfo'
 
 const EXPERIENCES = ['Bridal Poruwa Consult', 'Custom Arrangement Ideas', 'Corporate Orders']
 
 export default function VisitSalonSection() {
   const whatsapp = useWhatsApp()
   const shop = useShop()
+  const area = studioArea(shop.address)
   const link = whatsapp('Hello, I would like to book a visit to your studio')
 
   return (
@@ -18,10 +20,10 @@ export default function VisitSalonSection() {
               <span className="text-[11px] text-surface tracking-widest uppercase">Visit Our Studio</span>
             </div>
             <h2 className="font-display text-display-lg text-on-primary font-light">
-              Come See Us in Colombo
+              Come See Us{area ? ` in ${area}` : ''}
             </h2>
             <p className="text-body-md text-surface-variant leading-relaxed">
-              Step into our Colombo studio, see fresh arrivals from the highlands, and talk
+              Step into our studio, see fresh arrivals from the highlands, and talk
               through your wedding Poruwa, a custom arrangement, or an order for your business
               with our team.
             </p>
@@ -62,7 +64,7 @@ export default function VisitSalonSection() {
               <div className="flex items-center justify-between">
                 <div>
                   <span className="text-[11px] text-secondary uppercase">Our Studio</span>
-                  <h3 className="font-display text-headline-sm text-primary">Alfred House Gardens</h3>
+                  <h3 className="font-display text-headline-sm text-primary">{shop.address || shop.shopName}</h3>
                 </div>
                 <Landmark size={28} className="text-primary" />
               </div>
@@ -75,7 +77,7 @@ export default function VisitSalonSection() {
               >
                 <div className="px-3 py-1 rounded bg-primary/80 backdrop-blur-md text-on-primary text-[11px] flex items-center gap-1">
                   <MapPin size={14} />
-                  Colombo 03
+                  {area || 'Our studio'}
                 </div>
               </div>
               <div className="space-y-2">

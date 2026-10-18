@@ -78,6 +78,28 @@ function SettingsForm({ initial }: { initial: ShopSettings }) {
       </section>
 
       <section className={section}>
+        <div>
+          <h2 className="font-display text-headline-sm text-primary">Storefront</h2>
+          <p className="text-body-sm text-secondary">What customers see on every page of the website.</p>
+        </div>
+        <TextField
+          id="announcement"
+          label="Announcement bar"
+          maxLength={160}
+          placeholder="e.g. Avurudu hampers are here: order by 10 April"
+          hint={`${form.announcement.length}/160. Shown at the top of every page. Leave empty to show the same-day delivery message automatically.`}
+          value={form.announcement}
+          onChange={(e) => set('announcement', e.target.value)}
+        />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <TextField id="instagramUrl" label="Instagram link" type="url" placeholder="https://instagram.com/yourshop" value={form.instagramUrl} onChange={(e) => set('instagramUrl', e.target.value)} />
+          <TextField id="facebookUrl" label="Facebook link" type="url" placeholder="https://facebook.com/yourshop" value={form.facebookUrl} onChange={(e) => set('facebookUrl', e.target.value)} />
+          <TextField id="tiktokUrl" label="TikTok link" type="url" placeholder="https://tiktok.com/@yourshop" value={form.tiktokUrl} onChange={(e) => set('tiktokUrl', e.target.value)} />
+        </div>
+        <p className="text-body-sm text-secondary">Links you fill in appear in the website footer. Leave a box empty to hide it.</p>
+      </section>
+
+      <section className={section}>
         <h2 className="font-display text-headline-sm text-primary">Ordering</h2>
         <label className="flex items-start gap-3 cursor-pointer">
           <input type="checkbox" checked={form.acceptingOrders} onChange={(e) => set('acceptingOrders', e.target.checked)} className="accent-primary w-4 h-4 mt-1" />

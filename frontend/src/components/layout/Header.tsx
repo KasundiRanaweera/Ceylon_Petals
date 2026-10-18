@@ -6,6 +6,7 @@ import Logo from './Logo'
 import { SHOP_NAV } from './navLinks'
 import { useCart } from '../../hooks/useCart'
 import { useAuth } from '../../hooks/useAuth'
+import { sameDayDistricts, listWords } from '../../lib/shopInfo'
 import { useShop, useWhatsApp } from '../../hooks/useShop'
 import { formatPhone } from '../../lib/phone'
 import { formatClock } from '../../lib/dates'
@@ -47,6 +48,7 @@ export default function Header() {
   const { count } = useCart()
   const { user } = useAuth()
   const shop = useShop()
+  const sameDay = sameDayDistricts(shop)
   const whatsapp = useWhatsApp()
   const close = () => {
     setMenuOpen(false)
@@ -90,8 +92,18 @@ export default function Header() {
         <div className="bg-primary text-[13px] text-[#efe6d2]">
           <div className="mx-auto flex h-9 max-w-7xl items-center justify-center gap-6 px-4 md:justify-between lg:px-12">
             <p className="truncate">
-              <span className="text-tertiary-fixed-dim">●</span>&nbsp; Same-day delivery<span className="hidden sm:inline"> in Colombo &amp; suburbs</span> — order
-              before <strong className="font-semibold text-white">{formatClock(shop.sameDayCutoff)}</strong>
+              <span className="text-tertiary-fixed-dim">●</span>&nbsp;
+              {shop.announcement ? (
+                // The owner's own message (Admin -> Settings -> Storefront).
+                <span>{shop.announcement}</span>
+              ) : sameDay.length > 0 ? (
+                <>
+                  Same-day delivery<span className="hidden sm:inline"> in {listWords(sameDay)}</span> — order before{' '}
+                  <strong className="font-semibold text-white">{formatClock(shop.sameDayCutoff)}</strong>
+                </>
+              ) : (
+                <>Fresh flowers delivered across Sri Lanka</>
+              )}
             </p>
             <div className="hidden items-center gap-6 md:flex">
               <a href={whatsapp('Hello! I have a question about an order.')} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-white">

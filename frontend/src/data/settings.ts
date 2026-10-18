@@ -25,6 +25,10 @@ export const DEFAULT_SETTINGS: ShopSettings = {
   sameDayCutoff: '14:00',
   acceptingOrders: true,
   freeDeliveryOver: 25000,
+  announcement: '',
+  instagramUrl: '',
+  facebookUrl: '',
+  tiktokUrl: '',
   deliveryZones: [
     { id: 'z-colombo', district: 'Colombo', fee: 500, sameDay: true, active: true },
     { id: 'z-gampaha', district: 'Gampaha', fee: 900, sameDay: true, active: true },

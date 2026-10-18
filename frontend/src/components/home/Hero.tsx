@@ -157,7 +157,7 @@ export default function Hero() {
 
           <motion.p variants={fadeUp} className="eyebrow mt-6 flex items-center gap-3 font-bold text-[#7a4f05]">
             <span className="h-px w-8 bg-[#c8930a]/60" aria-hidden="true" />
-            <span><span className="hidden sm:inline">Ceylon Petals · </span>Sri Lankan flower studio</span>
+            <span><span className="hidden sm:inline">{shop.shopName} · </span>{shop.tagline || 'Sri Lankan flower studio'}</span>
           </motion.p>
 
           <motion.h1
@@ -201,7 +201,7 @@ export default function Hero() {
               Shop flowers <ArrowRight size={16} aria-hidden="true" />
             </MotionLink>
             <a
-              href={whatsapp("Hello Ceylon Petals! I'd like to order some flowers.")}
+              href={whatsapp(`Hello ${shop.shopName}! I'd like to order some flowers.`)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex min-h-[44px] items-center gap-2 text-[15px] font-medium text-primary underline decoration-primary/30 underline-offset-4 transition-colors hover:decoration-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"

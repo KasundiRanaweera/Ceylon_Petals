@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom'
 import { Sparkles, PenLine, Truck, Globe, ArrowRight } from 'lucide-react'
 import PageHero from '../ui/PageHero'
 import { PRODUCT_IMAGES } from '../../data/productImages'
+import { useShop } from '../../hooks/useShop'
+import { sameDayDistricts } from '../../lib/shopInfo'
 
 export default function OccasionsHero() {
+  const sameDay = sameDayDistricts(useShop())
   return (
     <PageHero
       breadcrumbs={[{ label: 'Shop', to: '/shop' }, { label: 'Occasions' }]}
@@ -24,7 +27,7 @@ export default function OccasionsHero() {
       }
       badges={[
         { icon: PenLine, label: 'Free handwritten card' },
-        { icon: Truck, label: 'Same-day in Colombo' },
+        { icon: Truck, label: sameDay.length ? `Same-day in ${sameDay[0]}${sameDay.length > 1 ? ' & more' : ''}` : 'Islandwide delivery' },
         { icon: Globe, label: 'Send from overseas' },
       ]}
       image={{

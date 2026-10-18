@@ -5,40 +5,43 @@ import { useShop } from '../../hooks/useShop'
 import { DISTRICTS } from '../../data/settings'
 import { formatLKR } from '../../lib/format'
 import { formatClock } from '../../lib/dates'
+import { laterDistricts, listWords, lowestFee, sameDayDistricts } from '../../lib/shopInfo'
 
-const COVERAGE_LIST = [
-  'Colombo 01 – 15 and the Greater Colombo suburbs',
-  'Dehiwala, Mount Lavinia, Rajagiriya, Nugegoda & Kotte',
-  'Gampaha, Negombo & Kalutara on the same day',
-  'Kandy, Galle and more on the next day',
-]
 
 // Checks the customer's district against the delivery zones the owner sets in Settings.
 export default function DeliveryCoverage() {
   const shop = useShop()
   const [district, setDistrict] = useState('')
   const zone = shop.deliveryZones.find((z) => z.active && z.district === district)
+  // Everything below comes from the delivery zones in Admin -> Settings.
+  const sameDay = sameDayDistricts(shop)
+  const later = laterDistricts(shop)
+  const fromFee = lowestFee(shop)
+  const coverage = [
+    sameDay.length > 0 && `Same-day to ${listWords(sameDay)} for orders before ${formatClock(shop.sameDayCutoff)}`,
+    later.length > 0 && `Next-day to ${listWords(later)}`,
+    shop.freeDeliveryOver > 0 && `Free delivery on orders over ${formatLKR(shop.freeDeliveryOver)}`,
+  ].filter((line): line is string => Boolean(line))
 
   return (
-    <section className="w-full py-14 bg-surface">
+    <section className="w-full py-14 bg-dawn-soft">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
         <div className="bg-surface-container rounded-2xl p-6 lg:p-10 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5 space-y-4">
               <div className="inline-flex items-center gap-2 text-tertiary text-[11px] uppercase tracking-wider">
                 <MapPin size={18} />
-                <span>Express Islandwide Fleet</span>
+                <span>Islandwide delivery</span>
               </div>
               <h2 className="font-display text-headline-lg text-primary">
-                Colombo Metro &amp; Suburbs Express Coverage
+                {sameDay.length > 0 ? `Same-day across ${listWords(sameDay)}` : 'Delivered across Sri Lanka'}
               </h2>
               <p className="text-body-md text-secondary leading-relaxed">
-                Every arrangement travels in custom climate-conditioned floristry vans to preserve
-                petal hydration under tropical temperatures.
+                Hand-delivered by our own team, with a call to the recipient on arrival and a free handwritten card.
               </p>
 
               <div className="space-y-2 pt-1">
-                {COVERAGE_LIST.map((line) => (
+                {coverage.map((line) => (
                   <div key={line} className="flex items-center gap-2 text-title-md text-primary">
                     <CheckCircle2 size={20} className="text-emerald-700" />
                     <span>{line}</span>
@@ -82,27 +85,27 @@ export default function DeliveryCoverage() {
                 >
                   <div className="absolute inset-0 bg-primary/20" />
                   <div className="absolute top-8 left-8 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-sm text-primary text-xs font-semibold flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" /> Colombo 03 &amp; 07: 60-Min Express
+                    <span className="w-2 h-2 rounded-full bg-emerald-500" /> {sameDay.length > 0 ? `Same-day: ${listWords(sameDay)}` : 'Islandwide delivery'}
                   </div>
                   <div className="absolute bottom-10 right-8 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-sm text-primary text-xs font-semibold flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" /> Battaramulla &amp; Suburbs: 2-3 Hrs
+                    <span className="w-2 h-2 rounded-full bg-emerald-500" /> Order before {formatClock(shop.sameDayCutoff)}
                   </div>
                   <div className="absolute top-1/2 left-1/3 bg-primary text-on-primary px-3 py-1 rounded-sm shadow-lg text-xs font-bold flex items-center gap-1">
-                    <MapPin size={14} /> Our Colombo studio
+                    <MapPin size={14} /> Our studio
                   </div>
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-2 text-center">
                   <div className="p-2 bg-surface-container-low rounded-lg">
-                    <span className="font-display text-headline-sm text-primary block">100%</span>
-                    <span className="text-body-sm text-secondary">Temperature Controlled</span>
+                    <span className="font-display text-headline-sm text-primary block">{shop.deliveryZones.filter((z) => z.active).length}</span>
+                    <span className="text-body-sm text-secondary">Districts we deliver to</span>
                   </div>
                   <div className="p-2 bg-surface-container-low rounded-lg">
-                    <span className="font-display text-headline-sm text-primary block">3 Hrs</span>
-                    <span className="text-body-sm text-secondary">Average Handover</span>
+                    <span className="font-display text-headline-sm text-primary block">{fromFee === null ? '—' : formatLKR(fromFee)}</span>
+                    <span className="text-body-sm text-secondary">Delivery from</span>
                   </div>
                   <div className="p-2 bg-surface-container-low rounded-lg">
-                    <span className="font-display text-headline-sm text-primary block">SMS/Photo</span>
-                    <span className="text-body-sm text-secondary">Proof of Delivery</span>
+                    <span className="font-display text-headline-sm text-primary block">{formatClock(shop.sameDayCutoff)}</span>
+                    <span className="text-body-sm text-secondary">Same-day cut-off</span>
                   </div>
                 </div>
               </div>

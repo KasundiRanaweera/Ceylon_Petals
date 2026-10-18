@@ -161,6 +161,12 @@ export interface ShopSettings {
   sameDayCutoff: string
   acceptingOrders: boolean
   freeDeliveryOver: number
+  /** Message in the bar at the top of every page. Empty = the automatic delivery message. */
+  announcement: string
+  /** Social profiles shown in the footer. Empty = hidden. */
+  instagramUrl: string
+  facebookUrl: string
+  tiktokUrl: string
   deliveryZones: DeliveryZone[]
   promoCodes: PromoCode[]
 }

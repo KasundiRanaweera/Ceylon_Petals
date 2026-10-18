@@ -10,13 +10,18 @@ import { formatPhone } from '../../lib/phone'
 
 export default function Footer() {
   const shop = useShop()
+  const socials = [
+    { label: 'Instagram', url: shop.instagramUrl },
+    { label: 'Facebook', url: shop.facebookUrl },
+    { label: 'TikTok', url: shop.tiktokUrl },
+  ].filter((s) => s.url)
   const whatsapp = useWhatsApp()
   const { pathname } = useLocation()
   // Keep the checkout and login pages focused.
   const showCta = !['/checkout', '/sign-in', '/register'].includes(pathname) && !pathname.startsWith('/payment')
 
   return (
-    <footer className="w-full bg-surface-container-low pt-14 pb-24 sm:pb-6 text-on-surface-variant">
+    <footer className="w-full bg-dawn-soft pt-14 pb-24 sm:pb-6 text-on-surface-variant">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
         {showCta && (
           <Reveal className="relative mb-14 overflow-hidden rounded-2xl bg-ink-gradient px-6 py-10 text-white sm:px-10 lg:px-14">
@@ -55,12 +60,29 @@ export default function Footer() {
               href={whatsapp('Hello! I have a question.')}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Message Ceylon Petals on WhatsApp"
+              aria-label={`Message ${shop.shopName} on WhatsApp`}
               title="WhatsApp"
               className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-primary transition-colors hover:bg-[#1EBE5D]"
             >
               <WhatsAppIcon size={22} />
             </a>
+            {socials.length > 0 && (
+              // The owner adds these in Admin -> Settings -> Storefront.
+              <ul className="flex flex-wrap gap-2" aria-label="Follow us">
+                {socials.map((s) => (
+                  <li key={s.label}>
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-[44px] items-center rounded-full border border-outline-variant bg-white/70 px-4 text-label-md text-primary transition-colors hover:border-primary hover:bg-primary hover:text-on-primary"
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <div>
