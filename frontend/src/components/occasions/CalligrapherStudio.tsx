@@ -27,16 +27,16 @@ const CARD_THEMES = [
 ]
 
 const WAX_COLORS = [
-  { id: 'emerald', hex: '#1A3A2F', label: 'Botanical Emerald' },
-  { id: 'gold', hex: '#CCA830', label: 'Royal Gold' },
-  { id: 'rosequartz', hex: '#D39C93', label: 'Rose Quartz' },
+  { id: 'ember', hex: '#1C1410', label: 'Ember Black' },
+  { id: 'orange', hex: '#EA580C', label: 'Burnt Orange' },
+  { id: 'amber', hex: '#F59E0B', label: 'Amber Gold' },
 ]
 
 // Converted from the original vanilla-JS DOM manipulation (selectWax, selectCardTheme,
 // updateLivePreview) into a single piece of React state driving the live preview.
 export default function CalligrapherStudio() {
   const [themeId, setThemeId] = useState('anniversary')
-  const [waxId, setWaxId] = useState('emerald')
+  const [waxId, setWaxId] = useState('ember')
   const [message, setMessage] = useState(CARD_THEMES[0].defaultMessage)
   const { cardMessage, setCardMessage } = useCart()
   const { shopName } = useShop()
@@ -149,7 +149,7 @@ export default function CalligrapherStudio() {
 
             {/* Live preview */}
             <div className="lg:col-span-6 flex justify-center">
-              <div className="w-full max-w-md bg-[#FAF7F2] text-[#2C241E] p-8 rounded-xl shadow-lg relative min-h-[380px] flex flex-col justify-between overflow-hidden">
+              <div className="w-full max-w-md bg-surface text-on-surface p-8 rounded-xl shadow-lg relative min-h-[380px] flex flex-col justify-between overflow-hidden">
                 <div className="absolute -right-8 -top-8 w-40 h-40 opacity-10 pointer-events-none">
                   <svg className="w-full h-full fill-current text-primary" viewBox="0 0 100 100">
                     <path d="M50 0 C60 30 70 40 100 50 C70 60 60 70 50 100 C40 70 30 60 0 50 C30 40 40 30 50 0 Z" />
@@ -159,29 +159,29 @@ export default function CalligrapherStudio() {
                 <div className="flex justify-between items-start">
                   <div className="space-y-0.5">
                     <span className="font-display text-[16px] text-primary tracking-widest uppercase block">{shopName}</span>
-                    <span className="text-[9px] uppercase tracking-widest text-[#7D7065]">{theme.previewLabel}</span>
+                    <span className="text-[9px] uppercase tracking-widest text-outline">{theme.previewLabel}</span>
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-[#EFE9DF] flex items-center justify-center text-[#7D7065]">
+                  <div className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-outline">
                     <BookOpen size={16} />
                   </div>
                 </div>
 
                 <div className="my-4">
-                  <p className="font-display italic text-[19px] leading-relaxed text-[#1D1917] tracking-wide whitespace-pre-wrap">
+                  <p className="font-display italic text-[19px] leading-relaxed text-on-surface tracking-wide whitespace-pre-wrap">
                     "{message}"
                   </p>
-                  <div className="mt-4 text-right font-display italic text-[15px] text-[#4A3F35]">— With Love</div>
+                  <div className="mt-4 text-right font-display italic text-[15px] text-on-surface-variant">— With Love</div>
                 </div>
 
                 <div className="pt-4 flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-[10px] text-[#7D7065] tracking-widest uppercase">
+                  <div className="flex items-center gap-2 text-[10px] text-outline tracking-widest uppercase">
                     <span>COLOMBO</span>
                   </div>
                   <div
-                    className="flex items-center gap-2 text-[#FAF7F2] px-4 py-1.5 rounded-sm shadow-md transition-all duration-300"
+                    className="flex items-center gap-2 text-on-primary px-4 py-1.5 rounded-sm shadow-md transition-all duration-300"
                     style={{ backgroundColor: wax.hex }}
                   >
-                    <BadgeCheck size={16} className="text-[#CCA830]" />
+                    <BadgeCheck size={16} className="text-[#fdba74]" />
                     <span className="text-[10px] tracking-wider uppercase">{wax.label} Seal</span>
                   </div>
                 </div>

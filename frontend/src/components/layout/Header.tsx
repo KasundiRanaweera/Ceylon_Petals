@@ -89,7 +89,7 @@ export default function Header() {
     >
       {/* ---- Info bar: one calm, readable line ---- */}
       {shop.acceptingOrders ? (
-        <div className="bg-primary text-[13px] text-[#efe6d2]">
+        <div className="bg-primary text-[13px] text-[#ffedd5]">
           <div className="mx-auto flex h-9 max-w-7xl items-center justify-center gap-6 px-4 md:justify-between lg:px-12">
             <p className="truncate">
               <span className="text-tertiary-fixed-dim">●</span>&nbsp;

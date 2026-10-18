@@ -112,11 +112,11 @@ export default function AuthLayout({ eyebrow, title, subtitle, children, footer 
           </div>
 
           <div className="relative flex flex-1 flex-col justify-between gap-8 p-8 xl:p-10">
-            <Petals color="#e7c873" />
+            <Petals color="#fdba74" />
             <ul className="relative space-y-2.5">
               {PERKS.map(({ icon: Icon, text }) => (
                 <li key={text} className="flex items-center gap-3 text-body-md text-white/85">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-[#d4a72c]/50 text-tertiary-fixed-dim">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-[#ea580c]/50 text-tertiary-fixed-dim">
                     <Icon size={15} />
                   </span>
                   {text}
@@ -124,7 +124,7 @@ export default function AuthLayout({ eyebrow, title, subtitle, children, footer 
               ))}
             </ul>
 
-            <div className="relative border-t border-[#d4a72c]/40 pt-6 text-white">
+            <div className="relative border-t border-[#ea580c]/40 pt-6 text-white">
               <div className="flex gap-0.5 text-tertiary-fixed-dim" aria-label="5 out of 5 stars">
                 {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
               </div>
@@ -153,7 +153,7 @@ export default function AuthLayout({ eyebrow, title, subtitle, children, footer 
                     aria-label={`Show note ${i + 1}`}
                     onClick={() => setSlide(i)}
                     className="h-0.5 cursor-pointer bg-white/30 transition-all"
-                    style={{ width: i === slide ? 32 : 14, backgroundColor: i === slide ? '#e7c873' : undefined }}
+                    style={{ width: i === slide ? 32 : 14, backgroundColor: i === slide ? '#fdba74' : undefined }}
                   />
                 ))}
               </div>

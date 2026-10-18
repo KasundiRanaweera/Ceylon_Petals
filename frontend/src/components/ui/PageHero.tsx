@@ -137,7 +137,7 @@ export default function PageHero({
                 {/* Thin gradient frame around a crisp, un-dimmed photo. */}
                 {/* Crisp, un-dimmed photo with a hairline gold frame offset behind it. */}
                 <div className="relative">
-                <span aria-hidden="true" className="absolute -right-3 -top-3 bottom-3 left-3 border border-[#d4a72c]/60" />
+                <span aria-hidden="true" className="absolute -right-3 -top-3 bottom-3 left-3 border border-[#ea580c]/60" />
                 <div className={`relative overflow-hidden rounded-sm bg-surface-container shadow-[0_30px_60px_-30px_rgba(12,10,9,0.55)] ${image.shape === 'landscape' ? 'aspect-[4/3]' : 'aspect-square'}`}>
                   <motion.img
                     src={sizedImage(image.src, 1408)}

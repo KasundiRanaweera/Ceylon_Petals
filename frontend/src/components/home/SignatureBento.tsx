@@ -34,7 +34,7 @@ interface TileProps {
 
 // The whole tile is one link (one tab stop, one clear name for screen readers).
 function Tile({ span = '', to, href, className = '', children, label }: TileProps) {
-  const cls = `group relative isolate flex h-full flex-col overflow-hidden rounded-3xl p-6 sm:p-7 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_30px_50px_-30px_rgba(36,17,27,0.55)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary motion-reduce:hover:translate-y-0 ${className}`
+  const cls = `group relative isolate flex h-full flex-col overflow-hidden rounded-3xl p-6 sm:p-7 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_30px_50px_-30px_rgba(12,10,9,0.55)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary motion-reduce:hover:translate-y-0 ${className}`
   return (
     <motion.li variants={fadeUp} className={`h-full ${span}`}>
       {href ? (
@@ -74,7 +74,7 @@ export default function SignatureBento() {
       <div className="mx-auto max-w-7xl px-4 lg:px-12">
         <div className="mb-10 flex flex-col gap-4 lg:mb-12 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <p className="eyebrow flex items-center gap-3 font-bold text-[#7a4f05]">
+            <p className="eyebrow flex items-center gap-3 font-bold text-tertiary">
               <span className="rule-dawn w-10" aria-hidden="true" /> Only at {shop.shopName}
             </p>
             <h2 id="signature-title" className="mt-4 font-display text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] text-primary">
@@ -102,7 +102,7 @@ export default function SignatureBento() {
                 <Arrow />
               </div>
               <div className="mt-auto pt-10">
-                <p className="eyebrow text-[#7a4f05]">Live from our Colombo studio</p>
+                <p className="eyebrow text-tertiary">Live from our Colombo studio</p>
                 <p className="mt-3 font-display text-[clamp(2rem,4.2vw,3.5rem)] leading-[1.02] text-primary">
                   {sameDayOpen ? (
                     <>
@@ -134,14 +134,14 @@ export default function SignatureBento() {
             </Tile>
 
           {/* 2. Build your own hamper (photo tile) */}
-          <Tile span="lg:col-span-5" to="/products/luxury-hampers#build-hamper" label="Build your own hamper" className="bg-[#2a1520] text-white">
+          <Tile span="lg:col-span-5" to="/products/luxury-hampers#build-hamper" label="Build your own hamper" className="bg-[#2a160a] text-white">
               <img
                 src={sizedImage(PRODUCT_IMAGES['velvet-bloom-and-chocolate-box'], 900)}
                 alt=""
                 loading="lazy"
                 className="absolute inset-0 -z-10 h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#1a0c12] via-[#1a0c12]/55 to-transparent" aria-hidden="true" />
+              <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#0c0a09] via-[#0c0a09]/55 to-transparent" aria-hidden="true" />
               <div className="flex items-start">
                 <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-sm">
                   <Gift size={20} aria-hidden="true" />
@@ -163,7 +163,7 @@ export default function SignatureBento() {
                 className="absolute inset-y-0 right-0 -z-10 h-full w-1/2 object-cover opacity-60 [mask-image:linear-gradient(to_left,black_40%,transparent)] transition-transform duration-700 group-hover:scale-105"
               />
               <div className="flex items-start">
-                <span className="eyebrow rounded-full bg-white/10 px-3 py-1.5 text-[#f5d27a]">Weddings</span>
+                <span className="eyebrow rounded-full bg-white/10 px-3 py-1.5 text-[#fdba74]">Weddings</span>
                 <Arrow light />
               </div>
               <div className="mt-auto max-w-[60%] pt-14">
@@ -173,7 +173,7 @@ export default function SignatureBento() {
             </Tile>
 
           {/* 4. Send from abroad */}
-          <Tile span="lg:col-span-4" to="/shop" label="Send flowers from abroad" className="bg-dawn-soft border border-[#f1dfd6]">
+          <Tile span="lg:col-span-4" to="/shop" label="Send flowers from abroad" className="bg-dawn-soft border border-[#fed7aa]">
               <div className="flex items-start">
                 <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-tertiary shadow-sm">
                   <Globe2 size={20} aria-hidden="true" />
@@ -191,7 +191,7 @@ export default function SignatureBento() {
               span="lg:col-span-4"
               href={whatsapp(`Hello ${shop.shopName}! Could a florist help me choose something?`)}
               label="Ask a florist on WhatsApp"
-              className="bg-[#0f2a1d] text-white"
+              className="bg-[#1c1410] text-white"
             >
               <div className="absolute -right-10 -top-10 -z-10 h-40 w-40 rounded-full bg-[#25D366]/25 blur-2xl" aria-hidden="true" />
               <div className="flex items-start">
