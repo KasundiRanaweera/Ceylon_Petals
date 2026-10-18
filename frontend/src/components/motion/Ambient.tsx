@@ -4,8 +4,8 @@
 export function Blobs({ tone = 'light' }: { tone?: 'light' | 'dark' }) {
   const colors =
     tone === 'dark'
-      ? ['bg-tertiary-container/20', 'bg-[#f5d27a]/10', 'bg-stone-500/20']
-      : ['bg-tertiary-fixed-dim/35', 'bg-stone-300/40', 'bg-tertiary-fixed/70']
+      ? ['bg-[#d4a72c]/20', 'bg-[#c45c7e]/20', 'bg-[#7a2e4a]/30']
+      : ['bg-[#f6c4d0]/45', 'bg-[#fad6be]/50', 'bg-[#f4dea8]/50']
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       <div className={`animate-blob absolute -top-32 -right-24 h-[28rem] w-[28rem] rounded-full blur-3xl ${colors[0]}`} />

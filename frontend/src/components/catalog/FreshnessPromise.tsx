@@ -8,7 +8,7 @@ export default function FreshnessPromise() {
   return (
     <section className="w-full px-4 lg:px-12 py-14 bg-surface-container-low">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-primary text-on-primary rounded-2xl p-8 lg:p-12 shadow-xl relative overflow-hidden">
+        <div className="bg-ink-gradient text-on-primary rounded-2xl p-8 lg:p-12 shadow-xl relative overflow-hidden">
           <div className="absolute -right-16 -bottom-16 w-80 h-80 rounded-full bg-primary-container blur-2xl" />
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-3">

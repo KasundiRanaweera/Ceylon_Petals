@@ -214,16 +214,39 @@ input {
   background-clip: text;
   color: transparent;
 }
+/* ==== Ceylon Petals gradient system ====
+   One family, used on every page:
+   - dawn  (light): blush rose -> peach -> champagne, for page heroes and feature panels
+   - dusk  (dark):  ink -> deep wine -> warm ink, with a gold and a rose glow, for dark heroes and banners
+   - gold  (accent): buttons and highlighted words (btn-gradient, text-gradient)
+   Colours stay soft and low in saturation so text keeps its contrast. */
 @utility bg-ink-gradient {
-  background-image: linear-gradient(135deg, #0c0a09 0%, #1c1917 55%, #292524 100%);
+  background-color: #140c10;
+  background-image:
+    radial-gradient(55% 70% at 88% 8%, rgba(212, 167, 44, 0.22) 0%, transparent 65%),
+    radial-gradient(50% 60% at 6% 95%, rgba(196, 92, 126, 0.24) 0%, transparent 70%),
+    linear-gradient(135deg, #0c0a09 0%, #24111b 48%, #1c1410 100%);
+}
+/* Soft dawn wash for alternating sections and panels (lighter than the hero). */
+@utility bg-dawn-soft {
+  background-color: #fbf6f3;
+  background-image:
+    radial-gradient(45% 60% at 0% 0%, rgba(246, 201, 211, 0.35) 0%, transparent 70%),
+    radial-gradient(40% 55% at 100% 100%, rgba(245, 220, 160, 0.3) 0%, transparent 70%);
+}
+/* A thin blush -> gold line for section dividers and card tops. */
+@utility rule-dawn {
+  height: 2px;
+  background-image: linear-gradient(90deg, #e8a3b5 0%, #f2c7a5 45%, #d4a72c 100%);
 }
 /* Warm off-white with a faint champagne glow, for hero backgrounds. */
 @utility bg-aurora {
-  background-color: #fafaf9;
+  background-color: #fdf8f5;
   background-image:
-    radial-gradient(40% 50% at 10% 15%, rgba(245, 210, 122, 0.22) 0%, transparent 70%),
-    radial-gradient(35% 45% at 90% 10%, rgba(214, 211, 209, 0.45) 0%, transparent 70%),
-    radial-gradient(45% 55% at 70% 95%, rgba(231, 200, 115, 0.18) 0%, transparent 70%);
+    radial-gradient(42% 58% at 8% 12%, rgba(246, 196, 208, 0.55) 0%, transparent 70%),
+    radial-gradient(38% 50% at 92% 8%, rgba(250, 214, 190, 0.6) 0%, transparent 70%),
+    radial-gradient(50% 60% at 72% 100%, rgba(244, 222, 168, 0.55) 0%, transparent 72%),
+    linear-gradient(180deg, #fdf8f5 0%, #fbf3ee 100%);
 }
 
 /* Primary call-to-action: polished gold pill with ink text (white on gold fails contrast). */
@@ -274,6 +297,13 @@ input {
 @utility rule-gold {
   height: 1px;
   background-image: linear-gradient(90deg, #a16207, #e7c873 40%, rgba(231, 200, 115, 0) 100%);
+}
+
+/* ---- Figures ---- */
+/* Playfair's default figures are old-style ("Rs. 11,8oo", zero like the letter o). Use lining figures
+   everywhere so prices and counts read as numbers. */
+html {
+  font-variant-numeric: lining-nums;
 }
 
 /* ---- Owner console: figures ---- */

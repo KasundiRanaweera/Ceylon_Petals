@@ -24,7 +24,7 @@ export default function FeaturedProducts() {
   const { data: products } = useQuery({ queryKey: ['products', {}], queryFn: () => listProducts() })
 
   return (
-    <section id="featured-collection" className="w-full bg-surface-container-low py-24">
+    <section id="featured-collection" className="w-full bg-dawn-soft py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-12">
         <SectionHeading
           title="Most-loved arrangements"

@@ -16,7 +16,7 @@ export default function PlantCareBanner() {
   return (
     <section className="px-4 lg:px-12 py-20 bg-surface">
       <div className="max-w-7xl mx-auto">
-        <div className="relative bg-primary text-on-primary rounded-2xl overflow-hidden shadow-xl p-8 lg:p-16">
+        <div className="relative bg-ink-gradient text-on-primary rounded-2xl overflow-hidden shadow-xl p-8 lg:p-16">
           <div className="absolute inset-0 bg-gradient-to-r from-primary-container via-primary to-primary-container opacity-90" />
           <div className="absolute -bottom-16 -right-16 w-80 h-80 rounded-full bg-tertiary-container/10 blur-2xl pointer-events-none" />
 

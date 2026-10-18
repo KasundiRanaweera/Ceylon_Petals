@@ -50,7 +50,7 @@ function Stars({ rating, size = 16 }: { rating: number; size?: number }) {
 // Customer reviews: light cards with plain, readable text, a clear star rating and who wrote it.
 export default function Testimonials() {
   return (
-    <section className="w-full bg-surface-container-low py-20 lg:py-24">
+    <section className="w-full bg-dawn-soft py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-12">
         <div className="mb-12 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading

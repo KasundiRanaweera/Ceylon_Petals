@@ -1,14 +1,15 @@
 import { Droplet, Scissors, Snowflake, FlaskConical, Headset } from 'lucide-react'
-import { useWhatsApp } from '../../hooks/useShop'
+import { useShop, useWhatsApp } from '../../hooks/useShop'
 
 export default function CareBanner() {
   const whatsapp = useWhatsApp()
+  const { openingHours } = useShop()
   const link = whatsapp("Hello! I'd like some advice on caring for my flowers.")
 
   return (
     <section className="w-full py-14 bg-surface">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
-        <div className="bg-primary-container text-on-primary rounded-2xl overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12">
+        <div className="bg-ink-gradient text-on-primary rounded-2xl overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12">
           <div className="lg:col-span-7 p-8 lg:p-12 flex flex-col justify-center">
             <div className="inline-flex items-center gap-2 text-tertiary-fixed text-[11px] uppercase tracking-wider mb-2">
               <Droplet size={18} />
@@ -49,7 +50,7 @@ export default function CareBanner() {
                 <Headset size={20} />
                 <span>Ask a Master Florist</span>
               </a>
-              <span className="text-body-sm text-on-primary-container">Available 8:00 AM – 9:00 PM Daily</span>
+              {openingHours && <span className="text-body-sm text-on-primary-container">Available {openingHours}</span>}
             </div>
           </div>
           <div className="lg:col-span-5 relative min-h-[300px] lg:min-h-full">

@@ -14,7 +14,7 @@ export default function CorporateBanner() {
   const link = whatsapp('Hello, I would like to enquire about corporate gifting hampers')
 
   return (
-    <section className="w-full bg-primary-container text-on-primary py-14 relative overflow-hidden">
+    <section className="w-full bg-ink-gradient text-on-primary py-14 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7 space-y-4">
