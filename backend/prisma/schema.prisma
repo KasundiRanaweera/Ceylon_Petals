@@ -336,5 +336,11 @@ model ShopSettings {
   sameDayCutoff    String   @default("14:00")
   acceptingOrders  Boolean  @default(true)
   freeDeliveryOver Int      @default(0)
+  // Shown in the bar at the top of every page. Empty = the automatic delivery message.
+  announcement     String   @default("")
+  // Social profiles shown in the footer. Empty = not shown.
+  instagramUrl     String   @default("")
+  facebookUrl      String   @default("")
+  tiktokUrl        String   @default("")
   updatedAt        DateTime @updatedAt
 }

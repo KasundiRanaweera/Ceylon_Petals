@@ -170,7 +170,8 @@ describe('GET /api/settings', () => {
     expect(res.body.whatsappNumber).toBe('94771234567')
     expect(res.body.deliveryZones.map((z: any) => z.district)).toEqual(['Colombo', 'Kandy'])
     expect(res.body.promoCodes).toEqual([])
-    expect(res.headers['cache-control']).toMatch(/public/)
+    // Revalidated on every load, so changes the owner saves show on the next page view.
+    expect(res.headers['cache-control']).toBe('no-cache')
   })
 })
 

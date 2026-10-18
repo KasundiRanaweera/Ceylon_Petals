@@ -25,6 +25,10 @@ export interface PublicSettingsDto {
   sameDayCutoff: string
   acceptingOrders: boolean
   freeDeliveryOver: number
+  announcement: string
+  instagramUrl: string
+  facebookUrl: string
+  tiktokUrl: string
   deliveryZones: { id: string; district: string; fee: number; sameDay: boolean; active: boolean }[]
   /** Promo codes are never public. Kept as an empty list so the shape matches the frontend type. */
   promoCodes: []
@@ -47,6 +51,10 @@ export async function getPublicSettings(): Promise<PublicSettingsDto> {
     sameDayCutoff: row.sameDayCutoff,
     acceptingOrders: row.acceptingOrders,
     freeDeliveryOver: row.freeDeliveryOver,
+    announcement: row.announcement,
+    instagramUrl: row.instagramUrl,
+    facebookUrl: row.facebookUrl,
+    tiktokUrl: row.tiktokUrl,
     deliveryZones: zones.map((z) => ({ id: z.id, district: z.district, fee: z.fee, sameDay: z.sameDay, active: z.active })),
     promoCodes: [],
   }

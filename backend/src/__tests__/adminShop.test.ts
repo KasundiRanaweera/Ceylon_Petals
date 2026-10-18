@@ -82,6 +82,32 @@ describe('settings', () => {
     expect((await admin('patch', '/settings').send({ promoCodes: [{ code: 'X123', type: 'FIXED', value: 5, active: true }, { code: 'x123', type: 'FIXED', value: 5, active: true }] })).status).toBe(400)
   })
 
+  it('saves the announcement and social links, and the shop shows them', async () => {
+    const res = await admin('patch', '/settings').send({
+      announcement: '  Avurudu orders open: 10% off hampers  ',
+      instagramUrl: 'https://www.instagram.com/ceylonpetals',
+      facebookUrl: 'https://facebook.com/ceylonpetals',
+      tiktokUrl: '',
+    })
+    expect(res.status).toBe(200)
+    expect(res.body).toMatchObject({ announcement: 'Avurudu orders open: 10% off hampers', instagramUrl: 'https://www.instagram.com/ceylonpetals', tiktokUrl: '' })
+    const shop = (await request(app).get('/api/settings')).body
+    expect(shop).toMatchObject({ announcement: 'Avurudu orders open: 10% off hampers', facebookUrl: 'https://facebook.com/ceylonpetals' })
+  })
+
+  it('refuses social links that are not https links to that network, and over-long announcements', async () => {
+    for (const bad of [
+      { instagramUrl: 'http://instagram.com/x' },
+      { instagramUrl: 'https://evil.example/instagram.com' },
+      { instagramUrl: 'javascript:alert(1)' },
+      { facebookUrl: 'https://notfacebook.com/x' },
+      { tiktokUrl: 'tiktok.com/@x' },
+      { announcement: 'x'.repeat(161) },
+    ]) {
+      expect((await admin('patch', '/settings').send(bad)).status, JSON.stringify(bad)).toBe(400)
+    }
+  })
+
   it('a bad list changes nothing', async () => {
     await admin('patch', '/settings').send({ shopName: 'Changed', promoCodes: [{ code: 'X123', type: 'PERCENT', value: 500, active: true }] })
     expect((await admin('get', '/settings')).body.shopName).toBe('Ceylon Petals')

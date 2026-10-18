@@ -34,6 +34,22 @@ const promo = z
   })
   .refine((p) => p.type !== 'PERCENT' || p.value <= 100, { message: 'A percentage discount cannot be more than 100', path: ['value'] })
 
+// A social profile link: empty (= hidden) or a full https:// address on that network.
+const socialLink = (host: RegExp, name: string) =>
+  z
+    .string()
+    .trim()
+    .max(300)
+    .refine((u) => {
+      if (u === '') return true
+      try {
+        const url = new URL(u)
+        return url.protocol === 'https:' && host.test(url.hostname)
+      } catch {
+        return false
+      }
+    }, `Please paste the full ${name} link, starting with https://`)
+
 const unique = <T>(items: T[], key: (item: T) => string) => new Set(items.map(key)).size === items.length
 
 const settingsBody = z
@@ -48,6 +64,10 @@ const settingsBody = z
     sameDayCutoff: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'Use the time format HH:MM, for example 14:00').optional(),
     acceptingOrders: z.boolean().optional(),
     freeDeliveryOver: z.number().int().min(0).max(10_000_000).optional(),
+    announcement: z.string().trim().max(160, 'Keep the announcement under 160 characters').optional(),
+    instagramUrl: socialLink(/(^|\.)instagram\.com$/, 'Instagram').optional(),
+    facebookUrl: socialLink(/(^|\.)(facebook\.com|fb\.com)$/, 'Facebook').optional(),
+    tiktokUrl: socialLink(/(^|\.)tiktok\.com$/, 'TikTok').optional(),
     deliveryZones: z.array(zone).max(25).refine((z) => unique(z, (x) => x.district), 'Two delivery zones are the same district').optional(),
     promoCodes: z.array(promo).max(100).refine((p) => unique(p, (x) => x.code), 'Two promo codes have the same code').optional(),
   })

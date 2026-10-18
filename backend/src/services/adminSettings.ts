@@ -32,6 +32,10 @@ export interface AdminSettingsDto {
   sameDayCutoff: string
   acceptingOrders: boolean
   freeDeliveryOver: number
+  announcement: string
+  instagramUrl: string
+  facebookUrl: string
+  tiktokUrl: string
   deliveryZones: ZoneDto[]
   promoCodes: PromoDto[]
 }
@@ -53,6 +57,10 @@ export async function getAdminSettings(): Promise<AdminSettingsDto> {
     sameDayCutoff: row.sameDayCutoff,
     acceptingOrders: row.acceptingOrders,
     freeDeliveryOver: row.freeDeliveryOver,
+    announcement: row.announcement,
+    instagramUrl: row.instagramUrl,
+    facebookUrl: row.facebookUrl,
+    tiktokUrl: row.tiktokUrl,
     deliveryZones: zones.map((z) => ({ id: z.id, district: z.district, fee: z.fee, sameDay: z.sameDay, active: z.active })),
     promoCodes: promos.map((p) => ({ id: p.id, code: p.code, type: p.type, value: p.value, minOrder: p.minOrder, active: p.active, description: p.description })),
   }
@@ -69,6 +77,10 @@ export interface SettingsChanges {
   sameDayCutoff?: string
   acceptingOrders?: boolean
   freeDeliveryOver?: number
+  announcement?: string
+  instagramUrl?: string
+  facebookUrl?: string
+  tiktokUrl?: string
   /** When given, this is the complete list: zones missing from it are removed. */
   deliveryZones?: { district: string; fee: number; sameDay: boolean; active: boolean }[]
   /** When given, this is the complete list: codes missing from it are removed. */
