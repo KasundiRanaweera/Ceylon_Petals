@@ -58,7 +58,7 @@ export default function HamperBuilder() {
     if (!step1) return
     addCustom({
       name: 'Custom-built hamper',
-      imageUrl: PRODUCT_IMAGES['the-heritage-ceylon-sovereign-crate'],
+      imageUrl: PRODUCT_IMAGES['velvet-bloom-and-chocolate-box'],
       unitPrice: total,
       options: selectedItems.map((i) => i.name).join(' + '),
       hamper: { base: step1, treats: step2, keepsake: step3 },

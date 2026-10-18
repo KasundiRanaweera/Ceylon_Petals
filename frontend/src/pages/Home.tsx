@@ -1,5 +1,5 @@
 import Hero from '../components/home/Hero'
-import HomeHighlights from '../components/home/HomeHighlights'
+import SignatureBento from '../components/home/SignatureBento'
 import ProductCarousel from '../components/home/ProductCarousel'
 import CategoryGrid from '../components/home/CategoryGrid'
 import FeaturedProducts from '../components/home/FeaturedProducts'
@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full">
       <Hero />
-      <HomeHighlights />
+      <SignatureBento />
       <ProductCarousel />
       <Reveal>
         <CategoryGrid />
