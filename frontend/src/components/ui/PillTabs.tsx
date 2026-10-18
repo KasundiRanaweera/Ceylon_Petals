@@ -1,6 +1,6 @@
-import { useId } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import type { LucideIcon } from 'lucide-react'
 
 export interface PillOption {
@@ -27,10 +27,23 @@ interface PillTabsProps {
 // so choosing a category looks and feels the same everywhere.
 //
 // Rounded chips; the chosen one is filled with the dark "dusk" gradient and gold text, and that
-// highlight glides to the next choice. On phones the row scrolls sideways (the edges fade out).
+// highlight glides to the next choice. On phones the row scrolls sideways (the edges fade out) and
+// the chosen chip is slid into view; from tablet width up the chips wrap, so all of them show.
 export default function PillTabs({ options, active, onChange, label, wrap = false }: PillTabsProps) {
   const groupId = useId()
   const asLinks = options.some((o) => o.to)
+  const rowRef = useRef<HTMLDivElement>(null)
+  const reduce = useReducedMotion()
+
+  // Keep the chosen chip in view inside the sideways-scrolling row (it may start off-screen when a
+  // page opens on a later choice, e.g. ?tab=corporate). Only the row scrolls, never the page.
+  useEffect(() => {
+    const row = rowRef.current
+    const chip = row?.querySelector<HTMLElement>('[data-selected="true"]')
+    if (!row || !chip || row.scrollWidth <= row.clientWidth) return
+    const left = chip.offsetLeft - (row.clientWidth - chip.offsetWidth) / 2
+    row.scrollTo({ left: Math.max(0, left), behavior: reduce ? 'auto' : 'smooth' })
+  }, [active, options.length, reduce])
 
   const chip = (o: PillOption) => {
     const selected = o.id === active
@@ -62,28 +75,31 @@ export default function PillTabs({ options, active, onChange, label, wrap = fals
       selected ? 'border-transparent text-white' : 'border-outline-variant bg-white/75 text-primary hover:border-[#c8930a]/60 hover:bg-white'
     }`
     return o.to ? (
-      <Link key={o.id} to={o.to} aria-current={selected ? 'page' : undefined} className={cls}>
+      <Link key={o.id} to={o.to} aria-current={selected ? 'page' : undefined} data-selected={selected} className={cls}>
         {inner}
       </Link>
     ) : (
-      <button key={o.id} type="button" role="tab" aria-selected={selected} onClick={() => onChange?.(o.id)} className={cls}>
+      <button key={o.id} type="button" role="tab" aria-selected={selected} data-selected={selected} onClick={() => onChange?.(o.id)} className={cls}>
         {inner}
       </button>
     )
   }
 
+  // Phones: one sideways-scrolling row. Tablets and up: the chips wrap, so every choice is visible.
   const row = wrap
-    ? 'flex flex-wrap gap-2'
-    : 'flex snap-x snap-mandatory gap-2 overflow-x-auto py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
-  const fade = wrap ? '' : '[mask-image:linear-gradient(to_right,transparent,black_12px,black_calc(100%-24px),transparent)] -mx-1 px-1'
+    ? 'relative flex flex-wrap gap-2'
+    : 'relative flex snap-x snap-mandatory gap-2 overflow-x-auto py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-visible'
+  const fade = wrap ? '' : '-mx-1 px-1 [mask-image:linear-gradient(to_right,transparent,black_12px,black_calc(100%-24px),transparent)] md:[mask-image:none]'
 
   return asLinks ? (
     <nav aria-label={label} className={fade}>
-      <div className={row}>{options.map(chip)}</div>
+      <div ref={rowRef} className={row}>
+        {options.map(chip)}
+      </div>
     </nav>
   ) : (
     <div className={fade}>
-      <div role="tablist" aria-label={label} className={row}>
+      <div ref={rowRef} role="tablist" aria-label={label} className={row}>
         {options.map(chip)}
       </div>
     </div>
