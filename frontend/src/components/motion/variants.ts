@@ -10,11 +10,6 @@ export const fadeUp: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE_OUT } },
 }
 
-export const fadeIn: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.5, ease: EASE_OUT } },
-}
-
 export const scaleIn: Variants = {
   hidden: { opacity: 0, scale: 0.94 },
   show: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: EASE_OUT } },
@@ -33,12 +28,6 @@ export const wordRise: Variants = {
   show: { y: '0%', transition: { duration: 0.6, ease: EASE_OUT } },
 }
 
-/** Press feedback for buttons and cards. */
-export const pressable = {
-  whileHover: { y: -2 },
-  whileTap: { scale: 0.97 },
-  transition: { type: 'spring', bounce: 0, visualDuration: 0.25 },
-} as const
 
 /** Same variants, starting later. (A transition inside a variant overrides the `transition` prop.) */
 export function withDelay(variants: Variants, delay: number): Variants {

@@ -1,6 +1,6 @@
 import { Bird, Briefcase, Cake, Flower2, Gem, Heart, HeartPulse, PartyPopper, Sparkles, type LucideIcon } from 'lucide-react'
 import PillTabs from '../ui/PillTabs'
-import { OCCASIONS } from '../../data/catalog'
+import { OCCASIONS } from '../../data/occasions'
 import type { OccasionSlug, Product } from '../../types'
 
 const ICONS: Record<OccasionSlug | 'all', LucideIcon> = {

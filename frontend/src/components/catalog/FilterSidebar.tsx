@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import type { OccasionSlug, Product } from '../../types'
-import { OCCASION_NAME } from '../../data/catalog'
+import { OCCASION_NAME } from '../../data/occasions'
 import { PRICE_BANDS, facet, type CatalogFilters } from './catalogFilters'
 
 interface FilterSidebarProps {

@@ -22,7 +22,3 @@ export function formatPhone(stored: string): string {
   return `+${stored}`
 }
 
-/** Compare two numbers loosely (last 9 digits), so "0771234567" matches "+94 77 123 4567". */
-export function samePhone(a: string, b: string): boolean {
-  return normalizePhone(a).slice(-9) === normalizePhone(b).slice(-9)
-}

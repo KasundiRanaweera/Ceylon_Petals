@@ -12,7 +12,7 @@ import ProductGrid from '../components/shop/ProductGrid'
 import EmptyState from '../components/ui/EmptyState'
 import NotFound from './NotFound'
 import { listCategories, listProducts } from '../services/catalog'
-import { OCCASIONS } from '../data/catalog'
+import { OCCASIONS } from '../data/occasions'
 import { EMPTY_FILTERS, activeFilterCount, applyFilters, type CatalogFilters } from '../components/catalog/catalogFilters'
 import type { Category, Occasion } from '../types'
 

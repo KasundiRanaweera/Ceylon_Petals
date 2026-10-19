@@ -6,7 +6,7 @@ import OccasionSection from '../components/occasions/OccasionSection'
 import CalligrapherStudio from '../components/occasions/CalligrapherStudio'
 import DiasporaBanner from '../components/occasions/DiasporaBanner'
 import { listProducts } from '../services/catalog'
-import { OCCASIONS } from '../data/catalog'
+import { OCCASIONS } from '../data/occasions'
 import type { OccasionSlug } from '../types'
 
 export default function Occasions() {
