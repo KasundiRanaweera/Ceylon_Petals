@@ -3,13 +3,12 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/
 import { Link, NavLink, useNavigate, useSearchParams } from 'react-router-dom'
 import { Search, Truck, UserRound, ShoppingBag, Menu, X, LayoutDashboard, MessageCircle, PenLine } from 'lucide-react'
 import Logo from './Logo'
+import Ticker from './Ticker'
 import { SHOP_NAV } from './navLinks'
 import { useCart } from '../../hooks/useCart'
 import { useAuth } from '../../hooks/useAuth'
-import { sameDayDistricts, listWords } from '../../lib/shopInfo'
 import { useShop, useWhatsApp } from '../../hooks/useShop'
 import { formatPhone } from '../../lib/phone'
-import { formatClock } from '../../lib/dates'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -48,7 +47,6 @@ export default function Header() {
   const { count } = useCart()
   const { user } = useAuth()
   const shop = useShop()
-  const sameDay = sameDayDistricts(shop)
   const whatsapp = useWhatsApp()
   const close = () => {
     setMenuOpen(false)
@@ -79,6 +77,7 @@ export default function Header() {
   const AccountIcon = account.icon
   const barLinks = SHOP_NAV.filter((l) => l.inBar !== false)
 
+
   return (
     <motion.header
       animate={{ y: hidden && !menuOpen && !searchOpen ? '-100%' : '0%' }}
@@ -90,22 +89,9 @@ export default function Header() {
       {/* ---- Info bar: one calm, readable line ---- */}
       {shop.acceptingOrders ? (
         <div className="bg-primary text-[13px] tracking-[0.02em] text-[#f3f0ef]">
-          <div className="mx-auto flex h-9 max-w-7xl items-center justify-center gap-6 px-4 md:justify-between lg:px-12">
-            <p className="truncate">
-              <span className="text-[#e9c349]">●</span>&nbsp;
-              {shop.announcement ? (
-                // The owner's own message (Admin -> Settings -> Storefront).
-                <span>{shop.announcement}</span>
-              ) : sameDay.length > 0 ? (
-                <>
-                  Same-day delivery<span className="hidden sm:inline"> in {listWords(sameDay)}</span> — order before{' '}
-                  <strong className="font-semibold text-white">{formatClock(shop.sameDayCutoff)}</strong>
-                </>
-              ) : (
-                <>Fresh flowers delivered across Sri Lanka</>
-              )}
-            </p>
-            <div className="hidden items-center gap-6 md:flex">
+          <div className="mx-auto flex h-9 max-w-7xl items-center gap-6 px-4 lg:px-12">
+            <Ticker />
+            <div className="hidden shrink-0 items-center gap-6 md:flex">
               <a href={whatsapp('Hello! I have a question about an order.')} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-white">
                 <MessageCircle size={14} className="text-[#25D366]" /> {formatPhone(shop.whatsappNumber)}
               </a>
