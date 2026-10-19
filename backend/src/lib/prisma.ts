@@ -25,12 +25,17 @@ const base = new PrismaClient({ adapter, transactionOptions: { maxWait: 10_000, 
 // so an order or a payment can never be saved twice.
 const READS = new Set(['findUnique', 'findUniqueOrThrow', 'findFirst', 'findFirstOrThrow', 'findMany', 'count', 'aggregate', 'groupBy'])
 
-function isClosedConnection(error: unknown): boolean {
-  const text = `${(error as { message?: string })?.message ?? ''} ${String((error as { cause?: unknown })?.cause ?? '')}`
-  return /ConnectionClosed|Connection terminated|server closed the connection|ECONNRESET/i.test(text)
+// A dropped or briefly blocked connection (the pooler closing it, a network blip, a firewall or
+// antivirus momentarily refusing it). These clear on their own, so a read is worth one more try.
+function isTransientConnectionError(error: unknown): boolean {
+  const e = error as { message?: string; code?: string; cause?: unknown }
+  const text = `${e?.message ?? ''} ${e?.code ?? ''} ${String(e?.cause ?? '')}`
+  return /ConnectionClosed|Connection terminated|server closed the connection|ECONNRESET|EACCES|ETIMEDOUT|DatabaseNotReachable/i.test(text)
 }
 
-// If a read lands on a connection the pooler has just closed, try it once more on a fresh one.
+const pause = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+// If a read fails on a dropped connection, wait a moment and try it once more on a fresh one.
 export const prisma = base.$extends({
   query: {
     $allModels: {
@@ -38,7 +43,8 @@ export const prisma = base.$extends({
         try {
           return await query(args)
         } catch (error) {
-          if (!READS.has(operation) || !isClosedConnection(error)) throw error
+          if (!READS.has(operation) || !isTransientConnectionError(error)) throw error
+          await pause(250)
           return query(args)
         }
       },

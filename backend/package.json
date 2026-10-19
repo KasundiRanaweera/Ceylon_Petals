@@ -15,6 +15,7 @@
     "db:deploy": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "owner:reset": "tsx scripts/reset-owner-password.ts",
+    "db:clean-tests": "tsx scripts/clean-test-data.ts",
     "db:studio": "prisma studio",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
