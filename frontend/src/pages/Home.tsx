@@ -1,38 +1,28 @@
 import Hero from '../components/home/Hero'
-import SignatureBento from '../components/home/SignatureBento'
-import ProductCarousel from '../components/home/ProductCarousel'
-import CategoryGrid from '../components/home/CategoryGrid'
-import FeaturedProducts from '../components/home/FeaturedProducts'
-import DeliveryCoverage from '../components/home/DeliveryCoverage'
-import HowItWorks from '../components/home/HowItWorks'
+import OccasionTiles from '../components/home/OccasionTiles'
+import SignatureSeries from '../components/home/SignatureSeries'
+import StudioStory from '../components/home/StudioStory'
+import LiveFigures from '../components/home/LiveFigures'
 import Testimonials from '../components/home/Testimonials'
-import CareBanner from '../components/home/CareBanner'
+import DeliveryCoverage from '../components/home/DeliveryCoverage'
+import InstagramStrip from '../components/home/InstagramStrip'
 import { Reveal } from '../components/motion/Reveal'
 
+// The home page, laid out like the Stitch design: hero, occasions, signature pieces, the studio
+// story with live figures, customer voices, delivery check and the Instagram strip.
 export default function Home() {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex w-full flex-col">
       <Hero />
-      <SignatureBento />
-      <ProductCarousel />
-      <Reveal>
-        <CategoryGrid />
-      </Reveal>
-      <Reveal>
-        <FeaturedProducts />
-      </Reveal>
+      <OccasionTiles />
+      <SignatureSeries />
+      <StudioStory />
+      <LiveFigures />
+      <Testimonials />
       <Reveal>
         <DeliveryCoverage />
       </Reveal>
-      <Reveal>
-        <HowItWorks />
-      </Reveal>
-      <Reveal>
-        <Testimonials />
-      </Reveal>
-      <Reveal>
-        <CareBanner />
-      </Reveal>
+      <InstagramStrip />
     </div>
   )
 }

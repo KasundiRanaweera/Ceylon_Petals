@@ -1,195 +1,79 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from 'motion/react'
-import { useQuery } from '@tanstack/react-query'
-import { ArrowRight } from 'lucide-react'
-import RoseSequence from './RoseSequence'
-import WhatsAppIcon from '../ui/WhatsAppIcon'
-import { EASE_OUT, fadeUp, pressable, staggerContainer } from '../motion/variants'
-import { useShop, useWhatsApp } from '../../hooks/useShop'
-import { useCutoffCountdown } from '../../hooks/useCutoffCountdown'
-import { getSettings } from '../../services/shop'
-import { formatClock } from '../../lib/dates'
-import { listWords, sameDayDistricts } from '../../lib/shopInfo'
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
+import { ChevronDown } from 'lucide-react'
+import { EASE_OUT } from '../motion/variants'
 
 const MotionLink = motion.create(Link)
 
-// The first screen: a real rose that opens from bud to full bloom as you scroll.
-//
-// The section is a tall "scroll track". Its content stays pinned (sticky) while the visitor scrolls
-// through the track, and that scroll position chooses the frame of the rose time-lapse (0 = bud,
-// 1 = full bloom). Scrolling back up closes it again. With "reduce motion" the rose simply shows in
-// full bloom and the section is a normal height.
-
-const STAGES = [
-  { at: 0, title: 'Bud', text: 'Cut at dawn in the hills' },
-  { at: 0.4, title: 'Unfurling', text: 'Hand-tied in our Colombo studio' },
-  { at: 0.78, title: 'Full bloom', text: 'Opening at their door' },
-]
-
-function formatLeft(minutes: number): string {
-  const h = Math.floor(minutes / 60)
-  const m = minutes % 60
-  return h === 0 ? `${m} min` : m === 0 ? `${h} h` : `${h} h ${m} min`
-}
-
-// One live line about ordering today, from the shop's settings and the Colombo clock.
-function DeliveryStatus() {
-  const shop = useShop()
-  const { isSuccess } = useQuery({ queryKey: ['settings'], queryFn: getSettings, staleTime: 5 * 60_000 })
-  const left = useCutoffCountdown(shop.sameDayCutoff)
-  const sameDay = shop.acceptingOrders ? sameDayDistricts(shop) : []
-
-  let text: string
-  let tone = 'bg-[#f5d27a]'
-  if (!shop.acceptingOrders) {
-    tone = 'bg-[#fb923c]'
-    text = 'Online orders are paused. Message us on WhatsApp.'
-  } else if (sameDay.length > 0 && left !== null) {
-    text = `Order within ${formatLeft(left)} for same-day delivery in ${listWords(sameDay)}`
-  } else {
-    text = 'Order now, delivered from tomorrow'
-  }
-
-  return (
-    <p
-      aria-hidden={!isSuccess}
-      className={`inline-flex max-w-full items-center gap-2.5 rounded-full border border-white/15 bg-white/5 py-2 pl-3 pr-4 text-[13px] font-medium text-[#f5e6c8] backdrop-blur-sm sm:text-[14px] ${isSuccess ? '' : 'invisible'}`}
-    >
-      <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
-        <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 motion-reduce:hidden ${tone}`} />
-        <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${tone}`} />
-      </span>
-      <span className="truncate">{text}</span>
-    </p>
-  )
-}
-
-// The three stage captions under the rose; each fades in for its part of the scroll.
-function StageCaption({ progress, index }: { progress: MotionValue<number>; index: number }) {
-  const start = STAGES[index].at
-  const end = STAGES[index + 1]?.at ?? 1.01
-  const first = index === 0
-  const last = index === STAGES.length - 1
-  const opacity = useTransform(progress, [start - 0.08, start + 0.04, end - 0.06, end + 0.02], first ? [1, 1, 1, 0] : last ? [0, 1, 1, 1] : [0, 1, 1, 0])
-  const y = useTransform(progress, [start - 0.08, start + 0.04], first ? [0, 0] : [12, 0])
-  return (
-    <motion.div style={{ opacity, y }} className="absolute inset-x-0 text-center">
-      <p className="eyebrow text-[#e7c873]">{STAGES[index].title}</p>
-      <p className="mt-1 font-display text-[19px] italic text-[#f5e6c8]">{STAGES[index].text}</p>
-    </motion.div>
-  )
-}
+// The first screen, as in the Stitch design: a full-screen rose photo (slightly darkened, drifting
+// with a gentle parallax as you scroll) with the words centred on top, a gold "Explore the Atelier"
+// button, a glass "Wedding Collections" button and a scroll cue.
+const rise = (delay: number) => ({
+  initial: { opacity: 0, y: 32 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 1, delay, ease: EASE_OUT },
+})
 
 export default function Hero() {
-  const shop = useShop()
-  const whatsapp = useWhatsApp()
   const reduce = useReducedMotion()
-  const track = useRef<HTMLElement>(null)
-
-  const { scrollYProgress } = useScroll({ target: track, offset: ['start start', 'end end'] })
-  // A soft spring so the bloom glides instead of jumping with each scroll-wheel step.
-  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: 0.4 })
-  const fullBloom = useMotionValue(1)
-  const progress = reduce ? fullBloom : smooth
-
-  const barWidth = useTransform(progress, (v) => `${Math.round(v * 100)}%`)
-  // The rose comes slightly closer as it opens.
-  const roseScale = useTransform(progress, [0, 1], [0.94, 1.04])
-  const sameDay = sameDayDistricts(shop)
+  const section = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({ target: section, offset: ['start start', 'end start'] })
+  const photoY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
 
   return (
     <section
-      ref={track}
+      ref={section}
       aria-labelledby="home-hero-title"
-      // The extra height is the distance the visitor scrolls while the rose opens.
-      className={`bg-ink-gradient relative text-on-primary ${reduce ? '' : 'h-[220vh] lg:h-[250vh]'}`}
+      className="relative flex h-[calc(100svh-101px)] min-h-[560px] w-full items-center justify-center overflow-hidden bg-[#1b1c1c] lg:h-[calc(100svh-109px)]"
     >
-      <div className="sticky top-[101px] flex h-[calc(100svh-101px)] min-h-[620px] items-center overflow-hidden lg:top-[109px] lg:h-[calc(100svh-109px)]">
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-5 py-8 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:px-12">
-          {/* ---------------- Words: one message, one main action ---------------- */}
-          <motion.div className="order-2 max-w-xl lg:order-1" initial="hidden" animate="show" variants={staggerContainer(0.09, 0.1)}>
-            <motion.div variants={fadeUp}>
-              <DeliveryStatus />
-            </motion.div>
+      {/* the photo: scaled up a little so the parallax never shows an edge */}
+      <motion.div className="absolute inset-0 scale-110" style={reduce ? undefined : { y: photoY }}>
+        <img
+          src="/images/stitch/hero-roses-2000.webp"
+          srcSet="/images/stitch/hero-roses-1200.webp 1200w, /images/stitch/hero-roses-2000.webp 2000w"
+          sizes="100vw"
+          alt="Soft pink and cream roses with dewdrops"
+          fetchPriority="high"
+          className="h-full w-full object-cover brightness-[0.7]"
+        />
+      </motion.div>
+      <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/35" />
 
-            <motion.h1
-              id="home-hero-title"
-              variants={fadeUp}
-              className="mt-6 font-display text-[clamp(2.4rem,8.5vw,4rem)] leading-[1.04] tracking-[-0.02em] text-white lg:mt-8 lg:text-[clamp(3rem,min(5vw,9vh),5.25rem)]"
-            >
-              From bud
-              <br />
-              to <em className="text-gradient-light whitespace-nowrap pr-2 font-normal italic">full bloom</em>
-            </motion.h1>
-
-            <motion.p variants={fadeUp} className="mt-6 max-w-[34rem] text-[16px] leading-relaxed text-[#efe6d2]/80 sm:text-[18px]">
-              Hand-tied bouquets, hampers and gifts from our Colombo studio, made fresh every morning and delivered across Sri Lanka
-              {sameDay.length > 0 && shop.acceptingOrders ? <>, same-day before {formatClock(shop.sameDayCutoff)}</> : null}.
-            </motion.p>
-
-            <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4 lg:mt-10">
-              <MotionLink to="/shop" {...pressable} className="btn-gradient inline-flex min-h-[52px] items-center justify-center gap-3 whitespace-nowrap px-8">
-                Shop flowers <ArrowRight size={16} aria-hidden="true" />
-              </MotionLink>
-              <a
-                href={whatsapp(`Hello ${shop.shopName}! I'd like to order some flowers.`)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold text-white underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-[#e7c873] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-              >
-                <WhatsAppIcon size={18} className="text-[#25D366]" /> or order on WhatsApp
-              </a>
-            </motion.div>
-          </motion.div>
-
-          {/* ---------------- The real rose ---------------- */}
-          <div className="order-1 flex flex-col items-center lg:order-2">
-            <div className="relative flex w-full justify-center">
-              {/* A pool of black behind the rose, so the footage's black background melts into the scene */}
-              <div aria-hidden="true" className="absolute -inset-[14%] rounded-full bg-[radial-gradient(closest-side,#000_55%,rgba(0,0,0,0.6)_75%,transparent_100%)]" />
-              <motion.div
-                // The frames are 1000 x 804; the soft oval edge fades the footage into that black.
-                className="relative aspect-[1000/804] w-[min(88vw,48svh)] sm:w-[min(70vw,56svh)] lg:w-[min(100%,82svh,640px)] [mask-image:radial-gradient(ellipse_50%_58%_at_50%_47%,black_42%,transparent_100%)]"
-                style={{ scale: roseScale }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, ease: EASE_OUT }}
-              >
-                <RoseSequence progress={progress} still={Boolean(reduce)} />
-              </motion.div>
-            </div>
-
-            {/* What stage the rose is at, and how far it has opened */}
-            {!reduce && (
-              <div className="mt-2 hidden w-full max-w-xs sm:block" aria-hidden="true">
-                <div className="relative h-12">
-                  {STAGES.map((_, i) => (
-                    <StageCaption key={i} progress={progress} index={i} />
-                  ))}
-                </div>
-                <div className="mt-3 h-[3px] overflow-hidden rounded-full bg-white/10">
-                  <motion.div style={{ width: barWidth }} className="h-full rounded-full bg-gradient-to-r from-[#d4a72c] to-[#f5d27a]" />
-                </div>
-              </div>
-            )}
-
-            {/* The footage's licence asks for this credit. */}
-            <p className="mt-3 text-[11px] text-white/45">
-              Rose time-lapse:{' '}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:Time-lapse_of_opening_red_rose_isolated_on_black_background.Blooming_red_roses_flower_buds.webm"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-white/25 underline-offset-2 hover:text-white/75"
-              >
-                Alex Tr
-              </a>
-              , CC BY 3.0, colour-graded
-            </p>
-          </div>
-        </div>
+      <div className="relative z-10 max-w-4xl px-5 text-center text-[#fffdf9]">
+        <motion.p {...rise(0.2)} className="mb-5 text-[12px] font-medium uppercase tracking-[0.4em] sm:text-[13px]">
+          Luxury botanical artistry
+        </motion.p>
+        <motion.h1 {...rise(0.4)} id="home-hero-title" className="font-display text-[clamp(2.75rem,8vw,5.5rem)] leading-[1.05] tracking-[-0.01em]">
+          The Art of Living Bloom
+        </motion.h1>
+        <motion.p {...rise(0.7)} className="mx-auto mb-12 mt-6 max-w-2xl text-[17px] leading-relaxed text-[#fffdf9]/90 sm:text-[19px]">
+          Exquisite floral curation for Sri Lanka&rsquo;s most discerning moments. Where elegance meets the ephemeral.
+        </motion.p>
+        <motion.div {...rise(1)} className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
+          <MotionLink
+            to="/shop"
+            whileHover={reduce ? undefined : { scale: 1.05 }}
+            className="inline-flex min-h-[56px] items-center rounded-full bg-[#d4af37] px-12 text-[13px] font-semibold uppercase tracking-[0.16em] text-[#1b1c1c] shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            Explore the Atelier
+          </MotionLink>
+          <Link
+            to="/wedding-events"
+            className="inline-flex min-h-[56px] items-center rounded-full border border-white/30 bg-white/10 px-12 text-[13px] font-semibold uppercase tracking-[0.16em] text-[#fffdf9] shadow-lg backdrop-blur-md transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            Wedding Collections
+          </Link>
+        </motion.div>
       </div>
+
+      <a
+        href="#occasions-title"
+        aria-label="Scroll to the collections"
+        className="absolute bottom-8 left-1/2 z-20 flex h-11 w-11 -translate-x-1/2 items-center justify-center text-[#fffdf9]/75 hover:text-white"
+      >
+        <ChevronDown size={30} className="animate-bounce motion-reduce:animate-none" />
+      </a>
     </section>
   )
 }

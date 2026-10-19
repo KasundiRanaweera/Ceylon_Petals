@@ -24,46 +24,46 @@ export default function DeliveryCoverage() {
   ].filter((line): line is string => Boolean(line))
 
   return (
-    <section className="w-full py-14 bg-dawn-soft">
+    <section className="w-full py-20 lg:py-28 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
-        <div className="bg-surface-container rounded-2xl p-6 lg:p-10 shadow-sm">
+        <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 lg:p-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5 space-y-4">
-              <div className="inline-flex items-center gap-2 text-tertiary text-[11px] uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">
                 <MapPin size={18} />
                 <span>Islandwide delivery</span>
               </div>
-              <h2 className="font-display text-headline-lg text-primary">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-on-surface">
                 {sameDay.length > 0 ? `Same-day across ${listWords(sameDay)}` : 'Delivered across Sri Lanka'}
               </h2>
-              <p className="text-body-md text-secondary leading-relaxed">
+              <p className="text-[15px] text-on-surface-variant leading-relaxed">
                 Hand-delivered by our own team, with a call to the recipient on arrival and a free handwritten card.
               </p>
 
               <div className="space-y-2 pt-1">
                 {coverage.map((line) => (
-                  <div key={line} className="flex items-center gap-2 text-title-md text-primary">
-                    <CheckCircle2 size={20} className="text-emerald-700" />
+                  <div key={line} className="flex items-center gap-2 text-title-md text-on-surface">
+                    <CheckCircle2 size={20} className="text-tertiary shrink-0" />
                     <span>{line}</span>
                   </div>
                 ))}
               </div>
 
               <div className="pt-3">
-                <label htmlFor="coverage-district" className="block text-[11px] text-secondary uppercase tracking-wider mb-2">
+                <label htmlFor="coverage-district" className="block text-[11px] text-tertiary uppercase tracking-[0.18em] mb-2">
                   Check delivery to your district
                 </label>
                 <select
                   id="coverage-district"
                   value={district}
                   onChange={(e) => setDistrict(e.target.value)}
-                  className="w-full bg-surface-container-lowest px-4 py-2.5 rounded-lg text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-body-md text-on-surface ring-1 ring-outline-variant/40 focus:outline-none focus:ring-2 focus:ring-[#d4af37]"
                 >
                   <option value="">Select your district</option>
                   {DISTRICTS.map((d) => <option key={d}>{d}</option>)}
                 </select>
                 {district && (
-                  <p className={`text-body-sm font-medium mt-2 ${zone?.sameDay ? 'text-emerald-800' : 'text-primary'}`} aria-live="polite">
+                  <p className={`text-body-sm font-medium mt-2 ${zone?.sameDay ? 'text-emerald-800' : 'text-on-surface'}`} aria-live="polite">
                     {!zone
                       ? <>We don't deliver to {district} online yet — <Link to="/delivery" className="underline">message us</Link> and we'll try to help.</>
                       : zone.sameDay
@@ -75,7 +75,7 @@ export default function DeliveryCoverage() {
             </div>
 
             <div className="lg:col-span-7">
-              <div className="relative bg-surface-container-lowest rounded-xl p-4 shadow-md">
+              <div className="relative bg-surface-container-low rounded-xl ring-1 ring-outline-variant/40 p-3">
                 <div
                   className="w-full h-80 rounded-lg bg-cover bg-center relative overflow-hidden"
                   style={{
@@ -84,28 +84,28 @@ export default function DeliveryCoverage() {
                   }}
                 >
                   <div className="absolute inset-0 bg-primary/20" />
-                  <div className="absolute top-8 left-8 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-sm text-primary text-xs font-semibold flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" /> {sameDay.length > 0 ? `Same-day: ${listWords(sameDay)}` : 'Islandwide delivery'}
+                  <div className="absolute top-8 left-8 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1.5 rounded-full shadow-sm text-on-surface text-xs font-semibold flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-[#d4af37]" /> {sameDay.length > 0 ? `Same-day: ${listWords(sameDay)}` : 'Islandwide delivery'}
                   </div>
-                  <div className="absolute bottom-10 right-8 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-sm text-primary text-xs font-semibold flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" /> Order before {formatClock(shop.sameDayCutoff)}
+                  <div className="absolute bottom-10 right-8 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1.5 rounded-full shadow-sm text-on-surface text-xs font-semibold flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-[#d4af37]" /> Order before {formatClock(shop.sameDayCutoff)}
                   </div>
-                  <div className="absolute top-1/2 left-1/3 bg-primary text-on-primary px-3 py-1 rounded-sm shadow-lg text-xs font-bold flex items-center gap-1">
+                  <div className="absolute top-1/2 left-1/3 bg-primary text-[#e9c349] px-3 py-1 rounded-full shadow-lg text-xs font-semibold flex items-center gap-1">
                     <MapPin size={14} /> Our studio
                   </div>
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-                  <div className="p-2 bg-surface-container-low rounded-lg">
-                    <span className="font-display text-headline-sm text-primary block">{shop.deliveryZones.filter((z) => z.active).length}</span>
-                    <span className="text-body-sm text-secondary">Districts we deliver to</span>
+                  <div className="p-3 bg-surface-container-lowest ring-1 ring-outline-variant/40 rounded-lg">
+                    <span className="font-display text-headline-sm text-tertiary block">{shop.deliveryZones.filter((z) => z.active).length}</span>
+                    <span className="text-body-sm text-on-surface-variant">Districts we deliver to</span>
                   </div>
-                  <div className="p-2 bg-surface-container-low rounded-lg">
-                    <span className="font-display text-headline-sm text-primary block">{fromFee === null ? '—' : formatLKR(fromFee)}</span>
-                    <span className="text-body-sm text-secondary">Delivery from</span>
+                  <div className="p-3 bg-surface-container-lowest ring-1 ring-outline-variant/40 rounded-lg">
+                    <span className="font-display text-headline-sm text-tertiary block">{fromFee === null ? '—' : formatLKR(fromFee)}</span>
+                    <span className="text-body-sm text-on-surface-variant">Delivery from</span>
                   </div>
-                  <div className="p-2 bg-surface-container-low rounded-lg">
-                    <span className="font-display text-headline-sm text-primary block">{formatClock(shop.sameDayCutoff)}</span>
-                    <span className="text-body-sm text-secondary">Same-day cut-off</span>
+                  <div className="p-3 bg-surface-container-lowest ring-1 ring-outline-variant/40 rounded-lg">
+                    <span className="font-display text-headline-sm text-tertiary block">{formatClock(shop.sameDayCutoff)}</span>
+                    <span className="text-body-sm text-on-surface-variant">Same-day cut-off</span>
                   </div>
                 </div>
               </div>
