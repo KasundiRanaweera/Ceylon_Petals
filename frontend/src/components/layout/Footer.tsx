@@ -21,11 +21,11 @@ export default function Footer() {
   const showCta = !['/checkout', '/sign-in', '/register'].includes(pathname) && !pathname.startsWith('/payment')
 
   return (
-    <footer className="w-full bg-dawn-soft pt-14 pb-24 sm:pb-6 text-on-surface-variant">
+    <footer className="w-full border-t border-outline-variant/50 bg-surface pt-16 pb-24 sm:pb-8 text-on-surface-variant">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
         {showCta && (
           <Reveal className="relative mb-14 overflow-hidden rounded-2xl bg-ink-gradient px-6 py-10 text-white sm:px-10 lg:px-14">
-            <Petals color="#e7c873" />
+            <Petals color="#e9c349" />
             <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-xl space-y-2">
                 <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-tertiary-fixed">
@@ -53,7 +53,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
           <div className="space-y-4">
             <Logo />
-            <p className="text-body-sm text-secondary leading-relaxed">
+            <p className="text-body-sm leading-relaxed text-on-surface-variant">
               Fresh flowers, hampers and plants, hand-arranged in Colombo and delivered with care across Sri Lanka.
             </p>
             <a
@@ -86,57 +86,57 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-display text-headline-sm text-primary mb-4">Shop</h3>
+            <h3 className="mb-5 text-[13px] font-medium uppercase tracking-[0.22em] text-on-surface-variant">Shop</h3>
             <ul className="space-y-2 text-body-sm">
               {SHOP_NAV.slice(0, 7).map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="hover:text-primary transition-colors">{link.label}</Link>
+                  <Link to={link.path} className="hover:text-tertiary transition-colors">{link.label}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h3 className="font-display text-headline-sm text-primary mb-4">Help</h3>
+            <h3 className="mb-5 text-[13px] font-medium uppercase tracking-[0.22em] text-on-surface-variant">Help</h3>
             <ul className="space-y-2 text-body-sm">
               {HELP_NAV.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="hover:text-primary transition-colors">{link.label}</Link>
+                  <Link to={link.path} className="hover:text-tertiary transition-colors">{link.label}</Link>
                 </li>
               ))}
               <li>
-                <Link to="/custom-order" className="hover:text-primary transition-colors">Bulk & corporate orders</Link>
+                <Link to="/custom-order" className="hover:text-tertiary transition-colors">Bulk & corporate orders</Link>
               </li>
             </ul>
           </div>
 
           <div className="space-y-3 text-body-sm">
-            <h3 className="font-display text-headline-sm text-primary mb-4">Visit or call</h3>
+            <h3 className="mb-5 text-[13px] font-medium uppercase tracking-[0.22em] text-on-surface-variant">Visit or call</h3>
             <p className="flex items-start gap-2"><MapPin size={16} className="text-primary mt-0.5 shrink-0" />{shop.address}</p>
             <p className="flex items-center gap-2">
               <Phone size={16} className="text-primary shrink-0" />
-              <a href={`tel:${shop.phone.replace(/\s/g, '')}`} className="hover:text-primary">{shop.phone}</a>
+              <a href={`tel:${shop.phone.replace(/\s/g, '')}`} className="hover:text-tertiary">{shop.phone}</a>
             </p>
             <p className="flex items-center gap-2">
               <WhatsAppIcon size={16} className="text-[#1a9e4b] shrink-0" />
-              <a href={whatsapp('Hello! I have a question.')} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+              <a href={whatsapp('Hello! I have a question.')} target="_blank" rel="noopener noreferrer" className="hover:text-tertiary">
                 {formatPhone(shop.whatsappNumber)}
               </a>
             </p>
             <p className="flex items-center gap-2">
               <Mail size={16} className="text-primary shrink-0" />
-              <a href={`mailto:${shop.email}`} className="hover:text-primary">{shop.email}</a>
+              <a href={`mailto:${shop.email}`} className="hover:text-tertiary">{shop.email}</a>
             </p>
             <p className="flex items-center gap-2"><Clock size={16} className="text-primary shrink-0" />{shop.openingHours}</p>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-2 pt-4 border-t border-surface-container text-body-sm text-secondary">
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-outline-variant/70 pt-6 text-[12px] uppercase tracking-[0.16em] text-outline md:flex-row">
           <p>© {new Date().getFullYear()} {shop.shopName}. All rights reserved.</p>
-          <div className="flex items-center gap-4 text-[12px]">
-            <Link to="/privacy" className="hover:text-primary">Privacy & terms</Link>
-            <Link to="/refund-policy" className="hover:text-primary">Refund policy</Link>
-            <Link to="/admin/login" className="hover:text-primary">Owner login</Link>
+          <div className="flex items-center gap-5 normal-case tracking-normal text-[13px]">
+            <Link to="/privacy" className="hover:text-tertiary">Privacy & terms</Link>
+            <Link to="/refund-policy" className="hover:text-tertiary">Refund policy</Link>
+            <Link to="/admin/login" className="hover:text-tertiary">Owner login</Link>
           </div>
         </div>
       </div>

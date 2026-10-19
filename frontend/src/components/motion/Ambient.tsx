@@ -4,8 +4,8 @@
 export function Blobs({ tone = 'light' }: { tone?: 'light' | 'dark' }) {
   const colors =
     tone === 'dark'
-      ? ['bg-[#ea580c]/20', 'bg-[#d4a72c]/15', 'bg-[#7c2d12]/30']
-      : ['bg-[#fdba74]/35', 'bg-[#f5d27a]/35', 'bg-[#fed7aa]/45']
+      ? ['bg-[#d4af37]/15', 'bg-[#e9c349]/10', 'bg-white/5']
+      : ['bg-[#e9c349]/20', 'bg-[#fce4ec]/50', 'bg-[#f0eded]/80']
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       <div className={`animate-blob absolute -top-32 -right-24 h-[28rem] w-[28rem] rounded-full blur-3xl ${colors[0]}`} />
@@ -24,7 +24,7 @@ const PETALS = [
   { left: '86%', delay: '-14s', duration: '18s', size: 13, sway: '35px', spin: '240deg' },
 ]
 
-export function Petals({ color = '#d4a72c' }: { color?: string }) {
+export function Petals({ color = '#d4af37' }: { color?: string }) {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       {PETALS.map((p, i) => (

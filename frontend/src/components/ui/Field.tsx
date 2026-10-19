@@ -3,7 +3,7 @@ import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTML
 // Form fields with one consistent look across checkout, account, inquiry and admin forms.
 
 const control =
-  'w-full rounded-xl border border-surface-container-high bg-surface-container-lowest px-4 py-3 text-body-md text-on-surface placeholder:text-outline transition-colors focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary-fixed/60 disabled:bg-surface-container-low disabled:opacity-70 aria-[invalid=true]:border-error aria-[invalid=true]:ring-error-container'
+  'w-full min-h-11 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 py-3 text-body-md text-on-surface placeholder:text-outline transition-colors focus:border-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37] disabled:bg-surface-container-low disabled:opacity-70 aria-[invalid=true]:border-error aria-[invalid=true]:ring-error'
 
 interface WrapperProps {
   id: string
@@ -18,7 +18,7 @@ interface WrapperProps {
 function Wrapper({ id, label, hint, error, required, children, className = '' }: WrapperProps) {
   return (
     <div className={`space-y-1.5 ${className}`}>
-      <label htmlFor={id} className="block text-label-md text-primary">
+      <label htmlFor={id} className="block text-[14px] font-medium text-on-surface-variant">
         {label}
         {required && <span className="text-error"> *</span>}
       </label>
@@ -26,7 +26,7 @@ function Wrapper({ id, label, hint, error, required, children, className = '' }:
       {error ? (
         <p id={`${id}-error`} className="text-body-sm text-error">{error}</p>
       ) : (
-        hint && <p id={`${id}-hint`} className="text-body-sm text-secondary">{hint}</p>
+        hint && <p id={`${id}-hint`} className="text-body-sm text-on-surface-variant">{hint}</p>
       )}
     </div>
   )

@@ -39,8 +39,8 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
   }, [added])
 
   return (
-    <article className="group w-full h-full flex flex-col transition-transform duration-300 ease-out hover:-translate-y-1.5 motion-reduce:hover:translate-y-0">
-      <Link to={href} className="relative block aspect-square overflow-hidden rounded-sm bg-surface-container shadow-[0_0_0_rgba(0,0,0,0)] transition-shadow duration-300 group-hover:shadow-[0_24px_40px_-24px_rgba(12,10,9,0.45)]" tabIndex={-1} aria-hidden="true">
+    <article className="group flex h-full w-full flex-col rounded-xl bg-surface-container-lowest p-3 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] ring-1 ring-outline-variant/40 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_26px_50px_-28px_rgba(48,48,48,0.45)] motion-reduce:hover:translate-y-0 sm:p-4">
+      <Link to={href} className="relative block aspect-square overflow-hidden rounded-lg bg-surface-container" tabIndex={-1} aria-hidden="true">
         <img
           src={sizedImage(product.images[0], 960)}
           srcSet={imageSrcSet(product.images[0])}
@@ -54,10 +54,10 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
         <div className="absolute inset-0 bg-gradient-to-t from-primary/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
         <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5">
           {product.badge && (
-            <span className="bg-primary px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[#f5e6c8]">{product.badge}</span>
+            <span className="rounded-full bg-primary-fixed px-3 py-1 text-[11px] font-medium tracking-[0.08em] text-tertiary">{product.badge}</span>
           )}
           {off > 0 && (
-            <span className="bg-brand-gradient px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+            <span className="rounded-full bg-tertiary-container px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-on-tertiary-container">
               {off}% off
             </span>
           )}
@@ -75,7 +75,7 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
         )}
       </Link>
 
-      <div className="flex-1 flex flex-col gap-2.5 sm:gap-3 border-b border-outline-variant pb-4 sm:pb-5 pt-3 sm:pt-4">
+      <div className="flex flex-1 flex-col gap-2.5 px-1 pb-1 pt-4 sm:gap-3 sm:pt-5">
         <div className="flex-1">
           {product.sameDay ? (
             <p className="eyebrow mb-1.5 flex items-center gap-1.5 text-tertiary">
@@ -97,7 +97,7 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
         </div>
 
         <div className="flex items-baseline gap-2">
-          <span className="text-[15px] sm:text-[17px] font-medium tracking-wide text-primary">{formatLKR(price)}</span>
+          <span className="text-[15px] font-semibold text-tertiary sm:text-[17px]">{formatLKR(price)}</span>
           {off > 0 && <span className="text-body-sm text-secondary line-through">{formatLKR(product.price)}</span>}
         </div>
 
@@ -108,8 +108,8 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
             disabled={soldOut}
             tabIndex={tab}
             whileTap={{ scale: 0.97 }}
-            className={`flex-1 cursor-pointer overflow-hidden text-label-md py-2.5 rounded-sm flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-              added ? 'bg-emerald-700 text-white' : 'btn-gradient'
+            className={`flex min-h-[44px] flex-1 cursor-pointer items-center justify-center overflow-hidden rounded-lg border text-[14px] transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+              added ? 'border-emerald-700 bg-emerald-700 text-white' : 'border-[#d4af37] text-tertiary hover:bg-[#d4af37] hover:text-on-tertiary-container'
             }`}
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -139,7 +139,7 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
             aria-label={`Order ${product.name} on WhatsApp`}
             tabIndex={tab}
             title="Order on WhatsApp"
-            className="w-11 shrink-0 bg-[#25D366] text-white hover:bg-[#1EBE5D] rounded-sm flex items-center justify-center transition-colors"
+            className="flex w-11 shrink-0 items-center justify-center rounded-lg bg-[#25D366] text-white transition-colors hover:bg-[#1EBE5D]"
           >
             <MessageCircle size={18} />
           </a>

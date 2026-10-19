@@ -54,16 +54,16 @@ export default function PillTabs({ options, active, onChange, label, wrap = fals
           <motion.span
             layoutId={`chip-${groupId}`}
             aria-hidden="true"
-            className="bg-ink-gradient absolute inset-0 rounded-full shadow-[0_12px_24px_-14px_rgba(12,10,9,0.8)]"
+            className="absolute inset-0 rounded-lg bg-primary"
             transition={{ type: 'spring', bounce: 0.18, visualDuration: 0.35 }}
           />
         )}
-        {Icon && <Icon size={16} aria-hidden="true" className={`relative shrink-0 ${selected ? 'text-[#f5d27a]' : 'text-tertiary'}`} />}
+        {Icon && <Icon size={16} aria-hidden="true" className={`relative shrink-0 ${selected ? 'text-[#e9c349]' : 'text-tertiary'}`} />}
         <span className="relative">{o.label}</span>
         {o.count !== undefined && o.count !== null && (
           <span
             className={`relative min-w-[1.5rem] rounded-full px-1.5 py-0.5 text-center text-[11px] font-semibold tabular-nums ${
-              selected ? 'bg-white/15 text-[#f5e6c8]' : 'bg-surface-container text-secondary'
+              selected ? 'bg-white/15 text-white' : 'bg-surface-container text-secondary'
             }`}
           >
             {o.count}
@@ -71,8 +71,8 @@ export default function PillTabs({ options, active, onChange, label, wrap = fals
         )}
       </>
     )
-    const cls = `relative inline-flex min-h-[44px] shrink-0 cursor-pointer snap-start items-center gap-2 whitespace-nowrap rounded-full border px-4 text-[14px] font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-      selected ? 'border-transparent text-white' : 'border-outline-variant bg-white/75 text-primary hover:border-[#c8930a]/60 hover:bg-white'
+    const cls = `relative inline-flex min-h-[44px] shrink-0 cursor-pointer snap-start items-center gap-2 whitespace-nowrap rounded-lg border px-4 text-[13px] font-medium tracking-[0.06em] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+      selected ? 'border-transparent text-white' : 'border-outline-variant bg-white/75 text-primary hover:border-[#d4af37] hover:bg-white'
     }`
     return o.to ? (
       <Link key={o.id} to={o.to} aria-current={selected ? 'page' : undefined} data-selected={selected} className={cls}>

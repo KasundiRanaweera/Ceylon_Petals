@@ -42,16 +42,16 @@ export default function ConfirmDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="confirm-title"
-        className="w-full max-w-md bg-surface-container-lowest rounded-xl shadow-xl p-6 space-y-4"
+        className="w-full max-w-md rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_24px_60px_-24px_rgba(48,48,48,0.45)] p-6 sm:p-8 space-y-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 id="confirm-title" className="font-display text-headline-sm text-primary">{title}</h2>
+        <h2 id="confirm-title" className="font-display text-on-surface text-headline-sm">{title}</h2>
         <p className="text-body-md text-on-surface-variant">{message}</p>
         <div className="flex justify-end gap-2 pt-2">
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 rounded-lg bg-surface-container text-on-surface text-label-md hover:bg-surface-container-high transition-colors"
+            className="px-5 py-2 text-label-md min-h-11 rounded-lg border border-[#d4af37] text-tertiary hover:bg-[#d4af37] hover:text-on-tertiary-container transition-colors"
           >
             {cancelLabel}
           </button>
@@ -59,8 +59,8 @@ export default function ConfirmDialog({
             ref={confirmRef}
             type="button"
             onClick={onConfirm}
-            className={`px-4 py-2 rounded-lg text-label-md transition-colors ${
-              tone === 'danger' ? 'bg-error text-on-error hover:opacity-90' : 'bg-primary text-on-primary hover:bg-primary-container'
+            className={`px-5 py-2 min-h-11 rounded-lg text-label-md transition-colors ${
+              tone === 'danger' ? 'bg-error text-on-error hover:opacity-90' : 'btn-gradient'
             }`}
           >
             {confirmLabel}

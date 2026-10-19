@@ -10,7 +10,7 @@ interface Toast {
 }
 
 const STYLES: Record<ToastType, string> = {
-  success: 'bg-primary text-on-primary',
+  success: 'bg-primary text-on-primary ring-1 ring-[#d4af37]/50',
   error: 'bg-error text-on-error',
   info: 'bg-inverse-surface text-inverse-on-surface',
 }
@@ -55,7 +55,7 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.15 } }}
               transition={{ type: 'spring', bounce: 0.2, visualDuration: 0.3 }}
-              className={`pointer-events-auto w-full max-w-md flex items-center gap-3 pl-4 pr-2 py-3 rounded-xl shadow-lg text-body-sm ${STYLES[t.type]}`}
+              className={`pointer-events-auto w-full max-w-md flex items-center gap-3 pl-5 pr-2 py-3 rounded-xl shadow-[0_18px_40px_-20px_rgba(48,48,48,0.55)] text-body-sm ${STYLES[t.type]}`}
             >
               <Icon size={18} className="shrink-0" />
               <span className="flex-1">{t.message}</span>
@@ -63,7 +63,7 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
                 type="button"
                 onClick={() => dismiss(t.id)}
                 aria-label="Dismiss notification"
-                className="w-7 h-7 rounded flex items-center justify-center opacity-80 hover:opacity-100"
+                className="w-9 h-9 rounded-lg flex items-center justify-center opacity-80 hover:opacity-100 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-current"
               >
                 <X size={16} />
               </button>

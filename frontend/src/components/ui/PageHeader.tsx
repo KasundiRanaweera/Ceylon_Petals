@@ -8,6 +8,7 @@ interface PageHeaderProps {
   subtitle?: ReactNode
   breadcrumbs: Crumb[]
   aside?: ReactNode
+  backdrop?: { src: string; alt: string }
 }
 
 // Compact hero for utility pages (cart, checkout, account, help pages). Same look as the big heroes.

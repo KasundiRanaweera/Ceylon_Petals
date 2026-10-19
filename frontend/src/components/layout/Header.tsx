@@ -25,7 +25,7 @@ function SearchBox({ id, onDone, autoFocus = false, initial = '' }: { id: string
   }
 
   return (
-    <form role="search" onSubmit={submit} className="flex items-center gap-2 rounded-sm border border-outline-variant bg-surface-container-lowest px-4 focus-within:border-primary">
+    <form role="search" onSubmit={submit} className="flex items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus-within:border-tertiary">
       <Search className="shrink-0 text-secondary" size={18} />
       <label htmlFor={id} className="sr-only">Search flowers and gifts</label>
       <input
@@ -83,16 +83,16 @@ export default function Header() {
     <motion.header
       animate={{ y: hidden && !menuOpen && !searchOpen ? '-100%' : '0%' }}
       transition={{ duration: 0.3, ease: EASE }}
-      className={`sticky top-0 z-50 w-full border-b bg-surface/90 backdrop-blur-xl transition-shadow duration-300 ${
-        scrolled ? 'border-transparent shadow-[0_10px_30px_-18px_rgba(12,10,9,0.3)]' : 'border-outline-variant'
+      className={`sticky top-0 z-50 w-full border-b bg-surface/85 backdrop-blur-xl transition-shadow duration-300 ${
+        scrolled ? 'border-transparent shadow-[0_12px_30px_-20px_rgba(48,48,48,0.35)]' : 'border-outline-variant/60'
       }`}
     >
       {/* ---- Info bar: one calm, readable line ---- */}
       {shop.acceptingOrders ? (
-        <div className="bg-primary text-[13px] text-[#efe6d2]">
+        <div className="bg-primary text-[13px] tracking-[0.02em] text-[#f3f0ef]">
           <div className="mx-auto flex h-9 max-w-7xl items-center justify-center gap-6 px-4 md:justify-between lg:px-12">
             <p className="truncate">
-              <span className="text-tertiary-fixed-dim">●</span>&nbsp;
+              <span className="text-[#e9c349]">●</span>&nbsp;
               {shop.announcement ? (
                 // The owner's own message (Admin -> Settings -> Storefront).
                 <span>{shop.announcement}</span>
@@ -129,7 +129,7 @@ export default function Header() {
       )}
 
       {/* ---- Main bar: logo · menu · actions ---- */}
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-4 lg:h-[72px] lg:px-12">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-4 lg:h-[76px] lg:px-12">
         <Logo onClick={close} />
 
         <nav aria-label="Shop categories" className="hidden xl:block">
@@ -139,8 +139,8 @@ export default function Header() {
                 <NavLink
                   to={link.path}
                   className={({ isActive }) =>
-                    `relative block rounded-sm px-3 py-2 text-[14.5px] font-medium transition-colors ${
-                      isActive ? 'text-primary' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-primary'
+                    `relative block px-3 py-2 text-[15px] tracking-[0.01em] transition-colors ${
+                      isActive ? 'text-tertiary' : 'text-on-surface-variant hover:text-tertiary'
                     }`
                   }
                 >
@@ -150,7 +150,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span
                           layoutId="nav-underline"
-                          className="bg-brand-gradient absolute inset-x-3 -bottom-[3px] h-0.5"
+                          className="absolute inset-x-3 -bottom-[3px] h-[1.5px] bg-[#d4af37]"
                           transition={{ type: 'spring', bounce: 0.2, visualDuration: 0.35 }}
                         />
                       )}
@@ -188,7 +188,7 @@ export default function Header() {
             to="/cart"
             onClick={close}
             aria-label={`Cart, ${count} ${count === 1 ? 'item' : 'items'}`}
-            className="ml-1 flex h-11 items-center gap-2 rounded-sm bg-primary px-4 text-[14px] font-semibold text-white transition-colors hover:bg-primary-container"
+            className="btn-gradient ml-1 flex h-11 items-center gap-2 px-5 text-[14px]"
           >
             <ShoppingBag size={18} />
             <span className="hidden sm:inline">Cart</span>
@@ -197,7 +197,7 @@ export default function Header() {
               initial={{ scale: count > 0 ? 1.6 : 1 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', bounce: 0.5, visualDuration: 0.35 }}
-              className="bg-brand-gradient min-w-5 rounded-full px-1.5 py-0.5 text-center text-[11px] font-bold text-primary"
+              className="min-w-5 rounded-full bg-primary px-1.5 py-0.5 text-center text-[11px] font-bold text-white"
             >
               {count}
             </motion.span>
@@ -263,7 +263,7 @@ export default function Header() {
                       to={link.path}
                       onClick={close}
                       className={({ isActive }) =>
-                        `rounded-sm px-3 py-3 text-[16px] font-medium ${isActive ? 'bg-primary text-white' : 'text-on-surface hover:bg-surface-container-low'}`
+                        `rounded-lg px-3 py-3 text-[16px] ${isActive ? 'bg-primary text-white' : 'text-on-surface hover:bg-surface-container-low'}`
                       }
                     >
                       {link.label}

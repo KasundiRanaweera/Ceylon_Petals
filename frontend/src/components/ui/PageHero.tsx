@@ -36,6 +36,8 @@ interface PageHeroProps {
   /** Full-width content under the hero text, e.g. category pills. */
   children?: ReactNode
   tone?: 'light' | 'dark'
+  /** A full-width photo behind the words, under a soft cream wash (the Stitch page-opening style). */
+  backdrop?: { src: string; alt: string }
   size?: 'compact' | 'feature'
 }
 
@@ -56,18 +58,27 @@ export default function PageHero({
   children,
   tone = 'light',
   size = 'feature',
+  backdrop,
 }: PageHeroProps) {
-  const dark = tone === 'dark'
-  const hasSide = Boolean(image || aside)
+  const dark = !backdrop && tone === 'dark'
+  const hasSide = !backdrop && Boolean(image || aside)
   const compact = size === 'compact'
 
   return (
     <section
       className={`relative w-full overflow-hidden ${
         dark ? 'bg-ink-gradient text-on-primary' : 'bg-aurora'
-      }`}
+      } ${backdrop ? 'text-center' : ''}`}
     >
-      <Blobs tone={tone} />
+      {backdrop ? (
+        <>
+          <img src={backdrop.src} alt={backdrop.alt} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
+          {/* the cream wash keeps the mauve title readable over any photo */}
+          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-[#fcf9f8]/80 via-[#fcf9f8]/62 to-[#fcf9f8]/90" />
+        </>
+      ) : (
+        <Blobs tone={tone} />
+      )}
 
       <div className={`relative max-w-7xl mx-auto px-4 lg:px-12 ${compact ? 'pt-6 pb-10' : 'pt-6 pb-14 lg:pb-20'}`}>
         <motion.div initial="hidden" animate="show" variants={fadeUp}>
@@ -76,18 +87,22 @@ export default function PageHero({
 
         <div className={`grid grid-cols-1 gap-10 items-center ${compact ? 'mt-6' : 'mt-8 lg:mt-12'} ${hasSide ? 'lg:grid-cols-12' : ''}`}>
           <motion.div
-            className={`space-y-4 ${hasSide ? 'lg:col-span-7' : 'max-w-4xl'}`}
+            className={`space-y-4 ${hasSide ? 'lg:col-span-7' : backdrop ? 'mx-auto max-w-3xl py-10 lg:py-16 [&>*]:justify-center [&>*]:mx-auto' : 'max-w-4xl'}`}
             initial="hidden"
             animate="show"
             variants={staggerContainer(0.1, 0.05)}
           >
             {eyebrow && (
-              <motion.div variants={fadeUp} className="flex max-w-md items-center gap-3">
-                <span className={`eyebrow inline-flex items-center gap-2 whitespace-nowrap ${dark ? 'text-tertiary-fixed-dim' : 'text-tertiary'}`}>
+              <motion.div variants={fadeUp}>
+                {/* the small tag above the title (a soft blush pill, as in the Stitch design) */}
+                <span
+                  className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-1.5 text-[12px] font-semibold tracking-[0.12em] ${
+                    dark ? 'bg-white/10 text-[#e9c349]' : 'bg-primary-fixed text-tertiary'
+                  }`}
+                >
                   {EyebrowIcon && <EyebrowIcon size={13} />}
                   {eyebrow}
                 </span>
-                <span className="rule-gold flex-1" aria-hidden="true" />
               </motion.div>
             )}
 
@@ -97,12 +112,12 @@ export default function PageHero({
               delay={0.15}
               className={`font-display tracking-tight ${
                 compact ? 'text-[38px] leading-[1.05] lg:text-[56px]' : 'text-[42px] leading-[1.02] md:text-6xl lg:text-[76px] lg:leading-[0.98]'
-              } ${dark ? 'text-white' : 'text-primary'}`}
-              highlightClassName={dark ? 'italic text-tertiary-fixed-dim' : 'italic text-gradient'}
+              } ${dark ? 'text-white' : 'text-mauve'}`}
+              highlightClassName={dark ? 'italic text-[#e9c349]' : 'italic text-tertiary'}
             />
 
             {subtitle && (
-              <motion.div variants={fadeUp} className={`max-w-2xl text-body-md lg:text-body-lg ${dark ? 'text-primary-fixed-dim' : 'text-secondary'}`}>
+              <motion.div variants={fadeUp} className={`max-w-2xl text-body-md lg:text-body-lg ${dark ? 'text-white/80' : 'text-on-surface-variant'}`}>
                 {subtitle}
               </motion.div>
             )}
@@ -131,13 +146,13 @@ export default function PageHero({
             )}
           </motion.div>
 
-          {image && (
+          {image && !backdrop && (
             <motion.div className="lg:col-span-5 relative" initial="hidden" animate="show" variants={withDelay(scaleIn, 0.2)}>
               <div className={`relative mx-auto ${image.shape === 'landscape' ? 'max-w-xl lg:max-w-none' : 'max-w-sm lg:ml-auto lg:mr-0 lg:max-w-[25rem]'}`}>
                 {/* Thin gradient frame around a crisp, un-dimmed photo. */}
                 {/* Crisp, un-dimmed photo with a hairline gold frame offset behind it. */}
                 <div className="relative">
-                <span aria-hidden="true" className="absolute -right-3 -top-3 bottom-3 left-3 border border-[#d4a72c]/60" />
+                <span aria-hidden="true" className="absolute -right-3 -top-3 bottom-3 left-3 border border-[#d4af37]/60" />
                 <div className={`relative overflow-hidden rounded-sm bg-surface-container shadow-[0_30px_60px_-30px_rgba(12,10,9,0.55)] ${image.shape === 'landscape' ? 'aspect-[4/3]' : 'aspect-square'}`}>
                   <motion.img
                     src={sizedImage(image.src, 1408)}
@@ -159,7 +174,7 @@ export default function PageHero({
             </motion.div>
           )}
 
-          {!image && aside && (
+          {!image && !backdrop && aside && (
             <motion.div className="lg:col-span-5 flex lg:justify-end" initial="hidden" animate="show" variants={withDelay(fadeUp, 0.3)}>
               {aside}
             </motion.div>
