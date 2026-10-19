@@ -25,15 +25,19 @@ export default function StudioStory() {
   return (
     <section ref={ref} aria-labelledby="story-title" className="overflow-hidden bg-surface py-20 lg:py-28">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-6 sm:px-12 lg:grid-cols-[1.05fr_1fr] lg:gap-20 lg:px-12">
-        <div className="relative mx-auto w-full max-w-[460px] pb-16 sm:pb-20 lg:mx-0 lg:ml-auto">
+        {/* The scroll trigger sits on this wrapper, not on the arch: an element clipped to nothing by
+            clip-path never counts as in view, so the arch would never open. */}
+        <motion.div
+          className="relative mx-auto w-full max-w-[460px] pb-16 sm:pb-20 lg:mx-0 lg:ml-auto"
+          initial={reveal}
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {/* Thin gold outline set off behind the arch. */}
           <div aria-hidden="true" className="absolute inset-x-0 top-0 bottom-16 translate-x-4 -translate-y-4 rounded-t-full border border-tertiary-container/60 sm:bottom-20 sm:translate-x-6 sm:-translate-y-6" />
 
           <motion.div
             className="relative aspect-[4/5] overflow-hidden rounded-t-full bg-primary shadow-[0_40px_70px_-40px_rgba(48,48,48,0.7)]"
-            initial={reveal}
-            whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
             variants={{
               hidden: { clipPath: 'inset(100% 0% 0% 0%)' },
               show: { clipPath: 'inset(0% 0% 0% 0%)', transition: { duration: 1.1, ease: EASE_OUT } },
@@ -55,10 +59,10 @@ export default function StudioStory() {
               alt="A kraft-wrapped bouquet of carnations and roses held in hand"
               loading="lazy"
               className="aspect-[3/4] w-full border-[6px] border-surface-container-lowest object-cover shadow-[0_30px_50px_-28px_rgba(48,48,48,0.75)]"
-              initial={reduce ? false : { opacity: 0, y: 60, rotate: 0 }}
-              whileInView={{ opacity: 1, y: 0, rotate: 4 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.7, ease: EASE_OUT, delay: 0.45 }}
+              variants={{
+                hidden: { opacity: 0, y: 60, rotate: 0 },
+                show: { opacity: 1, y: 0, rotate: 4, transition: { duration: 0.7, ease: EASE_OUT, delay: 0.45 } },
+              }}
             />
           </motion.div>
 
@@ -79,7 +83,7 @@ export default function StudioStory() {
             </motion.svg>
             <span className="font-display text-2xl italic">{initials}</span>
           </div>
-        </div>
+        </motion.div>
 
         <motion.div
           className="max-w-lg"
