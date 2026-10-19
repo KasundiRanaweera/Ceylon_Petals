@@ -5,7 +5,6 @@ import { SITE_IMAGES } from '../../data/siteImages'
 export default function WeddingHero() {
   return (
     <PageHero
-      backdrop={{ src: '/images/stitch/wedding-hero.webp', alt: 'A ballroom with a cascading installation of white orchids' }}
       breadcrumbs={[{ label: 'Weddings & Events' }]}
       eyebrow="Now booking upcoming wedding seasons"
       eyebrowIcon={Flower2}

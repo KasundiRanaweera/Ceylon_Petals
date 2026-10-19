@@ -8,7 +8,6 @@ export default function AboutHero() {
   const { shopName } = useShop()
   return (
     <PageHero
-      backdrop={{ src: '/images/stitch/about-studio.webp', alt: 'Pink lotuses and florist scissors on a studio table' }}
       breadcrumbs={[{ label: 'About us' }]}
       eyebrow={`The story of ${shopName}`}
       eyebrowIcon={Sprout}
