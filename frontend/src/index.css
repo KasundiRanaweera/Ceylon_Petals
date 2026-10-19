@@ -309,3 +309,22 @@ html {
 .admin-console {
   font-variant-numeric: lining-nums tabular-nums;
 }
+
+/* Home hero: the shop name's last line fades into the arrangement behind it. */
+.hero-wordmark {
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 60%, rgba(0, 0, 0, 0.72) 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 60%, rgba(0, 0, 0, 0.72) 100%);
+}
+/* Home hero buttons lift on hover with a small CSS spring (one soft overshoot, then settle). */
+.hero-spring {
+  transition:
+    transform 0.55s linear(0, 0.06 2.4%, 0.23 5.3%, 0.71 13.2%, 0.92 17.7%, 1.03 22.6%, 1.06 27.4%, 1.05 32.6%, 1.01 43%, 0.997 53%, 1),
+    background-color 0.25s ease,
+    background-position 0.5s ease,
+    box-shadow 0.3s ease;
+}
+.hero-spring:hover { transform: translateY(-3px); }
+.hero-spring:active { transform: translateY(0) scale(0.98); }
+@media (prefers-reduced-motion: reduce) {
+  .hero-spring, .hero-spring:hover, .hero-spring:active { transform: none; transition: background-color 0.2s ease; }
+}
