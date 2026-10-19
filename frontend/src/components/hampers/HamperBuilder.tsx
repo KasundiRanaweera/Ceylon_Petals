@@ -71,7 +71,7 @@ export default function HamperBuilder() {
     <section id="build-hamper" className="w-full bg-surface-container-low py-20 lg:py-28 scroll-mt-36">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
         <div className="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
-          <span className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Bespoke Atelier Studio</span>
+          <span className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Build your own hamper</span>
           <h2 className="mt-3 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-on-surface">Craft Your Bespoke Hamper</h2>
           <p className="mt-4 text-[15px] leading-relaxed text-on-surface-variant">
             Hand-assemble your personalized pairing in 3 effortless steps, freshly prepared each day.

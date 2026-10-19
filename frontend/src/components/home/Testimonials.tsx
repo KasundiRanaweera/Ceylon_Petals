@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 import type { Testimonial } from '../../types'
 
-// "Voices of Bloom": one customer note at a time in a large quote card, with arrows and dots.
+// Customer reviews: one note at a time in a large quote card, with arrows and dots.
 // TODO (later phase): replace with GET /api/testimonials once the Testimonial table has real data
 const TESTIMONIALS: Testimonial[] = [
   {
@@ -46,7 +46,7 @@ export default function Testimonials() {
         <div className="mb-12 text-center">
           <p className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Testimonials</p>
           <h2 id="voices-title" className="mt-3 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-on-surface">
-            Voices of Bloom
+            What our customers say
           </h2>
         </div>
 

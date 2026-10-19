@@ -15,10 +15,10 @@ export default function StudioStory() {
         <div className="max-w-lg">
           <p className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Our Colombo studio</p>
           <h2 id="story-title" className="mt-4 font-display text-[clamp(2rem,4vw,3.25rem)] leading-[1.1] text-on-surface">
-            Weaving Narratives through Petals
+            Hand-tied in Colombo, grown in the hills
           </h2>
           <p className="mt-8 text-[16px] leading-[1.85] text-on-surface-variant">
-            At {shopName}, we believe every stem holds a silent conversation. Each bouquet is hand-tied in our Colombo studio from flowers
+            {shopName} is a flower studio in Colombo. Every bouquet is hand-tied in the studio from flowers
             cut fresh in Sri Lanka's hill country, then delivered with a handwritten card.
           </p>
           <p className="mt-5 text-[16px] leading-[1.85] text-on-surface-variant">

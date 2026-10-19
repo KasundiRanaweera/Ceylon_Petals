@@ -2,15 +2,15 @@ import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import { fadeUp, staggerContainer } from '../motion/variants'
 
-// "Expressions of Elegance": one photo tile per occasion. Each opens the shop filtered to it.
+// Shop by occasion: one photo tile per occasion. Each opens the shop filtered to it.
 const TILES = [
   { slug: 'birthday', label: 'Birthday', img: 'occ-birthday' },
   { slug: 'anniversary', label: 'Anniversary', img: 'occ-anniversary' },
-  { slug: 'congratulations', label: 'Graduation', img: 'occ-graduation' },
-  { slug: 'love', label: 'Love', img: 'occ-love' },
+  { slug: 'congratulations', label: 'Congratulations', img: 'occ-graduation' },
+  { slug: 'love', label: 'Love & Romance', img: 'occ-love' },
   { slug: 'sympathy', label: 'Sympathy', img: 'occ-sympathy' },
-  { slug: 'get-well', label: 'Get Well', img: 'occ-valentine' },
-  { slug: 'wedding', label: 'Wedding', img: 'occ-wedding' },
+  { slug: 'get-well', label: 'Get Well Soon', img: 'occ-valentine' },
+  { slug: 'wedding', label: 'Wedding & Poruwa', img: 'occ-wedding' },
 ]
 
 export default function OccasionTiles() {
@@ -18,9 +18,9 @@ export default function OccasionTiles() {
     <section aria-labelledby="occasions-title" className="bg-surface py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 lg:px-12">
         <div className="mb-12 text-center lg:mb-16">
-          <p className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Curated selections</p>
+          <p className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Shop by occasion</p>
           <h2 id="occasions-title" className="mt-3 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-on-surface">
-            Expressions of Elegance
+            Flowers for every occasion
           </h2>
         </div>
         <motion.ul
