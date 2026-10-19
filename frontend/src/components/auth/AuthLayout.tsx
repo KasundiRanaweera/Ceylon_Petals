@@ -57,18 +57,18 @@ export default function AuthLayout({ eyebrow, title, subtitle, children, footer 
   const current = SLIDES[slide]
 
   return (
-    <section className="relative bg-gradient-to-b from-surface-container-low to-surface">
+    <section className="relative bg-surface">
       <div className="mx-auto grid min-h-[calc(100vh-9rem)] max-w-7xl grid-cols-1 gap-8 px-4 py-10 lg:grid-cols-2 lg:gap-12 lg:px-12 lg:py-14">
         {/* Form side */}
         <motion.div className="flex flex-col justify-center lg:order-2" initial="hidden" animate="show" variants={staggerContainer(0.08)}>
-          <div className="mx-auto w-full max-w-md">
-            <motion.p variants={fadeUp} className="text-[11px] font-semibold uppercase tracking-[0.2em] text-tertiary">
+          <div className="mx-auto w-full max-w-md rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 sm:p-10">
+            <motion.p variants={fadeUp} className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">
               {eyebrow}
             </motion.p>
-            <motion.h1 variants={fadeUp} className="mt-2 font-display text-[40px] leading-[1.08] tracking-tight text-primary">
+            <motion.h1 variants={fadeUp} className="mt-3 font-display text-[34px] sm:text-[40px] leading-[1.1] tracking-tight text-on-surface">
               {title}
             </motion.h1>
-            <motion.p variants={fadeUp} className="mt-3 text-body-md text-secondary">
+            <motion.p variants={fadeUp} className="mt-3 text-body-md leading-relaxed text-on-surface-variant">
               {subtitle}
             </motion.p>
             <motion.div variants={fadeUp} className="mt-8">
@@ -88,7 +88,7 @@ export default function AuthLayout({ eyebrow, title, subtitle, children, footer 
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: EASE_OUT }}
-          className="relative hidden flex-col overflow-hidden rounded-sm bg-ink-gradient lg:order-1 shadow-[0_40px_80px_-30px_rgba(12,10,9,0.55)] lg:flex"
+          className="relative hidden flex-col overflow-hidden rounded-xl bg-ink-gradient lg:order-1 ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] lg:flex"
         >
           {/* Photo at its native 11:6 ratio — whole and sharp, never stretched to fill a tall panel. */}
           <div className="relative aspect-[11/6] overflow-hidden">
@@ -106,7 +106,7 @@ export default function AuthLayout({ eyebrow, title, subtitle, children, footer 
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </AnimatePresence>
-            <Link to="/" className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-sm bg-black/45 px-3.5 py-2 text-label-md text-white backdrop-blur-md hover:bg-black/60">
+            <Link to="/" className="absolute left-5 top-5 inline-flex min-h-11 items-center gap-2 rounded-lg bg-black/45 px-4 py-2 text-label-md text-white backdrop-blur-md hover:bg-black/60">
               ← Back to {shopName}
             </Link>
           </div>
@@ -116,7 +116,7 @@ export default function AuthLayout({ eyebrow, title, subtitle, children, footer 
             <ul className="relative space-y-2.5">
               {PERKS.map(({ icon: Icon, text }) => (
                 <li key={text} className="flex items-center gap-3 text-body-md text-white/85">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-[#d4a72c]/50 text-tertiary-fixed-dim">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#d4af37]/60 text-tertiary-fixed-dim">
                     <Icon size={15} />
                   </span>
                   {text}
@@ -124,7 +124,7 @@ export default function AuthLayout({ eyebrow, title, subtitle, children, footer 
               ))}
             </ul>
 
-            <div className="relative border-t border-[#d4a72c]/40 pt-6 text-white">
+            <div className="relative border-t border-[#d4af37]/40 pt-6 text-white">
               <div className="flex gap-0.5 text-tertiary-fixed-dim" aria-label="5 out of 5 stars">
                 {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
               </div>

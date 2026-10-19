@@ -20,9 +20,9 @@ export default function OrderSummary({ order }: { order: AdminOrder }) {
               {item.imageUrl && <img src={sizedImage(item.imageUrl, 200)} alt="" className="w-14 h-16 rounded-lg object-cover bg-surface-container shrink-0" />}
               <div className="flex-1 min-w-0">
                 {item.slug ? (
-                  <Link to={`/product/${item.slug}`} className="text-title-md text-primary hover:underline">{item.name}</Link>
+                  <Link to={`/product/${item.slug}`} className="text-title-md text-on-surface hover:text-tertiary">{item.name}</Link>
                 ) : (
-                  <p className="text-title-md text-primary">{item.name}</p>
+                  <p className="text-title-md text-on-surface">{item.name}</p>
                 )}
                 {item.options && <p className="text-body-sm text-secondary">{item.options}</p>}
                 <p className="text-body-sm text-secondary">Qty {item.quantity} × {formatLKR(item.unitPrice)}</p>
@@ -30,42 +30,42 @@ export default function OrderSummary({ order }: { order: AdminOrder }) {
             </li>
           ))}
         </ul>
-        <dl className="space-y-1.5 text-body-md border-t border-surface-container pt-3">
+        <dl className="space-y-1.5 text-body-md border-t border-outline-variant/40 pt-3">
           <div className="flex justify-between"><dt className="text-secondary">Subtotal</dt><dd>{formatLKR(order.subtotal ?? 0)}</dd></div>
           {(order.discount ?? 0) > 0 && (
             <div className="flex justify-between text-emerald-700"><dt>Discount{order.promoCode ? ` (${order.promoCode})` : ''}</dt><dd>− {formatLKR(order.discount ?? 0)}</dd></div>
           )}
           <div className="flex justify-between"><dt className="text-secondary">Delivery</dt><dd>{(order.deliveryFee ?? 0) === 0 ? 'Free' : formatLKR(order.deliveryFee ?? 0)}</dd></div>
-          <div className="flex justify-between font-display text-headline-sm text-primary pt-1"><dt>Total</dt><dd>{formatLKR(order.total)}</dd></div>
+          <div className="flex justify-between font-display text-headline-sm text-on-surface pt-1"><dt>Total</dt><dd>{formatLKR(order.total)}</dd></div>
         </dl>
       </div>
 
       <div className="space-y-4 text-body-md">
         <div className="flex gap-3">
-          <MapPin size={18} className="text-primary mt-1 shrink-0" />
+          <MapPin size={18} className="text-tertiary mt-1 shrink-0" />
           <div>
-            <p className="text-title-md text-primary">Delivering to {order.recipientName}</p>
+            <p className="text-title-md text-on-surface">Delivering to {order.recipientName}</p>
             <p className="text-secondary">{[order.address, order.area, order.district].filter(Boolean).join(', ')}</p>
           </div>
         </div>
         <div className="flex gap-3">
-          <CalendarClock size={18} className="text-primary mt-1 shrink-0" />
+          <CalendarClock size={18} className="text-tertiary mt-1 shrink-0" />
           <div>
-            <p className="text-title-md text-primary">{formatLongDate(order.deliveryDate)}</p>
+            <p className="text-title-md text-on-surface">{formatLongDate(order.deliveryDate)}</p>
             <p className="text-secondary">{slot.label}, {slot.hours}</p>
           </div>
         </div>
         {order.cardMessage && (
           <div className="flex gap-3">
-            <PenLine size={18} className="text-primary mt-1 shrink-0" />
+            <PenLine size={18} className="text-tertiary mt-1 shrink-0" />
             <p className="italic text-on-surface-variant">“{order.cardMessage}”</p>
           </div>
         )}
         <div className="flex gap-3">
-          <CreditCard size={18} className="text-primary mt-1 shrink-0" />
+          <CreditCard size={18} className="text-tertiary mt-1 shrink-0" />
           <div className="flex flex-wrap items-center gap-2">
             <span>{PAYMENT_METHOD_LABEL[order.paymentMethod]}</span>
-            <span className={`text-[11px] px-2 py-0.5 rounded font-semibold ${PAYMENT_STATUS_STYLE[order.paymentStatus]}`}>
+            <span className={`text-[11px] px-2.5 py-0.5 rounded-full font-semibold ${PAYMENT_STATUS_STYLE[order.paymentStatus]}`}>
               {PAYMENT_STATUS_LABEL[order.paymentStatus]}
             </span>
           </div>

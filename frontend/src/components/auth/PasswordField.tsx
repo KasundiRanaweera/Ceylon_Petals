@@ -34,7 +34,7 @@ export default function PasswordField({ id, label, showStrength = false, hint, v
 
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-label-md text-primary">
+      <label htmlFor={id} className="block text-label-md text-on-surface">
         {label}
         {required && <span className="text-error"> *</span>}
       </label>
@@ -46,7 +46,7 @@ export default function PasswordField({ id, label, showStrength = false, hint, v
           value={value}
           required={required}
           aria-describedby={showStrength || hint ? `${id}-help` : undefined}
-          className="w-full rounded-xl border border-surface-container-high bg-surface-container-lowest px-4 py-3 pr-12 text-body-md text-on-surface placeholder:text-outline transition-colors focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary-fixed/60"
+          className="min-h-11 w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-4 py-3 pr-12 text-body-md text-on-surface placeholder:text-outline transition-colors focus:border-[#d4af37] focus:outline-none focus:ring-4 focus:ring-[#d4af37]/25"
           {...rest}
         />
         <button
@@ -54,7 +54,7 @@ export default function PasswordField({ id, label, showStrength = false, hint, v
           onClick={() => setVisible((v) => !v)}
           aria-label={visible ? 'Hide password' : 'Show password'}
           aria-pressed={visible}
-          className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-lg text-secondary hover:bg-surface-container-low hover:text-primary"
+          className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-tertiary focus-visible:outline-2 focus-visible:outline-[#d4af37]"
         >
           {visible ? <EyeOff size={18} /> : <Eye size={18} />}
         </button>
@@ -74,13 +74,13 @@ export default function PasswordField({ id, label, showStrength = false, hint, v
               </div>
             ))}
           </div>
-          <p className="text-body-sm text-secondary">
+          <p className="text-body-sm text-on-surface-variant">
             Password strength: <span className="font-semibold text-on-surface">{LEVELS[level].label}</span>
             {level < 3 && ' — try mixing upper and lower case, numbers and a symbol.'}
           </p>
         </div>
       ) : (
-        hint && <p id={`${id}-help`} className="text-body-sm text-secondary">{hint}</p>
+        hint && <p id={`${id}-help`} className="text-body-sm text-on-surface-variant">{hint}</p>
       )}
     </div>
   )

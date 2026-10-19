@@ -27,7 +27,7 @@ const COPY: Record<Mode, { eyebrow: string; title: string; subtitle: string }> =
 }
 
 const submitClass =
-  'flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl btn-gradient py-3.5 text-title-md disabled:cursor-not-allowed disabled:opacity-60'
+  'flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg btn-gradient py-3.5 text-title-md disabled:cursor-not-allowed disabled:opacity-60'
 
 function SignInForm({ next }: { next: string }) {
   const navigate = useNavigate()
@@ -52,12 +52,12 @@ function SignInForm({ next }: { next: string }) {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-4" noValidate>
+    <form onSubmit={submit} className="space-y-5" noValidate>
       <TextField id="email" label="Email" type="email" required autoComplete="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
       <PasswordField id="password" label="Password" required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
       <div className="flex justify-end">
         {/* TODO (backend): replace with a real password-reset email once the API sends mail. */}
-        <a href={whatsapp('Hello! I forgot my password for my account.')} target="_blank" rel="noopener noreferrer" className="text-label-md text-primary hover:underline">
+        <a href={whatsapp('Hello! I forgot my password for my account.')} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-label-md text-tertiary underline underline-offset-4 hover:text-on-surface">
           Forgot your password?
         </a>
       </div>
@@ -97,7 +97,7 @@ function RegisterForm({ next }: { next: string }) {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-4" noValidate>
+    <form onSubmit={submit} className="space-y-5" noValidate>
       <TextField id="name" label="Full name" required autoComplete="name" placeholder="Nimali Perera" value={form.name} onChange={set('name')} />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <TextField id="email" label="Email" type="email" required autoComplete="email" value={form.email} onChange={set('email')} />
@@ -119,8 +119,8 @@ function RegisterForm({ next }: { next: string }) {
         {busy ? <Loader2 size={18} className="animate-spin" /> : <UserPlus size={18} />}
         {busy ? 'Creating account…' : 'Create account'}
       </button>
-      <p className="text-center text-body-sm text-secondary">
-        By creating an account you agree to our <Link to="/privacy" className="underline">privacy terms</Link>.
+      <p className="text-center text-body-sm leading-relaxed text-on-surface-variant">
+        By creating an account you agree to our <Link to="/privacy" className="text-tertiary underline underline-offset-4 hover:text-on-surface">privacy terms</Link>.
       </p>
     </form>
   )
@@ -142,10 +142,10 @@ export default function AuthPage({ mode }: { mode: Mode }) {
       title={copy.title}
       subtitle={copy.subtitle}
       footer={
-        <div className="flex items-center gap-3 rounded-2xl border border-dashed border-surface-container-high p-4 text-body-sm text-secondary">
-          <ShoppingBag size={18} className="shrink-0 text-primary" />
+        <div className="flex items-center gap-3 rounded-xl bg-surface-container-low ring-1 ring-outline-variant/40 p-5 text-body-sm leading-relaxed text-on-surface-variant">
+          <ShoppingBag size={18} className="shrink-0 text-tertiary" />
           <span>
-            Just want to send flowers? You can <Link to="/shop" className="font-semibold text-primary hover:underline">check out as a guest</Link> — no account needed.
+            Just want to send flowers? You can <Link to="/shop" className="font-semibold text-tertiary underline underline-offset-4 hover:text-on-surface">check out as a guest</Link> — no account needed.
           </span>
         </div>
       }

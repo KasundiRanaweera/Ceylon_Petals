@@ -41,15 +41,15 @@ export default function OrderTimeline({ order }: { order: AdminOrder }) {
             <div className="flex sm:w-full items-center gap-2">
               <span
                 className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-label-md ${
-                  done ? 'bg-primary text-on-primary' : 'bg-surface-container text-secondary'
+                  done ? 'bg-[#d4af37] text-on-tertiary-container' : 'bg-surface-container text-on-surface-variant'
                 }`}
               >
                 {done ? <Check size={16} /> : i + 1}
               </span>
-              <span className={`hidden sm:block h-0.5 flex-1 rounded ${i < current ? 'bg-primary' : 'bg-surface-container'} ${i === STEPS.length - 1 ? 'invisible' : ''}`} />
+              <span className={`hidden sm:block h-0.5 flex-1 rounded ${i < current ? 'bg-[#d4af37]' : 'bg-surface-container'} ${i === STEPS.length - 1 ? 'invisible' : ''}`} />
             </div>
             <div>
-              <p className={`text-title-md ${done ? 'text-primary' : 'text-secondary'}`}>{step.label}</p>
+              <p className={`text-title-md ${done ? 'text-on-surface' : 'text-on-surface-variant'}`}>{step.label}</p>
               <p className="text-body-sm text-secondary">{done && at ? formatPlacedAt(at) : step.hint}</p>
             </div>
           </li>

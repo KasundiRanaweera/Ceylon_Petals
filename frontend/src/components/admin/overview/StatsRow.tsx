@@ -12,7 +12,8 @@ const RANGE_LABEL: Record<DateRange, { title: string; compare: string }> = {
   month: { title: 'Sales This Month', compare: 'vs last 30 days' },
 }
 
-export default function StatsRow({ range, orders, products }: { range: DateRange; orders: AdminOrder[]; products: Product[] }) {
+// productsReady: false while the product list is still loading, so the cards never show a false zero.
+export default function StatsRow({ range, orders, products, productsReady = true }: { range: DateRange; orders: AdminOrder[]; products: Product[]; productsReady?: boolean }) {
   const stats = dashboardStats(orders, range)
   const label = RANGE_LABEL[range]
   const change = stats.salesChangePct
@@ -70,7 +71,7 @@ export default function StatsRow({ range, orders, products }: { range: DateRange
       </StatCard>
 
       <StatCard title="Products" icon={Package} footer={<Link to="/admin/products" className="text-label-md text-primary hover:underline">Manage products</Link>}>
-        <div className="font-display text-headline-md text-primary">{products.length} Products</div>
+        <div className="font-display text-headline-md text-primary">{productsReady ? `${products.length} Products` : 'Loading…'}</div>
         <div className="mt-1 text-[11px] text-secondary">
           {visible.length} in the shop • {products.length - visible.length} hidden • {visible.filter((p) => p.stock === 0).length} sold out
         </div>
@@ -82,7 +83,7 @@ export default function StatsRow({ range, orders, products }: { range: DateRange
         alert={lowStock.length > 0}
         footer={<Link to="/admin/inventory" className="text-label-md text-primary hover:underline">Review stock</Link>}
       >
-        <div className={`font-display text-headline-md ${lowStock.length ? 'text-error' : 'text-primary'}`}>{lowStock.length} Items</div>
+        <div className={`font-display text-headline-md ${lowStock.length ? 'text-error' : 'text-primary'}`}>{productsReady ? `${lowStock.length} Items` : 'Loading…'}</div>
         <div className="mt-1 text-[11px] text-secondary truncate">
           {lowStock.length ? lowStock.map((p) => p.name).join(', ') : 'Everything is well stocked'}
         </div>

@@ -27,15 +27,15 @@ export default function AccountLayout() {
         subtitle="Follow your orders, and keep addresses ready for faster checkout."
         breadcrumbs={[{ label: 'My account' }]}
       />
-      <div className="max-w-7xl mx-auto w-full px-4 lg:px-12 py-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <nav aria-label="Account" className="lg:col-span-3 bg-surface-container-lowest rounded-2xl shadow-sm p-2 flex lg:flex-col gap-1 overflow-x-auto">
+      <div className="max-w-7xl mx-auto w-full px-4 lg:px-12 py-10 lg:py-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <nav aria-label="Account" className="lg:col-span-3 rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-3 flex lg:flex-col gap-1 overflow-x-auto">
           {TABS.map(({ to, label, icon: Icon }) => (
             <NavLink
               key={to}
               to={to}
               className={({ isActive }) =>
-                `relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-title-md whitespace-nowrap transition-colors ${
-                  isActive ? 'text-on-primary' : 'text-on-surface-variant hover:bg-surface-container-low'
+                `relative flex min-h-11 items-center gap-3 px-4 py-2.5 rounded-lg text-label-md whitespace-nowrap transition-colors ${
+                  isActive ? 'text-white' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'
                 }`
               }
             >
@@ -44,7 +44,7 @@ export default function AccountLayout() {
                   {isActive && (
                     <motion.span
                       layoutId="account-tab"
-                      className="absolute inset-0 rounded-xl bg-primary-container"
+                      className="absolute inset-0 rounded-lg bg-primary"
                       transition={{ type: 'spring', bounce: 0.15, visualDuration: 0.35 }}
                     />
                   )}
@@ -56,7 +56,7 @@ export default function AccountLayout() {
           <button
             type="button"
             onClick={handleSignOut}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-title-md text-error hover:bg-error-container/40 whitespace-nowrap"
+            className="flex min-h-11 items-center gap-3 px-4 py-2.5 rounded-lg text-label-md text-error hover:bg-error-container/40 whitespace-nowrap"
           >
             <LogOut size={18} /> Sign out
           </button>

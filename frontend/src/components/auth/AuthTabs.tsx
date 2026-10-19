@@ -9,18 +9,18 @@ export default function AuthTabs({ active, next }: { active: 'sign-in' | 'regist
     { id: 'register' as const, label: 'Create account', to: `/register${query}` },
   ]
   return (
-    <nav aria-label="Account" className="relative grid grid-cols-2 rounded-sm bg-surface-container p-1">
+    <nav aria-label="Account" className="relative grid grid-cols-2 gap-3">
       {tabs.map((t) => (
         <Link
           key={t.id}
           to={t.to}
           aria-current={active === t.id ? 'page' : undefined}
-          className={`relative z-10 rounded-sm py-2.5 text-center text-[12px] font-medium uppercase tracking-[0.14em] transition-colors ${active === t.id ? 'text-on-primary' : 'text-on-surface-variant hover:text-primary'}`}
+          className={`relative z-10 flex min-h-11 items-center justify-center rounded-lg border py-2.5 text-center text-[12px] font-medium uppercase tracking-[0.14em] transition-colors ${active === t.id ? 'border-primary text-white' : 'border-outline-variant text-on-surface-variant hover:border-[#d4af37] hover:text-tertiary'}`}
         >
           {active === t.id && (
             <motion.span
               layoutId="auth-tab"
-              className="absolute inset-0 -z-10 rounded-sm bg-primary-container shadow-sm"
+              className="absolute -inset-px -z-10 rounded-lg bg-primary"
               transition={{ type: 'spring', bounce: 0.15, visualDuration: 0.35 }}
             />
           )}

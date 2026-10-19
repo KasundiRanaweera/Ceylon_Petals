@@ -27,7 +27,7 @@ export default function ProductDetail() {
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto px-4 lg:px-12 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10 animate-pulse" aria-busy="true">
-        <div className="aspect-[4/3] rounded-sm bg-surface-container" />
+        <div className="aspect-[4/3] rounded-xl bg-surface-container" />
         <div className="space-y-4">
           <div className="h-10 w-3/4 bg-surface-container rounded" />
           <div className="h-6 w-1/3 bg-surface-container rounded" />
@@ -48,15 +48,15 @@ function DeliveryChecker({ product }: { product: Product }) {
   const fee = deliveryFeeFor(district, effectivePrice(product), shop)
 
   return (
-    <div className="bg-surface-container-low rounded-xl p-4 space-y-2">
-      <label htmlFor="delivery-district" className="flex items-center gap-2 text-title-md text-primary">
-        <Truck size={18} /> Delivery to
+    <div className="bg-surface-container-low ring-1 ring-outline-variant/40 rounded-xl p-5 sm:p-6 space-y-3">
+      <label htmlFor="delivery-district" className="flex items-center gap-2 text-[14px] font-medium text-on-surface-variant">
+        <Truck size={18} className="text-tertiary" /> Delivery to
       </label>
       <select
         id="delivery-district"
         value={district}
         onChange={(e) => setDistrict(e.target.value)}
-        className="w-full bg-surface-container-lowest rounded-lg px-3 py-2 text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
+        className="w-full min-h-11 rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
       >
         {DISTRICTS.map((d) => (
           <option key={d} value={d}>{d} District</option>
@@ -67,7 +67,7 @@ function DeliveryChecker({ product }: { product: Product }) {
           <>We don't deliver to {district} online yet — message us on WhatsApp and we'll try to arrange it.</>
         ) : (
           <>
-            Delivery fee <strong className="text-primary">{fee === 0 ? 'Free' : formatLKR(fee ?? 0)}</strong>
+            Delivery fee <strong className="text-on-surface">{fee === 0 ? 'Free' : formatLKR(fee ?? 0)}</strong>
             {' • '}
             {zone.sameDay && product.sameDay
               ? `Same-day if you order before ${formatClock(shop.sameDayCutoff)}`
@@ -109,7 +109,7 @@ function ProductView({ product }: { product: Product }) {
 
   return (
     <div className="flex flex-col w-full">
-      <section className="max-w-7xl mx-auto w-full px-4 lg:px-12 pt-6 pb-12">
+      <section className="max-w-7xl mx-auto w-full px-4 lg:px-12 pt-6 pb-16 lg:pb-24">
         <Breadcrumbs
           items={[{ label: 'Shop', to: '/shop' }, ...(category ? [{ label: category.name, to: `/products/${category.slug}` }] : []), { label: product.name }]}
         />
@@ -117,7 +117,7 @@ function ProductView({ product }: { product: Product }) {
         <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Gallery */}
           <div className="space-y-3 lg:sticky lg:top-36">
-            <div className="relative aspect-[4/3] rounded-sm overflow-hidden bg-surface-container">
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-container ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)]">
               <AnimatePresence initial={false}>
                 <motion.img
                   key={product.images[photo]}
@@ -133,7 +133,7 @@ function ProductView({ product }: { product: Product }) {
                 />
               </AnimatePresence>
               {off > 0 && (
-                <span className="absolute top-4 left-4 bg-tertiary-fixed text-on-tertiary-fixed text-label-md font-bold px-3 py-1 rounded-sm">{off}% off</span>
+                <span className="absolute top-4 left-4 bg-primary-fixed text-tertiary text-label-md font-bold px-3 py-1 rounded-full">{off}% off</span>
               )}
             </div>
             {product.images.length > 1 && (
@@ -145,7 +145,7 @@ function ProductView({ product }: { product: Product }) {
                     onClick={() => setPhoto(i)}
                     aria-label={`Show photo ${i + 1}`}
                     aria-pressed={photo === i}
-                    className={`aspect-square rounded-lg overflow-hidden ring-2 ${photo === i ? 'ring-primary' : 'ring-transparent'}`}
+                    className={`aspect-square rounded-lg overflow-hidden ring-2 ${photo === i ? 'ring-[#d4af37]' : 'ring-transparent hover:ring-outline-variant'}`}
                   >
                     <img src={sizedImage(src, 240)} alt="" className="w-full h-full object-cover" />
                   </button>
@@ -153,7 +153,7 @@ function ProductView({ product }: { product: Product }) {
               </div>
             )}
             {credit && (
-              <p className="text-[12px] text-secondary">
+              <p className="text-[12px] text-on-surface-variant">
                 Photo: {credit.author} ·{' '}
                 <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">{credit.license}</a>
                 {' '}via{' '}
@@ -166,14 +166,14 @@ function ProductView({ product }: { product: Product }) {
           <div className="space-y-6">
             <div className="space-y-2">
               {product.badge && (
-                <span className="inline-block bg-primary text-on-primary text-[11px] uppercase tracking-wider px-3 py-1 rounded-sm">{product.badge}</span>
+                <span className="inline-block bg-primary-fixed text-tertiary text-[11px] font-medium uppercase tracking-[0.18em] px-3 py-1 rounded-full">{product.badge}</span>
               )}
-              <h1 className="font-display text-[34px] leading-[42px] lg:text-display-lg text-primary tracking-tight">{product.name}</h1>
-              <p className="text-body-lg text-secondary">{product.shortDescription}</p>
+              <h1 className="font-display text-[34px] leading-[42px] lg:text-display-lg text-on-surface tracking-tight">{product.name}</h1>
+              <p className="text-body-lg text-on-surface-variant">{product.shortDescription}</p>
             </div>
 
             <div className="flex items-baseline gap-3">
-              <span className="font-display text-headline-lg text-primary">{formatLKR(price)}</span>
+              <span className="font-display text-headline-lg text-tertiary">{formatLKR(price)}</span>
               {off > 0 && <span className="text-body-lg text-secondary line-through">{formatLKR(product.price)}</span>}
             </div>
 
@@ -193,7 +193,7 @@ function ProductView({ product }: { product: Product }) {
                 type="button"
                 onClick={() => addProduct(product, quantity)}
                 disabled={soldOut}
-                className="btn-gradient  text-title-md py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-gradient min-h-11 text-title-md py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ShoppingBag size={19} /> Add to cart
               </button>
@@ -201,7 +201,7 @@ function ProductView({ product }: { product: Product }) {
                 type="button"
                 onClick={buyNow}
                 disabled={soldOut}
-                className="bg-primary-fixed text-on-primary-fixed hover:bg-primary-fixed-dim text-title-md py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="min-h-11 rounded-lg border border-[#d4af37] text-tertiary hover:bg-[#d4af37] hover:text-on-tertiary-container transition-colors text-title-md py-3.5 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-tertiary"
               >
                 <Zap size={19} /> Buy now
               </button>
@@ -209,7 +209,7 @@ function ProductView({ product }: { product: Product }) {
                 href={whatsapp(productOrderMessage(product, quantity))}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="sm:col-span-2 bg-[#25D366] text-white hover:bg-[#1EBE5D] text-title-md py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                className="sm:col-span-2 min-h-11 bg-[#25D366] text-white hover:bg-[#1EBE5D] text-title-md py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors"
               >
                 <MessageCircle size={19} /> Order on WhatsApp
               </a>
@@ -218,13 +218,13 @@ function ProductView({ product }: { product: Product }) {
             <DeliveryChecker product={product} />
 
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-body-sm text-on-surface-variant">
-              <li className="flex items-center gap-2"><PenLine size={17} className="text-primary" /> Free handwritten card message</li>
-              <li className="flex items-center gap-2"><ShieldCheck size={17} className="text-primary" /> Freshness guaranteed or replaced</li>
+              <li className="flex items-center gap-2"><PenLine size={17} className="text-tertiary" /> Free handwritten card message</li>
+              <li className="flex items-center gap-2"><ShieldCheck size={17} className="text-tertiary" /> Freshness guaranteed or replaced</li>
             </ul>
 
             {product.details.length > 0 && (
               <div className="space-y-2">
-                <h2 className="font-display text-headline-sm text-primary">What's included</h2>
+                <h2 className="font-display text-on-surface text-headline-sm">What's included</h2>
                 <ul className="space-y-1.5">
                   {product.details.map((d) => (
                     <li key={d} className="flex items-start gap-2 text-body-md text-on-surface">
@@ -238,16 +238,16 @@ function ProductView({ product }: { product: Product }) {
             {product.attributes && (
               <dl className="grid grid-cols-2 gap-3">
                 {Object.entries(product.attributes).map(([k, v]) => (
-                  <div key={k} className="bg-surface-container-low rounded-lg p-3">
-                    <dt className="text-[11px] uppercase tracking-wider text-secondary">{k}</dt>
-                    <dd className="text-body-md text-primary">{v}</dd>
+                  <div key={k} className="bg-surface-container-lowest ring-1 ring-outline-variant/40 rounded-xl p-4">
+                    <dt className="text-[11px] font-medium uppercase tracking-[0.18em] text-tertiary">{k}</dt>
+                    <dd className="text-body-md text-on-surface">{v}</dd>
                   </div>
                 ))}
               </dl>
             )}
 
             <div className="space-y-2">
-              <h2 className="font-display text-headline-sm text-primary">About this {category?.id === 'indoor-plants' ? 'plant' : 'arrangement'}</h2>
+              <h2 className="font-display text-on-surface text-headline-sm">About this {category?.id === 'indoor-plants' ? 'plant' : 'arrangement'}</h2>
               <p className="text-body-md text-on-surface-variant leading-relaxed">{product.description}</p>
               <p className="text-body-sm text-secondary">
                 Flowers are seasonal, so we may swap a stem for one of equal or higher value to keep your gift looking its best.
@@ -256,9 +256,9 @@ function ProductView({ product }: { product: Product }) {
 
             {product.occasions.length > 0 && (
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-label-md text-secondary">Perfect for:</span>
+                <span className="text-label-md text-on-surface-variant">Perfect for:</span>
                 {product.occasions.map((o) => (
-                  <Link key={o} to={`/shop?occasion=${o}`} className="px-3 py-1 rounded-sm bg-surface-container text-label-md text-primary hover:bg-surface-container-high">
+                  <Link key={o} to={`/shop?occasion=${o}`} className="inline-flex min-h-11 items-center px-4 py-1 rounded-full bg-primary-fixed text-label-md text-tertiary hover:bg-[#d4af37] hover:text-on-tertiary-container transition-colors">
                     {OCCASION_NAME[o]}
                   </Link>
                 ))}
@@ -275,12 +275,12 @@ function ProductView({ product }: { product: Product }) {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-40 border-t border-surface-container-high bg-surface/95 px-4 py-3 backdrop-blur-xl lg:hidden"
+            className="fixed inset-x-0 bottom-0 z-40 border-t border-outline-variant/40 bg-surface/95 px-4 py-3 backdrop-blur-xl lg:hidden"
           >
             <div className="flex items-center gap-3">
               <img src={sizedImage(product.images[0], 160)} alt="" className="h-12 w-10 rounded-lg object-cover" />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-title-md text-primary">{product.name}</p>
+                <p className="truncate text-title-md text-on-surface">{product.name}</p>
                 <p className="text-body-sm text-secondary">{formatLKR(price)}</p>
               </div>
               <a
@@ -288,11 +288,11 @@ function ProductView({ product }: { product: Product }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Order on WhatsApp"
-                className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#25D366] text-white"
+                className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#25D366] text-white hover:bg-[#1EBE5D]"
               >
                 <MessageCircle size={18} />
               </a>
-              <button type="button" onClick={() => addProduct(product, quantity)} className="flex h-11 items-center gap-2 rounded-xl bg-primary-container px-4 text-label-md text-white">
+              <button type="button" onClick={() => addProduct(product, quantity)} className="flex h-11 items-center gap-2 rounded-lg btn-gradient px-4 text-label-md">
                 <ShoppingBag size={17} /> Add
               </button>
             </div>
@@ -300,12 +300,12 @@ function ProductView({ product }: { product: Product }) {
         )}
       </AnimatePresence>
 
-      <section className="w-full bg-surface-container-low py-12">
-        <div className="max-w-7xl mx-auto px-4 lg:px-12 space-y-6">
+      <section className="w-full bg-surface-container-low py-16 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4 lg:px-12 space-y-8">
           <div className="flex items-end justify-between gap-3">
-            <h2 className="font-display text-headline-lg text-primary">You may also like</h2>
+            <h2 className="font-display text-headline-lg text-on-surface">You may also like</h2>
             {category && (
-              <Link to={`/products/${category.slug}`} className="text-label-md text-primary hover:underline">
+              <Link to={`/products/${category.slug}`} className="inline-flex min-h-11 items-center border-b border-[#d4af37] text-label-md text-tertiary hover:text-on-surface transition-colors">
                 See all {category.name}
               </Link>
             )}

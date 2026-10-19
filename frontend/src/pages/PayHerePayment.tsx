@@ -59,13 +59,13 @@ export default function PayHerePayment() {
   const error = start.error ?? simulate.error
 
   return (
-    <section className="max-w-lg mx-auto px-4 py-14">
-      <div className="bg-surface-container-lowest rounded-2xl shadow-lg overflow-hidden">
+    <section className="max-w-lg mx-auto px-4 py-16 lg:py-24">
+      <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] overflow-hidden">
         <div className="bg-[#0b2a4a] text-white px-6 py-4 flex items-center justify-between">
           <span className="font-bold tracking-wide">PayHere</span>
           <span className="flex items-center gap-1 text-[12px] opacity-80"><Lock size={13} /> Secure payment</span>
         </div>
-        <div className="p-6 space-y-5">
+        <div className="p-6 sm:p-8 space-y-6">
           {simulated && (
             <div className="flex items-start gap-3 bg-tertiary-fixed/60 text-on-tertiary-fixed rounded-lg p-3 text-body-sm">
               <ShieldAlert size={18} className="shrink-0 mt-0.5" />
@@ -75,8 +75,8 @@ export default function PayHerePayment() {
             </div>
           )}
           <div className="text-center space-y-1">
-            <p className="text-body-sm text-secondary">Paying {shopName}</p>
-            <p className="font-display text-display-lg text-primary">{formatLKR(order.total)}</p>
+            <p className="text-body-sm text-on-surface-variant">Paying {shopName}</p>
+            <p className="font-display text-display-lg text-on-surface">{formatLKR(order.total)}</p>
             <p className="text-body-sm text-secondary">Order {order.orderNumber}</p>
           </div>
 
@@ -88,7 +88,7 @@ export default function PayHerePayment() {
                 type="button"
                 onClick={() => simulate.mutate('success')}
                 disabled={busy}
-                className="w-full bg-[#0b2a4a] text-white text-title-md py-3.5 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 disabled:opacity-60"
+                className="w-full min-h-11 bg-[#0b2a4a] text-white text-title-md py-3.5 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 disabled:opacity-60"
               >
                 <CreditCard size={18} /> {simulate.isPending ? 'Processing…' : 'Simulate successful payment'}
               </button>
@@ -96,7 +96,7 @@ export default function PayHerePayment() {
                 type="button"
                 onClick={() => simulate.mutate('failed')}
                 disabled={busy}
-                className="w-full bg-surface-container text-on-surface text-title-md py-3 rounded-lg hover:bg-surface-container-high disabled:opacity-60"
+                className="w-full text-title-md py-3 min-h-11 rounded-lg border border-[#d4af37] text-tertiary hover:bg-[#d4af37] hover:text-on-tertiary-container transition-colors disabled:opacity-60"
               >
                 Simulate failed / cancelled payment
               </button>
@@ -106,7 +106,7 @@ export default function PayHerePayment() {
               type="button"
               onClick={() => start.mutate()}
               disabled={busy}
-              className="w-full bg-[#0b2a4a] text-white text-title-md py-3.5 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 disabled:opacity-60"
+              className="w-full min-h-11 bg-[#0b2a4a] text-white text-title-md py-3.5 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 disabled:opacity-60"
             >
               <CreditCard size={18} /> {start.isPending ? 'Opening PayHere…' : `Pay ${formatLKR(order.total)} securely`}
             </button>

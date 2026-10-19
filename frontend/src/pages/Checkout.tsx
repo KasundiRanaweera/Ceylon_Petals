@@ -227,7 +227,7 @@ function CheckoutForm() {
           icon={ShoppingBag}
           title="There's nothing to check out yet"
           message="Add a bouquet, hamper or plant to your cart first."
-          action={<Link to="/shop" className="px-5 py-2.5 rounded-lg bg-primary text-on-primary text-label-md">Shop flowers</Link>}
+          action={<Link to="/shop" className="inline-flex min-h-11 items-center px-6 py-2.5 rounded-lg btn-gradient text-label-md">Shop flowers</Link>}
         />
       </div>
     )
@@ -240,19 +240,19 @@ function CheckoutForm() {
     <div className="flex flex-col w-full">
       <PageHeader title="Checkout" breadcrumbs={[{ label: 'Cart', to: '/cart' }, { label: 'Checkout' }]} />
 
-      <form noValidate onSubmit={submit} className="max-w-7xl mx-auto w-full px-4 lg:px-12 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <form noValidate onSubmit={submit} className="max-w-7xl mx-auto w-full px-4 lg:px-12 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div className="lg:col-span-7 space-y-6">
           {!shop.acceptingOrders && (
             <FormError message="We're not taking online orders right now. Please message us on WhatsApp and we'll help." />
           )}
 
           {/* 1. Sender */}
-          <section className="bg-surface-container-lowest rounded-xl shadow-sm p-6 space-y-4">
+          <section className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 sm:p-8 space-y-5">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h2 className="font-display text-headline-sm text-primary">1. Your details</h2>
+              <h2 className="font-display text-on-surface text-headline-sm">1. Your details</h2>
               {!user && (
                 <span className="text-body-sm text-secondary">
-                  Have an account? <Link to="/sign-in?next=/checkout" className="text-primary font-semibold hover:underline">Sign in</Link> for saved addresses.
+                  Have an account? <Link to="/sign-in?next=/checkout" className="text-tertiary font-semibold border-b border-[#d4af37] hover:text-on-surface">Sign in</Link> for saved addresses.
                 </span>
               )}
             </div>
@@ -264,16 +264,16 @@ function CheckoutForm() {
           </section>
 
           {/* 2. Recipient */}
-          <section className="bg-surface-container-lowest rounded-xl shadow-sm p-6 space-y-4">
+          <section className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 sm:p-8 space-y-5">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h2 className="font-display text-headline-sm text-primary">2. Delivery address</h2>
-              <button type="button" onClick={sendToMe} className="text-label-md text-primary hover:underline">Deliver to me</button>
+              <h2 className="font-display text-on-surface text-headline-sm">2. Delivery address</h2>
+              <button type="button" onClick={sendToMe} className="min-h-11 border-b border-[#d4af37] text-label-md text-tertiary hover:text-on-surface transition-colors">Deliver to me</button>
             </div>
             {addresses.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 <span className="text-body-sm text-secondary w-full">Use a saved address:</span>
                 {addresses.map((a) => (
-                  <button key={a.id} type="button" onClick={() => applySavedAddress(a)} className="px-3 py-1.5 rounded-lg bg-surface-container text-label-md text-primary hover:bg-surface-container-high">
+                  <button key={a.id} type="button" onClick={() => applySavedAddress(a)} className="min-h-11 px-4 py-1.5 rounded-full border border-[#d4af37] text-label-md text-tertiary hover:bg-[#d4af37] hover:text-on-tertiary-container transition-colors">
                     {a.label} — {a.city}
                   </button>
                 ))}
@@ -293,15 +293,15 @@ function CheckoutForm() {
             </div>
             {user && (
               <label className="flex items-center gap-2 text-body-sm text-on-surface cursor-pointer">
-                <input type="checkbox" checked={form.saveAddress} onChange={(e) => update('saveAddress', e.target.checked)} className="accent-primary w-4 h-4" />
+                <input type="checkbox" checked={form.saveAddress} onChange={(e) => update('saveAddress', e.target.checked)} className="accent-[#d4af37] w-4 h-4" />
                 Save this address to my account
               </label>
             )}
           </section>
 
           {/* 3. When */}
-          <section className="bg-surface-container-lowest rounded-xl shadow-sm p-6 space-y-4">
-            <h2 className="font-display text-headline-sm text-primary">3. Delivery date & time</h2>
+          <section className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 sm:p-8 space-y-5">
+            <h2 className="font-display text-on-surface text-headline-sm">3. Delivery date & time</h2>
             {madeToOrder.length > 0 && (
               <p className="text-body-sm text-secondary">
                 {madeToOrder.length === 1 ? madeToOrder[0].name : 'Some items in your cart'} {madeToOrder.length === 1 ? 'is' : 'are'} made to order, so delivery starts from {formatLongDate(isoDate(1))}.
@@ -326,7 +326,7 @@ function CheckoutForm() {
               className="max-w-xs"
             />
             <fieldset className="space-y-2">
-              <legend id="deliverySlot" tabIndex={-1} className="text-label-md text-primary mb-1">
+              <legend id="deliverySlot" tabIndex={-1} className="text-[14px] font-medium text-on-surface-variant mb-1">
                 Delivery time <span className="text-error">*</span>
               </legend>
               {slots.length === 0 ? (
@@ -336,11 +336,11 @@ function CheckoutForm() {
                   {slots.map((s) => (
                     <label
                       key={s.key}
-                      className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer border transition-colors ${form.deliverySlot === s.key ? 'border-primary bg-primary-fixed/40' : 'border-surface-container-high hover:bg-surface-container-low'}`}
+                      className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer border transition-colors ${form.deliverySlot === s.key ? 'border-[#d4af37] bg-tertiary-fixed/20 ring-1 ring-[#d4af37]' : 'border-outline-variant/60 hover:bg-surface-container-low'}`}
                     >
-                      <input type="radio" name="slot" checked={form.deliverySlot === s.key} onChange={() => update('deliverySlot', s.key)} className="accent-primary mt-1" />
+                      <input type="radio" name="slot" checked={form.deliverySlot === s.key} onChange={() => update('deliverySlot', s.key)} className="accent-[#d4af37] mt-1" />
                       <span>
-                        <span className="block text-title-md text-primary">{s.label}</span>
+                        <span className="block text-title-md text-on-surface">{s.label}</span>
                         <span className="block text-body-sm text-secondary">{s.hours}{s.extraFee ? ` • +${formatLKR(s.extraFee)}` : ''}</span>
                       </span>
                     </label>
@@ -352,25 +352,25 @@ function CheckoutForm() {
           </section>
 
           {/* 4. Message */}
-          <section className="bg-surface-container-lowest rounded-xl shadow-sm p-6 space-y-4">
-            <h2 className="font-display text-headline-sm text-primary">4. Card message & notes</h2>
+          <section className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 sm:p-8 space-y-5">
+            <h2 className="font-display text-on-surface text-headline-sm">4. Card message & notes</h2>
             <TextAreaField id="cardMessage" label="Card message (free)" rows={3} maxLength={250} value={form.cardMessage} onChange={(e) => update('cardMessage', e.target.value)} hint={`${form.cardMessage.length}/250 — handwritten on a card. Leave empty for no card.`} />
             <TextAreaField id="deliveryNotes" label="Notes for the rider" rows={2} placeholder="e.g. Gate code, landmark, keep it a surprise — don't call before 10 AM" value={form.deliveryNotes} onChange={(e) => update('deliveryNotes', e.target.value)} />
           </section>
 
           {/* 5. Payment */}
-          <section className="bg-surface-container-lowest rounded-xl shadow-sm p-6 space-y-3">
-            <h2 className="font-display text-headline-sm text-primary">5. Payment</h2>
+          <section className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 sm:p-8 space-y-4">
+            <h2 className="font-display text-on-surface text-headline-sm">5. Payment</h2>
             <div className="space-y-2" role="radiogroup" aria-label="Payment method">
               {PAYMENT_OPTIONS.map(({ id, title, description, icon: Icon }) => (
                 <label
                   key={id}
-                  className={`flex items-start gap-3 p-4 rounded-lg cursor-pointer border transition-colors ${form.paymentMethod === id ? 'border-primary bg-primary-fixed/40' : 'border-surface-container-high hover:bg-surface-container-low'}`}
+                  className={`flex items-start gap-3 p-4 rounded-lg cursor-pointer border transition-colors ${form.paymentMethod === id ? 'border-[#d4af37] bg-tertiary-fixed/20 ring-1 ring-[#d4af37]' : 'border-outline-variant/60 hover:bg-surface-container-low'}`}
                 >
-                  <input type="radio" name="payment" checked={form.paymentMethod === id} onChange={() => update('paymentMethod', id)} className="accent-primary mt-1" />
-                  <Icon size={22} className={id === 'WHATSAPP' ? 'text-[#25D366] shrink-0' : 'text-primary shrink-0'} />
+                  <input type="radio" name="payment" checked={form.paymentMethod === id} onChange={() => update('paymentMethod', id)} className="accent-[#d4af37] mt-1" />
+                  <Icon size={22} className={id === 'WHATSAPP' ? 'text-[#25D366] shrink-0' : 'text-tertiary shrink-0'} />
                   <span>
-                    <span className="block text-title-md text-primary">{title}</span>
+                    <span className="block text-title-md text-on-surface">{title}</span>
                     <span className="block text-body-sm text-secondary">{description}</span>
                   </span>
                 </label>
@@ -380,8 +380,8 @@ function CheckoutForm() {
         </div>
 
         {/* Summary */}
-        <aside className="lg:col-span-5 lg:sticky lg:top-36 bg-surface-container-lowest rounded-xl shadow-md p-6 space-y-4">
-          <h2 className="font-display text-headline-sm text-primary">Your order</h2>
+        <aside className="lg:col-span-5 lg:sticky lg:top-36 rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 sm:p-8 space-y-5">
+          <h2 className="font-display text-on-surface text-headline-sm">Your order</h2>
           <ul className="space-y-3 max-h-72 overflow-y-auto pr-1">
             {items.map((i) => (
               <li key={i.id} className="flex gap-3">
@@ -390,13 +390,13 @@ function CheckoutForm() {
                   <p className="text-title-md text-on-surface truncate">{i.name}</p>
                   <p className="text-body-sm text-secondary">Qty {i.quantity}</p>
                 </div>
-                <span className="text-body-md text-primary whitespace-nowrap">{formatLKR(i.unitPrice * i.quantity)}</span>
+                <span className="text-body-md text-on-surface whitespace-nowrap">{formatLKR(i.unitPrice * i.quantity)}</span>
               </li>
             ))}
           </ul>
 
-          <div className="space-y-2 border-t border-surface-container pt-4">
-            <label htmlFor="promo" className="flex items-center gap-1.5 text-label-md text-primary"><Tag size={14} /> Promo code</label>
+          <div className="space-y-2 border-t border-outline-variant/40 pt-4">
+            <label htmlFor="promo" className="flex items-center gap-1.5 text-[14px] font-medium text-on-surface-variant"><Tag size={14} /> Promo code</label>
             <div className="flex gap-2">
               <input
                 id="promo"
@@ -409,9 +409,9 @@ function CheckoutForm() {
                   }
                 }}
                 placeholder="e.g. WELCOME10"
-                className="flex-1 min-w-0 bg-surface-container-low rounded-lg px-3 py-2 text-body-md uppercase focus:outline-none focus:ring-1 focus:ring-primary"
+                className="flex-1 min-w-0 min-h-11 rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md uppercase focus:border-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
               />
-              <button type="button" onClick={applyPromoCode} className="px-4 rounded-lg bg-surface-container-high text-primary text-label-md hover:bg-primary hover:text-on-primary">Apply</button>
+              <button type="button" onClick={applyPromoCode} className="px-4 text-label-md min-h-11 rounded-lg border border-[#d4af37] text-tertiary hover:bg-[#d4af37] hover:text-on-tertiary-container transition-colors">Apply</button>
             </div>
             {promoMessage && <p className="text-body-sm text-error">{promoMessage}</p>}
             {appliedPromo && !quote.promoError && (
@@ -423,7 +423,7 @@ function CheckoutForm() {
             {appliedPromo && quote.promoError && <p className="text-body-sm text-error">{quote.promoError}</p>}
           </div>
 
-          <dl className="space-y-2 text-body-md border-t border-surface-container pt-4">
+          <dl className="space-y-2 text-body-md border-t border-outline-variant/40 pt-4">
             <div className="flex justify-between"><dt className="text-secondary">Subtotal</dt><dd>{formatLKR(quote.subtotal)}</dd></div>
             {quote.discount > 0 && (
               <div className="flex justify-between text-emerald-700"><dt>Discount</dt><dd>− {formatLKR(quote.discount)}</dd></div>
@@ -432,7 +432,7 @@ function CheckoutForm() {
               <dt className="text-secondary">Delivery{form.deliverySlot === 'midnight' ? ' (midnight)' : ''}</dt>
               <dd>{quote.deliveryFee === null ? '—' : quote.deliveryFee === 0 ? 'Free' : formatLKR(quote.deliveryFee)}</dd>
             </div>
-            <div className="flex justify-between text-headline-sm font-display text-primary pt-2 border-t border-surface-container">
+            <div className="flex justify-between text-headline-sm font-display text-on-surface pt-2 border-t border-outline-variant/40">
               <dt>Total</dt><dd>{formatLKR(quote.total)}</dd>
             </div>
           </dl>
@@ -442,12 +442,12 @@ function CheckoutForm() {
           <button
             type="submit"
             disabled={placeOrder.isPending || !shop.acceptingOrders}
-            className="w-full btn-gradient  text-title-md py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full min-h-11 btn-gradient text-title-md py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <Lock size={17} /> {placeOrder.isPending ? 'Placing your order…' : submitLabel}
           </button>
           <p className="text-body-sm text-secondary text-center">
-            By placing this order you agree to our <Link to="/refund-policy" className="underline">refund policy</Link>.
+            By placing this order you agree to our <Link to="/refund-policy" className="border-b border-[#d4af37] text-tertiary hover:text-on-surface">refund policy</Link>.
           </p>
         </aside>
       </form>

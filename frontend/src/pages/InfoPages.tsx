@@ -15,15 +15,15 @@ function InfoLayout({ title, subtitle, crumb, children }: { title: string; subti
   return (
     <div className="flex flex-col w-full">
       <PageHeader title={title} subtitle={subtitle} breadcrumbs={[{ label: crumb }]} />
-      <section className="max-w-4xl mx-auto w-full px-4 lg:px-12 py-10 space-y-6">{children}</section>
+      <section className="max-w-4xl mx-auto w-full px-4 lg:px-12 py-12 lg:py-16 space-y-6">{children}</section>
     </div>
   )
 }
 
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="bg-surface-container-lowest rounded-xl shadow-sm p-6 space-y-3">
-      <h2 className="font-display text-headline-sm text-primary">{title}</h2>
+    <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 sm:p-8 space-y-4">
+      <h2 className="flex items-center gap-3 font-display text-headline-sm text-on-surface"><span aria-hidden="true" className="h-px w-6 shrink-0 bg-[#d4af37]" />{title}</h2>
       <div className="text-body-md text-on-surface-variant leading-relaxed space-y-2">{children}</div>
     </div>
   )
@@ -36,21 +36,21 @@ export function DeliveryInfo() {
 
   return (
     <InfoLayout crumb="Delivery" title="Delivery areas & fees" subtitle="Hand-delivered by our own team in Colombo and suburbs, and by trusted partners further afield.">
-      <div className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+      <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] overflow-x-auto">
         <table className="w-full text-left">
           <thead>
-            <tr className="bg-surface-container-low text-[11px] uppercase tracking-wider text-secondary">
-              <th className="px-4 py-3">District</th>
-              <th className="px-4 py-3">Delivery fee</th>
-              <th className="px-4 py-3">Same-day</th>
+            <tr className="bg-surface-container-low text-[12px] uppercase tracking-[0.18em] text-tertiary">
+              <th className="px-5 py-4 font-medium">District</th>
+              <th className="px-5 py-4 font-medium">Delivery fee</th>
+              <th className="px-5 py-4 font-medium">Same-day</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-surface-container">
+          <tbody className="divide-y divide-outline-variant/40 text-body-md text-on-surface-variant">
             {zones.map((z) => (
               <tr key={z.id}>
-                <td className="px-4 py-3 text-title-md text-primary">{z.district}</td>
-                <td className="px-4 py-3">{formatLKR(z.fee)}</td>
-                <td className="px-4 py-3">
+                <td className="px-5 py-4 text-title-md text-on-surface">{z.district}</td>
+                <td className="px-5 py-4">{formatLKR(z.fee)}</td>
+                <td className="px-5 py-4">
                   {z.sameDay ? <span className="inline-flex items-center gap-1 text-emerald-700"><Check size={16} /> Yes</span> : <span className="inline-flex items-center gap-1 text-secondary"><X size={16} /> Next day</span>}
                 </td>
               </tr>
@@ -59,13 +59,13 @@ export function DeliveryInfo() {
         </table>
       </div>
       {shop.freeDeliveryOver > 0 && (
-        <p className="text-body-md text-primary font-semibold">Free delivery on orders over {formatLKR(shop.freeDeliveryOver)}.</p>
+        <p className="rounded-xl bg-surface-container-low ring-1 ring-[#d4af37]/50 px-5 py-4 text-body-md text-tertiary font-semibold">Free delivery on orders over {formatLKR(shop.freeDeliveryOver)}.</p>
       )}
       <Card title="Delivery times">
         <ul className="space-y-1">
           {DELIVERY_SLOTS.map((s) => (
             <li key={s.key}>
-              <strong className="text-primary">{s.label}</strong> — {s.hours}
+              <strong className="text-on-surface">{s.label}</strong> — {s.hours}
               {s.extraFee > 0 && ` (+${formatLKR(s.extraFee)}, same-day areas only)`}
             </li>
           ))}
@@ -75,7 +75,7 @@ export function DeliveryInfo() {
       <Card title="Another district?">
         <p>
           We can often arrange delivery elsewhere in Sri Lanka by courier.{' '}
-          <a href={whatsapp('Hello! Can you deliver to my area?')} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+          <a href={whatsapp('Hello! Can you deliver to my area?')} target="_blank" rel="noopener noreferrer" className="text-tertiary underline underline-offset-4 hover:text-on-surface">
             Message us on WhatsApp
           </a>{' '}
           with the town and date.
@@ -114,20 +114,20 @@ const FAQS: { q: string; a: ReactNode }[] = [
   { q: 'Can I add a message?', a: 'Every order includes a free handwritten card. Add your message at checkout.' },
   { q: 'What if a flower is out of season?', a: 'We may swap a stem for one of equal or higher value in the same colours, so your arrangement still looks its best.' },
   { q: 'Can I change or cancel my order?', a: 'Message us on WhatsApp as soon as possible with your order number. Changes are free until we start preparing your order.' },
-  { q: 'Do I need an account?', a: <>No — you can check out as a guest and use <Link to="/track-order" className="text-primary underline">Track order</Link>. An account saves your addresses and order history.</> },
+  { q: 'Do I need an account?', a: <>No — you can check out as a guest and use <Link to="/track-order" className="text-tertiary underline underline-offset-4 hover:text-on-surface">Track order</Link>. An account saves your addresses and order history.</> },
 ]
 
 export function Faq() {
   return (
     <InfoLayout crumb="FAQ" title="Frequently asked questions">
-      <div className="space-y-3">
+      <div className="space-y-4">
         {FAQS.map((f) => (
-          <details key={f.q} className="group bg-surface-container-lowest rounded-xl shadow-sm p-5">
-            <summary className="cursor-pointer list-none flex items-center justify-between gap-3 text-title-md text-primary">
+          <details key={f.q} className="group rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] px-6 py-5 open:ring-[#d4af37]/60">
+            <summary className="cursor-pointer list-none flex min-h-11 items-center justify-between gap-4 rounded-lg font-display text-[18px] leading-snug font-medium text-on-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#d4af37]">
               {f.q}
-              <span className="text-secondary transition-transform group-open:rotate-45 text-xl leading-none">+</span>
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#d4af37] text-tertiary transition-transform group-open:rotate-45 text-xl leading-none">+</span>
             </summary>
-            <div className="mt-3 text-body-md text-on-surface-variant">{f.a}</div>
+            <div className="mt-4 border-t border-outline-variant/40 pt-4 text-body-md leading-relaxed text-on-surface-variant">{f.a}</div>
           </details>
         ))}
       </div>
@@ -166,7 +166,7 @@ export function Privacy() {
         <p>Card payments are processed by PayHere. We never see or store your full card number.</p>
       </Card>
       <Card title="Contact">
-        <p>Questions about your data? Email <a className="text-primary underline" href={`mailto:${shop.email}`}>{shop.email}</a>.</p>
+        <p>Questions about your data? Email <a className="text-tertiary underline underline-offset-4 hover:text-on-surface" href={`mailto:${shop.email}`}>{shop.email}</a>.</p>
       </Card>
     </InfoLayout>
   )

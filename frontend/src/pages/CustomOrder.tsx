@@ -62,12 +62,12 @@ function CustomOrderForm() {
   if (submit.data) {
     return (
       <section className="max-w-2xl mx-auto px-4 py-16 text-center space-y-4">
-        <div className="w-16 h-16 mx-auto rounded-full bg-primary-fixed text-primary flex items-center justify-center">
+        <div className="w-16 h-16 mx-auto rounded-full bg-surface-container-lowest ring-1 ring-[#d4af37]/60 text-tertiary flex items-center justify-center">
           <CircleCheck size={30} />
         </div>
-        <h1 className="font-display text-headline-lg text-primary">Thank you — we've got your request</h1>
-        <p className="text-body-lg text-secondary">
-          Your reference is <strong className="text-primary">{submit.data.reference}</strong>. Our florist will contact you within one working day
+        <h1 className="font-display text-headline-lg text-on-surface">Thank you — we've got your request</h1>
+        <p className="text-body-lg leading-relaxed text-on-surface-variant">
+          Your reference is <strong className="text-tertiary">{submit.data.reference}</strong>. Our florist will contact you within one working day
           with ideas and a quote.
         </p>
         <div className="flex flex-wrap justify-center gap-3 pt-2">
@@ -75,11 +75,11 @@ function CustomOrderForm() {
             href={whatsapp(`Hello! I just sent custom request ${submit.data.reference}. I'd like to share some photos.`)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#25D366] text-white text-label-md"
+            className="inline-flex min-h-11 items-center gap-2 px-5 py-2.5 rounded-lg bg-[#25D366] text-white text-label-md transition-colors hover:bg-[#1ebe5a]"
           >
             <MessageCircle size={16} /> Send reference photos on WhatsApp
           </a>
-          <Link to="/shop" className="px-5 py-2.5 rounded-lg bg-surface-container text-primary text-label-md">Back to the shop</Link>
+          <Link to="/shop" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-[#d4af37] px-5 py-2.5 text-label-md text-tertiary transition-colors hover:bg-[#d4af37] hover:text-on-tertiary-container">Back to the shop</Link>
         </div>
       </section>
     )
@@ -94,36 +94,37 @@ function CustomOrderForm() {
         title="Request a custom order"
         subtitle="Tell us what you have in mind — a special colour palette, 100 roses for an event, or hampers for your clients. We'll reply with ideas and a quote."
         breadcrumbs={[{ label: 'Custom order' }]}
+        backdrop={{ src: '/images/stitch/contact-rose.webp', alt: 'Close-up of a blush rose with morning dew' }}
       />
 
-      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto w-full px-4 lg:px-12 py-10 space-y-6">
-        <fieldset className="space-y-3">
-          <legend className="font-display text-headline-sm text-primary mb-2">What do you need?</legend>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto w-full px-4 lg:px-12 py-12 lg:py-16 space-y-10">
+        <fieldset className="space-y-4">
+          <legend className="font-display text-headline-sm text-on-surface mb-3">What do you need?</legend>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {TYPES.map(({ id, title, description, icon: Icon }) => (
               <label
                 key={id}
-                className={`flex items-start gap-3 p-4 rounded-xl cursor-pointer border bg-surface-container-lowest transition-colors ${
-                  form.type === id ? 'border-primary ring-1 ring-primary' : 'border-surface-container-high hover:bg-surface-container-low'
+                className={`flex items-start gap-4 p-5 rounded-xl cursor-pointer border bg-surface-container-lowest shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[#d4af37] ${
+                  form.type === id ? 'border-[#d4af37] ring-1 ring-[#d4af37]' : 'border-outline-variant/60 hover:bg-surface-container-low'
                 }`}
               >
                 <input type="radio" name="type" checked={form.type === id} onChange={() => setForm((f) => ({ ...f, type: id }))} className="sr-only" />
-                <Icon size={22} className="text-primary shrink-0 mt-0.5" />
+                <Icon size={22} className="text-tertiary shrink-0 mt-0.5" />
                 <span>
-                  <span className="block text-title-md text-primary">{title}</span>
-                  <span className="block text-body-sm text-secondary">{description}</span>
+                  <span className="block font-display text-[18px] leading-snug font-medium text-on-surface">{title}</span>
+                  <span className="mt-1 block text-body-sm leading-relaxed text-on-surface-variant">{description}</span>
                 </span>
               </label>
             ))}
           </div>
           {form.type === 'WEDDING' && (
-            <p className="text-body-sm text-secondary">
-              Planning a full wedding? See our <Link to="/wedding-events" className="text-primary underline">Weddings & Events</Link> page for packages and past work.
+            <p className="text-body-sm leading-relaxed text-on-surface-variant">
+              Planning a full wedding? See our <Link to="/wedding-events" className="text-tertiary underline underline-offset-4 hover:text-on-surface">Weddings & Events</Link> page for packages and past work.
             </p>
           )}
         </fieldset>
 
-        <section className="bg-surface-container-lowest rounded-xl shadow-sm p-6 space-y-4">
+        <section className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 sm:p-8 space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <TextField id="name" label="Your name" required value={form.name} onChange={set('name')} />
             <TextField id="phone" label="Phone / WhatsApp" type="tel" required placeholder="077 123 4567" value={form.phone} onChange={set('phone')} />
@@ -148,7 +149,7 @@ function CustomOrderForm() {
             onChange={set('details')}
           />
           <FormError message={submit.error ? submit.error.message : null} />
-          <button type="submit" disabled={submit.isPending} className="w-full sm:w-auto px-8 py-3 rounded-lg btn-gradient text-title-md  disabled:opacity-60">
+          <button type="submit" disabled={submit.isPending} className="inline-flex min-h-12 w-full sm:w-auto items-center justify-center px-8 py-3 rounded-lg btn-gradient text-title-md disabled:opacity-60">
             {submit.isPending ? 'Sending…' : 'Send request'}
           </button>
         </section>

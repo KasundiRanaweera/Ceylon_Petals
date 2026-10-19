@@ -29,7 +29,7 @@ export default function Dashboard() {
   const [range, setRange] = useState<DateRange>('month')
   const { user } = useAuth()
   const { data: orders = [] } = useAdminOrders()
-  const { data: products = [] } = useAdminProducts()
+  const { data: products = [], isSuccess: productsReady } = useAdminProducts()
   const lowStock = products.filter((p) => p.isActive && p.stock <= p.lowStockThreshold)
   const { data: inquiries = [] } = useQuery({ queryKey: ['admin', 'inquiries'], queryFn: listInquiries })
 
@@ -47,7 +47,7 @@ export default function Dashboard() {
   const attention = [
     { label: 'to confirm', hint: 'Waiting for you', count: pending, to: '/admin/orders', icon: ClipboardCheck, tone: 'gold' as const },
     { label: paymentIssues === 1 ? 'payment issue' : 'payment issues', hint: 'Failed or unpaid', count: paymentIssues, to: '/admin/orders', icon: CreditCard, tone: 'red' as const },
-    { label: 'low on stock', hint: 'Restock soon', count: lowStock.length, to: '/admin/inventory', icon: Boxes, tone: 'red' as const },
+    { label: 'low on stock', hint: 'Restock soon', count: lowStock.length, to: '/admin/inventory', icon: Boxes, tone: 'red' as const, loading: !productsReady },
     { label: newInquiries === 1 ? 'new inquiry' : 'new inquiries', hint: 'Requests to answer', count: newInquiries, to: '/admin/inquiries', icon: MessageSquareText, tone: 'gold' as const },
   ]
 
@@ -101,7 +101,7 @@ export default function Dashboard() {
           animate="show"
           variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06 } } }}
         >
-          {attention.map(({ label, hint, count, to, icon: Icon, tone }) => (
+          {attention.map(({ label, hint, count, to, icon: Icon, tone, loading }) => (
             <motion.li key={label} variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}>
               <Link
                 to={to}
@@ -117,7 +117,7 @@ export default function Dashboard() {
                     <span className="text-headline-sm font-semibold tabular-nums text-primary">{count}</span>
                     <span className="text-title-md leading-snug text-on-surface">{label}</span>
                   </span>
-                  <span className="block text-body-sm text-secondary">{count > 0 ? hint : 'All clear'}</span>
+                  <span className="block text-body-sm text-secondary">{loading ? 'Checking…' : count > 0 ? hint : 'All clear'}</span>
                 </span>
                 <ChevronRight size={18} className="shrink-0 text-outline transition-transform group-hover:translate-x-0.5" />
               </Link>
@@ -126,7 +126,7 @@ export default function Dashboard() {
         </motion.ul>
       </section>
 
-      <StatsRow range={range} orders={orders} products={products} />
+      <StatsRow range={range} orders={orders} products={products} productsReady={productsReady} />
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
         <div className="xl:col-span-2">
