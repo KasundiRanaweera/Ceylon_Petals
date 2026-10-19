@@ -6,6 +6,7 @@ import {
   Boxes,
   Users,
   MessageSquareText,
+  Star,
   TrendingUp,
   Settings,
   type LucideIcon,
@@ -31,6 +32,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
   { path: '/admin/inventory', label: 'Inventory', icon: Boxes, group: 'Catalogue', badge: 'lowStock' },
   { path: '/admin/customers', label: 'Customers', icon: Users, group: 'People' },
   { path: '/admin/inquiries', label: 'Custom Inquiries', icon: MessageSquareText, group: 'People', badge: 'newInquiries' },
+  { path: '/admin/reviews', label: 'Reviews', icon: Star, group: 'People' },
   { path: '/admin/analytics', label: 'Analytics', icon: TrendingUp, group: 'Insights' },
   { path: '/admin/settings', label: 'Settings', icon: Settings, group: 'Insights' },
 ]

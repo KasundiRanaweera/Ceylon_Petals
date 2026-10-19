@@ -171,12 +171,24 @@ export interface ShopSettings {
   promoCodes: PromoCode[]
 }
 
-export interface Testimonial {
+/** A customer review shown on the home page (managed by the owner in Admin -> Reviews). */
+export interface Review {
   id: string
   name: string
   location: string
   rating: number
   message: string
+  /** e.g. "Ordered 'Nuwara Eliya Crimson Empress'". Empty = not shown. */
   orderedItem: string
   initials: string
+  isPublished: boolean
+  sortOrder: number
+  createdAt: string
+}
+
+/** The published reviews and their average rating (GET /api/reviews). */
+export interface PublicReviews {
+  reviews: Review[]
+  average: number
+  count: number
 }

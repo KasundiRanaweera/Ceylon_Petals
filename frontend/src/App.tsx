@@ -37,6 +37,7 @@ const Categories = lazy(() => import('./pages/admin/Categories'))
 const Inventory = lazy(() => import('./pages/admin/Inventory'))
 const Customers = lazy(() => import('./pages/admin/Customers'))
 const Inquiries = lazy(() => import('./pages/admin/Inquiries'))
+const Reviews = lazy(() => import('./pages/admin/Reviews'))
 const Analytics = lazy(() => import('./pages/admin/Analytics'))
 const Settings = lazy(() => import('./pages/admin/Settings'))
 
@@ -111,6 +112,7 @@ export default function App() {
         <Route path="inventory" element={<Inventory />} />
         <Route path="customers" element={<Customers />} />
         <Route path="inquiries" element={<Inquiries />} />
+        <Route path="reviews" element={<Reviews />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/admin" replace />} />
