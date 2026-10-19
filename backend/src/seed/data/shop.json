@@ -78,5 +78,61 @@
       "active": false,
       "description": "Rs. 1,000 off for Avurudu"
     }
+  ],
+  "reviews": [
+    {
+      "name": "Dilshan Karunaratne",
+      "location": "Colombo 05, Sri Lanka",
+      "rating": 5,
+      "message": "The WhatsApp concierge made the whole order effortless for my mother’s birthday in Colombo 05. The roses arrived fresh, beautifully arranged, and lasted beautifully for over a week.",
+      "orderedItem": "Ordered 'Nuwara Eliya Crimson Empress'",
+      "sortOrder": 0,
+      "isPublished": true
+    },
+    {
+      "name": "Ananya Perera",
+      "location": "Cinnamon Gardens, Colombo",
+      "rating": 5,
+      "message": "This flower studio feels premium and personal from start to finish. The lilies arrived smelling incredible and the handwritten card made the gift feel extra special.",
+      "orderedItem": "Ordered 'Casablanca Pure Ivory Lilies'",
+      "sortOrder": 1,
+      "isPublished": true
+    },
+    {
+      "name": "Rukshan Fernando",
+      "location": "Battaramulla, Sri Lanka",
+      "rating": 5,
+      "message": "We ordered a gourmet hamper for a graduation celebration and the delivery was perfectly on time. The packaging and presentation were elegant and very Sri Lankan in style.",
+      "orderedItem": "Ordered 'Highland Rose & Tea Hamper'",
+      "sortOrder": 2,
+      "isPublished": true
+    },
+    {
+      "name": "Shanika Wijesinghe",
+      "location": "Nugegoda, Sri Lanka",
+      "rating": 5,
+      "message": "I ordered from Melbourne for my sister’s anniversary and paid by card in minutes. They sent a photo of the bouquet before it left the studio, and it looked even better in person.",
+      "orderedItem": "Ordered 'Blush Highland Rose Bunch'",
+      "sortOrder": 3,
+      "isPublished": true
+    },
+    {
+      "name": "Faiz Mohamed",
+      "location": "Dehiwala, Sri Lanka",
+      "rating": 4,
+      "message": "Lovely sunflowers and very friendly service. The order came about an hour later than I hoped, but they messaged me on WhatsApp to let me know, and the flowers were perfect.",
+      "orderedItem": "Ordered 'Sunflower & Lily Birthday Vase'",
+      "sortOrder": 4,
+      "isPublished": true
+    },
+    {
+      "name": "Chamari Ratnayake",
+      "location": "Kandy, Sri Lanka",
+      "rating": 5,
+      "message": "They handled the flowers for our Poruwa ceremony and the bridal bouquet. Everything matched the colours we chose and arrived at the hotel early in the morning, fresh and calm.",
+      "orderedItem": "Ordered 'Poruwa Blush Bridal Bouquet'",
+      "sortOrder": 5,
+      "isPublished": true
+    }
   ]
 }

@@ -299,6 +299,27 @@ model Inquiry {
   @@index([createdAt])
 }
 
+// ---------------------------------------------------------------- customer reviews
+
+// Customer reviews shown on the home page. The owner adds, edits, hides and orders them in the admin.
+model Review {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  location    String   @default("")
+  rating      Int
+  message     String
+  // e.g. "Ordered 'Nuwara Eliya Crimson Empress'". Empty = not shown.
+  orderedItem String   @default("")
+  // Hidden reviews stay in the admin but never appear on the website.
+  isPublished Boolean  @default(true)
+  // Lower numbers show first.
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isPublished, sortOrder])
+}
+
 // ---------------------------------------------------------------- shop settings
 
 model DeliveryZone {

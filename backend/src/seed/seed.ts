@@ -5,14 +5,14 @@ import { prisma } from '../lib/prisma.js'
 import { Prisma } from '../generated/prisma/client.js'
 
 // Loads the starting data: occasions, categories, products, delivery zones, promo codes,
-// shop settings and the owner account.
+// customer reviews, shop settings and the owner account.
 //
 // Safe to run again at any time. It only CREATES what is missing, so it never overwrites a
 // price, stock level or setting the owner changed later. (To start over completely, use
 // `npx prisma migrate reset`, which wipes the database.)
 //
-// data/catalog.json and data/shop.json are snapshots of frontend/src/data (catalog.ts and
-// settings.ts), so the real shop starts with exactly what the demo site showed.
+// data/catalog.json holds the starting occasions, categories and products; data/shop.json the shop
+// settings, delivery zones, promo codes and customer reviews.
 
 interface CatalogFile {
   occasions: { slug: string; name: string; description: string }[]
@@ -56,6 +56,7 @@ interface ShopFile {
   }
   deliveryZones: { district: string; fee: number; sameDay: boolean; active: boolean }[]
   promoCodes: { code: string; type: 'PERCENT' | 'FIXED'; value: number; minOrder: number; active: boolean; description: string }[]
+  reviews: { name: string; location: string; rating: number; message: string; orderedItem: string; isPublished: boolean; sortOrder: number }[]
 }
 
 const readJson = <T>(name: string): T => JSON.parse(readFileSync(new URL(`./data/${name}`, import.meta.url), 'utf8')) as T
@@ -97,7 +98,7 @@ async function seedCatalog() {
 }
 
 async function seedShop() {
-  const { settings, deliveryZones, promoCodes } = readJson<ShopFile>('shop.json')
+  const { settings, deliveryZones, promoCodes, reviews } = readJson<ShopFile>('shop.json')
 
   await prisma.shopSettings.upsert({ where: { id: 1 }, update: {}, create: { id: 1, ...settings } })
   for (const z of deliveryZones) {
@@ -106,7 +107,10 @@ async function seedShop() {
   for (const p of promoCodes) {
     await prisma.promoCode.upsert({ where: { code: p.code }, update: {}, create: p })
   }
-  console.log(`shop: settings, ${deliveryZones.length} delivery zones, ${promoCodes.length} promo codes`)
+  // Reviews have no natural key, so they are only added to an empty table (the owner's own edits are kept).
+  const addReviews = (await prisma.review.count()) === 0
+  if (addReviews) await prisma.review.createMany({ data: reviews })
+  console.log(`shop: settings, ${deliveryZones.length} delivery zones, ${promoCodes.length} promo codes, ${addReviews ? reviews.length : 0} new reviews`)
 }
 
 async function seedOwner() {
