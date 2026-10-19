@@ -310,11 +310,6 @@ html {
   font-variant-numeric: lining-nums tabular-nums;
 }
 
-/* Home hero: the shop name's last line fades into the arrangement behind it. */
-.hero-wordmark {
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 60%, rgba(0, 0, 0, 0.72) 100%);
-  mask-image: linear-gradient(180deg, #000 0%, #000 60%, rgba(0, 0, 0, 0.72) 100%);
-}
 /* Home hero buttons lift on hover with a small CSS spring (one soft overshoot, then settle). */
 .hero-spring {
   transition:
@@ -328,3 +323,49 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .hero-spring, .hero-spring:hover, .hero-spring:active { transform: none; transition: background-color 0.2s ease; }
 }
+
+/* Top-bar ticker: two identical runs slide left by one run's width, then loop. Pauses on hover. */
+.ticker-track { animation: ticker-slide 48s linear infinite; }
+.ticker:hover .ticker-track { animation-play-state: paused; }
+@keyframes ticker-slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
+
+/* Product cards: the floating "Add to cart" button shows only its bag icon, and opens out to show
+   its label when the card is hovered or the button has keyboard focus (devices with a mouse). */
+.card-add-label { max-width: 0; opacity: 0; margin-left: 0; transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease, margin-left 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+@media (hover: hover) {
+  .group:hover .card-add-label { max-width: 7.5rem; opacity: 1; margin-left: 0.5rem; }
+}
+.card-add:focus-visible .card-add-label { max-width: 7.5rem; opacity: 1; margin-left: 0.5rem; }
+@media (prefers-reduced-motion: reduce) { .card-add-label { transition: none; } }
+
+/* Home hero: "Bloom" in deep gold (readable on cream), with one shimmer passing across it. */
+.hero-bloom {
+  background-image: linear-gradient(100deg, #a8821a 0%, #c99c26 38%, #f1d27b 50%, #c99c26 62%, #a8821a 100%);
+  background-size: 250% 100%;
+  background-position: 100% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: bloom-shimmer 2.4s 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes bloom-shimmer { from { background-position: 100% 50%; } to { background-position: 0% 50%; } }
+/* Home hero bouquet: the hand fades out at the bottom edge, and the bouquet sways gently. */
+.hero-bouquet {
+  -webkit-mask-image: linear-gradient(180deg, #000 82%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 82%, transparent 100%);
+}
+.hero-bouquet-sway { transform-origin: 50% 100%; animation: bouquet-sway 7s 1.6s ease-in-out infinite; }
+@keyframes bouquet-sway { 0%, 100% { rotate: 0deg; } 30% { rotate: -1.2deg; } 70% { rotate: 1deg; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-bloom { animation: none; background-position: 50% 50%; }
+  .hero-bouquet-sway { animation: none; }
+}
+
+/* Home: the row of every product slides left on a loop (two copies, so it never jumps). It pauses
+   on hover or when a card has keyboard focus, and stays still with reduced motion. */
+.product-marquee-track { animation: product-marquee linear infinite; animation-duration: 180s; }
+.product-marquee:hover .product-marquee-track,
+.product-marquee:focus-within .product-marquee-track { animation-play-state: paused; }
+@keyframes product-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .product-marquee-track { animation: none; } }
