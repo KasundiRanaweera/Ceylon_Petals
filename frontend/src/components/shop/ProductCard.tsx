@@ -12,17 +12,20 @@ import { imageSrcSet, sizedImage } from '../../lib/images'
 
 // The one product card used on every listing (home, categories, occasions, hampers, plants, search),
 // so products look and behave the same wherever a customer finds them.
+//
+// A modern, frameless card: the photo carries the card. Badges sit on the photo, and the two
+// actions (add to cart, order on WhatsApp) float in its bottom corner; "Add to cart" opens out to
+// show its label on hover. Below the photo there are just two short lines, the name and the price,
+// so every card is the same height. When a product has a second photo, it fades in on hover.
 interface ProductCardProps {
   product: Product
   /** A visual duplicate (e.g. the second copy in a looping carousel): still clickable, but kept out of the tab order. */
   copy?: boolean
   /** Override the image `sizes` hint when the card is shown at a fixed width. */
   sizes?: string
-  /** Carousel layout: no description, one-line title, so every card is exactly the same height. */
-  compact?: boolean
 }
 
-export default function ProductCard({ product, copy = false, sizes, compact = false }: ProductCardProps) {
+export default function ProductCard({ product, copy = false, sizes }: ProductCardProps) {
   const tab = copy ? -1 : undefined
   const { addProduct } = useCart()
   const whatsapp = useWhatsApp()
@@ -31,6 +34,8 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
   const soldOut = product.stock <= 0
   const href = `/product/${product.slug}`
   const [added, setAdded] = useState(false)
+  const imageSizes = sizes ?? '(min-width: 1280px) 420px, (min-width: 1024px) 33vw, 50vw'
+  const second = product.images[1]
 
   useEffect(() => {
     if (!added) return
@@ -39,111 +44,125 @@ export default function ProductCard({ product, copy = false, sizes, compact = fa
   }, [added])
 
   return (
-    <article className="group flex h-full w-full flex-col rounded-xl bg-surface-container-lowest p-3 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] ring-1 ring-outline-variant/40 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_26px_50px_-28px_rgba(48,48,48,0.45)] motion-reduce:hover:translate-y-0 sm:p-4">
-      <Link to={href} className="relative block aspect-square overflow-hidden rounded-lg bg-surface-container" tabIndex={-1} aria-hidden="true">
-        <img
-          src={sizedImage(product.images[0], 960)}
-          srcSet={imageSrcSet(product.images[0])}
-          // The photos are landscape (11:6) and the card is square, so the image is drawn
-          // 1.83× wider than the card. These sizes include that, so retina screens get a sharp file.
-          sizes={sizes ?? "(min-width: 1024px) 560px, (min-width: 640px) 60vw, 90vw"}
-          alt=""
-          loading="lazy"
-          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${soldOut ? 'opacity-60 grayscale-[40%]' : ''}`}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-        <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5">
-          {product.badge && (
-            <span className="rounded-full bg-primary-fixed px-3 py-1 text-[11px] font-medium tracking-[0.08em] text-tertiary">{product.badge}</span>
+    <article className="group flex w-full flex-col">
+      <div className="relative">
+        <Link
+          to={href}
+          tabIndex={-1}
+          aria-hidden="true"
+          className="relative block aspect-square overflow-hidden rounded-2xl bg-surface-container"
+        >
+          <img
+            src={sizedImage(product.images[0], 960)}
+            srcSet={imageSrcSet(product.images[0])}
+            sizes={imageSizes}
+            alt=""
+            loading="lazy"
+            className={`h-full w-full object-cover transition-[transform,opacity] duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none ${
+              soldOut ? 'opacity-60 grayscale-[40%]' : ''
+            } ${second && !soldOut ? 'group-hover:opacity-0' : ''}`}
+          />
+          {second && !soldOut && (
+            <img
+              src={sizedImage(second, 960)}
+              srcSet={imageSrcSet(second)}
+              sizes={imageSizes}
+              alt=""
+              loading="lazy"
+              className="absolute inset-0 h-full w-full scale-[1.04] object-cover opacity-0 transition-[transform,opacity] duration-700 ease-out group-hover:scale-100 group-hover:opacity-100 motion-reduce:transition-none"
+            />
           )}
-          {off > 0 && (
-            <span className="rounded-full bg-tertiary-container px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-on-tertiary-container">
-              {off}% off
+
+          <div className="absolute left-3 top-3 flex flex-wrap items-start gap-1.5">
+            {off > 0 && (
+              <span className="rounded-full bg-[#1b1c1c] px-2.5 py-1 text-[11px] font-semibold tracking-[0.04em] text-[#e9c349]">−{off}%</span>
+            )}
+            {product.sameDay && !soldOut && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium tracking-[0.04em] text-tertiary backdrop-blur-sm">
+                <Truck size={12} aria-hidden="true" /> Same-day
+              </span>
+            )}
+            {product.badge && (
+              <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium tracking-[0.04em] text-on-surface backdrop-blur-sm">
+                {product.badge}
+              </span>
+            )}
+            {!soldOut && isLowStock(product) && (
+              <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium text-error backdrop-blur-sm">
+                Only {product.stock} left
+              </span>
+            )}
+          </div>
+
+          {soldOut && (
+            <span className="absolute inset-x-3 bottom-3 rounded-full bg-white/90 py-2 text-center text-[13px] font-medium text-on-surface backdrop-blur-sm">
+              Sold out today
             </span>
           )}
-        </div>
-        {soldOut ? (
-          <span className="absolute inset-x-3 bottom-3 text-center bg-surface-container-lowest/95 text-on-surface text-label-md py-1.5 rounded-lg">
-            Sold out today
-          </span>
-        ) : (
-          isLowStock(product) && (
-            <span className="absolute bottom-3 left-3 bg-surface-container-lowest/95 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-error">
-              Only {product.stock} left
-            </span>
-          )
+        </Link>
+
+        {/* the two actions, floating in the photo's bottom corner */}
+        {!soldOut && (
+          <div className="absolute bottom-3 right-3 flex items-center gap-2">
+            <a
+              href={whatsapp(productOrderMessage(product))}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Order ${product.name} on WhatsApp`}
+              title="Order on WhatsApp"
+              tabIndex={tab}
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_8px_20px_-8px_rgba(0,0,0,0.45)] transition-colors hover:bg-[#1EBE5D] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b1c1c]"
+            >
+              <MessageCircle size={19} />
+            </a>
+            <motion.button
+              type="button"
+              onClick={() => setAdded(addProduct(product))}
+              tabIndex={tab}
+              aria-label={added ? `${product.name} added to cart` : `Add ${product.name} to cart`}
+              whileTap={{ scale: 0.94 }}
+              className={`card-add flex h-11 cursor-pointer items-center overflow-hidden rounded-full px-3 shadow-[0_8px_20px_-8px_rgba(0,0,0,0.45)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b1c1c] ${
+                added ? 'bg-emerald-700 text-white' : 'bg-white text-on-surface hover:bg-[#d4af37]'
+              }`}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={added ? 'added' : 'add'}
+                  initial={{ scale: 0.6, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.6, opacity: 0 }}
+                  transition={{ type: 'spring', bounce: 0.35, visualDuration: 0.25 }}
+                  className="flex shrink-0 items-center"
+                >
+                  {added ? <Check size={19} /> : <ShoppingBag size={19} />}
+                </motion.span>
+              </AnimatePresence>
+              <span aria-hidden="true" className="card-add-label whitespace-nowrap text-[13.5px] font-medium">
+                {added ? 'Added' : 'Add to cart'}
+              </span>
+            </motion.button>
+          </div>
         )}
-      </Link>
+      </div>
 
-      <div className="flex flex-1 flex-col gap-2.5 px-1 pb-1 pt-4 sm:gap-3 sm:pt-5">
-        <div className="flex-1">
-          {product.sameDay ? (
-            <p className="eyebrow mb-1.5 flex items-center gap-1.5 text-tertiary">
-              <Truck size={13} aria-hidden="true" />
-              {/* The full words wrap on narrow two-per-row phone cards. */}
-              <span className="sm:hidden">Same-day</span>
-              <span className="hidden sm:inline">Same-day delivery</span>
-            </p>
-          ) : (
-            // Keep the same height as the same-day line, so titles and prices line up.
-            compact && <p className="eyebrow mb-1.5 text-secondary">Made to order</p>
+      <div className="px-1 pt-3">
+        <h3 title={product.name} className="truncate font-display text-[16.5px] leading-snug text-on-surface sm:text-[18px]">
+          <Link to={href} tabIndex={tab} className="transition-colors hover:text-tertiary">
+            {product.name}
+          </Link>
+        </h3>
+        <p className="mt-1 flex items-baseline gap-2 text-[14.5px] sm:text-[15.5px]">
+          <span className="font-semibold text-tertiary">
+            {off > 0 && <span className="sr-only">Now </span>}
+            {formatLKR(price)}
+          </span>
+          {off > 0 && (
+            <span className="text-[13px] text-secondary line-through">
+              <span className="sr-only">Was </span>
+              {formatLKR(product.price)}
+            </span>
           )}
-          <h3 className={`font-display text-[17px] sm:text-[20px] lg:text-[22px] leading-tight text-primary ${compact ? 'truncate' : ''}`}>
-            <Link to={href} tabIndex={tab} className="hover:text-surface-tint transition-colors">
-              {product.name}
-            </Link>
-          </h3>
-          {!compact && <p className="text-body-sm text-on-surface-variant line-clamp-2 mt-1">{product.shortDescription}</p>}
-        </div>
-
-        <div className="flex items-baseline gap-2">
-          <span className="text-[15px] font-semibold text-tertiary sm:text-[17px]">{formatLKR(price)}</span>
-          {off > 0 && <span className="text-body-sm text-secondary line-through">{formatLKR(product.price)}</span>}
-        </div>
-
-        <div className="flex gap-2">
-          <motion.button
-            type="button"
-            onClick={() => setAdded(addProduct(product))}
-            disabled={soldOut}
-            tabIndex={tab}
-            whileTap={{ scale: 0.97 }}
-            className={`flex min-h-[44px] flex-1 cursor-pointer items-center justify-center overflow-hidden rounded-lg border text-[14px] transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
-              added ? 'border-emerald-700 bg-emerald-700 text-white' : 'border-[#d4af37] text-tertiary hover:bg-[#d4af37] hover:text-on-tertiary-container'
-            }`}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={added ? 'added' : 'add'}
-                initial={{ y: 14, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -14, opacity: 0 }}
-                transition={{ duration: 0.18 }}
-                className="flex items-center gap-1.5"
-              >
-                {added ? <Check size={17} /> : <ShoppingBag size={17} />}
-                {soldOut ? 'Sold out' : added ? 'Added' : (
-                  <>
-                    {/* Narrow two-per-row cards on small phones only fit the short word. */}
-                    <span className="min-[420px]:hidden">Add</span>
-                    <span className="hidden min-[420px]:inline">Add to cart</span>
-                  </>
-                )}
-              </motion.span>
-            </AnimatePresence>
-          </motion.button>
-          <a
-            href={whatsapp(productOrderMessage(product))}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Order ${product.name} on WhatsApp`}
-            tabIndex={tab}
-            title="Order on WhatsApp"
-            className="flex w-11 shrink-0 items-center justify-center rounded-lg bg-[#25D366] text-white transition-colors hover:bg-[#1EBE5D]"
-          >
-            <MessageCircle size={18} />
-          </a>
-        </div>
+        </p>
       </div>
     </article>
   )

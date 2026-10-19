@@ -20,22 +20,19 @@ interface ProductGridProps {
 export default function ProductGrid({ products, loading = false, empty, columns = 3 }: ProductGridProps) {
   const grid =
     columns === 4
-      ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'
+      ? 'grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10'
       : columns === 'wide'
-        ? 'grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-3 gap-y-6 sm:gap-5'
-        : 'grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-6 sm:gap-5'
+        ? 'grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10'
+        : 'grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10'
 
   if (loading || !products) {
     return (
       <div className={grid} aria-busy="true" aria-label="Loading products">
         {Array.from({ length: columns === 3 ? 6 : 4 }).map((_, i) => (
-          <div key={i} className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm animate-pulse">
-            <div className="aspect-[4/5] bg-surface-container" />
-            <div className="p-4 space-y-2">
-              <div className="h-5 w-3/4 bg-surface-container rounded" />
-              <div className="h-4 w-full bg-surface-container-low rounded" />
-              <div className="h-9 w-full bg-surface-container-low rounded-lg mt-4" />
-            </div>
+          <div key={i} className="animate-pulse">
+            <div className="aspect-square rounded-2xl bg-surface-container" />
+            <div className="mt-3 h-5 w-3/4 rounded bg-surface-container" />
+            <div className="mt-2 h-4 w-1/2 rounded bg-surface-container-low" />
           </div>
         ))}
       </div>
