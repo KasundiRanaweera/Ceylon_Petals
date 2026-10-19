@@ -1677,6 +1677,716 @@
       ],
       "isActive": true,
       "category": "sympathy"
+    },
+    {
+      "tags": [],
+      "details": [
+        "15 highland roses",
+        "Hand-tied with a water pouch",
+        "Card message included",
+        "Same-day delivery in Colombo"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "blush-highland-rose-bunch",
+      "name": "Blush Highland Rose Bunch",
+      "occasions": [
+        "love",
+        "birthday",
+        "anniversary"
+      ],
+      "shortDescription": "Soft pink and coral roses from the Nuwara Eliya hills, hand-tied loose.",
+      "description": "Fifteen blush and coral roses grown in the cool Nuwara Eliya hills, cut in the morning and hand-tied loosely in our Colombo studio so every head opens fully. Wrapped in paper with a water pouch and your card message.",
+      "price": 16800,
+      "stock": 10,
+      "isFeatured": false,
+      "badge": "New",
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Pink",
+        "Coral"
+      ],
+      "images": [
+        "/images/products/blush-highland-rose-bunch-1280.webp",
+        "/images/products/blush-highland-rose-bunch-2-1280.webp"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Approx. 25 garden roses",
+        "Satin-wrapped handle",
+        "Matching buttonhole on request",
+        "Order 3+ days ahead"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "ivory-garden-rose-bridal-bouquet",
+      "name": "Ivory Garden Rose Bridal Bouquet",
+      "occasions": [
+        "wedding"
+      ],
+      "shortDescription": "A round bridal bouquet of ivory garden roses and soft greens.",
+      "description": "Ivory garden roses and trailing greens, gathered into a classic round bouquet for the bride. Made on the morning of your wedding and delivered to the hotel or home in Colombo, Kandy or Galle.",
+      "price": 26500,
+      "stock": 5,
+      "isFeatured": false,
+      "badge": "Bridal",
+      "sameDay": false,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "White",
+        "Green"
+      ],
+      "images": [
+        "/images/products/ivory-garden-rose-bridal-bouquet-1280.webp"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "40 red roses",
+        "Heart-shaped keepsake box",
+        "Lasts about a week, no vase needed",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "red-rose-heart-box",
+      "name": "Red Rose Heart Box",
+      "occasions": [
+        "anniversary",
+        "love"
+      ],
+      "shortDescription": "Red roses and baby's breath set in a heart-shaped keepsake box.",
+      "description": "Forty red roses set close together in a heart-shaped box, with baby's breath between the heads. The roses sit in wet foam, so they last a week without a vase, and the box can be kept afterwards.",
+      "price": 27500,
+      "stock": 6,
+      "isFeatured": false,
+      "badge": "Keepsake box",
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses",
+        "Gypsophila"
+      ],
+      "colours": [
+        "Red",
+        "White"
+      ],
+      "images": [
+        "/images/products/red-rose-heart-box-1280.webp"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "12 long-stem red roses",
+        "Paper wrap and water pouch",
+        "Card message included",
+        "Same-day delivery in Colombo"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "classic-red-rose-dozen",
+      "name": "Classic Red Rose Dozen",
+      "occasions": [
+        "love",
+        "anniversary",
+        "birthday"
+      ],
+      "shortDescription": "Twelve long-stem red roses, simply wrapped.",
+      "description": "Twelve long-stem red roses from our highland growers, with their own leaves and nothing else. Wrapped simply so the roses do the talking.",
+      "price": 13500,
+      "stock": 14,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Red"
+      ],
+      "images": [
+        "/images/products/classic-red-rose-dozen-1280.webp"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Approx. 30 roses",
+        "White ceramic vase included",
+        "Arrives ready to display",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "colombo-mixed-rose-vase",
+      "name": "Colombo Mixed Rose Vase",
+      "occasions": [
+        "birthday",
+        "congratulations",
+        "love"
+      ],
+      "shortDescription": "A full vase of red, yellow, pink and orange roses.",
+      "description": "A generous dome of red, yellow, pink and orange roses, arranged in a white ceramic vase so it arrives ready for the table.",
+      "price": 18900,
+      "stock": 8,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Red",
+        "Yellow",
+        "Pink",
+        "Orange"
+      ],
+      "images": [
+        "/images/products/colombo-mixed-rose-vase-1280.webp"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "20 rainbow roses",
+        "Clear glass vase included",
+        "Every rose is unique",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "rainbow-rose-vase",
+      "name": "Rainbow Rose Vase",
+      "occasions": [
+        "birthday",
+        "congratulations"
+      ],
+      "shortDescription": "Rainbow-dyed roses in a clear glass vase.",
+      "description": "Roses whose petals are dyed in rainbow colours as they drink, so every head is different. Arranged in a clear glass vase. We get only a few each week, so stock is limited.",
+      "price": 21500,
+      "stock": 4,
+      "isFeatured": false,
+      "badge": "Limited",
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses"
+      ],
+      "colours": [
+        "Mixed"
+      ],
+      "images": [
+        "/images/products/rainbow-rose-vase-1280.webp"
+      ],
+      "isActive": true,
+      "category": "roses"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Lilies, roses and dried grasses",
+        "Stone-coloured vase included",
+        "Lilies arrive in bud to open over days",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "champagne-lily-and-rose-vase",
+      "name": "Champagne Lily & Rose Vase",
+      "occasions": [
+        "birthday",
+        "anniversary",
+        "congratulations"
+      ],
+      "shortDescription": "Cream lilies, peach roses and dried grasses in a stone vase.",
+      "description": "Cream lilies and peach roses with soft dried grasses, arranged loosely in a stone-coloured vase. A calm, neutral arrangement that suits any room.",
+      "price": 17500,
+      "stock": 7,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Lilies",
+        "Roses"
+      ],
+      "colours": [
+        "Cream",
+        "Peach"
+      ],
+      "images": [
+        "/images/products/champagne-lily-and-rose-vase-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Fresh chamomile stems",
+        "Small ceramic vase included",
+        "Fits a bedside table",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "chamomile-bud-vase",
+      "name": "Chamomile Bud Vase",
+      "occasions": [
+        "get-well",
+        "birthday"
+      ],
+      "shortDescription": "A small white vase of fresh chamomile for a bedside or desk.",
+      "description": "A small white ceramic vase filled with fresh chamomile. A gentle, low-cost way to say get well soon, sized for a bedside table or a desk.",
+      "price": 4500,
+      "stock": 16,
+      "isFeatured": false,
+      "badge": "New",
+      "sameDay": true,
+      "flowerTypes": [
+        "Chamomile"
+      ],
+      "colours": [
+        "White",
+        "Yellow"
+      ],
+      "images": [
+        "/images/products/chamomile-bud-vase-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Approx. 18 stems",
+        "Silk ribbon tie",
+        "Water pouch included",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "blush-ribbon-hand-tie",
+      "name": "Blush Ribbon Hand-Tie",
+      "occasions": [
+        "love",
+        "birthday",
+        "anniversary"
+      ],
+      "shortDescription": "Blush roses, ranunculus and white chrysanthemums tied with silk ribbon.",
+      "description": "Blush roses, ranunculus and white chrysanthemums with soft greens, hand-tied and finished with a long silk ribbon.",
+      "price": 11500,
+      "stock": 10,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Roses",
+        "Ranunculus",
+        "Chrysanthemums"
+      ],
+      "colours": [
+        "Blush",
+        "White"
+      ],
+      "images": [
+        "/images/products/blush-ribbon-hand-tie-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Sunflowers, lilies and carnations",
+        "Clear glass vase included",
+        "Arrives ready to display",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "sunflower-and-lily-birthday-vase",
+      "name": "Sunflower & Lily Birthday Vase",
+      "occasions": [
+        "birthday",
+        "congratulations"
+      ],
+      "shortDescription": "Sunflowers, pink lilies and carnations in a glass vase.",
+      "description": "Bright sunflowers with pink lilies, carnations and ferns, arranged in a clear glass vase. Cheerful, generous and made for birthdays.",
+      "price": 14200,
+      "stock": 9,
+      "isFeatured": false,
+      "badge": "Bestseller",
+      "sameDay": true,
+      "flowerTypes": [
+        "Sunflowers",
+        "Lilies",
+        "Carnations"
+      ],
+      "colours": [
+        "Yellow",
+        "Pink"
+      ],
+      "images": [
+        "/images/products/sunflower-and-lily-birthday-vase-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "10 tulips and 10 daisies",
+        "Imported tulips",
+        "Water pouch included",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "yellow-tulip-and-daisy-bunch",
+      "name": "Yellow Tulip & Daisy Bunch",
+      "occasions": [
+        "congratulations",
+        "birthday",
+        "get-well"
+      ],
+      "shortDescription": "Yellow tulips and white daisies for results day and new starts.",
+      "description": "Imported yellow tulips with white daisies, hand-tied in a loose bunch. A bright way to say congratulations on exam results, a graduation or a new job.",
+      "price": 12800,
+      "stock": 6,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Tulips",
+        "Daisies"
+      ],
+      "colours": [
+        "Yellow",
+        "White"
+      ],
+      "images": [
+        "/images/products/yellow-tulip-and-daisy-bunch-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Approx. 20 stems",
+        "Imported ranunculus",
+        "Satin ribbon tie",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "pink-ranunculus-bouquet",
+      "name": "Pink Ranunculus Bouquet",
+      "occasions": [
+        "love",
+        "anniversary",
+        "birthday"
+      ],
+      "shortDescription": "Layered pink ranunculus with spray roses, tied with ribbon.",
+      "description": "Pink ranunculus with their many paper-thin petals, mixed with spray roses and tied with a satin ribbon. The ranunculus are imported, so we keep only a few in each week.",
+      "price": 15500,
+      "stock": 6,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Ranunculus",
+        "Roses"
+      ],
+      "colours": [
+        "Pink"
+      ],
+      "images": [
+        "/images/products/pink-ranunculus-bouquet-1280.webp",
+        "/images/products/pink-ranunculus-bouquet-2-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "20 white tulips",
+        "Imported tulips",
+        "Natural ribbon tie",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "white-tulip-hand-tie",
+      "name": "White Tulip Hand-Tie",
+      "occasions": [
+        "congratulations",
+        "love",
+        "wedding"
+      ],
+      "shortDescription": "Twenty white tulips, hand-tied with a natural ribbon.",
+      "description": "Twenty imported white tulips, hand-tied straight and simple with a natural ribbon. Tulips keep growing in the vase, so trim them every couple of days.",
+      "price": 13900,
+      "stock": 7,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Tulips"
+      ],
+      "colours": [
+        "White"
+      ],
+      "images": [
+        "/images/products/white-tulip-hand-tie-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Approx. 15 dahlias",
+        "Copper vase included",
+        "Arrives ready to display",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "burgundy-dahlia-copper-vase",
+      "name": "Burgundy Dahlia Copper Vase",
+      "occasions": [
+        "anniversary",
+        "corporate",
+        "congratulations"
+      ],
+      "shortDescription": "Deep burgundy dahlias in a copper vase.",
+      "description": "Deep burgundy dahlias with dark foliage, arranged in a copper vase. A rich, moody arrangement for an office, a reception or an anniversary dinner.",
+      "price": 15800,
+      "stock": 5,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Dahlias"
+      ],
+      "colours": [
+        "Burgundy"
+      ],
+      "images": [
+        "/images/products/burgundy-dahlia-copper-vase-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Tall arrangement, approx. 80 cm",
+        "Heliconias, proteas and palm",
+        "Long-lasting in warm rooms",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "tropical-heliconia-and-protea-arrangement",
+      "name": "Tropical Heliconia & Protea Arrangement",
+      "occasions": [
+        "corporate",
+        "congratulations"
+      ],
+      "shortDescription": "Heliconias, proteas and fan palm in a tall arrangement.",
+      "description": "Island heliconias with proteas and a fan of palm leaves, arranged tall for a lobby, reception desk or office opening. Tropical stems last well in Sri Lanka's heat.",
+      "price": 19500,
+      "stock": 4,
+      "isFeatured": false,
+      "badge": "Tropical",
+      "sameDay": true,
+      "flowerTypes": [
+        "Heliconias",
+        "Proteas",
+        "Palm leaves"
+      ],
+      "colours": [
+        "Orange",
+        "Red",
+        "Green"
+      ],
+      "images": [
+        "/images/products/tropical-heliconia-and-protea-arrangement-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Approx. 15 stems",
+        "Tied with twine",
+        "Water pouch included",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "purple-iris-and-lavender-bunch",
+      "name": "Purple Iris & Lavender Bunch",
+      "occasions": [
+        "get-well",
+        "birthday"
+      ],
+      "shortDescription": "Purple iris and lavender tied with twine.",
+      "description": "Purple iris with sprigs of lavender, tied with twine for a simple, fragrant bunch.",
+      "price": 9200,
+      "stock": 10,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Iris",
+        "Lavender"
+      ],
+      "colours": [
+        "Purple"
+      ],
+      "images": [
+        "/images/products/purple-iris-and-lavender-bunch-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Hydrangeas and tulips",
+        "Ceramic pot included",
+        "Arrives ready to display",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "pink-tulip-and-hydrangea-vase",
+      "name": "Pink Tulip & Hydrangea Vase",
+      "occasions": [
+        "anniversary",
+        "birthday",
+        "love"
+      ],
+      "shortDescription": "White hydrangeas with pink tulips in a ceramic pot.",
+      "description": "Full white hydrangea heads with pink tulips rising above them, set in a textured ceramic pot. The hydrangeas are grown in the Nuwara Eliya hills; the tulips are imported.",
+      "price": 18500,
+      "stock": 5,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Tulips",
+        "Hydrangeas"
+      ],
+      "colours": [
+        "Pink",
+        "White"
+      ],
+      "images": [
+        "/images/products/pink-tulip-and-hydrangea-vase-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "King protea and garden roses",
+        "Long silk ribbon",
+        "Matching buttonhole on request",
+        "Order 3+ days ahead"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "protea-and-garden-rose-bridal-bouquet",
+      "name": "Protea & Garden Rose Bridal Bouquet",
+      "occasions": [
+        "wedding"
+      ],
+      "shortDescription": "A king protea at the heart of blush garden roses.",
+      "description": "A statement bridal bouquet with a king protea at its centre, surrounded by blush and cream garden roses and finished with a long silk ribbon. Made on the morning of your wedding.",
+      "price": 29500,
+      "stock": 4,
+      "isFeatured": false,
+      "badge": "Bridal",
+      "sameDay": false,
+      "flowerTypes": [
+        "Proteas",
+        "Roses"
+      ],
+      "colours": [
+        "Blush",
+        "Cream"
+      ],
+      "images": [
+        "/images/products/protea-and-garden-rose-bridal-bouquet-1280.webp"
+      ],
+      "isActive": true,
+      "category": "fresh-bouquets"
+    },
+    {
+      "tags": [],
+      "details": [
+        "Lilies and lavender",
+        "Glass jug included",
+        "Lilies open over several days",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "white-lily-and-lavender-jug",
+      "name": "White Lily & Lavender Jug",
+      "occasions": [
+        "birthday",
+        "get-well",
+        "congratulations"
+      ],
+      "shortDescription": "White and blush lilies with lavender in a glass jug.",
+      "description": "White and blush lilies with sprigs of lavender, arranged loosely in a glass jug. The lilies arrive in bud and open over several days, filling the room with scent.",
+      "price": 16200,
+      "stock": 6,
+      "isFeatured": false,
+      "badge": "Fragrant",
+      "sameDay": true,
+      "flowerTypes": [
+        "Lilies",
+        "Lavender"
+      ],
+      "colours": [
+        "White",
+        "Purple"
+      ],
+      "images": [
+        "/images/products/white-lily-and-lavender-jug-1280.webp"
+      ],
+      "isActive": true,
+      "category": "lilies-orchids"
+    },
+    {
+      "tags": [],
+      "details": [
+        "White lilies and eucalyptus",
+        "Clear glass vase included",
+        "Delivery to a home or funeral parlour",
+        "Card message included"
+      ],
+      "lowStockThreshold": 3,
+      "slug": "white-lily-remembrance-vase",
+      "name": "White Lily Remembrance Vase",
+      "occasions": [
+        "sympathy"
+      ],
+      "shortDescription": "White lilies and eucalyptus in a clear vase, for the family home.",
+      "description": "White lilies with eucalyptus in a simple clear vase, sent to the family home as a quiet message of sympathy. We can deliver to a funeral parlour in Colombo on request.",
+      "price": 14500,
+      "stock": 8,
+      "isFeatured": false,
+      "sameDay": true,
+      "flowerTypes": [
+        "Lilies",
+        "Eucalyptus"
+      ],
+      "colours": [
+        "White"
+      ],
+      "images": [
+        "/images/products/white-lily-remembrance-vase-1280.webp"
+      ],
+      "isActive": true,
+      "category": "sympathy"
     }
   ]
 }
