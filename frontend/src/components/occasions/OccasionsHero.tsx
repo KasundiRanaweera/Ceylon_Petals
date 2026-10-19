@@ -20,7 +20,7 @@ export default function OccasionsHero() {
           <Link to="/shop" className="btn-gradient inline-flex items-center gap-3 px-7 py-4">
             Shop all flowers <ArrowRight size={16} />
           </Link>
-          <Link to="/custom-order" className="inline-flex items-center gap-2 border-b border-primary pb-1 text-[13px] font-medium uppercase tracking-[0.14em] text-primary hover:border-tertiary hover:text-tertiary">
+          <Link to="/custom-order" className="inline-flex items-center gap-2 border-b border-on-surface-variant pb-1 text-[13px] font-medium uppercase tracking-[0.14em] text-on-surface-variant transition-colors hover:border-tertiary hover:text-tertiary">
             Need something custom?
           </Link>
         </>

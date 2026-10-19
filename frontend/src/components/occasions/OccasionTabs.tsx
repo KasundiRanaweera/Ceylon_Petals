@@ -35,7 +35,7 @@ export default function OccasionTabs({ active, onChange, products }: OccasionTab
   return (
     <section className="border-b border-outline-variant bg-surface py-6">
       <div className="mx-auto max-w-7xl px-4 lg:px-12">
-        <p className="eyebrow mb-3 text-secondary">Choose an occasion</p>
+        <p className="mb-3 text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Choose an occasion</p>
         <PillTabs label="Occasions" active={active} onChange={onChange} options={options} />
       </div>
     </section>

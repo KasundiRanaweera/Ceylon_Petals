@@ -27,22 +27,22 @@ function CheckGroup({
 }) {
   if (options.length === 0) return null
   return (
-    <fieldset className="bg-surface-container-lowest p-4 rounded-xl shadow-sm space-y-2">
+    <fieldset className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-5 space-y-2">
       <legend className="sr-only">{title}</legend>
-      <h3 className="text-title-md text-primary" aria-hidden="true">{title}</h3>
+      <h3 className="font-display text-title-md text-on-surface" aria-hidden="true">{title}</h3>
       <div className="space-y-1 text-body-sm text-on-surface">
         {options.map((o) => (
-          <label key={o.value} className="flex items-center justify-between cursor-pointer py-1 hover:text-primary">
+          <label key={o.value} className="flex items-center justify-between cursor-pointer py-1 hover:text-tertiary">
             <span className="flex items-center gap-2">
               <input
                 type="checkbox"
                 checked={selected.includes(o.value)}
                 onChange={() => onToggle(o.value)}
-                className="accent-primary w-4 h-4"
+                className="accent-[#d4af37] w-4 h-4"
               />
               {labelFor(o.value)}
             </span>
-            <span className="text-[11px] text-secondary">{o.count}</span>
+            <span className="text-[11px] text-on-surface-variant">{o.count}</span>
           </label>
         ))}
       </div>
@@ -57,18 +57,18 @@ export default function FilterSidebar({ products, filters, onChange, hideOccasio
 
   return (
     <aside className="space-y-4" aria-label="Filters">
-      <fieldset className="bg-surface-container-lowest p-4 rounded-xl shadow-sm space-y-2">
+      <fieldset className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-5 space-y-2">
         <legend className="sr-only">Price</legend>
-        <h3 className="text-title-md text-primary" aria-hidden="true">Price</h3>
+        <h3 className="font-display text-title-md text-on-surface" aria-hidden="true">Price</h3>
         <div className="space-y-1 text-body-sm">
           {PRICE_BANDS.map((band) => (
-            <label key={band.id} className="flex items-center gap-2 cursor-pointer py-1 hover:text-primary">
+            <label key={band.id} className="flex items-center gap-2 cursor-pointer py-1 hover:text-tertiary">
               <input
                 type="radio"
                 name="price-band"
                 checked={filters.price === band.id}
                 onChange={() => onChange({ price: band.id })}
-                className="accent-primary w-4 h-4"
+                className="accent-[#d4af37] w-4 h-4"
               />
               {band.label}
             </label>
@@ -76,15 +76,15 @@ export default function FilterSidebar({ products, filters, onChange, hideOccasio
         </div>
       </fieldset>
 
-      <fieldset className="bg-surface-container-lowest p-4 rounded-xl shadow-sm space-y-2">
+      <fieldset className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-5 space-y-2">
         <legend className="sr-only">Availability</legend>
-        <h3 className="text-title-md text-primary" aria-hidden="true">Availability</h3>
-        <label className="flex items-center gap-2 cursor-pointer py-1 text-body-sm hover:text-primary">
-          <input type="checkbox" checked={filters.sameDayOnly} onChange={(e) => onChange({ sameDayOnly: e.target.checked })} className="accent-primary w-4 h-4" />
+        <h3 className="font-display text-title-md text-on-surface" aria-hidden="true">Availability</h3>
+        <label className="flex items-center gap-2 cursor-pointer py-1 text-body-sm hover:text-tertiary">
+          <input type="checkbox" checked={filters.sameDayOnly} onChange={(e) => onChange({ sameDayOnly: e.target.checked })} className="accent-[#d4af37] w-4 h-4" />
           Same-day delivery
         </label>
-        <label className="flex items-center gap-2 cursor-pointer py-1 text-body-sm hover:text-primary">
-          <input type="checkbox" checked={filters.inStockOnly} onChange={(e) => onChange({ inStockOnly: e.target.checked })} className="accent-primary w-4 h-4" />
+        <label className="flex items-center gap-2 cursor-pointer py-1 text-body-sm hover:text-tertiary">
+          <input type="checkbox" checked={filters.inStockOnly} onChange={(e) => onChange({ inStockOnly: e.target.checked })} className="accent-[#d4af37] w-4 h-4" />
           In stock only
         </label>
       </fieldset>

@@ -7,35 +7,35 @@ export default function DiasporaBanner() {
   const link = whatsapp("Hello, I'd like to send flowers to a loved one in Colombo from overseas")
 
   return (
-    <section className="max-w-7xl mx-auto w-full px-4 lg:px-12 py-14">
-      <div className="relative rounded-2xl bg-primary text-on-primary overflow-hidden shadow-xl p-8 lg:p-12">
-        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-surface-tint/20 blur-3xl pointer-events-none" />
+    <section className="max-w-7xl mx-auto w-full px-4 lg:px-12 py-20 lg:py-28">
+      <div className="relative rounded-xl bg-ink-gradient text-on-primary overflow-hidden shadow-[0_30px_60px_-30px_rgba(48,48,48,0.6)] p-8 lg:p-14">
+        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#d4af37]/10 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-tertiary-container/10 blur-3xl pointer-events-none" />
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div className="lg:col-span-8 space-y-4">
-            <div className="inline-flex items-center gap-2 bg-primary-container text-primary-fixed px-4 py-1 rounded-sm text-[11px] tracking-wider uppercase">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1 text-[11px] uppercase tracking-[0.22em] text-[#e9c349] ring-1 ring-[#e9c349]/30">
               <Globe size={15} />
               Serving Overseas Patrons (UK, Australia, USA, UAE & Canada)
             </div>
-            <h2 className="font-display text-headline-lg lg:text-[38px] lg:leading-[46px] text-on-primary">
+            <h2 className="font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-white">
               Sending Love from Overseas? We Deliver with Proof of Joy.
             </h2>
-            <p className="text-body-lg text-inverse-primary max-w-2xl leading-relaxed">
+            <p className="text-body-lg text-white/70 max-w-2xl leading-relaxed">
               Distance shouldn't get in the way of celebrating with family back home. We coordinate
               directly with your recipient, handle delivery with care, and send handover photos
               straight to your WhatsApp.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-              <div className="flex items-center gap-2 text-body-sm text-primary-fixed-dim">
-                <Camera size={20} className="text-tertiary-fixed" />
+              <div className="flex items-center gap-2 text-body-sm text-white/70">
+                <Camera size={20} className="text-[#e9c349]" />
                 <span>WhatsApp Handover Photo</span>
               </div>
-              <div className="flex items-center gap-2 text-body-sm text-primary-fixed-dim">
-                <CreditCard size={20} className="text-tertiary-fixed" />
+              <div className="flex items-center gap-2 text-body-sm text-white/70">
+                <CreditCard size={20} className="text-[#e9c349]" />
                 <span>Secure Global Cards & PayHere</span>
               </div>
-              <div className="flex items-center gap-2 text-body-sm text-primary-fixed-dim">
-                <Clock size={20} className="text-tertiary-fixed" />
+              <div className="flex items-center gap-2 text-body-sm text-white/70">
+                <Clock size={20} className="text-[#e9c349]" />
                 <span>Colombo Time-Synced Delivery</span>
               </div>
             </div>
@@ -45,14 +45,14 @@ export default function DiasporaBanner() {
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-[#25D366] text-white text-title-md px-6 py-4 rounded-xl hover:opacity-95 transition-opacity shadow-md text-center"
+              className="flex items-center justify-center gap-2 bg-[#25D366] text-white text-title-md px-6 py-4 rounded-lg hover:opacity-95 transition-opacity shadow-md text-center"
             >
               <MessageCircle size={22} />
               <span>WhatsApp Overseas Concierge</span>
             </a>
             <Link
               to="/products/fresh-bouquets"
-              className="bg-surface-container-lowest text-primary text-title-md px-6 py-4 rounded-xl hover:bg-surface-container transition-colors shadow-sm text-center"
+              className="rounded-lg border border-[#d4af37] text-[#e9c349] text-title-md px-6 py-4 transition-colors hover:bg-[#d4af37] hover:text-on-tertiary-container text-center"
             >
               Order for Colombo Delivery Now
             </Link>

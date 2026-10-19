@@ -68,25 +68,25 @@ export default function HamperBuilder() {
   }
 
   return (
-    <section id="build-hamper" className="w-full bg-surface-container-low py-14 scroll-mt-36">
+    <section id="build-hamper" className="w-full bg-surface-container-low py-20 lg:py-28 scroll-mt-36">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="text-[11px] uppercase tracking-widest text-tertiary font-bold">Bespoke Atelier Studio</span>
-          <h2 className="font-display text-headline-lg text-primary mt-1">Craft Your Bespoke Hamper</h2>
-          <p className="text-body-md text-secondary mt-1">
+        <div className="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
+          <span className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Bespoke Atelier Studio</span>
+          <h2 className="mt-3 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-on-surface">Craft Your Bespoke Hamper</h2>
+          <p className="mt-4 text-[15px] leading-relaxed text-on-surface-variant">
             Hand-assemble your personalized pairing in 3 effortless steps, freshly prepared each day.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8 space-y-6">
-            <div className="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+            <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center text-label-md font-bold">1</span>
-                  <h3 className="font-display text-headline-sm text-primary">Choose Your Floral Arrangement Base</h3>
+                  <span className="w-8 h-8 rounded-full bg-primary text-[#e9c349] flex items-center justify-center font-display text-label-md">1</span>
+                  <h3 className="font-display text-headline-sm text-on-surface">Choose Your Floral Arrangement Base</h3>
                 </div>
-                <span className="text-[11px] text-secondary uppercase tracking-wider">Required</span>
+                <span className="text-[11px] text-tertiary uppercase tracking-[0.18em]">Required</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {STEP1_OPTIONS.map((opt) => (
@@ -95,13 +95,13 @@ export default function HamperBuilder() {
               </div>
             </div>
 
-            <div className="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+            <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center text-label-md font-bold">2</span>
-                  <h3 className="font-display text-headline-sm text-primary">Select Gourmet Sweet Treats</h3>
+                  <span className="w-8 h-8 rounded-full bg-primary text-[#e9c349] flex items-center justify-center font-display text-label-md">2</span>
+                  <h3 className="font-display text-headline-sm text-on-surface">Select Gourmet Sweet Treats</h3>
                 </div>
-                <span className="text-[11px] text-secondary uppercase tracking-wider">Pick 1 or More</span>
+                <span className="text-[11px] text-tertiary uppercase tracking-[0.18em]">Pick 1 or More</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {STEP2_OPTIONS.map((opt) => (
@@ -110,13 +110,13 @@ export default function HamperBuilder() {
               </div>
             </div>
 
-            <div className="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+            <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center text-label-md font-bold">3</span>
-                  <h3 className="font-display text-headline-sm text-primary">Add a Keepsake or Beverage</h3>
+                  <span className="w-8 h-8 rounded-full bg-primary text-[#e9c349] flex items-center justify-center font-display text-label-md">3</span>
+                  <h3 className="font-display text-headline-sm text-on-surface">Add a Keepsake or Beverage</h3>
                 </div>
-                <span className="text-[11px] text-secondary uppercase tracking-wider">Optional</span>
+                <span className="text-[11px] text-tertiary uppercase tracking-[0.18em]">Optional</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {STEP3_OPTIONS.map((opt) => (
@@ -128,38 +128,38 @@ export default function HamperBuilder() {
 
           {/* Live summary */}
           <div className="lg:col-span-4 lg:sticky lg:top-40">
-            <div className="bg-surface-container-lowest p-6 rounded-xl shadow-md space-y-4">
-              <div className="flex items-center gap-2 text-primary">
+            <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 space-y-4">
+              <div className="flex items-center gap-2 text-on-surface [&>svg]:text-tertiary">
                 <Package size={20} />
                 <h4 className="font-display text-headline-sm">Hamper Composition</h4>
               </div>
 
-              <div className="space-y-1 text-body-sm text-secondary">
+              <div className="space-y-1 text-body-sm text-on-surface-variant">
                 {selectedItems.map((item) => (
                   <div key={item.name} className="flex justify-between items-start py-1">
                     <span>{item.name}</span>
-                    <span className="text-currency-md text-primary">{formatLKR(item.price)}</span>
+                    <span className="text-currency-md text-on-surface">{formatLKR(item.price)}</span>
                   </div>
                 ))}
                 <div className="flex justify-between items-start py-1">
-                  <span className="text-secondary">Woven Crate &amp; Silk Ribbons</span>
+                  <span className="text-on-surface-variant">Woven Crate &amp; Silk Ribbons</span>
                   <span className="text-tertiary font-bold uppercase text-[11px]">Complimentary</span>
                 </div>
               </div>
 
-              <div className="p-3 bg-surface-container rounded-lg flex items-center justify-between">
+              <div className="p-4 bg-surface-container-low ring-1 ring-outline-variant/40 rounded-lg flex items-center justify-between">
                 <div>
-                  <span className="text-[11px] text-secondary uppercase block">Grand Total</span>
-                  <span className="text-primary text-[22px] font-display">{formatLKR(total)}</span>
+                  <span className="text-[11px] text-on-surface-variant uppercase tracking-[0.18em] block">Grand Total</span>
+                  <span className="text-tertiary text-[22px] font-display">{formatLKR(total)}</span>
                 </div>
                 <div className="text-right">
                   <span className="text-[11px] text-tertiary block">Delivery</span>
-                  <span className="text-body-sm text-primary font-semibold">Added at checkout</span>
+                  <span className="text-body-sm text-on-surface font-semibold">Added at checkout</span>
                 </div>
               </div>
 
               <div>
-                <label htmlFor="hamper-message" className="block text-label-md text-primary mb-2">Card Message</label>
+                <label htmlFor="hamper-message" className="block text-label-md text-on-surface mb-2">Card Message</label>
                 <textarea
                   id="hamper-message"
                   maxLength={250}
@@ -167,14 +167,14 @@ export default function HamperBuilder() {
                   onChange={(e) => setMessage(e.target.value)}
                   rows={3}
                   placeholder="Write a warm note for the recipient..."
-                  className="w-full bg-surface-container-low p-3 rounded-lg text-body-sm text-on-surface focus:outline-none focus:bg-surface"
+                  className="w-full bg-surface-container-low p-3 rounded-lg text-body-sm text-on-surface ring-1 ring-outline-variant/40 focus:outline-none focus:bg-surface focus:ring-[#d4af37]"
                 />
               </div>
 
-              <button type="button" onClick={addToCart} className="w-full bg-primary hover:bg-primary-container text-on-primary text-label-md py-3 rounded-lg transition-all shadow-md flex items-center justify-center gap-2">
+              <button type="button" onClick={addToCart} className="w-full btn-gradient text-label-md py-3 rounded-lg flex items-center justify-center gap-2">
                 <Gift size={20} /> Add my hamper to cart
               </button>
-              <p className="text-[11px] text-center text-secondary">
+              <p className="text-[11px] text-center text-on-surface-variant">
                 Hand-tied by our florists • Freshness guaranteed
               </p>
             </div>

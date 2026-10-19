@@ -65,12 +65,12 @@ export default function ColdChainTimeline() {
   const active = STEPS.find((s) => s.id === activeId)!
 
   return (
-    <section className="w-full py-20 bg-surface-container-low">
+    <section className="w-full py-20 lg:py-28 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
-        <div className="text-center max-w-3xl mx-auto mb-10 space-y-1">
-          <span className="text-[11px] text-secondary uppercase tracking-widest">From Farm to Doorstep</span>
-          <h2 className="font-display text-headline-lg text-primary">How We Keep Flowers Fresh</h2>
-          <p className="text-body-md text-on-surface-variant">
+        <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+          <span className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">From Farm to Doorstep</span>
+          <h2 className="mt-3 block font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-on-surface">How We Keep Flowers Fresh</h2>
+          <p className="mt-4 text-[15px] leading-relaxed text-on-surface-variant">
             A same-day journey from the highlands to your table, designed around freshness at every step.
           </p>
         </div>
@@ -84,46 +84,46 @@ export default function ColdChainTimeline() {
                 key={step.id}
                 type="button"
                 onClick={() => setActiveId(step.id)}
-                className={`text-left p-4 rounded-xl transition-all flex flex-col justify-between h-32 ${
-                  isActive ? 'bg-surface-container-lowest shadow-sm' : 'bg-surface-container opacity-70 hover:opacity-100'
+                className={`text-left p-4 rounded-xl transition-all flex flex-col justify-between h-32 ring-1 ${
+                  isActive ? 'bg-surface-container-lowest ring-2 ring-[#d4af37] shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)]' : 'bg-surface-container-lowest/60 ring-outline-variant/40 hover:bg-surface-container-lowest'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
-                  <span className={`text-[11px] ${isActive ? 'text-tertiary' : 'text-secondary'}`}>STEP 0{step.id + 1}</span>
-                  <Icon size={20} className={isActive ? 'text-primary' : 'text-secondary'} />
+                  <span className={`text-[11px] ${isActive ? 'text-tertiary' : 'text-on-surface-variant'}`}>STEP 0{step.id + 1}</span>
+                  <Icon size={20} className={isActive ? 'text-tertiary' : 'text-on-surface-variant'} />
                 </div>
                 <div>
-                  <p className="text-title-md text-primary">{step.time}</p>
-                  <p className="text-body-sm text-secondary truncate">{step.label}</p>
+                  <p className="font-display text-title-md text-on-surface">{step.time}</p>
+                  <p className="text-body-sm text-on-surface-variant truncate">{step.label}</p>
                 </div>
               </button>
             )
           })}
         </div>
 
-        <div className="bg-surface-container-lowest rounded-xl p-8 lg:p-14 shadow-md">
+        <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-8 lg:p-14">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-6 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-secondary-container text-on-secondary-fixed">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed">
                 <span className="text-[11px] font-bold">{active.tag}</span>
               </div>
-              <h3 className="font-display text-headline-lg text-primary leading-tight">{active.title}</h3>
+              <h3 className="font-display text-headline-lg text-on-surface leading-tight">{active.title}</h3>
               <p className="text-body-md text-on-surface-variant leading-relaxed">{active.description}</p>
               <div className="grid grid-cols-2 gap-4 pt-2">
-                <div className="p-3 rounded-lg bg-surface-container-low">
-                  <span className="text-[11px] text-secondary block">{active.stat1Label}</span>
-                  <span className="text-title-md text-primary font-bold">{active.stat1Value}</span>
+                <div className="p-3 rounded-lg bg-surface-container-low ring-1 ring-outline-variant/40">
+                  <span className="text-[11px] uppercase tracking-[0.14em] text-tertiary block">{active.stat1Label}</span>
+                  <span className="font-display text-title-md text-on-surface">{active.stat1Value}</span>
                 </div>
-                <div className="p-3 rounded-lg bg-surface-container-low">
-                  <span className="text-[11px] text-secondary block">{active.stat2Label}</span>
-                  <span className="text-title-md text-primary font-bold">{active.stat2Value}</span>
+                <div className="p-3 rounded-lg bg-surface-container-low ring-1 ring-outline-variant/40">
+                  <span className="text-[11px] uppercase tracking-[0.14em] text-tertiary block">{active.stat2Label}</span>
+                  <span className="font-display text-title-md text-on-surface">{active.stat2Value}</span>
                 </div>
               </div>
             </div>
             <div className="lg:col-span-6">
-              <div className="relative h-80 lg:h-96 rounded-xl overflow-hidden shadow-inner">
-                <img className="w-full h-full object-cover" src={active.imageUrl} alt={active.title} />
-                <div className="absolute bottom-4 left-4 right-4 p-3 bg-primary/80 backdrop-blur-md rounded-lg text-on-primary text-[11px]">
+              <div className="group relative h-80 lg:h-96 rounded-xl overflow-hidden">
+                <img className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none" src={active.imageUrl} alt={active.title} />
+                <div className="absolute bottom-4 left-4 right-4 p-3 bg-primary/80 backdrop-blur-md rounded-lg text-white text-[11px]">
                   {active.imageCaption}
                 </div>
               </div>

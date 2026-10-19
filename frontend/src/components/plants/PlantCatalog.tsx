@@ -45,9 +45,9 @@ export default function PlantCatalog() {
   }
 
   return (
-    <section id="plantsGrid" className="px-4 lg:px-12 py-12 scroll-mt-32">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="bg-surface-container-lowest rounded-xl shadow-sm p-4 space-y-3">
+    <section id="plantsGrid" className="bg-surface px-4 lg:px-12 py-20 lg:py-28 scroll-mt-32">
+      <div className="max-w-7xl mx-auto space-y-8">
+        <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-4 sm:p-5 space-y-3">
           <PillTabs
             label="Plant collections"
             active={collection}
@@ -61,18 +61,18 @@ export default function PlantCatalog() {
                 id="plant-light"
                 value={light}
                 onChange={(e) => setLight(e.target.value)}
-                className="bg-surface-container-low text-on-surface text-label-md px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
+                className="bg-surface-container-low text-on-surface text-label-md px-3 py-2 rounded-lg ring-1 ring-outline-variant/40 focus:outline-none focus:ring-[#d4af37] cursor-pointer"
               >
                 {LIGHT_OPTIONS.map((o) => <option key={o.id} value={o.id}>{o.label}</option>)}
               </select>
               <label className="flex items-center gap-2 text-label-md text-on-surface cursor-pointer">
-                <input type="checkbox" checked={petSafe} onChange={(e) => setPetSafe(e.target.checked)} className="accent-primary w-4 h-4" />
+                <input type="checkbox" checked={petSafe} onChange={(e) => setPetSafe(e.target.checked)} className="accent-[#d4af37] w-4 h-4" />
                 Safe for cats & dogs
               </label>
             </div>
-            <div className="flex items-center gap-4 text-body-sm text-secondary">
-              <span>Showing <strong className="text-primary">{filtered?.length ?? 0}</strong> plants</span>
-              <button type="button" onClick={reset} className="text-label-md text-primary hover:underline">Reset</button>
+            <div className="flex items-center gap-4 text-body-sm text-on-surface-variant">
+              <span>Showing <strong className="text-tertiary">{filtered?.length ?? 0}</strong> plants</span>
+              <button type="button" onClick={reset} className="text-label-md border-b border-on-surface-variant pb-1 text-on-surface-variant transition-colors hover:border-tertiary hover:text-tertiary">Reset</button>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function PlantCatalog() {
           columns="wide"
           products={filtered}
           loading={!plants}
-          empty={<p className="text-center text-secondary py-10">No plants match these filters yet — try resetting them.</p>}
+          empty={<p className="text-center text-on-surface-variant py-10">No plants match these filters yet — try resetting them.</p>}
         />
       </div>
     </section>

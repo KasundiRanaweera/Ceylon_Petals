@@ -60,18 +60,18 @@ const SPECIALTIES: Specialty[] = [
 
 export default function ServiceBento() {
   return (
-    <section className="w-full bg-surface py-14 lg:py-24">
+    <section className="w-full bg-surface py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-          <div className="space-y-1 max-w-2xl">
-            <span className="text-[11px] uppercase tracking-widest text-surface-tint font-bold">Our Services</span>
-            <h2 className="font-display text-headline-lg lg:text-display-lg text-primary">Sacred Structures &amp; Floral Curation</h2>
-            <p className="text-body-md text-secondary">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 lg:mb-16 gap-4">
+          <div className="max-w-2xl">
+            <span className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Our Services</span>
+            <h2 className="mt-3 block font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-on-surface">Sacred Structures &amp; Floral Curation</h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-on-surface-variant">
               Every commission is custom-designed in our Colombo studio, using fresh varieties sourced
               from Sri Lanka's highland growers.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-primary text-title-md">
+          <div className="flex items-center gap-2 text-on-surface text-title-md">
             <ShieldCheck size={22} className="text-tertiary" />
             <span>Careful Islandwide Setup</span>
           </div>
@@ -81,19 +81,19 @@ export default function ServiceBento() {
           {SPECIALTIES.map((s) => (
             <div
               key={s.id}
-              className={`${s.span} bg-surface-container-lowest rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between`}
+              className={`${s.span} group rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6 transition-shadow hover:shadow-[0_24px_50px_-26px_rgba(48,48,48,0.45)] flex flex-col justify-between`}
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="bg-surface-container px-3 py-0.5 rounded-sm text-[11px] uppercase tracking-widest text-primary">{s.tag}</span>
-                  <span className="text-[11px] text-secondary">{s.index}</span>
+                  <span className="bg-primary-fixed px-3 py-0.5 rounded-full text-[11px] uppercase tracking-widest text-on-primary-fixed">{s.tag}</span>
+                  <span className="font-display text-[13px] text-tertiary">{s.index}</span>
                 </div>
-                <h3 className="font-display text-headline-md text-primary">{s.title}</h3>
-                <p className="text-body-md text-secondary leading-relaxed">{s.description}</p>
+                <h3 className="font-display text-headline-md text-on-surface">{s.title}</h3>
+                <p className="text-body-md text-on-surface-variant leading-relaxed">{s.description}</p>
               </div>
               <div className="mt-6 rounded-lg overflow-hidden h-72 relative">
-                <img className="w-full h-full object-cover" src={s.imageUrl} alt={s.title} />
-                <div className="absolute bottom-3 left-3 bg-primary/80 backdrop-blur-sm text-on-primary px-3 py-1 rounded text-[11px]">
+                <img className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none" src={s.imageUrl} alt={s.title} />
+                <div className="absolute bottom-3 left-3 bg-primary/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-[11px]">
                   {s.imageCaption}
                 </div>
               </div>

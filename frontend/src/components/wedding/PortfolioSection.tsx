@@ -47,35 +47,35 @@ const ITEMS: PortfolioItem[] = [
 
 export default function PortfolioSection() {
   return (
-    <section id="portfolio" className="w-full bg-surface py-14 lg:py-24">
-      <div className="max-w-7xl mx-auto px-4 lg:px-12 space-y-10">
-        <div className="text-center max-w-2xl mx-auto space-y-1">
-          <span className="text-[11px] uppercase tracking-widest text-surface-tint font-bold">Our Work</span>
-          <h2 className="font-display text-headline-lg lg:text-display-lg text-primary">Real Weddings &amp; Celebrations</h2>
-          <p className="text-body-md text-secondary">A glimpse into ceremonies we've had the joy of decorating across the island.</p>
+    <section id="portfolio" className="w-full bg-surface py-20 lg:py-28">
+      <div className="max-w-7xl mx-auto px-4 lg:px-12 space-y-12 lg:space-y-16">
+        <div className="text-center max-w-2xl mx-auto">
+          <span className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Our Work</span>
+          <h2 className="mt-3 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-on-surface">Real Weddings &amp; Celebrations</h2>
+          <p className="mt-4 text-[15px] leading-relaxed text-on-surface-variant">A glimpse into ceremonies we've had the joy of decorating across the island.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {ITEMS.map((item) => (
-            <div key={item.id} className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col">
-              <div className="h-80 relative overflow-hidden">
-                <img className="w-full h-full object-cover" src={item.imageUrl} alt={`${item.couple} wedding florals`} />
-                <span className="absolute top-3 right-3 bg-surface/90 backdrop-blur-sm text-primary px-2 py-0.5 rounded text-[11px] uppercase tracking-wider">
+            <div key={item.id} className="group rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] overflow-hidden p-3 transition-shadow hover:shadow-[0_24px_50px_-26px_rgba(48,48,48,0.45)] flex flex-col">
+              <div className="h-80 relative overflow-hidden rounded-lg">
+                <img className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none" src={item.imageUrl} alt={`${item.couple} wedding florals`} />
+                <span className="absolute top-3 right-3 bg-primary-fixed text-on-primary-fixed px-3 py-0.5 rounded-full text-[11px] uppercase tracking-wider">
                   {item.location}
                 </span>
               </div>
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div className="p-4 pt-6 flex-1 flex flex-col justify-between space-y-4">
                 <div>
                   <div className="flex items-center gap-1 text-tertiary mb-1">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star key={i} size={18} fill="currentColor" />
                     ))}
                   </div>
-                  <h3 className="font-display text-headline-sm text-primary">{item.couple}</h3>
-                  <p className="text-label-md text-secondary mt-0.5">{item.venue}</p>
-                  <p className="text-body-sm text-secondary italic mt-2 leading-relaxed">"{item.quote}"</p>
+                  <h3 className="font-display text-headline-sm text-on-surface">{item.couple}</h3>
+                  <p className="text-label-md text-tertiary mt-0.5">{item.venue}</p>
+                  <p className="text-body-sm text-on-surface-variant italic mt-3 leading-relaxed">"{item.quote}"</p>
                 </div>
-                <div className="pt-1 text-[11px] text-surface-tint border-t border-surface-container">{item.scale}</div>
+                <div className="pt-3 text-[11px] uppercase tracking-[0.14em] text-on-surface-variant border-t border-outline-variant/50">{item.scale}</div>
               </div>
             </div>
           ))}

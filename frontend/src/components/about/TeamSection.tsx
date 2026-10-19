@@ -30,14 +30,14 @@ const BOTANICALS = [
 
 export default function TeamSection() {
   return (
-    <section className="w-full py-20 bg-surface">
+    <section className="w-full py-20 lg:py-28 bg-surface">
       <div className="max-w-7xl mx-auto px-4 lg:px-12 space-y-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="max-w-2xl space-y-1">
-            <span className="text-[11px] text-secondary uppercase tracking-widest">Meet the Team</span>
-            <h2 className="font-display text-headline-lg text-primary">The People Behind the Blooms</h2>
+        <div className="flex flex-col items-center text-center gap-4">
+          <div className="max-w-2xl">
+            <span className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Meet the Team</span>
+            <h2 className="mt-3 block font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-on-surface">The People Behind the Blooms</h2>
           </div>
-          <p className="text-body-sm text-secondary max-w-md">
+          <p className="text-[15px] leading-relaxed text-on-surface-variant max-w-xl">
             A small team of florists who care about doing right by every arrangement, from
             everyday bouquets to Poruwa ceremonies.
           </p>
@@ -45,16 +45,16 @@ export default function TeamSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {TEAM.map((member) => (
-            <div key={member.id} className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col">
-              <div className="h-96 relative overflow-hidden">
-                <img className="w-full h-full object-cover" src={member.imageUrl} alt={member.name} />
-                <div className="absolute top-4 left-4 bg-primary text-on-primary text-[11px] px-3 py-0.5 rounded uppercase tracking-wider">
+            <div key={member.id} className="group rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] overflow-hidden p-3 transition-shadow hover:shadow-[0_24px_50px_-26px_rgba(48,48,48,0.45)] flex flex-col">
+              <div className="h-96 relative overflow-hidden rounded-lg">
+                <img className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none" src={member.imageUrl} alt={member.name} />
+                <div className="absolute top-4 left-4 bg-primary-fixed text-on-primary-fixed text-[11px] px-3 py-0.5 rounded-full uppercase tracking-wider">
                   {member.badge}
                 </div>
               </div>
-              <div className="p-8 space-y-2 flex-1 flex flex-col justify-between">
+              <div className="p-5 pt-6 lg:p-6 space-y-2 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="font-display text-headline-md text-primary">{member.name}</h3>
+                  <h3 className="font-display text-headline-md text-on-surface">{member.name}</h3>
                   <p className="text-label-md text-tertiary mb-2">{member.role}</p>
                   <p className="text-body-md text-on-surface-variant leading-relaxed">{member.bio}</p>
                 </div>
@@ -63,13 +63,13 @@ export default function TeamSection() {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 rounded-xl bg-surface-container">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 lg:p-8 rounded-xl bg-surface-container-low ring-1 ring-outline-variant/40">
           {BOTANICALS.map(({ icon: Icon, name, desc }) => (
             <div key={name} className="flex items-start gap-2">
-              <Icon size={20} className="text-primary mt-0.5" />
+              <Icon size={20} className="text-tertiary mt-0.5 shrink-0" />
               <div>
-                <h4 className="text-title-md text-primary">{name}</h4>
-                <p className="text-body-sm text-secondary">{desc}</p>
+                <h4 className="font-display text-title-md text-on-surface">{name}</h4>
+                <p className="text-body-sm text-on-surface-variant">{desc}</p>
               </div>
             </div>
           ))}

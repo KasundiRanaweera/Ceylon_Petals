@@ -5,7 +5,7 @@ import { SITE_IMAGES } from '../../data/siteImages'
 export default function WeddingHero() {
   return (
     <PageHero
-      tone="dark"
+      backdrop={{ src: '/images/stitch/wedding-hero.webp', alt: 'A ballroom with a cascading installation of white orchids' }}
       breadcrumbs={[{ label: 'Weddings & Events' }]}
       eyebrow="Now booking upcoming wedding seasons"
       eyebrowIcon={Flower2}
@@ -20,7 +20,7 @@ export default function WeddingHero() {
           >
             Book a consultation <ArrowRight size={16} />
           </a>
-          <a href="#portfolio" className="inline-flex items-center gap-2 border-b border-[#e7c873] pb-1 text-[13px] font-medium uppercase tracking-[0.14em] text-white hover:text-tertiary-fixed-dim">
+          <a href="#portfolio" className="inline-flex items-center gap-2 border-b border-[#d4af37] pb-1 text-[13px] font-medium uppercase tracking-[0.14em] text-on-surface hover:text-tertiary">
             <Images size={18} /> View our work
           </a>
         </>
