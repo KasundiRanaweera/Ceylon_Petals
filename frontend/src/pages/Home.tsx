@@ -1,4 +1,10 @@
+import { useCallback, useState } from 'react'
+import { AnimatePresence } from 'motion/react'
 import Hero from '../components/home/Hero'
+import ProductMarquee from '../components/home/ProductMarquee'
+import CategoryShowcase from '../components/home/CategoryShowcase'
+import IntroSplash from '../components/home/IntroSplash'
+import { shouldShowIntro } from '../lib/intro'
 import OccasionTiles from '../components/home/OccasionTiles'
 import SignatureSeries from '../components/home/SignatureSeries'
 import StudioStory from '../components/home/StudioStory'
@@ -8,12 +14,19 @@ import DeliveryCoverage from '../components/home/DeliveryCoverage'
 import InstagramStrip from '../components/home/InstagramStrip'
 import { Reveal } from '../components/motion/Reveal'
 
-// The home page, laid out like the Stitch design: hero, occasions, signature pieces, the studio
-// story with live figures, customer voices, delivery check and the Instagram strip.
+// The home page: the opening screen (first visit of a session only), the hero, every product in an
+// auto-scrolling row, the main categories, occasions, featured pieces, the studio story with live
+// figures, customer reviews, delivery check and the Instagram strip.
 export default function Home() {
+  const [introDone, setIntroDone] = useState(() => !shouldShowIntro())
+  const finishIntro = useCallback(() => setIntroDone(true), [])
+
   return (
     <div className="flex w-full flex-col">
-      <Hero />
+      <AnimatePresence>{!introDone && <IntroSplash key="intro" onDone={finishIntro} />}</AnimatePresence>
+      <Hero ready={introDone} />
+      <ProductMarquee />
+      <CategoryShowcase />
       <OccasionTiles />
       <SignatureSeries />
       <StudioStory />
