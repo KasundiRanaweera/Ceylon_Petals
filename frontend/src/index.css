@@ -391,3 +391,8 @@ html {
 .product-marquee:focus-within .product-marquee-track { animation-play-state: paused; }
 @keyframes product-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .product-marquee-track { animation: none; } }
+
+/* Home: the figures band slides right to left on a loop (two copies, so it never jumps). */
+.figures-marquee-track { animation: product-marquee 40s linear infinite; }
+.figures-marquee:hover .figures-marquee-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .figures-marquee-track { animation: none; } .figures-marquee { overflow-x: auto; } }
