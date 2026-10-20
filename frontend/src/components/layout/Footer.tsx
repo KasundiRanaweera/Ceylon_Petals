@@ -7,6 +7,8 @@ import Logo from './Logo'
 import { HELP_NAV, SHOP_NAV } from './navLinks'
 import { useShop, useWhatsApp } from '../../hooks/useShop'
 import { formatPhone } from '../../lib/phone'
+import { SITE_IMAGES } from '../../data/siteImages'
+import { sizedImage } from '../../lib/images'
 
 export default function Footer() {
   const shop = useShop()
@@ -24,9 +26,9 @@ export default function Footer() {
     <footer className="w-full border-t border-outline-variant/50 bg-surface pt-16 pb-24 sm:pb-8 text-on-surface-variant">
       <div className="max-w-7xl mx-auto px-4 lg:px-12">
         {showCta && (
-          <Reveal className="relative mb-14 overflow-hidden rounded-2xl bg-ink-gradient px-6 py-10 text-white sm:px-10 lg:px-14">
+          <Reveal className="relative mb-14 grid overflow-hidden rounded-2xl bg-ink-gradient text-white lg:grid-cols-[1.15fr_1fr]">
             <Petals color="#e9c349" />
-            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="relative flex flex-col justify-center gap-6 px-6 py-10 sm:px-10 lg:py-14 lg:pl-14 lg:pr-8">
               <div className="max-w-xl space-y-2">
                 <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-tertiary-fixed">
                   <Sparkles size={14} /> Not sure what to send?
@@ -46,6 +48,16 @@ export default function Footer() {
                   Custom order <ArrowRight size={17} />
                 </Link>
               </div>
+            </div>
+            {/* our florist at work: below the words on phones, beside them on large screens */}
+            <div className="relative h-56 sm:h-72 lg:h-auto">
+              <img
+                src={sizedImage(SITE_IMAGES.floristAtWork, 960)}
+                alt="Our florist arranging roses in the Colombo studio"
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,#2e2d2d_0%,rgba(46,45,45,0)_35%)] lg:bg-[linear-gradient(90deg,#2e2d2d_0%,rgba(46,45,45,0)_30%)]" />
             </div>
           </Reveal>
         )}
