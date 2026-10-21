@@ -2,6 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="theme-color" content="#fcf9f8" />
+    <!-- Light or dark theme, decided before the page draws: the visitor's saved choice, else their device. -->
+    <script>
+      (function () {
+        var t = null
+        try { t = localStorage.getItem('cp-theme') } catch (e) {}
+        if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        document.documentElement.dataset.theme = t
+        if (t === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#141312')
+      })()
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <!-- Start downloading the home hero photo straight away, before the app's JavaScript runs. -->
     <link rel="preload" as="image" href="/images/home/hero-bouquet-1200.webp" imagesrcset="/images/home/hero-bouquet-720.webp 720w, /images/home/hero-bouquet-1200.webp 1209w" imagesizes="(min-width: 1024px) 420px, 90vw" fetchpriority="high" />

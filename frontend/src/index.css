@@ -63,6 +63,8 @@
 
   --color-outline: #7f7478;
   --color-outline-variant: #d0c3c7;
+  /* Always dark, in both themes: the top bar, the figures band, round badges on photos. */
+  --color-ink: #2b2a2a;
 
   /* ---- Fonts ---- */
   --font-display: "Playfair Display", Georgia, serif;
@@ -146,6 +148,80 @@ img {
 
 a {
   text-decoration: none;
+}
+
+/* ---- Dark theme ----
+   Set by the theme toggle as <html data-theme="dark"> (it follows the device until the visitor picks
+   one). The same tokens are redefined, so every page that uses them changes with no extra classes.
+   Warm charcoal surfaces, warm off-white text, champagne gold stays the accent.
+   Contrast on #141312: text #ECE6E2 (15:1), muted #CBC0C3 (10:1), gold text #E9C349 (10:1). */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-primary: #ece6e2;
+  --color-on-primary: #1b1c1c;
+  --color-primary-container: #d9d2ce;
+  --color-on-primary-container: #2a2626;
+  --color-primary-fixed: #3b2b31;
+  --color-primary-fixed-dim: #e9c349;
+  --color-on-primary-fixed: #f6dbe3;
+  --color-on-primary-fixed-variant: #f1d27b;
+  --color-inverse-primary: #735c00;
+
+  --color-secondary: #cbc0c3;
+  --color-on-secondary: #1b1c1c;
+  --color-secondary-container: #2c2a29;
+  --color-on-secondary-container: #e0d7d9;
+  --color-secondary-fixed: #2c2a29;
+  --color-secondary-fixed-dim: #4d4447;
+  --color-on-secondary-fixed: #ece6e2;
+  --color-on-secondary-fixed-variant: #cbc0c3;
+
+  --color-tertiary: #e9c349;
+  --color-on-tertiary: #241a00;
+  --color-tertiary-container: #d4af37;
+  --color-on-tertiary-container: #241a00;
+
+  --color-mauve: #dcc3ca;
+
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #5c1512;
+  --color-on-error-container: #ffdad6;
+
+  --color-background: #141312;
+  --color-on-background: #ece6e2;
+  --color-surface: #141312;
+  --color-surface-dim: #141312;
+  --color-surface-bright: #3a3836;
+  --color-surface-tint: #e9c349;
+  --color-surface-variant: #2f2d2c;
+  --color-surface-container-lowest: #1e1c1b;
+  --color-surface-container-low: #1a1918;
+  --color-surface-container: #242221;
+  --color-surface-container-high: #2d2b2a;
+  --color-surface-container-highest: #363433;
+  --color-on-surface: #ece6e2;
+  --color-on-surface-variant: #cbc0c3;
+  --color-inverse-surface: #ece6e2;
+  --color-inverse-on-surface: #303030;
+  --color-outline: #968b8f;
+  --color-outline-variant: #463e41;
+  --color-ink: #0f0e0e;
+}
+/* Gold heading text: the deep gold that reads on cream is too dark on charcoal. */
+[data-theme="dark"] .text-gradient {
+  background-image: linear-gradient(110deg, #e9c349 0%, #f3d77a 45%, #e9c349 100%);
+}
+[data-theme="dark"] .btn-gradient:focus-visible { outline-color: #ece6e2; }
+/* The switch between themes fades instead of snapping (only while it switches). */
+/* The home hero's blush and gold glows, made softer on charcoal. */
+[data-theme="dark"] .hero-glow {
+  background-image: radial-gradient(60% 55% at 85% 10%, rgba(214, 140, 160, 0.14) 0%, transparent 70%), radial-gradient(50% 60% at 5% 90%, rgba(233, 195, 73, 0.08) 0%, transparent 70%);
+}
+html.theme-switching, html.theme-switching * {
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease, fill 0.35s ease !important;
 }
 
 button,
@@ -235,7 +311,7 @@ input {
 }
 /* Soft dawn wash for alternating sections and panels (lighter than the hero). */
 @utility bg-dawn-soft {
-  background-color: #f6f3f2;
+  background-color: var(--color-surface-container-low);
 }
 /* A thin blush -> gold line for section dividers and card tops. */
 @utility rule-dawn {
@@ -244,8 +320,8 @@ input {
 }
 /* Warm off-white with a faint champagne glow, for hero backgrounds. */
 @utility bg-aurora {
-  background-color: #f6f3f2;
-  background-image: linear-gradient(180deg, #f3f0ef 0%, #fcf9f8 100%);
+  background-color: var(--color-surface-container-low);
+  background-image: linear-gradient(180deg, var(--color-surface-container-low) 0%, var(--color-surface) 100%);
 }
 
 /* Primary call-to-action: polished gold pill with ink text (white on gold fails contrast). */

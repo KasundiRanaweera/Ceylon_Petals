@@ -1,4 +1,4 @@
-import { useRef, type PointerEvent } from 'react'
+import { useRef, useState, type PointerEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
 import { ArrowRight, Clock, MessageCircle, PenLine, ShieldCheck, Star, Truck } from 'lucide-react'
@@ -12,13 +12,18 @@ import { useReviews } from '../../hooks/useReviews'
 // bouquet (cut out, no background) rising from the base of a soft gold arch, its flowers spilling
 // past the arch's sides. On phones the bouquet comes first, so the opening screen shows flowers.
 //
-// Motion: the arch panel rises and its gold outline is drawn in from the base; the bouquet settles, then sways and
+// Motion: the arch opens upward (a soft film of our bouquets plays inside it) and its gold
+// outline is drawn in from the base; the bouquet settles, then sways and
 // follows the mouse a little (the arch moves the other way, for depth); a few petals drift down.
 // The words rise in order and "Bloom" catches one gold shimmer. The countdown pill has a live dot
 // and rolls its time over each minute. Everything waits for the opening screen to lift, and none of
 // the movement runs for visitors who have asked their device for reduced motion.
 
 const BOUQUET = { small: '/images/home/hero-bouquet-720.webp', large: '/images/home/hero-bouquet-1200.webp' }
+// A 17-second silent loop of our bouquets, each slowly zooming and crossfading into the next
+// (public/videos). It plays inside the arch, behind the cut-out bouquet. Phones get a lighter copy;
+// people who turn motion off see the still.
+const FILM = { large: '/videos/hero-bouquets.mp4', small: '/videos/hero-bouquets-540.mp4', poster: '/videos/hero-bouquets-poster.jpg' }
 const HEADLINE = ['Make', 'Every', 'Moment']
 // Where each drifting petal starts (across the arch), how long it takes, when it starts and how far it sways.
 const PETALS = [
@@ -40,6 +45,8 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
   const section = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: section, offset: ['start start', 'end start'] })
   const bouquetScrollY = useTransform(scrollYProgress, [0, 1], ['0%', '10%'])
+  // the lighter film for small screens, chosen once
+  const [filmSrc] = useState(() => (typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches ? FILM.small : FILM.large))
 
   // The pointer's place over the hero, from -1 to 1 on each axis, eased with a soft spring.
   const pointerX = useMotionValue(0)
@@ -86,7 +93,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
       onPointerMove={followPointer}
       onPointerLeave={resetPointer}
       aria-labelledby="home-hero-title"
-      className="relative overflow-hidden bg-surface bg-[radial-gradient(60%_55%_at_85%_10%,rgba(252,228,236,0.75)_0%,rgba(252,228,236,0)_70%),radial-gradient(50%_60%_at_5%_90%,rgba(233,195,73,0.14)_0%,rgba(233,195,73,0)_70%)]"
+      className="hero-glow relative overflow-hidden bg-surface bg-[radial-gradient(60%_55%_at_85%_10%,rgba(252,228,236,0.75)_0%,rgba(252,228,236,0)_70%),radial-gradient(50%_60%_at_5%_90%,rgba(233,195,73,0.14)_0%,rgba(233,195,73,0)_70%)]"
     >
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-6 px-4 pb-8 pt-5 sm:gap-10 sm:pt-8 lg:min-h-[calc(100svh-113px)] lg:grid-cols-2 lg:gap-16 lg:px-12 lg:py-8">
         {/* ---- the words ---- */}
@@ -125,7 +132,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             )}
           </motion.p>
 
-          <h1 id="home-hero-title" className="mt-4 sm:mt-6 font-display text-[clamp(2.4rem,min(5.4vw,8.5svh),5rem)] font-normal leading-[1.03] tracking-[-0.015em] text-[#1b1c1c]">
+          <h1 id="home-hero-title" className="mt-4 sm:mt-6 font-display text-[clamp(2.4rem,min(5.4vw,8.5svh),5rem)] font-normal leading-[1.03] tracking-[-0.015em] text-on-surface">
             {HEADLINE.map((word, i) => (
               <span key={word}>
                 <span className="inline-block overflow-hidden pb-[0.08em] align-bottom">
@@ -169,7 +176,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
               href={whatsapp('Hello! I would like to order flowers.')}
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-spring group inline-flex min-h-[50px] items-center justify-center gap-2 rounded-lg border border-[#1b1c1c]/15 bg-surface-container-lowest px-4 text-[13px] sm:min-h-[54px] sm:gap-3 sm:px-7 sm:text-[14px] font-semibold uppercase tracking-[0.12em] text-[#1b1c1c] hover:border-[#1b1c1c]/40 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#1b1c1c]"
+              className="hero-spring group inline-flex min-h-[50px] items-center justify-center gap-2 rounded-lg border border-on-surface/15 bg-surface-container-lowest px-4 text-[13px] sm:min-h-[54px] sm:gap-3 sm:px-7 sm:text-[14px] font-semibold uppercase tracking-[0.12em] text-on-surface hover:border-on-surface/40 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-on-surface"
             >
               <MessageCircle size={19} aria-hidden="true" className="hero-wiggle text-[#25D366]" /> Order on WhatsApp
             </a>
@@ -203,13 +210,21 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
         {/* ---- the bouquet, rising from its gold arch (first on phones) ---- */}
         <div className="relative order-first mx-auto aspect-[4/5] w-full max-w-[190px] sm:max-w-[300px] lg:order-none lg:max-w-[min(500px,calc((100svh-190px)*0.8))]">
           <motion.div aria-hidden="true" className="absolute inset-x-[7%] inset-y-0" style={live ? { x: archX, y: archY } : undefined}>
-            {/* the arch panel rises from its base */}
+            {/* the arch opens upward; inside it a soft film of our bouquets plays behind the cut-out bouquet */}
             <motion.div
-              initial={{ opacity: 0, scaleY: 0.55 }}
-              animate={play({ opacity: 1, scaleY: 1 })}
-              transition={{ duration: 1.1, delay: 0.2, ease: EASE_OUT }}
-              className="absolute inset-0 origin-bottom rounded-t-full bg-[linear-gradient(180deg,#f7ecd6_0%,#f6e6e9_70%,#f3e3e6_100%)]"
-            />
+              initial={{ clipPath: 'inset(100% 0% 0% 0% round 999px 999px 0 0)' }}
+              animate={play({ clipPath: 'inset(0% 0% 0% 0% round 999px 999px 0 0)' })}
+              transition={{ duration: 1.3, delay: 0.2, ease: [0.65, 0, 0.35, 1] }}
+              className="absolute inset-0 overflow-hidden rounded-t-full bg-[linear-gradient(180deg,#f7ecd6_0%,#f6e6e9_70%,#f3e3e6_100%)] dark:bg-[linear-gradient(180deg,#2a2422_0%,#241f20_100%)]"
+            >
+              {reduce ? (
+                <img src={FILM.poster} alt="" className="h-full w-full scale-110 object-cover" />
+              ) : (
+                <video className="h-full w-full scale-110 object-cover" src={filmSrc} poster={FILM.poster} autoPlay muted loop playsInline preload="auto" />
+              )}
+              {/* a cream wash, so the film stays soft and the bouquet in front stands out */}
+              <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(247,236,214,0.45)_0%,rgba(246,230,233,0.55)_60%,rgba(243,227,230,0.85)_100%)] dark:bg-[linear-gradient(180deg,rgba(20,19,18,0.35)_0%,rgba(20,19,18,0.5)_60%,rgba(20,19,18,0.8)_100%)]" />
+            </motion.div>
             {/* the gold outline is drawn in from the base up, after the panel */}
             <motion.span
               initial={{ clipPath: 'inset(100% 0% 0% 0%)' }}
