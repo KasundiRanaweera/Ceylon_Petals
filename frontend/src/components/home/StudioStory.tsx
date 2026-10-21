@@ -9,8 +9,8 @@ const HEADLINE = 'Hand-tied in Colombo, grown in the hills'
 const BADGE = 'Hand-tied in Colombo · Cut fresh daily · '
 
 // The studio story: an arched studio photo with a smaller print overlapping it, beside a short text.
-// The studio photo is only 1024px, so it is framed at a size it stays sharp at instead of filling
-// half the screen. On scroll-in the arch opens upwards and the print rises into place; while
+// The arch photo is a 614 x 768 crop, so it is framed at a size it stays sharp at instead of
+// filling half the screen. On scroll-in the arch opens upwards and the print rises into place; while
 // scrolling past, the two drift at different speeds. A round badge turns slowly at the corner.
 export default function StudioStory() {
   const { shopName } = useShop()
@@ -44,8 +44,8 @@ export default function StudioStory() {
             }}
           >
             <motion.img
-              src="/images/stitch/story-florist-1024.webp"
-              alt="A florist arranging fresh roses in the studio"
+              src="/images/home/studio-roses-614.webp"
+              alt="Gloved hands cutting a pink rose in the misty hill country"
               loading="lazy"
               style={reduce ? undefined : { y: photoY }}
               className="absolute inset-x-0 -top-[8%] h-[116%] w-full object-cover"
@@ -56,6 +56,8 @@ export default function StudioStory() {
           <motion.div style={reduce ? undefined : { y: printY }} className="absolute -right-2 bottom-0 w-[44%] sm:-right-10">
             <motion.img
               src="/images/products/kraft-wrapped-carnation-bunch-640.webp"
+              srcSet="/images/products/kraft-wrapped-carnation-bunch-640.webp 640w, /images/products/kraft-wrapped-carnation-bunch-1280.webp 1280w"
+              sizes="(min-width: 640px) 210px, 44vw"
               alt="A kraft-wrapped bouquet of carnations and roses held in hand"
               loading="lazy"
               className="aspect-[3/4] w-full border-[6px] border-surface-container-lowest object-cover shadow-[0_30px_50px_-28px_rgba(48,48,48,0.75)]"
