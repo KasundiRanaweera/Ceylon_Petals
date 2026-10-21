@@ -88,7 +88,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
       aria-labelledby="home-hero-title"
       className="relative overflow-hidden bg-surface bg-[radial-gradient(60%_55%_at_85%_10%,rgba(252,228,236,0.75)_0%,rgba(252,228,236,0)_70%),radial-gradient(50%_60%_at_5%_90%,rgba(233,195,73,0.14)_0%,rgba(233,195,73,0)_70%)]"
     >
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 pb-14 pt-8 sm:pt-10 lg:grid-cols-2 lg:gap-16 lg:px-12 lg:pb-24 lg:pt-14">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-6 px-4 pb-8 pt-5 sm:gap-10 sm:pt-8 lg:min-h-[calc(100svh-113px)] lg:grid-cols-2 lg:gap-16 lg:px-12 lg:py-8">
         {/* ---- the words ---- */}
         <div>
           <motion.p {...rise(0.15)} className="inline-flex items-center gap-2.5 rounded-full bg-[#1b1c1c] py-2 pl-3.5 pr-4 text-[13px] font-medium text-white sm:text-[14px]">
@@ -125,7 +125,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             )}
           </motion.p>
 
-          <h1 id="home-hero-title" className="mt-6 font-display text-[clamp(2.75rem,5.4vw,5rem)] font-normal leading-[1.03] tracking-[-0.015em] text-[#1b1c1c]">
+          <h1 id="home-hero-title" className="mt-4 sm:mt-6 font-display text-[clamp(2.4rem,min(5.4vw,8.5svh),5rem)] font-normal leading-[1.03] tracking-[-0.015em] text-[#1b1c1c]">
             {HEADLINE.map((word, i) => (
               <span key={word}>
                 <span className="inline-block overflow-hidden pb-[0.08em] align-bottom">
@@ -152,15 +152,15 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             </span>
           </h1>
 
-          <motion.p {...rise(0.8)} className="mt-5 max-w-[34rem] text-[16px] leading-[1.75] text-on-surface-variant sm:text-[17.5px]">
+          <motion.p {...rise(0.8)} className="mt-3 max-w-[34rem] text-[15px] leading-[1.65] sm:mt-5 sm:text-[17.5px] sm:leading-[1.75] text-on-surface-variant">
             Hand-tied bouquets of Nuwara Eliya roses, lilies and orchids — arranged in Colombo each morning and delivered across Sri Lanka with
             a handwritten card.
           </motion.p>
 
-          <motion.div {...rise(0.95)} className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <motion.div {...rise(0.95)} className="mt-5 flex flex-wrap gap-3 sm:mt-7">
             <Link
               to="/shop"
-              className="hero-spring btn-gradient group inline-flex min-h-[54px] items-center justify-center gap-3 px-8 text-[14px] font-semibold uppercase tracking-[0.14em]"
+              className="hero-spring btn-gradient group inline-flex min-h-[50px] items-center justify-center gap-2 px-5 text-[13px] sm:min-h-[54px] sm:gap-3 sm:px-8 sm:text-[14px] font-semibold uppercase tracking-[0.14em]"
             >
               Shop flowers
               <ArrowRight size={17} aria-hidden="true" className="transition-transform duration-300 ease-out group-hover:translate-x-1 motion-reduce:transition-none" />
@@ -169,7 +169,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
               href={whatsapp('Hello! I would like to order flowers.')}
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-spring group inline-flex min-h-[54px] items-center justify-center gap-3 rounded-lg border border-[#1b1c1c]/15 bg-surface-container-lowest px-7 text-[14px] font-semibold uppercase tracking-[0.12em] text-[#1b1c1c] hover:border-[#1b1c1c]/40 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#1b1c1c]"
+              className="hero-spring group inline-flex min-h-[50px] items-center justify-center gap-2 rounded-lg border border-[#1b1c1c]/15 bg-surface-container-lowest px-4 text-[13px] sm:min-h-[54px] sm:gap-3 sm:px-7 sm:text-[14px] font-semibold uppercase tracking-[0.12em] text-[#1b1c1c] hover:border-[#1b1c1c]/40 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#1b1c1c]"
             >
               <MessageCircle size={19} aria-hidden="true" className="hero-wiggle text-[#25D366]" /> Order on WhatsApp
             </a>
@@ -179,7 +179,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             initial="hidden"
             animate={play('show')}
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 1.1 } } }}
-            className="mt-8 grid max-w-[34rem] grid-cols-2 gap-x-6 gap-y-3 border-t border-outline-variant/60 pt-5 text-[14px] text-on-surface sm:text-[15px]"
+            className="mt-8 hidden max-w-[34rem] grid-cols-2 sm:grid gap-x-6 gap-y-3 border-t border-outline-variant/60 pt-5 text-[14px] text-on-surface sm:text-[15px]"
           >
             {promises.map(({ icon: Icon, label, href }) => (
               <motion.li
@@ -201,7 +201,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
         </div>
 
         {/* ---- the bouquet, rising from its gold arch (first on phones) ---- */}
-        <div className="relative order-first mx-auto aspect-[4/5] w-full max-w-[270px] sm:max-w-[360px] lg:order-none lg:max-w-[500px]">
+        <div className="relative order-first mx-auto aspect-[4/5] w-full max-w-[190px] sm:max-w-[300px] lg:order-none lg:max-w-[min(500px,calc((100svh-190px)*0.8))]">
           <motion.div aria-hidden="true" className="absolute inset-x-[7%] inset-y-0" style={live ? { x: archX, y: archY } : undefined}>
             {/* the arch panel rises from its base */}
             <motion.div

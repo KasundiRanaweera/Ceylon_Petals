@@ -80,12 +80,12 @@ export default function PageHero({
         <Blobs tone={tone} />
       )}
 
-      <div className={`relative max-w-7xl mx-auto px-4 lg:px-12 ${compact ? 'pt-6 pb-10' : 'pt-6 pb-14 lg:pb-20'}`}>
+      <div className={`relative max-w-7xl mx-auto px-4 lg:px-12 ${compact ? 'pt-5 pb-8 lg:pb-10' : 'pt-5 pb-10 lg:pb-14'}`}>
         <motion.div initial="hidden" animate="show" variants={fadeUp}>
           <Breadcrumbs items={breadcrumbs} tone={tone} />
         </motion.div>
 
-        <div className={`grid grid-cols-1 gap-10 items-center ${compact ? 'mt-6' : 'mt-8 lg:mt-12'} ${hasSide ? 'lg:grid-cols-12' : ''}`}>
+        <div className={`grid grid-cols-1 gap-10 items-center ${compact ? 'mt-4 lg:mt-6' : 'mt-5 lg:mt-8'} ${hasSide ? 'lg:grid-cols-12' : ''}`}>
           <motion.div
             className={`space-y-4 ${hasSide ? 'lg:col-span-7' : backdrop ? 'mx-auto max-w-3xl py-10 lg:py-16 [&>*]:justify-center [&>*]:mx-auto' : 'max-w-4xl'}`}
             initial="hidden"
@@ -111,7 +111,7 @@ export default function PageHero({
               highlight={highlight}
               delay={0.15}
               className={`font-display tracking-tight ${
-                compact ? 'text-[38px] leading-[1.05] lg:text-[56px]' : 'text-[42px] leading-[1.02] md:text-6xl lg:text-[76px] lg:leading-[0.98]'
+                compact ? 'text-[34px] leading-[1.05] lg:text-[56px]' : 'text-[38px] leading-[1.02] md:text-6xl lg:text-[clamp(3.5rem,8.5svh,4.75rem)] lg:leading-[0.98]'
               } ${dark ? 'text-white' : 'text-mauve'}`}
               highlightClassName={dark ? 'italic text-[#e9c349]' : 'italic text-tertiary'}
             />
@@ -147,8 +147,8 @@ export default function PageHero({
           </motion.div>
 
           {image && !backdrop && (
-            <motion.div className="lg:col-span-5 relative" initial="hidden" animate="show" variants={withDelay(scaleIn, 0.2)}>
-              <div className={`relative mx-auto ${image.shape === 'landscape' ? 'max-w-xl lg:max-w-none' : 'max-w-sm lg:ml-auto lg:mr-0 lg:max-w-[25rem]'}`}>
+            <motion.div className="relative hidden lg:col-span-5 lg:block" initial="hidden" animate="show" variants={withDelay(scaleIn, 0.2)}>
+              <div className={`relative mx-auto ${image.shape === 'landscape' ? 'max-w-xl lg:max-w-[min(100%,calc((100svh-330px)*1.33))] lg:ml-auto' : 'max-w-sm lg:ml-auto lg:mr-0 lg:max-w-[min(25rem,calc(100svh-330px))]'}`}>
                 {/* Thin gradient frame around a crisp, un-dimmed photo. */}
                 {/* Crisp, un-dimmed photo with a hairline gold frame offset behind it. */}
                 <div className="relative">

@@ -1,3 +1,5 @@
+import { sizedImage } from '../lib/images'
+import { SITE_IMAGES } from '../data/siteImages'
 import { useState, type FormEvent } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
@@ -94,7 +96,7 @@ function CustomOrderForm() {
         title="Request a custom order"
         subtitle="Tell us what you have in mind — a special colour palette, 100 roses for an event, or hampers for your clients. We'll reply with ideas and a quote."
         breadcrumbs={[{ label: 'Custom order' }]}
-        backdrop={{ src: '/images/stitch/contact-rose.webp', alt: 'Close-up of a blush rose with morning dew' }}
+        backdrop={{ src: sizedImage(SITE_IMAGES.highlandRoses, 1408), alt: 'Pink garden roses in the misty Sri Lankan hills' }}
       />
 
       <form onSubmit={handleSubmit} className="max-w-4xl mx-auto w-full px-4 lg:px-12 py-12 lg:py-16 space-y-10">

@@ -1,3 +1,5 @@
+import { PRODUCT_IMAGES } from '../../data/productImages'
+import { sizedImage } from '../../lib/images'
 import { Building2, BadgeCheck, MessageCircle, Download, Phone } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useShop, useWhatsApp } from '../../hooks/useShop'
@@ -15,6 +17,14 @@ export default function CorporateBanner() {
 
   return (
     <section className="w-full bg-ink-gradient text-on-primary py-20 lg:py-28 relative overflow-hidden">
+      {/* a corporate hamper on the right, fading into the dark panel */}
+      <img
+        src={sizedImage(PRODUCT_IMAGES['the-heritage-ceylon-sovereign-crate'], 1408)}
+        alt=""
+        loading="lazy"
+        className="absolute inset-y-0 right-0 h-full w-full origin-bottom scale-[1.14] object-cover opacity-30 [mask-image:linear-gradient(90deg,transparent_0%,#000_35%)] lg:w-[60%] lg:opacity-90"
+      />
+      <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(90deg,#2b2a2a_0%,rgba(43,42,42,0.92)_40%,rgba(43,42,42,0.55)_70%,rgba(43,42,42,0.25)_100%)]" />
       <div className="max-w-7xl mx-auto px-4 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7 space-y-4">
