@@ -12,11 +12,12 @@ import LiveFigures from '../components/home/LiveFigures'
 import Testimonials from '../components/home/Testimonials'
 import DeliveryCoverage from '../components/home/DeliveryCoverage'
 import InstagramStrip from '../components/home/InstagramStrip'
+import GiftCards from '../components/home/GiftCards'
 import { Reveal } from '../components/motion/Reveal'
 
 // The home page: the opening screen (first visit of a session only), the hero, every product in an
 // auto-scrolling row, the main categories, occasions, featured pieces, the studio story with live
-// figures, customer reviews, delivery check and the Instagram strip.
+// figures, customer reviews, delivery check, the Instagram strip and the gift cards.
 export default function Home() {
   const [introDone, setIntroDone] = useState(() => !shouldShowIntro())
   const finishIntro = useCallback(() => setIntroDone(true), [])
@@ -36,6 +37,7 @@ export default function Home() {
         <DeliveryCoverage />
       </Reveal>
       <InstagramStrip />
+      <GiftCards />
     </div>
   )
 }

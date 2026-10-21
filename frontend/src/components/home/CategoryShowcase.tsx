@@ -16,8 +16,7 @@ export default function CategoryShowcase() {
     <section aria-labelledby="categories-title" className="bg-surface py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-12">
         <div className="mb-10 text-center lg:mb-12">
-          <p className="text-[13px] font-medium uppercase tracking-[0.22em] text-tertiary">Shop by category</p>
-          <h2 id="categories-title" className="mt-3 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-on-surface">
+          <h2 id="categories-title" className="font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-on-surface">
             Find the right flowers
           </h2>
         </div>

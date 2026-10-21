@@ -67,6 +67,8 @@
   /* ---- Fonts ---- */
   --font-display: "Playfair Display", Georgia, serif;
   --font-body: "Montserrat", system-ui, sans-serif;
+  /* handwriting, for the gift-card messages */
+  --font-hand: "Caveat", "Segoe Script", cursive;
 
   /* ---- Type scale (matches Stitch design tokens exactly) ---- */
   --text-display-lg: 48px;
