@@ -21,7 +21,8 @@ import { useReviews } from '../../hooks/useReviews'
 // stages, not a continuous film of the petals moving.
 //
 // Visitors who ask their device for reduced motion get the fully open lily, with no pinning.
-// The hero always uses the dark palette, so its words stay readable on the dark photograph.
+// The words sit on the page's own background (cream in light mode, dark in dark mode); the lily has
+// its own dark panel, rounded where it meets the words.
 
 const HEADLINE = ['Make', 'Every', 'Moment']
 const STAGES = [1, 2, 3, 4, 5].map((n) => ({
@@ -91,14 +92,13 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
   return (
     <section
       ref={section}
-      data-theme="dark"
       aria-labelledby="home-hero-title"
-      className={`relative bg-[#0a090a] text-on-surface ${reduce ? '' : 'h-[200vh] lg:h-[260vh]'}`}
+      className={`relative bg-surface text-on-surface ${reduce ? '' : 'h-[200vh] lg:h-[260vh]'}`}
     >
       <div className={`${reduce ? 'relative min-h-[calc(100svh-88px)] lg:min-h-[calc(100svh-96px)]' : 'sticky top-0 h-[100svh]'} overflow-hidden`}>
-        {/* the dark room: a warm glow behind the flower, darker towards the words */}
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(60%_70%_at_72%_45%,#2a1a1f_0%,#140f11_45%,#0a090a_75%)]" />
-
+        {/* the lily's dark room, with a warm glow behind the flower: the top of the screen on phones,
+            the right half on large screens */}
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-[42%] overflow-hidden rounded-b-[2rem] sm:h-[46%] bg-[radial-gradient(70%_70%_at_55%_45%,#2a1a1f_0%,#140f11_50%,#0a090a_80%)] lg:inset-y-0 lg:left-auto lg:right-0 lg:h-auto lg:w-[50%] lg:rounded-b-none lg:rounded-l-[2.5rem]">
         {/* ---- the lily ---- */}
         <motion.div
           aria-hidden="true"
@@ -106,7 +106,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
           animate={play({ opacity: 1 })}
           transition={{ duration: 1.4, delay: 0.2, ease: EASE_OUT }}
           style={reduce ? undefined : { ['--lift' as string]: liftPx }}
-          className="absolute lg:[translate:0_var(--lift,0px)] left-1/2 top-[3%] aspect-[1020/900] h-[46%] -translate-x-1/2 sm:h-[52%] lg:bottom-0 lg:left-auto lg:right-[-8%] lg:top-auto lg:h-[96%] lg:max-w-[58vw] lg:translate-x-0 [mask-image:radial-gradient(72%_72%_at_50%_52%,#000_58%,transparent_100%)]"
+          className="absolute lg:[translate:0_var(--lift,0px)] left-1/2 top-[4%] aspect-[1020/900] h-[92%] -translate-x-1/2 lg:bottom-0 lg:left-auto lg:right-[-10%] lg:top-auto lg:h-[96%] lg:max-w-none lg:translate-x-0 [mask-image:radial-gradient(72%_72%_at_50%_52%,#000_58%,transparent_100%)]"
         >
           {reduce ? (
             <img src={STAGES[4].src} srcSet={STAGES[4].srcSet} sizes={SIZES} alt="" className="h-full w-full object-cover" />
@@ -133,6 +133,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
           {/* on large screens the photo's left edge melts into the dark beside the words */}
           <span className="absolute inset-y-0 left-0 hidden w-[34%] bg-[linear-gradient(to_right,#0b090a_0%,rgba(11,9,10,0.85)_30%,rgba(11,9,10,0)_100%)] lg:block" />
         </motion.div>
+        </div>
         <span className="sr-only">A pink lily in full bloom that closes back into a bud as you scroll.</span>
 
         <div className="relative mx-auto grid h-full max-w-7xl grid-cols-1 items-end px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom))] sm:pb-[calc(7.5rem+env(safe-area-inset-bottom))] lg:grid-cols-2 lg:content-start lg:items-start lg:gap-16 lg:px-12 lg:pb-0 lg:pt-[7vh]">
