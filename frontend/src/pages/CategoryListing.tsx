@@ -10,6 +10,7 @@ import FreshnessPromise from '../components/catalog/FreshnessPromise'
 import ConsultationCTA from '../components/catalog/ConsultationCTA'
 import ProductGrid from '../components/shop/ProductGrid'
 import EmptyState from '../components/ui/EmptyState'
+import LoadError from '../components/ui/LoadError'
 import NotFound from './NotFound'
 import { listCategories, listProducts } from '../services/catalog'
 import { OCCASIONS } from '../data/occasions'
@@ -39,7 +40,7 @@ function CatalogView({ category, q, occasion }: { category?: Category; q: string
   const [page, setPage] = useState(1)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
-  const { data: products, isLoading } = useQuery({
+  const { data: products, isLoading, isError, refetch, isFetching } = useQuery({
     queryKey: ['products', { categoryId: category?.id, q, occasion: occasion?.slug }],
     queryFn: () => listProducts({ categoryId: category?.id, q: q || undefined, occasion: occasion?.slug }),
   })
@@ -97,6 +98,10 @@ function CatalogView({ category, q, occasion }: { category?: Category; q: string
                 products={isLoading ? undefined : pageItems}
                 loading={isLoading}
                 empty={
+                  isError ? (
+                    // the shop could not be reached: say so, rather than suggesting the filters hid everything
+                    <LoadError what="our flowers" onRetry={() => refetch()} retrying={isFetching} />
+                  ) : (
                   <EmptyState
                     icon={SearchX}
                     title={q && products?.length === 0 ? `Nothing found for “${q}”` : 'No items match these filters'}
@@ -117,6 +122,7 @@ function CatalogView({ category, q, occasion }: { category?: Category; q: string
                       </>
                     }
                   />
+                  )
                 }
               />
               {totalPages > 1 && (

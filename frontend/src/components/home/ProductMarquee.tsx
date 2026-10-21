@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { ArrowRight } from 'lucide-react'
 import ProductCard from '../shop/ProductCard'
+import LoadError from '../ui/LoadError'
 import { listProducts } from '../../services/catalog'
 
 // Every product in the shop, in one row that scrolls by on its own. The row is drawn twice side by
 // side and slides left by one copy's width, so it loops without a jump. It pauses while the mouse is
 // over it or a card has keyboard focus. With reduced motion it stays still and can be scrolled by hand.
 export default function ProductMarquee() {
-  const { data: products } = useQuery({ queryKey: ['products', {}], queryFn: () => listProducts() })
+  const { data: products, isError, refetch, isFetching } = useQuery({ queryKey: ['products', {}], queryFn: () => listProducts() })
   // In-stock first, so the row opens with things that can be ordered today.
   const items = [...(products ?? [])].sort((a, b) => Number(b.stock > 0) - Number(a.stock > 0))
   // About four seconds per card keeps the pace calm whatever the catalogue size.
@@ -44,6 +45,10 @@ export default function ProductMarquee() {
             {row(false)}
             {row(true)}
           </div>
+        </div>
+      ) : isError ? (
+        <div className="mx-auto max-w-3xl px-4">
+          <LoadError what="our flowers" onRetry={() => refetch()} retrying={isFetching} />
         </div>
       ) : (
         <div className="mx-auto flex max-w-7xl gap-6 overflow-hidden px-4 lg:px-12" aria-busy="true" aria-label="Loading products">

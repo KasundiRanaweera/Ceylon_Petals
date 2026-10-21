@@ -7,6 +7,7 @@ import Breadcrumbs from '../components/ui/Breadcrumbs'
 import QuantityStepper from '../components/ui/QuantityStepper'
 import ProductGrid from '../components/shop/ProductGrid'
 import NotFound from './NotFound'
+import LoadError from '../components/ui/LoadError'
 import { getProduct, listCategories, listProducts } from '../services/catalog'
 import { OCCASION_NAME } from '../data/occasions'
 import { DISTRICTS } from '../data/settings'
@@ -22,7 +23,7 @@ import { creditForImage } from '../data/photoCredits'
 
 export default function ProductDetail() {
   const { slug = '' } = useParams<{ slug: string }>()
-  const { data: product, isLoading } = useQuery({ queryKey: ['product', slug], queryFn: () => getProduct(slug) })
+  const { data: product, isLoading, isError, refetch, isFetching } = useQuery({ queryKey: ['product', slug], queryFn: () => getProduct(slug) })
 
   if (isLoading) {
     return (
@@ -33,6 +34,14 @@ export default function ProductDetail() {
           <div className="h-6 w-1/3 bg-surface-container rounded" />
           <div className="h-24 w-full bg-surface-container-low rounded" />
         </div>
+      </div>
+    )
+  }
+  // (a missing product comes back as null; an error means the server could not be reached)
+  if (isError) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-16">
+        <LoadError what="this item" onRetry={() => refetch()} retrying={isFetching} />
       </div>
     )
   }
