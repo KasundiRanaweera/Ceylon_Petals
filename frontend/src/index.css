@@ -157,7 +157,9 @@ a {
    Contrast on #141312: text #ECE6E2 (15:1), muted #CBC0C3 (10:1), gold text #E9C349 (10:1). */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-:root[data-theme="dark"] {
+/* (Also used by one section that is always dark, such as the home hero.) */
+:root[data-theme="dark"],
+[data-theme="dark"] {
   color-scheme: dark;
   --color-primary: #ece6e2;
   --color-on-primary: #1b1c1c;

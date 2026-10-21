@@ -1,38 +1,42 @@
-import { useRef, useState, type PointerEvent } from 'react'
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
+import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
 import { ArrowRight, Clock, MessageCircle, PenLine, ShieldCheck, Star, Truck } from 'lucide-react'
 import { EASE_OUT } from '../motion/variants'
 import { useShop, useWhatsApp } from '../../hooks/useShop'
 import { useCutoffCountdown } from '../../hooks/useCutoffCountdown'
 import { useReviews } from '../../hooks/useReviews'
 
-// The first screen, on the shop's own cream and gold. Left: the live same-day countdown, the
-// headline, a line about the shop, the two ways to order and four promises. Right: a hand-held
-// bouquet (cut out, no background) rising from the base of a soft gold arch, its flowers spilling
-// past the arch's sides. On phones the bouquet comes first, so the opening screen shows flowers.
+// The first screen. Left: the live same-day countdown, the headline, a line about the shop, the two
+// ways to order and four promises (unchanged). Right: a lily, fully open at first, that closes back
+// into a bud as you scroll.
 //
-// Motion: the arch opens upward (a soft film of our bouquets plays inside it) and its gold
-// outline is drawn in from the base; the bouquet settles, then sways and
-// follows the mouse a little (the arch moves the other way, for depth); a few petals drift down.
-// The words rise in order and "Bloom" catches one gold shimmer. The countdown pill has a live dot
-// and rolls its time over each minute. Everything waits for the opening screen to lift, and none of
-// the movement runs for visitors who have asked their device for reduced motion.
+// The section is taller than the screen and its panel sticks in place, so scrolling first plays the
+// lily closing (scrolling back up opens it again) and only then moves on to the next section.
+//
+// The bloom is built from five real photographs of the same lily at different stages (bud, opening,
+// unfolding, blooming, fully open), lined up on one stem in public/images/home/bloom. Each stage
+// dissolves into the next while the camera pushes in slowly; the last step zooms stage four up to
+// meet the full-bloom photo, so the flower grows rather than jumps. It is a dissolve between real
+// stages, not a continuous film of the petals moving.
+//
+// Visitors who ask their device for reduced motion get the fully open lily, with no pinning.
+// The hero always uses the dark palette, so its words stay readable on the dark photograph.
 
-const BOUQUET = { small: '/images/home/hero-bouquet-720.webp', large: '/images/home/hero-bouquet-1200.webp' }
-// A 17-second silent loop of our bouquets, each slowly zooming and crossfading into the next
-// (public/videos). It plays inside the arch, behind the cut-out bouquet. Phones get a lighter copy;
-// people who turn motion off see the still.
-const FILM = { large: '/videos/hero-bouquets.mp4', small: '/videos/hero-bouquets-540.mp4', poster: '/videos/hero-bouquets-poster.jpg' }
 const HEADLINE = ['Make', 'Every', 'Moment']
-// Where each drifting petal starts (across the arch), how long it takes, when it starts and how far it sways.
-const PETALS = [
-  { left: '18%', duration: '11s', delay: '2.2s', drift: '26px', size: 14 },
-  { left: '38%', duration: '13s', delay: '5.5s', drift: '-22px', size: 11 },
-  { left: '62%', duration: '10s', delay: '3.4s', drift: '30px', size: 13 },
-  { left: '80%', duration: '12.5s', delay: '7.8s', drift: '-18px', size: 10 },
-  { left: '50%', duration: '14s', delay: '10s', drift: '20px', size: 12 },
-]
+const STAGES = [1, 2, 3, 4, 5].map((n) => ({
+  src: `/images/home/bloom/stage-${n}.webp`,
+  srcSet: `/images/home/bloom/stage-${n}-680.webp 680w, /images/home/bloom/stage-${n}.webp 1020w`,
+}))
+const SIZES = '(min-width: 1024px) 60vw, 90vw'
+// The bottom of the stem and the centre of the open flower, as fractions of the 1020 x 900 frame.
+// The camera grows from the first; the last zoom centres on the second.
+const STEM_BASE = '48% 98%'
+const FLOWER_CENTRE = '48% 48%'
+// The full bloom's head is this much larger than stage four's on the shared frame.
+const LAST_ZOOM = 1.45
+// the nav bar's height on large screens (top strip + main bar)
+const NAV_HEIGHT = 97
 
 export default function Hero({ ready = true }: { ready?: boolean }) {
   const reduce = useReducedMotion()
@@ -40,35 +44,32 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
   const whatsapp = useWhatsApp()
   const minutesLeft = useCutoffCountdown(shop.sameDayCutoff)
   const { data: reviews } = useReviews()
-  const live = ready && !reduce
 
+  // 0 at the top of the hero, 1 once its extra scroll length has gone by, eased so a mouse wheel's
+  // steps still feel smooth.
   const section = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: section, offset: ['start start', 'end start'] })
-  const bouquetScrollY = useTransform(scrollYProgress, [0, 1], ['0%', '10%'])
-  // the lighter film for small screens, chosen once
-  const [filmSrc] = useState(() => (typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches ? FILM.small : FILM.large))
+  const { scrollY, scrollYProgress } = useScroll({ target: section, offset: ['start start', 'end end'] })
+  const p = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4, restDelta: 0.0005 })
 
-  // The pointer's place over the hero, from -1 to 1 on each axis, eased with a soft spring.
-  const pointerX = useMotionValue(0)
-  const pointerY = useMotionValue(0)
-  const easedX = useSpring(pointerX, { stiffness: 70, damping: 20, mass: 0.6 })
-  const easedY = useSpring(pointerY, { stiffness: 70, damping: 20, mass: 0.6 })
-  const bouquetX = useTransform(easedX, [-1, 1], [-16, 16])
-  const bouquetY = useTransform(easedY, [-1, 1], [-10, 10])
-  const bouquetTilt = useTransform(easedX, [-1, 1], [-2.5, 2.5])
-  const archX = useTransform(easedX, [-1, 1], [7, -7])
-  const archY = useTransform(easedY, [-1, 1], [5, -5])
+  // How open the lily is: 1 (full bloom) at the top of the hero, 0 (a closed bud) at the end.
+  const bloom = useTransform(p, (v) => 1 - v)
 
-  function followPointer(e: PointerEvent<HTMLElement>) {
-    if (!live || e.pointerType !== 'mouse') return
-    const box = e.currentTarget.getBoundingClientRect()
-    pointerX.set(((e.clientX - box.left) / box.width) * 2 - 1)
-    pointerY.set(((e.clientY - box.top) / box.height) * 2 - 1)
-  }
-  function resetPointer() {
-    pointerX.set(0)
-    pointerY.set(0)
-  }
+  // each stage fades in over the one before (their dark backgrounds match, so nothing flickers)
+  const show2 = useTransform(bloom, [0.1, 0.28], [0, 1])
+  const show3 = useTransform(bloom, [0.32, 0.5], [0, 1])
+  const show4 = useTransform(bloom, [0.54, 0.72], [0, 1])
+  const show5 = useTransform(bloom, [0.78, 0.94], [0, 1])
+  // (read from bud to bloom) the camera is close on the bud and settles back as it opens, then the matched zoom from
+  // stage four into the full bloom
+  const camera = useTransform(bloom, [0, 0.76], [1.12, 1])
+  // At the very top the nav bar pushes the panel down, which would hide the bottom of the stem, so on
+  // large screens the flower is lifted by the nav bar's height until the panel pins.
+  const lift = useTransform(scrollY, [0, NAV_HEIGHT], [-NAV_HEIGHT, 0], { clamp: true })
+  const liftPx = useTransform(lift, (v) => `${v}px`)
+  const growOut = useTransform(bloom, [0.78, 0.94], [1, LAST_ZOOM])
+  const growIn = useTransform(bloom, [0.78, 0.94], [1 / LAST_ZOOM, 1])
+  const cueOpacity = useTransform(p, [0, 0.85, 0.95], [1, 1, 0])
+  const cueFill = useTransform(p, [0, 0.95], [0, 1])
 
   // Until the opening screen lifts, everything waits at its starting pose.
   const play = <T,>(target: T) => (ready ? target : undefined)
@@ -90,12 +91,51 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
   return (
     <section
       ref={section}
-      onPointerMove={followPointer}
-      onPointerLeave={resetPointer}
+      data-theme="dark"
       aria-labelledby="home-hero-title"
-      className="hero-glow relative overflow-hidden bg-surface bg-[radial-gradient(60%_55%_at_85%_10%,rgba(252,228,236,0.75)_0%,rgba(252,228,236,0)_70%),radial-gradient(50%_60%_at_5%_90%,rgba(233,195,73,0.14)_0%,rgba(233,195,73,0)_70%)]"
+      className={`relative bg-[#0a090a] text-on-surface ${reduce ? '' : 'h-[200vh] lg:h-[260vh]'}`}
     >
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-6 px-4 pb-8 pt-5 sm:gap-10 sm:pt-8 lg:min-h-[calc(100svh-113px)] lg:grid-cols-2 lg:gap-16 lg:px-12 lg:py-8">
+      <div className={`${reduce ? 'relative min-h-[calc(100svh-88px)] lg:min-h-[calc(100svh-96px)]' : 'sticky top-0 h-[100svh]'} overflow-hidden`}>
+        {/* the dark room: a warm glow behind the flower, darker towards the words */}
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(60%_70%_at_72%_45%,#2a1a1f_0%,#140f11_45%,#0a090a_75%)]" />
+
+        {/* ---- the lily ---- */}
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0 }}
+          animate={play({ opacity: 1 })}
+          transition={{ duration: 1.4, delay: 0.2, ease: EASE_OUT }}
+          style={reduce ? undefined : { ['--lift' as string]: liftPx }}
+          className="absolute lg:[translate:0_var(--lift,0px)] left-1/2 top-[3%] aspect-[1020/900] h-[46%] -translate-x-1/2 sm:h-[52%] lg:bottom-0 lg:left-auto lg:right-[-8%] lg:top-auto lg:h-[96%] lg:max-w-[58vw] lg:translate-x-0 [mask-image:radial-gradient(72%_72%_at_50%_52%,#000_58%,transparent_100%)]"
+        >
+          {reduce ? (
+            <img src={STAGES[4].src} srcSet={STAGES[4].srcSet} sizes={SIZES} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <motion.div className="absolute inset-0" style={{ scale: camera, transformOrigin: STEM_BASE }}>
+              {/* stages one to four, which zoom out of the way as the full bloom arrives */}
+              <motion.div className="absolute inset-0" style={{ scale: growOut, transformOrigin: FLOWER_CENTRE }}>
+                <img src={STAGES[0].src} srcSet={STAGES[0].srcSet} sizes={SIZES} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                <motion.img src={STAGES[1].src} srcSet={STAGES[1].srcSet} sizes={SIZES} alt="" style={{ opacity: show2 }} className="absolute inset-0 h-full w-full object-cover" />
+                <motion.img src={STAGES[2].src} srcSet={STAGES[2].srcSet} sizes={SIZES} alt="" style={{ opacity: show3 }} className="absolute inset-0 h-full w-full object-cover" />
+                <motion.img src={STAGES[3].src} srcSet={STAGES[3].srcSet} sizes={SIZES} alt="" style={{ opacity: show4 }} className="absolute inset-0 h-full w-full object-cover" />
+              </motion.div>
+              <motion.img
+                src={STAGES[4].src}
+                srcSet={STAGES[4].srcSet}
+                sizes={SIZES}
+                alt=""
+                fetchPriority="high"
+                style={{ opacity: show5, scale: growIn, transformOrigin: FLOWER_CENTRE }}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </motion.div>
+          )}
+          {/* on large screens the photo's left edge melts into the dark beside the words */}
+          <span className="absolute inset-y-0 left-0 hidden w-[34%] bg-[linear-gradient(to_right,#0b090a_0%,rgba(11,9,10,0.85)_30%,rgba(11,9,10,0)_100%)] lg:block" />
+        </motion.div>
+        <span className="sr-only">A pink lily in full bloom that closes back into a bud as you scroll.</span>
+
+        <div className="relative mx-auto grid h-full max-w-7xl grid-cols-1 items-end px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom))] sm:pb-[calc(7.5rem+env(safe-area-inset-bottom))] lg:grid-cols-2 lg:content-start lg:items-start lg:gap-16 lg:px-12 lg:pb-0 lg:pt-[7vh]">
         {/* ---- the words ---- */}
         <div>
           <motion.p {...rise(0.15)} className="inline-flex items-center gap-2.5 rounded-full bg-[#1b1c1c] py-2 pl-3.5 pr-4 text-[13px] font-medium text-white sm:text-[14px]">
@@ -206,78 +246,22 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             ))}
           </motion.ul>
         </div>
-
-        {/* ---- the bouquet, rising from its gold arch (first on phones) ---- */}
-        <div className="relative order-first mx-auto aspect-[4/5] w-full max-w-[190px] sm:max-w-[300px] lg:order-none lg:max-w-[min(500px,calc((100svh-190px)*0.8))]">
-          <motion.div aria-hidden="true" className="absolute inset-x-[7%] inset-y-0" style={live ? { x: archX, y: archY } : undefined}>
-            {/* the arch opens upward; inside it a soft film of our bouquets plays behind the cut-out bouquet */}
-            <motion.div
-              initial={{ clipPath: 'inset(100% 0% 0% 0% round 999px 999px 0 0)' }}
-              animate={play({ clipPath: 'inset(0% 0% 0% 0% round 999px 999px 0 0)' })}
-              transition={{ duration: 1.3, delay: 0.2, ease: [0.65, 0, 0.35, 1] }}
-              className="absolute inset-0 overflow-hidden rounded-t-full bg-[linear-gradient(180deg,#f7ecd6_0%,#f6e6e9_70%,#f3e3e6_100%)] dark:bg-[linear-gradient(180deg,#2a2422_0%,#241f20_100%)]"
-            >
-              {reduce ? (
-                <img src={FILM.poster} alt="" className="h-full w-full scale-110 object-cover" />
-              ) : (
-                <video className="h-full w-full scale-110 object-cover" src={filmSrc} poster={FILM.poster} autoPlay muted loop playsInline preload="auto" />
-              )}
-              {/* a cream wash, so the film stays soft and the bouquet in front stands out */}
-              <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(247,236,214,0.45)_0%,rgba(246,230,233,0.55)_60%,rgba(243,227,230,0.85)_100%)] dark:bg-[linear-gradient(180deg,rgba(20,19,18,0.35)_0%,rgba(20,19,18,0.5)_60%,rgba(20,19,18,0.8)_100%)]" />
-            </motion.div>
-            {/* the gold outline is drawn in from the base up, after the panel */}
-            <motion.span
-              initial={{ clipPath: 'inset(100% 0% 0% 0%)' }}
-              animate={play({ clipPath: 'inset(0% 0% 0% 0%)' })}
-              transition={{ duration: 1.6, delay: 0.5, ease: [0.65, 0, 0.35, 1] }}
-              className="absolute -inset-2.5 rounded-t-full border border-[#d4af37]/60"
-            />
-          </motion.div>
-
-          {/* petals drifting down past the bouquet */}
-          {live && (
-            <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-visible">
-              {PETALS.map((p) => (
-                <span
-                  key={p.left}
-                  className="hero-petal absolute top-[18%]"
-                  style={{ left: p.left, width: p.size, height: p.size * 1.35, animationDuration: p.duration, animationDelay: p.delay, ['--drift' as string]: p.drift }}
-                />
-              ))}
-            </div>
-          )}
-
-          <motion.div style={reduce ? undefined : { y: bouquetScrollY }} className="absolute bottom-0 left-[-10%] w-[120%]">
-            <motion.div style={live ? { x: bouquetX, y: bouquetY, rotate: bouquetTilt } : undefined} className="origin-bottom">
-              <motion.img
-                src={BOUQUET.large}
-                srcSet={`${BOUQUET.small} 720w, ${BOUQUET.large} 1209w`}
-                sizes="(min-width: 1024px) 600px, (min-width: 640px) 430px, 330px"
-                alt="A hand holding a bouquet of pink roses, peach peonies, daisies and yellow tansy"
-                fetchPriority="high"
-                initial={{ opacity: 0, y: 40, scale: 0.94 }}
-                animate={play({ opacity: 1, y: 0, scale: 1 })}
-                transition={{ type: 'spring', bounce: 0.2, visualDuration: 1, delay: 0.45 }}
-                className={`hero-bouquet relative w-full drop-shadow-[0_30px_40px_rgba(107,90,96,0.25)] ${live ? 'hero-bouquet-sway' : ''}`}
-              />
-            </motion.div>
-          </motion.div>
         </div>
-      </div>
 
-      {/* the way on down to the products */}
-      <motion.a
-        href="#all-products-title"
-        initial={{ opacity: 0 }}
-        animate={play({ opacity: 1 })}
-        transition={{ duration: 0.8, delay: 1.8 }}
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-[12px] font-medium uppercase tracking-[0.24em] text-on-surface-variant hover:text-tertiary lg:flex"
-      >
-        Scroll
-        <span aria-hidden="true" className="relative block h-10 w-px overflow-hidden bg-outline-variant/70">
-          <span className="hero-scroll-dot absolute left-0 top-0 block h-3 w-px bg-[#d4af37]" />
-        </span>
-      </motion.a>
+        {/* the way on down: fills as the lily closes, and fades once it is a bud */}
+        {!reduce && (
+          <motion.a
+            href="#all-products-title"
+            style={{ opacity: cueOpacity }}
+            className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-[12px] font-medium uppercase tracking-[0.24em] text-on-surface-variant hover:text-tertiary lg:flex"
+          >
+            Scroll
+            <span aria-hidden="true" className="relative block h-10 w-px overflow-hidden bg-outline-variant/70">
+              <motion.span style={{ scaleY: cueFill }} className="absolute inset-0 block origin-top bg-[#d4af37]" />
+            </span>
+          </motion.a>
+        )}
+      </div>
     </section>
   )
 }
