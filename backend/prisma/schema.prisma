@@ -188,6 +188,16 @@ model ProductImage {
   @@index([productId, position])
 }
 
+// Photos the owner uploads when Cloudinary is not set up. The browser shrinks each photo first
+// (WebP, at most 1600px), so they stay small. Served at /api/images/<id>.
+model StoredImage {
+  id        String   @id @default(uuid()) @db.Uuid
+  mime      String
+  data      Bytes
+  size      Int
+  createdAt DateTime @default(now())
+}
+
 // ---------------------------------------------------------------- orders
 
 model Order {

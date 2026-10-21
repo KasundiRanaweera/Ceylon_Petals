@@ -1,6 +1,7 @@
 import { Prisma } from '../generated/prisma/client.js'
 import { prisma } from '../lib/prisma.js'
 import { deleteCloudinaryImage, publicIdFromUrl } from '../lib/cloudinary.js'
+import { deleteStoredImage, storedImageId } from './storedImages.js'
 import { notFound, unprocessable } from '../lib/errors.js'
 import { productInclude, toProductDto, type ProductDto } from './catalog.js'
 
@@ -85,12 +86,15 @@ function scalarData(input: ProductInput) {
 async function cleanUpPhotos(urls: string[]): Promise<void> {
   for (const url of urls) {
     const publicId = publicIdFromUrl(url)
-    if (!publicId) continue // not one of ours (e.g. a pasted link)
+    const storedId = storedImageId(url)
+    if (!publicId && !storedId) continue // not one of ours (e.g. a pasted link)
     const [inProducts, inCategories] = await Promise.all([
       prisma.productImage.count({ where: { url } }),
       prisma.category.count({ where: { imageUrl: url } }),
     ])
-    if (inProducts === 0 && inCategories === 0) await deleteCloudinaryImage(publicId)
+    if (inProducts > 0 || inCategories > 0) continue // still used somewhere else
+    if (publicId) await deleteCloudinaryImage(publicId)
+    if (storedId) await deleteStoredImage(storedId)
   }
 }
 

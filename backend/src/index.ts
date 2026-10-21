@@ -2,6 +2,7 @@ import { env } from './config/env.js'
 import { createApp } from './app.js'
 import { prisma } from './lib/prisma.js'
 import { startCardOrderExpiryJob } from './jobs/expireCardOrders.js'
+import { startPhotoCleanupJob } from './jobs/cleanUpPhotos.js'
 
 const app = createApp()
 
@@ -10,6 +11,7 @@ const server = app.listen(env.PORT, () => {
 })
 
 startCardOrderExpiryJob()
+startPhotoCleanupJob()
 
 // Finish in-flight requests and close the database connection before exiting,
 // so a redeploy never cuts a customer's order in half.

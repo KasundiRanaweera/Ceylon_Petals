@@ -1,6 +1,8 @@
-import { Router } from 'express'
+import express, { Router } from 'express'
 import { z } from 'zod'
 import { createUploadSignature } from '../../lib/cloudinary.js'
+import { env } from '../../config/env.js'
+import { isStoredImageUrl, saveStoredImage, STORED_IMAGE_MAX_BYTES } from '../../services/storedImages.js'
 import { idParams, textSchema } from '../../lib/validation.js'
 import { uploadSignLimiter } from '../../middleware/rateLimit.js'
 import {
@@ -19,8 +21,9 @@ export const adminCatalogRouter = Router()
 
 // ---------------------------------------------------------------- products
 
-// A photo is either a full https:// link (Cloudinary or any image address), or one of the shop's own
-// files under /images/ (the sample products ship with these). Anything else, such as data: images,
+// A photo is either a full https:// link (Cloudinary or any image address), one the owner uploaded
+// to the shop (/api/images/<id>), or one of the shop's own files under /images/ (the sample products
+// ship with these). Anything else, such as data: images,
 // plain http:// or other relative paths, is refused.
 const SITE_PHOTO = /^\/images\/[A-Za-z0-9._/-]+$/
 function isPhotoLink(value: string): boolean {
@@ -31,6 +34,7 @@ function isPhotoLink(value: string): boolean {
       return false
     }
   }
+  if (isStoredImageUrl(value)) return true // a photo the owner uploaded to the shop itself
   return SITE_PHOTO.test(value) && !value.includes('..') && !value.includes('//')
 }
 const PHOTO_HINT = "Use a photo link that starts with https:// (or upload a photo instead)"
@@ -152,3 +156,22 @@ adminCatalogRouter.delete('/categories/:id', async (req, res) => {
 adminCatalogRouter.post('/uploads/sign', uploadSignLimiter, (_req, res) => {
   res.json(createUploadSignature())
 })
+
+// GET /api/admin/uploads/mode  ->  { mode: 'cloudinary' | 'shop' }
+// Where the photo upload button sends photos: Cloudinary when it is set up, otherwise the shop itself.
+adminCatalogRouter.get('/uploads/mode', (_req, res) => {
+  res.json({ mode: env.cloudinary.configured ? 'cloudinary' : 'shop' })
+})
+
+// POST /api/admin/uploads   body: the photo's bytes (Content-Type image/*)  ->  { url }
+// Used when Cloudinary is not set up. The photo is stored in the database and served at
+// /api/images/<id>. Only real JPG, PNG, WebP or AVIF photos up to 5 MB are accepted.
+adminCatalogRouter.post(
+  '/uploads',
+  uploadSignLimiter,
+  express.raw({ type: ['image/jpeg', 'image/png', 'image/webp', 'image/avif'], limit: STORED_IMAGE_MAX_BYTES }),
+  async (req, res) => {
+    const bytes = Buffer.isBuffer(req.body) ? req.body : Buffer.alloc(0)
+    res.status(201).json(await saveStoredImage(bytes))
+  },
+)
