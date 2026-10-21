@@ -3,9 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Menu, Globe, Store, LogOut, LayoutDashboard } from 'lucide-react'
 import { currentAdminPage } from './adminNav'
 import { useAuth } from '../../hooks/useAuth'
+import ThemeToggle from '../layout/ThemeToggle'
 
 interface AdminTopbarProps {
   onMenuClick: () => void
+  /** The sidebar is a slim rail, so the bar starts further left. */
+  sidebarCollapsed?: boolean
   shopOpen: boolean
 }
 
@@ -30,7 +33,7 @@ function useColomboTime() {
   return time
 }
 
-export default function AdminTopbar({ onMenuClick, shopOpen }: AdminTopbarProps) {
+export default function AdminTopbar({ onMenuClick, shopOpen, sidebarCollapsed = false }: AdminTopbarProps) {
   const time = useColomboTime()
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
@@ -43,7 +46,7 @@ export default function AdminTopbar({ onMenuClick, shopOpen }: AdminTopbarProps)
   }
 
   return (
-    <header className="print:hidden fixed top-0 left-0 lg:left-72 right-0 h-20 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-30">
+    <header className={`print:hidden fixed top-0 left-0 right-0 h-20 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-30 transition-[left] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${sidebarCollapsed ? 'lg:left-20' : 'lg:left-72'}`}>
       <div className="w-full h-20 px-4 lg:px-8 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
           <button
@@ -74,6 +77,8 @@ export default function AdminTopbar({ onMenuClick, shopOpen }: AdminTopbarProps)
             <Globe size={16} className="text-on-surface-variant" />
             <span>Colombo • {time}</span>
           </div>
+          {/* light / dark theme (the same choice as the shop's) */}
+          <ThemeToggle />
           <a
             href="/"
             target="_blank"
