@@ -6,7 +6,7 @@ import { listProducts } from '../../services/catalog'
 // The featured arrangements: the products the owner marks as Featured (Admin -> Products).
 export default function SignatureSeries() {
   const { data: products } = useQuery({ queryKey: ['products', {}], queryFn: () => listProducts() })
-  const featured = products?.filter((p) => p.isFeatured && p.stock > 0).slice(0, 6)
+  const featured = products?.filter((p) => p.isFeatured && p.stock > 0).slice(0, 8)
 
   return (
     <section aria-labelledby="signature-title" className="bg-surface-container-low py-20 lg:py-28">
@@ -22,7 +22,7 @@ export default function SignatureSeries() {
             View all flowers
           </Link>
         </div>
-        <ProductGrid products={featured} loading={!products} columns={3} />
+        <ProductGrid products={featured} loading={!products} columns={4} />
       </div>
     </section>
   )
