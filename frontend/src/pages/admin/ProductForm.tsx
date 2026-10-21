@@ -200,7 +200,7 @@ function Editor({ product }: { product: Product | null }) {
 
           <section className="bg-surface-container-lowest rounded-xl shadow-sm p-6 space-y-4">
             <h2 className="font-display text-headline-sm text-primary">Photos</h2>
-            <p className="text-body-sm text-secondary">The first photo is the main one on cards. Square or portrait photos look best.</p>
+            <p className="text-body-sm text-secondary">Upload photos straight from your phone or computer (JPG, PNG, WebP or iPhone HEIC), or paste a link. The first photo is the main one on cards. Square or portrait photos look best.</p>
             {form.images.length > 0 && (
               <ul className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {form.images.map((src, i) => (
@@ -230,7 +230,7 @@ function Editor({ product }: { product: Product | null }) {
             <div className="flex flex-col sm:flex-row gap-3">
               <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-on-primary text-label-md cursor-pointer hover:bg-primary-container">
                 <ImagePlus size={16} /> {uploading ? 'Uploading…' : 'Upload photos'}
-                <input type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple disabled={uploading} className="sr-only" onChange={(e) => { addFiles(e.target.files); e.target.value = '' }} />
+                <input type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/heic,image/heif,.heic,.heif" multiple disabled={uploading} className="sr-only" onChange={(e) => { addFiles(e.target.files); e.target.value = '' }} />
               </label>
               <div className="flex flex-1 gap-2">
                 <label htmlFor="image-url" className="sr-only">Image link</label>

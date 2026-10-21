@@ -1,11 +1,12 @@
 import { useState, type FormEvent } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Plus, Pencil, Trash2, Eye, EyeOff, ExternalLink } from 'lucide-react'
+import { Plus, Pencil, Trash2, Eye, EyeOff, ExternalLink, ImagePlus } from 'lucide-react'
 import AdminPageHeader from '../../components/admin/AdminPageHeader'
 import ConfirmDialog from '../../components/ui/ConfirmDialog'
 import { FormError, TextAreaField, TextField } from '../../components/ui/Field'
 import { adminListCategories, deleteCategory, saveCategory } from '../../services/catalog'
 import { useToast } from '../../hooks/useToast'
+import { uploadPhoto } from '../../services/uploads'
 import type { Category } from '../../types'
 
 type Draft = Omit<Category, 'id' | 'slug'> & { id?: string }
@@ -18,6 +19,22 @@ export default function Categories() {
   const { data: categories = [], isLoading } = useQuery({ queryKey: ['admin', 'categories'], queryFn: adminListCategories })
   const [draft, setDraft] = useState<Draft | null>(null)
   const [deleting, setDeleting] = useState<Category | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+
+  async function uploadImage(file: File | undefined) {
+    if (!file || !draft) return
+    setUploadError(null)
+    setUploading(true)
+    try {
+      const url = await uploadPhoto(file)
+      setDraft((d) => (d ? { ...d, imageUrl: url } : d))
+    } catch (err) {
+      setUploadError((err as Error).message)
+    } finally {
+      setUploading(false)
+    }
+  }
 
   const refresh = () => {
     queryClient.invalidateQueries({ queryKey: ['admin'] })
@@ -67,7 +84,21 @@ export default function Categories() {
             <TextField id="cat-order" label="Menu order" type="number" value={String(draft.sortOrder)} onChange={(e) => setDraft({ ...draft, sortOrder: Number(e.target.value) })} />
           </div>
           <TextAreaField id="cat-desc" label="Description" rows={2} value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} />
-          <TextField id="cat-image" label="Image link" placeholder="https://…" hint="Shown on the home page category cards." value={draft.imageUrl} onChange={(e) => setDraft({ ...draft, imageUrl: e.target.value })} />
+          <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-4 items-end">
+            <div className="flex items-center gap-3">
+              {draft.imageUrl ? (
+                <img src={draft.imageUrl} alt="" className="w-16 h-16 rounded-lg object-cover bg-surface-container shrink-0" />
+              ) : (
+                <div className="w-16 h-16 rounded-lg bg-surface-container shrink-0" />
+              )}
+              <label className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-on-primary text-label-md cursor-pointer hover:bg-primary-container">
+                <ImagePlus size={16} /> {uploading ? 'Uploading…' : 'Upload photo'}
+                <input type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/heic,image/heif,.heic,.heif" disabled={uploading} className="sr-only" onChange={(e) => { void uploadImage(e.target.files?.[0]); e.target.value = '' }} />
+              </label>
+            </div>
+            <TextField id="cat-image" label="…or image link" placeholder="https://…" hint="Shown on the home page category cards." value={draft.imageUrl} onChange={(e) => setDraft({ ...draft, imageUrl: e.target.value })} />
+          </div>
+          <FormError message={uploadError} />
           <label className="flex items-center gap-2 text-body-md cursor-pointer">
             <input type="checkbox" checked={draft.isActive} onChange={(e) => setDraft({ ...draft, isActive: e.target.checked })} className="accent-primary w-4 h-4" />
             Show in the shop
