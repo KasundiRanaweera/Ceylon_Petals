@@ -57,7 +57,7 @@ export default function StandardSection() {
           <div className="lg:col-span-6">
             <div className="bg-white/5 ring-1 ring-white/10 p-6 md:p-10 rounded-xl space-y-4 backdrop-blur-sm">
               <h3 className="font-display text-headline-sm text-[#e9c349]">From Harvest to Ceremony</h3>
-              <div className="w-full bg-primary/60 ring-1 ring-white/10 p-4 rounded-lg">
+              <div className="w-full bg-ink/60 ring-1 ring-white/10 p-4 rounded-lg">
                 <svg className="w-full h-auto" fill="none" viewBox="0 0 400 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three step flow: harvest, cool transit, venue setup">
                   <path className="text-[#e9c349]/50" d="M70 65 H330" stroke="currentColor" strokeDasharray="4 4" strokeWidth="2" />
                   {FLOW_STEPS.map((s) => (

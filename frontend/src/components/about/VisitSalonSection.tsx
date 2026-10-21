@@ -75,7 +75,7 @@ export default function VisitSalonSection() {
                     "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBx8asNL_a8QlcH0WI7mVvS0k94jEthl705AbJCcrlbm_ertkgB_pPtW4m0sqyKEyVSHXsfAcGk2K5fl3BmlhavWpR0hAX8ga8bEoy26TPUg0zNYeRDdPRQN8KGtY1aa9m1djG1zPHQV7gRANW02HLg2EyiTiagybgHXx4BOpjQW-Qx7P8p2uXgeCSydFka5mQyiPHCXHh4yNhVuT4iTEGnlzOhoUkLHZGpVg4dbginBW9JWbQgaV0LnQ=w1408')",
                 }}
               >
-                <div className="px-3 py-1 rounded-full bg-primary/80 backdrop-blur-md text-white text-[11px] flex items-center gap-1">
+                <div className="px-3 py-1 rounded-full bg-ink/80 backdrop-blur-md text-white text-[11px] flex items-center gap-1">
                   <MapPin size={14} />
                   {area || 'Our studio'}
                 </div>

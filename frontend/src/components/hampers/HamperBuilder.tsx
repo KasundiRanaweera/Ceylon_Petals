@@ -83,7 +83,7 @@ export default function HamperBuilder() {
             <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-primary text-[#e9c349] flex items-center justify-center font-display text-label-md">1</span>
+                  <span className="w-8 h-8 rounded-full bg-ink text-[#e9c349] flex items-center justify-center font-display text-label-md">1</span>
                   <h3 className="font-display text-headline-sm text-on-surface">Choose Your Floral Arrangement Base</h3>
                 </div>
                 <span className="text-[11px] text-tertiary uppercase tracking-[0.18em]">Required</span>
@@ -98,7 +98,7 @@ export default function HamperBuilder() {
             <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-primary text-[#e9c349] flex items-center justify-center font-display text-label-md">2</span>
+                  <span className="w-8 h-8 rounded-full bg-ink text-[#e9c349] flex items-center justify-center font-display text-label-md">2</span>
                   <h3 className="font-display text-headline-sm text-on-surface">Select Gourmet Sweet Treats</h3>
                 </div>
                 <span className="text-[11px] text-tertiary uppercase tracking-[0.18em]">Pick 1 or More</span>
@@ -113,7 +113,7 @@ export default function HamperBuilder() {
             <div className="rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40 shadow-[0_18px_40px_-28px_rgba(48,48,48,0.35)] p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-primary text-[#e9c349] flex items-center justify-center font-display text-label-md">3</span>
+                  <span className="w-8 h-8 rounded-full bg-ink text-[#e9c349] flex items-center justify-center font-display text-label-md">3</span>
                   <h3 className="font-display text-headline-sm text-on-surface">Add a Keepsake or Beverage</h3>
                 </div>
                 <span className="text-[11px] text-tertiary uppercase tracking-[0.18em]">Optional</span>

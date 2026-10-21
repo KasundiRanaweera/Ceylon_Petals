@@ -60,9 +60,9 @@ export default function IntroSplash({ onDone }: { onDone: () => void }) {
       onClick={onDone}
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, y: '-6%', transition: { duration: 0.75, ease: EASE_OUT } }}
-      className="fixed inset-0 z-[200] flex cursor-pointer flex-col items-center justify-center bg-[#f3ece4] bg-[radial-gradient(70%_60%_at_50%_45%,#f8f3ee_0%,#efe6dc_100%)]"
+      className="fixed inset-0 z-[200] flex cursor-pointer flex-col items-center justify-center bg-[#f3ece4] bg-[radial-gradient(70%_60%_at_50%_45%,#f8f3ee_0%,#efe6dc_100%)] dark:bg-[#141312] dark:bg-[radial-gradient(70%_60%_at_50%_45%,#24211f_0%,#141312_100%)]"
     >
-      <svg viewBox="0 0 120 140" className="h-auto w-[132px] text-[#5b4a4f] sm:w-[150px]" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
+      <svg viewBox="0 0 120 140" className="h-auto w-[132px] text-[#5b4a4f] dark:text-[#dcc3ca] sm:w-[150px]" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
         {PETALS.map((d, i) => (
           <motion.path key={d} d={d} {...draw(0.1 + i * 0.12)} />
         ))}
@@ -85,7 +85,7 @@ export default function IntroSplash({ onDone }: { onDone: () => void }) {
         initial={{ opacity: 0, letterSpacing: '0.5em' }}
         animate={{ opacity: 1, letterSpacing: '0.32em' }}
         transition={{ duration: 0.9, delay: 0.85, ease: EASE_OUT }}
-        className="-mt-12 bg-[#f5efe8] px-3 font-display text-[15px] uppercase text-[#3d3235] sm:text-[17px]"
+        className="-mt-12 bg-[#f5efe8] px-3 dark:bg-[#1d1b1a] font-display text-[15px] uppercase text-[#3d3235] dark:text-[#ece6e2] sm:text-[17px]"
       >
         {shopName}
       </motion.p>

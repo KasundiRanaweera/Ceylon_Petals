@@ -74,7 +74,7 @@ export default function PageHero({
         <>
           <img src={backdrop.src} alt={backdrop.alt} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
           {/* the cream wash keeps the mauve title readable over any photo */}
-          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-[#fcf9f8]/80 via-[#fcf9f8]/62 to-[#fcf9f8]/90" />
+          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-surface/80 via-surface/62 to-surface/90" />
         </>
       ) : (
         <Blobs tone={tone} />

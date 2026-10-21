@@ -83,14 +83,14 @@ export default function DeliveryCoverage() {
                       "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDf-WUlqCYIvSdchj307iXMXLEkuCRgWLopfcVljQBMObJwsp90wc7LuwOYKKTod8HqLkybA0rf_LOh4OgpQlVUM9yurbYbhOke3vBZHLEkLvNa6xCnyhC2e6H31PnyXg_7WMMr29kGBxWSO6xKuovFA_pKPnrWKh4eQ1tZUmDA-7gnbU9I_Z2dyztySzy1wb_ShMgmoplUKjK_pt6IstrARZH-unlQfbDvZ_mrRLxtnesLLFolycNepw=w1408')",
                   }}
                 >
-                  <div className="absolute inset-0 bg-primary/20" />
+                  <div className="absolute inset-0 bg-ink/20" />
                   <div className="absolute top-8 left-8 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1.5 rounded-full shadow-sm text-on-surface text-xs font-semibold flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-[#d4af37]" /> {sameDay.length > 0 ? `Same-day: ${listWords(sameDay)}` : 'Islandwide delivery'}
                   </div>
                   <div className="absolute bottom-10 right-8 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1.5 rounded-full shadow-sm text-on-surface text-xs font-semibold flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-[#d4af37]" /> Order before {formatClock(shop.sameDayCutoff)}
                   </div>
-                  <div className="absolute top-1/2 left-1/3 bg-primary text-[#e9c349] px-3 py-1 rounded-full shadow-lg text-xs font-semibold flex items-center gap-1">
+                  <div className="absolute top-1/2 left-1/3 bg-ink text-[#e9c349] px-3 py-1 rounded-full shadow-lg text-xs font-semibold flex items-center gap-1">
                     <MapPin size={14} /> Our studio
                   </div>
                 </div>

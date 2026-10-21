@@ -42,10 +42,10 @@ export default function LiveFigures() {
   )
 
   return (
-    <section aria-label="The shop in figures" className="figures-marquee relative overflow-hidden bg-primary py-6 lg:py-8">
+    <section aria-label="The shop in figures" className="figures-marquee relative overflow-hidden bg-ink py-6 lg:py-8">
       {/* soft charcoal fades at both ends, so figures slide in and out instead of being cut off */}
-      <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-primary to-transparent sm:w-28" />
-      <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-primary to-transparent sm:w-28" />
+      <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-ink to-transparent sm:w-28" />
+      <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-ink to-transparent sm:w-28" />
       <div key={figures.length} className="figures-marquee-track flex w-max">
         {row(false)}
         {row(true)}

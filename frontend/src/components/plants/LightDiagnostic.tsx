@@ -79,7 +79,7 @@ export default function LightDiagnostic() {
                     isActive ? 'ring-2 ring-[#d4af37]' : 'ring-outline-variant/40 hover:ring-[#d4af37]/60'
                   }`}
                 >
-                  <div className={`p-2.5 rounded-lg ${isActive ? 'bg-primary text-[#e9c349]' : 'bg-surface-container-low text-tertiary'}`}>
+                  <div className={`p-2.5 rounded-lg ${isActive ? 'bg-ink text-[#e9c349]' : 'bg-surface-container-low text-tertiary'}`}>
                     <Icon size={24} />
                   </div>
                   <div className="flex-1 min-w-0">

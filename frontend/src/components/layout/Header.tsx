@@ -4,6 +4,7 @@ import { Link, NavLink, useNavigate, useSearchParams } from 'react-router-dom'
 import { Search, Truck, UserRound, ShoppingBag, Menu, X, LayoutDashboard, MessageCircle, PenLine } from 'lucide-react'
 import Logo from './Logo'
 import Ticker from './Ticker'
+import ThemeToggle from './ThemeToggle'
 import { SHOP_NAV } from './navLinks'
 import { useCart } from '../../hooks/useCart'
 import { useAuth } from '../../hooks/useAuth'
@@ -88,7 +89,7 @@ export default function Header() {
     >
       {/* ---- Info bar: one calm, readable line ---- */}
       {shop.acceptingOrders ? (
-        <div className="bg-primary text-[13px] tracking-[0.02em] text-[#f3f0ef]">
+        <div className="bg-ink text-[13px] tracking-[0.02em] text-[#f3f0ef]">
           <div className="mx-auto flex h-9 max-w-7xl items-center gap-6 px-4 lg:px-12">
             <Ticker />
             <div className="hidden shrink-0 items-center gap-6 md:flex">
@@ -149,6 +150,7 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-1 sm:gap-2">
+          <ThemeToggle />
           <button
             type="button"
             onClick={() => {
@@ -183,7 +185,7 @@ export default function Header() {
               initial={{ scale: count > 0 ? 1.6 : 1 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', bounce: 0.5, visualDuration: 0.35 }}
-              className="min-w-5 rounded-full bg-primary px-1.5 py-0.5 text-center text-[11px] font-bold text-white"
+              className="min-w-5 rounded-full bg-ink px-1.5 py-0.5 text-center text-[11px] font-bold text-white"
             >
               {count}
             </motion.span>
@@ -249,7 +251,7 @@ export default function Header() {
                       to={link.path}
                       onClick={close}
                       className={({ isActive }) =>
-                        `rounded-lg px-3 py-3 text-[16px] ${isActive ? 'bg-primary text-white' : 'text-on-surface hover:bg-surface-container-low'}`
+                        `rounded-lg px-3 py-3 text-[16px] ${isActive ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'}`
                       }
                     >
                       {link.label}

@@ -123,7 +123,7 @@ export default function ColdChainTimeline() {
             <div className="lg:col-span-6">
               <div className="group relative h-80 lg:h-96 rounded-xl overflow-hidden">
                 <img className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none" src={active.imageUrl} alt={active.title} />
-                <div className="absolute bottom-4 left-4 right-4 p-3 bg-primary/80 backdrop-blur-md rounded-lg text-white text-[11px]">
+                <div className="absolute bottom-4 left-4 right-4 p-3 bg-ink/80 backdrop-blur-md rounded-lg text-white text-[11px]">
                   {active.imageCaption}
                 </div>
               </div>

@@ -140,7 +140,7 @@ export default function AdminSidebar({ open, onClose, shopOpen, onToggleShop }: 
               aria-checked={shopOpen}
               aria-label="Toggle accepting orders"
               onClick={onToggleShop}
-              className={`relative w-11 h-6 rounded-full transition-colors shrink-0 ${shopOpen ? 'bg-primary' : 'bg-outline-variant'}`}
+              className={`relative w-11 h-6 rounded-full transition-colors shrink-0 ${shopOpen ? 'bg-tertiary-container' : 'bg-outline-variant'}`}
             >
               <span
                 className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${

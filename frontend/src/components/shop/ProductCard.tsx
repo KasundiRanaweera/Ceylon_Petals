@@ -78,24 +78,24 @@ export default function ProductCard({ product, copy = false, sizes }: ProductCar
               <span className="rounded-full bg-[#1b1c1c] px-2.5 py-1 text-[11px] font-semibold tracking-[0.04em] text-[#e9c349]">−{off}%</span>
             )}
             {product.sameDay && !soldOut && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium tracking-[0.04em] text-tertiary backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium tracking-[0.04em] text-[#735c00] backdrop-blur-sm">
                 <Truck size={12} aria-hidden="true" /> Same-day
               </span>
             )}
             {product.badge && (
-              <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium tracking-[0.04em] text-on-surface backdrop-blur-sm">
+              <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium tracking-[0.04em] text-[#1b1c1c] backdrop-blur-sm">
                 {product.badge}
               </span>
             )}
             {!soldOut && isLowStock(product) && (
-              <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium text-error backdrop-blur-sm">
+              <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium text-[#ba1a1a] backdrop-blur-sm">
                 Only {product.stock} left
               </span>
             )}
           </div>
 
           {soldOut && (
-            <span className="absolute inset-x-3 bottom-3 rounded-full bg-white/90 py-2 text-center text-[13px] font-medium text-on-surface backdrop-blur-sm">
+            <span className="absolute inset-x-3 bottom-3 rounded-full bg-white/90 py-2 text-center text-[13px] font-medium text-[#1b1c1c] backdrop-blur-sm">
               Sold out today
             </span>
           )}
@@ -122,7 +122,7 @@ export default function ProductCard({ product, copy = false, sizes }: ProductCar
               aria-label={added ? `${product.name} added to cart` : `Add ${product.name} to cart`}
               whileTap={{ scale: 0.94 }}
               className={`card-add flex h-11 cursor-pointer items-center overflow-hidden rounded-full px-3 shadow-[0_8px_20px_-8px_rgba(0,0,0,0.45)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b1c1c] ${
-                added ? 'bg-emerald-700 text-white' : 'bg-white text-on-surface hover:bg-[#d4af37]'
+                added ? 'bg-emerald-700 text-white' : 'bg-white text-[#1b1c1c] hover:bg-[#d4af37]'
               }`}
             >
               <AnimatePresence mode="wait" initial={false}>

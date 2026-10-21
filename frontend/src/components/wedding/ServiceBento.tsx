@@ -93,7 +93,7 @@ export default function ServiceBento() {
               </div>
               <div className="mt-6 rounded-lg overflow-hidden h-72 relative">
                 <img className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none" src={s.imageUrl} alt={s.title} />
-                <div className="absolute bottom-3 left-3 bg-primary/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-[11px]">
+                <div className="absolute bottom-3 left-3 bg-ink/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-[11px]">
                   {s.imageCaption}
                 </div>
               </div>

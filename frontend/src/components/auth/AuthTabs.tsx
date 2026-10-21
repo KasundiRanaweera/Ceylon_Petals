@@ -15,7 +15,7 @@ export default function AuthTabs({ active, next }: { active: 'sign-in' | 'regist
           key={t.id}
           to={t.to}
           aria-current={active === t.id ? 'page' : undefined}
-          className={`relative z-10 flex min-h-11 items-center justify-center rounded-lg border py-2.5 text-center text-[12px] font-medium uppercase tracking-[0.14em] transition-colors ${active === t.id ? 'border-primary text-white' : 'border-outline-variant text-on-surface-variant hover:border-[#d4af37] hover:text-tertiary'}`}
+          className={`relative z-10 flex min-h-11 items-center justify-center rounded-lg border py-2.5 text-center text-[12px] font-medium uppercase tracking-[0.14em] transition-colors ${active === t.id ? 'border-primary text-on-primary' : 'border-outline-variant text-on-surface-variant hover:border-[#d4af37] hover:text-tertiary'}`}
         >
           {active === t.id && (
             <motion.span

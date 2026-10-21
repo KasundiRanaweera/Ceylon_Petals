@@ -69,7 +69,7 @@ export default function StudioStory() {
           </motion.div>
 
           {/* Slowly turning round badge. */}
-          <div aria-hidden="true" className="absolute -left-3 bottom-6 grid size-28 place-items-center rounded-full bg-primary text-[#e9c349] shadow-lg sm:-left-8 sm:size-32">
+          <div aria-hidden="true" className="absolute -left-3 bottom-6 grid size-28 place-items-center rounded-full bg-ink text-[#e9c349] shadow-lg sm:-left-8 sm:size-32">
             <motion.svg
               viewBox="0 0 100 100"
               className="absolute inset-0 size-full"

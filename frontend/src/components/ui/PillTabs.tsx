@@ -63,7 +63,7 @@ export default function PillTabs({ options, active, onChange, label, wrap = fals
         {o.count !== undefined && o.count !== null && (
           <span
             className={`relative min-w-[1.5rem] rounded-full px-1.5 py-0.5 text-center text-[11px] font-semibold tabular-nums ${
-              selected ? 'bg-white/15 text-white' : 'bg-surface-container text-secondary'
+              selected ? 'bg-on-primary/15 text-on-primary' : 'bg-surface-container text-secondary'
             }`}
           >
             {o.count}
@@ -72,7 +72,7 @@ export default function PillTabs({ options, active, onChange, label, wrap = fals
       </>
     )
     const cls = `relative inline-flex min-h-[44px] shrink-0 cursor-pointer snap-start items-center gap-2 whitespace-nowrap rounded-lg border px-4 text-[13px] font-medium tracking-[0.06em] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-      selected ? 'border-transparent text-white' : 'border-outline-variant bg-white/75 text-primary hover:border-[#d4af37] hover:bg-white'
+      selected ? 'border-transparent text-on-primary' : 'border-outline-variant bg-surface-container-lowest/75 text-primary hover:border-[#d4af37] hover:bg-surface-container-lowest'
     }`
     return o.to ? (
       <Link key={o.id} to={o.to} aria-current={selected ? 'page' : undefined} data-selected={selected} className={cls}>
