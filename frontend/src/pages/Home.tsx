@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { AnimatePresence } from 'motion/react'
 import Hero from '../components/home/Hero'
+import BouquetFeature from '../components/home/BouquetFeature'
 import ProductMarquee from '../components/home/ProductMarquee'
 import CategoryShowcase from '../components/home/CategoryShowcase'
 import IntroSplash from '../components/home/IntroSplash'
@@ -15,7 +16,8 @@ import InstagramStrip from '../components/home/InstagramStrip'
 import GiftCards from '../components/home/GiftCards'
 import { Reveal } from '../components/motion/Reveal'
 
-// The home page: the opening screen (first visit of a session only), the hero, every product in an
+// The home page: the opening screen (first visit of a session only), the blooming hero, the
+// hand-tied bouquet feature, every product in an
 // auto-scrolling row, the main categories, occasions, featured pieces, the studio story with live
 // figures, customer reviews, delivery check, the Instagram strip and the gift cards.
 export default function Home() {
@@ -26,6 +28,7 @@ export default function Home() {
     <div className="flex w-full flex-col">
       <AnimatePresence>{!introDone && <IntroSplash key="intro" onDone={finishIntro} />}</AnimatePresence>
       <Hero ready={introDone} />
+      <BouquetFeature />
       <ProductMarquee />
       <CategoryShowcase />
       <OccasionTiles />
