@@ -64,10 +64,72 @@ When the API's address changes in production, update the `/api/:path*` rewrite i
 | `/custom-order` | Request a custom arrangement |
 | `/sign-in`, `/register`, `/reset-password`, `/account/*` | Customer accounts: sign-in, sign-up, forgotten password, orders, saved addresses, profile and password |
 | `/delivery`, `/care-guide`, `/faq`, `/refund-policy`, `/privacy`, `/about` | Information pages |
-| `/admin/login`, `/admin/*` | Owner dashboard: overview, orders, products, categories, inventory, customers, custom inquiries, reviews, analytics, settings |
+| `/admin/login`, `/admin/*` | Owner dashboard (see [Owner dashboard](#owner-dashboard) below) |
 
 The dashboard is loaded only when someone opens it, so customers never download it. It checks the
 owner role, and the API checks it again on every request.
+
+## Owner dashboard
+
+Sign in at `/admin/login` with the owner account (`OWNER_EMAIL` and `OWNER_PASSWORD` in `backend/.env`). Customers who open `/admin` are sent away, and the API checks the owner role on every request too. The sidebar can be collapsed, and the dashboard has its own light and dark switch.
+
+**Top bar, on every page:**
+- **Accepting orders** switch. Turning it off stops online checkout straight away and shows customers a banner asking them to order on WhatsApp.
+- Live Colombo clock, and a link to view the shop as a customer.
+
+**Overview** (`/admin`)
+- Today's numbers: orders to prepare, out for delivery, delivered today, and sales for today, this week or this month.
+- **Needs your attention:** orders waiting to be confirmed, failed or unpaid payments, products low on stock and new custom requests. Each one opens the right page.
+- An orders-this-week chart, the latest orders, new customers and a low-stock watch list.
+
+**Orders** (`/admin/orders`)
+- Two views: a **board** with one column per delivery slot (morning, afternoon, evening, midnight), so you can see what to prepare and when it goes out, or a **table**.
+- Filter by delivery date (today, tomorrow, upcoming, this week, this month or all), by payment (paid, unpaid, failed, refunded) and by search.
+- Move an order along: pending, confirmed, preparing, out for delivery, delivered. Cancelling asks first, then puts the stock back on sale.
+- **Mark as paid** for cash-on-delivery and WhatsApp orders once you have the money, and **mark as refunded** for a paid order you cancelled. Card payments update by themselves from PayHere.
+- Reminders: marking an unpaid cash order as delivered reminds you to collect the money, and cancelling a paid order reminds you to refund it.
+- WhatsApp the customer in one tap, and **export** the list to a spreadsheet (CSV).
+
+**Order detail** (`/admin/orders/:id`)
+- Customer, recipient, address, delivery date and slot, items, totals and the payment.
+- The card message, with a **Copy** button, and the full status history.
+- **Print delivery slip**, call or WhatsApp the customer, and change the status or payment.
+
+**Products** (`/admin/products`)
+- Search and filter by category, or by visible, hidden, featured, sold out and low stock.
+- **Add or edit a product:** name, descriptions, category, price, sale price, stock and the low-stock warning level. Also a badge (such as "Bestseller"), flowers, colours, occasions, collection tags, featured, and show or hide.
+- **Photos:** upload straight from the phone or computer (iPhone HEIC photos work), or paste a link. Photos are shrunk before upload.
+- View the product in the shop, or delete it. Deleted products also lose photos that nothing else uses.
+
+**Categories** (`/admin/categories`)
+- The groups in the shop menu: name, description, photo (upload or link), menu order, and show or hide. Hiding a category also hides its products.
+
+**Inventory** (`/admin/inventory`)
+- A fast morning stock count: type today's number for each product. Sold-out products stay in the shop marked "Sold out".
+
+**Customers** (`/admin/customers`)
+- Registered customers and guests who ordered, matched by phone number, with orders, total paid and last order.
+- Filter (registered, guests, repeat customers), sort, and search by name, email or phone.
+- WhatsApp or email a customer, and **export** the list.
+- **Password reset link** (the key button, registered customers only): makes a one-time link that lasts 30 minutes, to send with **Copy link** or **Send on WhatsApp**. See [Forgotten password](#forgotten-password).
+
+**Custom inquiries** (`/admin/inquiries`)
+- Wedding, event, corporate, bulk and custom-design requests sent from the website, with budget, quantity, date and venue.
+- Give each one a status (new, contacted, quote sent, confirmed, closed) and keep private notes, for example "Quoted Rs. 58,000 on WhatsApp, follow up Friday".
+
+**Reviews** (`/admin/reviews`)
+- The reviews shown on the home page: add, edit, hide or show, choose the order, delete. The star rating in the home hero comes from these.
+
+**Analytics** (`/admin/analytics`)
+- For today, this week or this month: sales, orders, average order, amount paid, amount still to collect, refunded, and cancelled or failed.
+- A chart of sales per day, best sellers, best customers, and sales by category, delivery area and payment method.
+
+**Settings** (`/admin/settings`)
+- **Shop details:** name, tagline, phone, WhatsApp number, email, studio address and opening hours.
+- **Storefront:** the announcement bar and the Instagram, Facebook and TikTok links.
+- **Ordering:** accept online orders, the same-day cut-off time, and the order amount that gets free delivery.
+- **Delivery zones and fees:** each district's fee and whether it gets same-day delivery.
+- **Promo codes:** percentage or fixed amount, a minimum order, a note, and on or off.
 
 ## How it works
 

@@ -15,6 +15,35 @@ analytics and shop settings.
 | [`docs/HERO-FILM.md`](docs/HERO-FILM.md) | How to make the bouquet-making film for the home page (AI video prompts) | |
 | [`render.yaml`](render.yaml) | Render settings for the API | |
 
+## What customers can do
+
+- **Browse and search** bouquets, roses, hampers, plants and wedding flowers. Filter by price, flower, colour and occasion.
+- **Build their own gift:** design a hamper in the hamper builder, or write a card message in the card studio.
+- **Order** as a guest or with an account. Choose the delivery date and time slot, add a card message and a promo code, then pay by **card (PayHere)**, **cash on delivery** or **WhatsApp**. Prices, delivery fees and stock are checked on the server.
+- **Track an order** with its order number and phone number, no account needed.
+- **Ask for something special:** weddings, events, corporate or bulk orders, or a custom design, through the custom order form.
+- **With an account:** see past orders and their status, save delivery addresses, update their name and phone, and change their password.
+- **Forgot the password?** Tap "Forgot your password?" to ask the shop on WhatsApp. The shop sends back a one-time reset link.
+
+## What the owner can do
+
+Everything is in the owner dashboard at `/admin`. The full page-by-page guide is in [frontend/README.md](frontend/README.md#owner-dashboard).
+
+| Page | What it's for |
+| --- | --- |
+| **Overview** | Today at a glance: orders to prepare, out for delivery, delivered, and a "Needs your attention" list (orders to confirm, payment problems, low stock, new requests) |
+| **Orders** | Every order, as a board by delivery slot or as a table. Change the status, mark cash and WhatsApp orders as paid, mark refunds, message the customer, print a delivery slip, export to a spreadsheet |
+| **Products** | Add, edit, hide or delete products. Upload photos from the phone or computer, and set prices, sale prices, stock and badges |
+| **Categories** | The groups shown in the shop menu: names, photos, order, show or hide |
+| **Inventory** | A quick morning stock count for every product |
+| **Customers** | Everyone who has ordered, with what they've spent. Message them, export the list, or send a **password reset link** |
+| **Custom inquiries** | Wedding, corporate, bulk and custom-design requests, with a status and private notes for each |
+| **Reviews** | The customer reviews shown on the home page: add, edit, hide, reorder, delete |
+| **Analytics** | Sales over time, best sellers, best customers, sales by category, delivery area and payment method |
+| **Settings** | Shop details, opening hours, the announcement bar, social links, delivery zones and fees, the free-delivery amount, the same-day cut-off and promo codes |
+
+The **Accepting orders** switch at the top of the dashboard pauses online checkout at once, for example on a holiday. Customers are then asked to order on WhatsApp.
+
 ## How the pieces fit
 
 ```

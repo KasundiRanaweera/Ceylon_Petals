@@ -2,6 +2,8 @@
 
 The API behind the shop website and the owner dashboard.
 
+What customers and the owner can do with it is listed in the main [README](../README.md#what-customers-can-do); the owner dashboard is described page by page in [frontend/README.md](../frontend/README.md#owner-dashboard).
+
 **Node.js 22+ · Express 5 · TypeScript · Prisma 7 · PostgreSQL (Supabase) · Zod · JWT in an httpOnly cookie**
 
 ## Tech stack
