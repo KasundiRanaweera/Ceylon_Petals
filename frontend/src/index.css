@@ -484,19 +484,30 @@ html {
 @media (prefers-reduced-motion: reduce) { .occasion-panel { transition: none; } }
 
 /* ---- Chart colours (owner dashboard). Validated for colour-blind separation on both surfaces
-   (rose / gold / blue, in this fixed order). Text in charts always uses the text tokens. ---- */
+   (blue / gold / green, in this fixed order). Text in charts always uses the text tokens. ---- */
 :root {
-  --chart-1: #c0517a;
+  --chart-1: #3a6fc4;
   --chart-2: #b8860b;
-  --chart-3: #3a6fc4;
+  --chart-3: #2f8a5b;
   --chart-grid: rgba(48, 48, 48, 0.08);
   --chart-compare: #9a8f92;
 }
 :root[data-theme="dark"],
 [data-theme="dark"] {
-  --chart-1: #cf5e86;
+  --chart-1: #5b86d9;
   --chart-2: #b88a14;
-  --chart-3: #6a84e0;
+  --chart-3: #3f9a6a;
   --chart-grid: rgba(236, 230, 226, 0.09);
   --chart-compare: #8d8487;
+}
+
+/* ---- The owner dashboard has no pink: its soft accent (chips, the "accepting orders" pill, selected
+   rows, avatar circles) is a quiet sage green instead of the storefront's blush. ---- */
+.admin-console {
+  --color-primary-fixed: #e4efe7;
+  --color-on-primary-fixed: #1f4a30;
+}
+:root[data-theme="dark"] .admin-console {
+  --color-primary-fixed: #22342a;
+  --color-on-primary-fixed: #b9dfc6;
 }

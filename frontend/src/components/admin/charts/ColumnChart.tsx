@@ -34,7 +34,7 @@ export default function ColumnChart({ columns, describe, height = 180, labelPeak
   const barW = Math.max(2, Math.min(40, slot - 2))
   const y = (v: number) => PAD.top + innerH - (v / top) * innerH
   const peak = columns.reduce((best, c, i) => (c.value > (columns[best]?.value ?? -1) ? i : best), 0)
-  const shown = new Set(labelIndexes(columns.length, innerW, 34))
+  const shown = new Set(labelIndexes(columns.length, innerW, columns.length > 7 ? 60 : 34))
   const h = hover !== null ? columns[hover] : undefined
 
   return (

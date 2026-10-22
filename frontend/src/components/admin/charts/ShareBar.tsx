@@ -7,7 +7,7 @@ export interface ShareSlice {
   valueText: string
 }
 
-// SLOTS follows the fixed categorical order (rose, gold, blue); a slice keeps its colour by its
+// SLOTS follows the fixed categorical order (blue, gold, green); a slice keeps its colour by its
 // position in the list it was given, never by its rank, so the colours don't move between periods.
 const SLOTS = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)']
 
