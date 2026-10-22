@@ -10,6 +10,7 @@ analytics and shop settings.
 | [`frontend/`](frontend/) | The website and the owner dashboard (React) | [frontend/README.md](frontend/README.md) |
 | [`backend/`](backend/) | The API and database (Node.js, Express, PostgreSQL) | [backend/README.md](backend/README.md) |
 | [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | How to put the shop online (Supabase, Render, Vercel) | |
+| [`docs/HERO-FILM.md`](docs/HERO-FILM.md) | How to make the bouquet-making film for the home page (AI video prompts) | |
 | [`render.yaml`](render.yaml) | Render settings for the API | |
 
 ## How the pieces fit

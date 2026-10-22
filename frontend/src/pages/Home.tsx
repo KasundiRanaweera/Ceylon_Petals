@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { AnimatePresence } from 'motion/react'
 import Hero from '../components/home/Hero'
 import BouquetFeature from '../components/home/BouquetFeature'
+import BouquetFilm from '../components/home/BouquetFilm'
 import ProductMarquee from '../components/home/ProductMarquee'
 import CategoryShowcase from '../components/home/CategoryShowcase'
 import IntroSplash from '../components/home/IntroSplash'
@@ -29,6 +30,7 @@ export default function Home() {
       <AnimatePresence>{!introDone && <IntroSplash key="intro" onDone={finishIntro} />}</AnimatePresence>
       <Hero ready={introDone} />
       <BouquetFeature />
+      <BouquetFilm />
       <ProductMarquee />
       <CategoryShowcase />
       <OccasionTiles />
