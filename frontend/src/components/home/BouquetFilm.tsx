@@ -21,6 +21,10 @@ const FILM = {
   posterTall: '/videos/bouquet-making-mobile-poster.jpg',
 }
 
+// A frame two seconds in, shown while the film is not playing (reduced motion, or a phone that blocks
+// autoplay). The film itself fades in from black, so its very first frame would be an empty black box.
+const STILL_AT = 2
+
 export default function BouquetFilm() {
   const reduce = useReducedMotion()
   const box = useRef<HTMLElement>(null)
@@ -42,7 +46,7 @@ export default function BouquetFilm() {
     if (!el || !v || reduce) return
     const watch = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting && !pausedByVisitor.current) v.play().catch(() => {})
+        if (entry?.isIntersecting && !pausedByVisitor.current) v.play().catch(() => { if (v.currentTime < 0.5) v.currentTime = STILL_AT })
         else if (!entry?.isIntersecting) v.pause()
       },
       { threshold: 0.35 },
@@ -102,7 +106,10 @@ export default function BouquetFilm() {
           playsInline
           preload="metadata"
           aria-label="A florist's hands arrange blush and cerise roses with baby's breath, then wrap the bouquet in layered blush paper"
-          onLoadedMetadata={() => setReady(true)}
+          onLoadedMetadata={(e) => {
+            if (reduce) e.currentTarget.currentTime = STILL_AT
+            setReady(true)
+          }}
           onError={() => {
             if (retried.current) return setFailed(true)
             retried.current = true

@@ -5,7 +5,7 @@ import { useShop } from '../../hooks/useShop'
 export default function Logo({ onClick, tone = 'dark' }: { onClick?: () => void; tone?: 'dark' | 'light' }) {
   const { shopName } = useShop()
   return (
-    <Link to="/" onClick={onClick} className="block min-w-0 shrink-0" aria-label={`${shopName} home`}>
+    <Link to="/" onClick={onClick} className="flex min-h-11 min-w-0 shrink-0 items-center" aria-label={`${shopName} home`}>
       <span className={`block truncate font-display text-[1.25rem] leading-none tracking-[-0.01em] min-[360px]:text-[1.45rem] sm:text-[1.75rem] ${tone === 'light' ? 'text-white' : 'text-mauve'}`}>
         {shopName}
       </span>
