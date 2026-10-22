@@ -6,7 +6,7 @@ export default function Logo({ onClick, tone = 'dark' }: { onClick?: () => void;
   const { shopName } = useShop()
   return (
     <Link to="/" onClick={onClick} className="block min-w-0 shrink-0" aria-label={`${shopName} home`}>
-      <span className={`block truncate font-display text-[1.45rem] leading-none tracking-[-0.01em] sm:text-[1.75rem] ${tone === 'light' ? 'text-white' : 'text-mauve'}`}>
+      <span className={`block truncate font-display text-[1.25rem] leading-none tracking-[-0.01em] min-[360px]:text-[1.45rem] sm:text-[1.75rem] ${tone === 'light' ? 'text-white' : 'text-mauve'}`}>
         {shopName}
       </span>
     </Link>

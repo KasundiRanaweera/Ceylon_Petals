@@ -96,7 +96,7 @@ export default function CalligrapherStudio() {
 
               <div>
                 <label className="block text-label-md text-on-surface mb-2">2. Choose Wax Seal Colour</label>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                   {WAX_COLORS.map((w) => (
                     <button
                       key={w.id}

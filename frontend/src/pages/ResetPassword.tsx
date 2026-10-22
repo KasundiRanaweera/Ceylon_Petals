@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { KeyRound, Loader2, MessageCircle } from 'lucide-react'
 import AuthLayout from '../components/auth/AuthLayout'
 import PasswordField from '../components/auth/PasswordField'
+import { authSubmitClass as submitClass } from '../components/auth/styles'
 import { FormError } from '../components/ui/Field'
 import { useAuth } from '../hooks/useAuth'
 import { useToast } from '../hooks/useToast'
@@ -15,9 +16,6 @@ import { checkPasswordReset, resetPassword } from '../services/auth'
 // so it does not end up in logs. It is read once and then removed from the address bar.
 
 const readHashToken = () => (typeof window === 'undefined' ? '' : window.location.hash.replace(/^#/, '').trim())
-
-const submitClass =
-  'flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg btn-gradient py-3.5 text-title-md disabled:cursor-not-allowed disabled:opacity-60'
 
 export default function ResetPassword() {
   const navigate = useNavigate()

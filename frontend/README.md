@@ -4,6 +4,23 @@ The shop website customers use, and the owner dashboard at `/admin`. Both are in
 
 **React 19 · Vite · TypeScript · Tailwind CSS v4 · React Router 7 · TanStack Query · Motion · Axios**
 
+## Tech stack
+
+| Purpose | Package | Version |
+| --- | --- | --- |
+| UI | `react`, `react-dom` | 19.3 |
+| Build and dev server | `vite` with `@vitejs/plugin-react` | 8.3 |
+| Language | `typescript` | 6.0 |
+| Styling | `tailwindcss` with `@tailwindcss/vite` | 4.3 |
+| Pages and links | `react-router-dom` | 7.18 |
+| Loading and caching API data | `@tanstack/react-query` | 5.103 |
+| Animation | `motion` (`motion/react`) | 14.1 |
+| Calls to the API | `axios` | 1.20 |
+| Icons | `lucide-react` | 1.47 |
+| Linting | `eslint` with `typescript-eslint` and the React Hooks rules | 10 |
+
+Needs Node.js 22 or newer to build (Vercel uses Node 24).
+
 ## Setup
 
 The API must be running first (see [../backend/README.md](../backend/README.md)).
@@ -100,6 +117,7 @@ src/
   components/        building blocks, grouped by area (home, shop, catalog, admin, layout, ui…)
   services/          the calls to the API, one file per area
   hooks/, context/   shared state: cart, sign-in, shop settings, toasts
+  data/              fixed content: occasions, default shop settings, decorative photos, photo credits
   lib/               helpers: api client, prices, delivery slots, dates, WhatsApp messages, theme
   types/             TypeScript types shared by the pages
   index.css          Tailwind setup, colours for light and dark mode

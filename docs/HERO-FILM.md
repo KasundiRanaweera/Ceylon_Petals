@@ -7,9 +7,12 @@ The section stays hidden until the film files exist, so nothing looks broken in 
 ## The film on the site now
 
 The current film is **real footage, not AI**: nine free clips from [Pexels](https://www.pexels.com/license/),
-edited into one 40-second story. The edit trims each clip, crops it around the hands (a wide 16:9
+edited into one 40-second story, with a soft piano track: "Gentle" by AlexGrohl
+([Pixabay](https://pixabay.com/music/solo-piano-gentle-499635/), Pixabay Content License: free for commercial use,
+no credit required), faded in and out so the loop restarts gently. Browsers start videos silently,
+so visitors turn the music on with the sound button. The edit trims each clip, crops it around the hands (a wide 16:9
 cut for computers, an upright 9:16 cut for phones), gives every shot the same warm golden grade,
-joins them with soft dissolves and removes the sound.
+and joins them with soft dissolves.
 
 The Pexels licence allows free commercial use with no credit required. It doesn't allow selling the
 clips unchanged, or suggesting the people in them endorse the shop. The flowers and studios belong
@@ -28,7 +31,8 @@ our studio (or an AI film made with the prompts below) when you can.
 | 8 | The wrapped bouquet lifted from the table | [5756290](https://www.pexels.com/video/woman-arranging-flowers-5756290/) |
 | 9 | A dome of pink roses | [28405768](https://www.pexels.com/video/a-bouquet-of-pink-roses-is-shown-in-this-photo-28405768/) |
 
-Files: `bouquet-making.mp4` (1280 × 720, 4.4 MB), `bouquet-making-mobile.mp4` (540 × 960, 2.9 MB)
+Files: `bouquet-making.mp4` (HD, 1920 × 816, the 2.35 : 1 shape of the frame on the page, 10 MB) and
+`bouquet-making-mobile.mp4` (720 × 1080, 6.4 MB), both with music
 and their poster images, in `frontend/public/videos/`. To replace the film, overwrite these four
 files with the same names. The section needs no code change.
 
@@ -120,8 +124,8 @@ the poster images. You can also do it yourself; the site expects these files:
 
 | File | What it is |
 | --- | --- |
-| `frontend/public/videos/bouquet-making.mp4` | 16:9, 1280 × 720, H.264, no sound, about 4–5 MB |
-| `frontend/public/videos/bouquet-making-mobile.mp4` | 9:16, 540 × 960, H.264, no sound, about 3 MB |
+| `frontend/public/videos/bouquet-making.mp4` | 2.35 : 1, 1920 × 816, H.264 with AAC music |
+| `frontend/public/videos/bouquet-making-mobile.mp4` | 2 : 3, 720 × 1080, H.264 with AAC music |
 | `frontend/public/videos/bouquet-making-poster.jpg` | first frame of the wide film |
 | `frontend/public/videos/bouquet-making-mobile-poster.jpg` | first frame of the upright film |
 

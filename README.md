@@ -1,5 +1,7 @@
 # Ceylon Petals: online flower shop (Sri Lanka)
 
+**Live site:** [ceylon-petals.vercel.app](https://ceylon-petals.vercel.app)
+
 A complete online flower shop for a studio in Colombo. Customers browse bouquets, hampers and plants,
 pay by card (PayHere), cash on delivery or WhatsApp, and track their order. The owner runs the shop
 from a private dashboard: orders, products, photos, stock, customers, custom requests, reviews,
@@ -28,6 +30,21 @@ analytics and shop settings.
 The browser only ever talks to the website's address. Requests to `/api/...` are forwarded to the
 API, so the sign-in cookie works like a normal same-site cookie. Prices, stock, delivery fees and
 promo codes are always worked out on the server, never trusted from the browser.
+
+## Tech stack
+
+| Layer | Technology |
+| --- | --- |
+| Website | React 19, TypeScript, Vite 8, Tailwind CSS 4, React Router 7, TanStack Query 5, Motion 14, Axios, Lucide icons |
+| API | Node.js 22+, Express 5, TypeScript, Zod 4, Helmet, express-rate-limit |
+| Database | PostgreSQL on Supabase, through Prisma 7 |
+| Sign-in | JWT in an httpOnly cookie, bcrypt password hashing |
+| Payments | PayHere (simulated, sandbox or live) |
+| Photos | Cloudinary, or stored in the shop's own database |
+| Tests | Vitest and Supertest against an in-memory PostgreSQL (PGlite); ESLint for the website |
+| Hosting | Vercel (website), Render (API), Supabase (database) |
+
+Versions and details: [frontend/README.md](frontend/README.md#tech-stack) and [backend/README.md](backend/README.md#tech-stack).
 
 ## Run it on your computer
 

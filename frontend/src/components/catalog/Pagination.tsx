@@ -17,7 +17,7 @@ export default function Pagination({ currentPage, totalPages, shownRange, totalC
         Showing <span className="font-semibold text-on-surface">{shownRange}</span> of{' '}
         <span className="font-semibold text-on-surface">{totalCount}</span> items
       </p>
-      <div className="flex items-center gap-1 text-label-md">
+      <div className="flex flex-wrap items-center justify-center gap-1 text-label-md">
         <button
           onClick={() => onPageChange(Math.max(1, currentPage - 1))}
           aria-label="Previous page"

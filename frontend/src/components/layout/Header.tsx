@@ -116,7 +116,7 @@ export default function Header() {
       )}
 
       {/* ---- Main bar: logo · menu · actions ---- */}
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-6 px-4 lg:h-16 lg:px-12">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:gap-6 lg:h-16 lg:px-12">
         <Logo onClick={close} />
 
         <nav aria-label="Shop categories" className="hidden xl:block">
@@ -176,7 +176,7 @@ export default function Header() {
             to="/cart"
             onClick={close}
             aria-label={`Cart, ${count} ${count === 1 ? 'item' : 'items'}`}
-            className="btn-gradient ml-1 flex h-11 items-center gap-2 px-5 text-[14px]"
+            className="btn-gradient flex h-11 items-center gap-2 px-3.5 text-[14px] sm:ml-1 sm:px-5"
           >
             <ShoppingBag size={18} />
             <span className="hidden sm:inline">Cart</span>

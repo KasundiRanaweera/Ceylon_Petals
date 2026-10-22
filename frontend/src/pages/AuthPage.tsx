@@ -5,6 +5,7 @@ import { LogIn, UserPlus, Loader2, ShoppingBag } from 'lucide-react'
 import AuthLayout from '../components/auth/AuthLayout'
 import AuthTabs from '../components/auth/AuthTabs'
 import PasswordField from '../components/auth/PasswordField'
+import { authSubmitClass as submitClass } from '../components/auth/styles'
 import { FormError, TextField } from '../components/ui/Field'
 import { useAuth } from '../hooks/useAuth'
 import { useWhatsApp } from '../hooks/useShop'
@@ -25,9 +26,6 @@ const COPY: Record<Mode, { eyebrow: string; title: string; subtitle: string }> =
     subtitle: 'It takes a minute. Save the addresses you send flowers to and follow every order.',
   },
 }
-
-const submitClass =
-  'flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg btn-gradient py-3.5 text-title-md disabled:cursor-not-allowed disabled:opacity-60'
 
 function SignInForm({ next }: { next: string }) {
   const navigate = useNavigate()

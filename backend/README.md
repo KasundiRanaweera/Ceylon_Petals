@@ -4,6 +4,25 @@ The API behind the shop website and the owner dashboard.
 
 **Node.js 22+ · Express 5 · TypeScript · Prisma 7 · PostgreSQL (Supabase) · Zod · JWT in an httpOnly cookie**
 
+## Tech stack
+
+| Purpose | Package | Version |
+| --- | --- | --- |
+| Runtime | Node.js | 22 or newer |
+| Web server | `express` | 5.3 |
+| Language | `typescript` (run in development with `tsx`) | 5.9 |
+| Database access | `prisma`, `@prisma/client`, `@prisma/adapter-pg` | 7.10 |
+| Input checks | `zod` | 4.6 |
+| Sign-in cookie | `jsonwebtoken`, `cookie-parser` | 9.0, 1.4 |
+| Password hashing | `bcryptjs` | 3.0 |
+| Security headers | `helmet` | 8.3 |
+| Rate limits | `express-rate-limit` | 8.7 |
+| Cross-site rules | `cors` | 2.8 |
+| Settings from `.env` | `dotenv` | 17 |
+| Tests | `vitest`, `supertest`, `@electric-sql/pglite` with `pglite-prisma-adapter` | 5.0, 7.3, 0.4 |
+
+PayHere and Cloudinary are called over plain HTTPS (`src/lib/payhere.ts`, `src/lib/cloudinary.ts`), with no extra SDK.
+
 ## Setup
 
 ```bash
