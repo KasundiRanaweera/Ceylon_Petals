@@ -15,7 +15,13 @@ export const POLICIES: Record<PolicyTopic, { text: string; page: string }> = {
     page: '/refund-policy',
   },
   refunds: {
-    text: 'Freshness guarantee: if flowers arrive damaged or not fresh, send a photo on WhatsApp within 24 hours of delivery and the shop replaces them free of charge. Card refunds go back through PayHere and usually appear within 5-7 working days. Cash and bank-transfer refunds are paid by bank transfer. If the recipient cannot be reached, the shop tries once more the same day; a second attempt on another day may have a delivery fee. If a flower is out of season the shop may swap a stem for one of equal or higher value in the same colours.',
+    text: [
+      'REPLACEMENT (wilted, damaged or not fresh flowers): send a photo on WhatsApp within 24 hours of delivery and the shop replaces them free of charge. The published policy promises a replacement here. It does NOT promise a refund for wilted or damaged flowers, so never offer or imply one, and never say "if a replacement is not possible", and never say refunds are refused or not offered (the shop decides).',
+      'REFUND PAYOUT (only when the shop has agreed a refund, for example a cancellation before preparation starts): card refunds go back through PayHere and usually appear within 5-7 working days; cash and bank-transfer refunds are paid by bank transfer.',
+      'FAILED DELIVERY: if the recipient cannot be reached, the shop tries once more the same day; a second attempt on another day may have a delivery fee.',
+      'OUT OF SEASON: the shop may swap a stem for one of equal or higher value in the same colours.',
+      'ANSWER RULE: state only what is written above. Do not add conditions, deadlines or remedies. For any refund request not covered above, say the shop decides and send the customer to WhatsApp with their order number.',
+    ].join(' '),
     page: '/refund-policy',
   },
   delivery_rules: {
