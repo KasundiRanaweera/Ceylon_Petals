@@ -101,7 +101,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             initial={{ opacity: 0 }}
             animate={play({ opacity: 1 })}
             transition={{ duration: 1.4, delay: 0.2, ease: EASE_OUT }}
-            className="relative aspect-[1020/790] w-[min(150cqw,129.1cqh)] shrink-0 sm:w-[min(110cqw,129.1cqh)] [mask-image:radial-gradient(54%_56%_at_50%_50%,#000_64%,transparent_100%)]"
+            className="relative aspect-[1020/790] w-[min(175cqw,129.1cqh)] shrink-0 sm:-mb-[15cqh] sm:w-[min(130cqw,148.5cqh)] [mask-image:radial-gradient(54%_56%_at_50%_50%,#000_64%,transparent_100%)]"
           >
             {reduce ? (
               <img src={STAGES[4].src} srcSet={STAGES[4].srcSet} sizes={SIZES} alt="" className="h-full w-full object-cover" />
@@ -129,7 +129,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
           </div>
           <span className="sr-only">A pink lily in full bloom that closes back into a bud as you scroll.</span>
         {/* ---- the words ---- */}
-        <div className="-mt-[3svh] shrink-0">
+        <div className="relative z-10 -mt-[3svh] shrink-0">
           <motion.p {...rise(0.15)} className="inline-flex items-center gap-2 rounded-full bg-[#1b1c1c]/85 py-1 pl-2.5 pr-3 text-[11.5px] font-medium text-white backdrop-blur sm:text-[12px]">
             {countingDown ? (
               <span aria-hidden="true" className="relative flex h-2 w-2 shrink-0">
