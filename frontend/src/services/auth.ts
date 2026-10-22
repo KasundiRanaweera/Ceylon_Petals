@@ -25,6 +25,15 @@ export function register(input: RegisterInput): Promise<User> {
   return post<User>('/auth/register', input)
 }
 
+// Forgotten password: the customer opens the one-time link the shop sent them (see ResetPassword.tsx).
+export function checkPasswordReset(token: string): Promise<{ name: string }> {
+  return post<{ name: string }>('/auth/password-reset/check', { token })
+}
+
+export function resetPassword(token: string, password: string): Promise<User> {
+  return post<User>('/auth/password-reset', { token, password })
+}
+
 export function signOut(): Promise<void> {
   return post<void>('/auth/logout').then(() => undefined)
 }

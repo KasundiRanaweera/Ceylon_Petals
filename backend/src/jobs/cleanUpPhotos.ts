@@ -1,3 +1,4 @@
+import { deleteOldPasswordResets } from '../services/passwordResets.js'
 import { deleteUnusedStoredImages } from '../services/storedImages.js'
 
 const EVERY_HOURS = 6
@@ -9,9 +10,17 @@ async function run() {
   } catch (error) {
     console.error('[images] cleaning up unused photos failed:', error)
   }
+  try {
+    await deleteOldPasswordResets()
+  } catch (error) {
+    console.error('[auth] removing old password reset links failed:', error)
+  }
 }
 
-/** Removes uploaded photos nothing uses, a little after start-up and then every few hours. */
+/**
+ * Removes uploaded photos nothing uses, and password reset links that expired or were used, a
+ * little after start-up and then every few hours.
+ */
 export function startPhotoCleanupJob() {
   setTimeout(() => void run(), 60_000).unref()
   setInterval(() => void run(), EVERY_HOURS * 3600_000).unref()

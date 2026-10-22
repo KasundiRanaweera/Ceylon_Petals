@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Search, MessageCircle, Download, Mail } from 'lucide-react'
+import { Search, MessageCircle, Download, Mail, KeyRound, Loader2 } from 'lucide-react'
 import AdminPageHeader from '../../components/admin/AdminPageHeader'
-import { listCustomers } from '../../services/shop'
+import ResetLinkDialog from '../../components/admin/ResetLinkDialog'
+import { createPasswordResetLink, listCustomers, type CustomerSummary, type PasswordResetLink } from '../../services/shop'
 import { useShop } from '../../hooks/useShop'
 import { useToast } from '../../hooks/useToast'
 import { buildWhatsAppLink } from '../../lib/whatsapp'
@@ -21,6 +22,20 @@ export default function Customers() {
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<Filter>('all')
   const [sort, setSort] = useState<Sort>('recent')
+  // the password reset link just made, and for whom (registered customers only)
+  const [resetFor, setResetFor] = useState<{ customer: CustomerSummary; link: PasswordResetLink } | null>(null)
+  const [making, setMaking] = useState<string | null>(null)
+
+  async function makeResetLink(customer: CustomerSummary) {
+    setMaking(customer.id)
+    try {
+      setResetFor({ customer, link: await createPasswordResetLink(customer.id) })
+    } catch (err) {
+      showToast((err as Error).message, 'error')
+    } finally {
+      setMaking(null)
+    }
+  }
 
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -48,7 +63,7 @@ export default function Customers() {
       <AdminPageHeader
         eyebrow="People"
         title="Customers"
-        subtitle="Registered accounts and guests who have ordered, matched by phone number."
+        subtitle="Registered accounts and guests who have ordered, matched by phone number. A customer who forgot their password? Use the key button to send them a reset link."
         actions={
           <button type="button" onClick={exportList} disabled={rows.length === 0} className="inline-flex items-center gap-2 bg-surface-container-high text-primary px-4 py-2 rounded-lg text-label-md hover:bg-primary hover:text-on-primary disabled:opacity-50">
             <Download size={16} /> Export
@@ -123,6 +138,18 @@ export default function Customers() {
                       >
                         <MessageCircle size={16} />
                       </a>
+                      {c.registered && (
+                        <button
+                          type="button"
+                          onClick={() => makeResetLink(c)}
+                          disabled={making === c.id}
+                          aria-label={`Password reset link for ${c.name}`}
+                          title="Password reset link"
+                          className="w-8 h-8 rounded-lg bg-surface-container-low text-tertiary hover:bg-primary hover:text-on-primary flex items-center justify-center disabled:opacity-60"
+                        >
+                          {making === c.id ? <Loader2 size={16} className="animate-spin" /> : <KeyRound size={16} />}
+                        </button>
+                      )}
                       {c.email && (
                         <a href={`mailto:${c.email}`} aria-label={`Email ${c.name}`} title="Email" className="w-8 h-8 rounded-lg bg-surface-container-low text-primary hover:bg-primary hover:text-on-primary flex items-center justify-center">
                           <Mail size={16} />
@@ -137,6 +164,8 @@ export default function Customers() {
           {rows.length === 0 && <p className="text-center text-body-sm text-secondary py-10">No customers match.</p>}
         </div>
       )}
+
+      {resetFor && <ResetLinkDialog customer={resetFor.customer} link={resetFor.link} shopName={shopName} onClose={() => setResetFor(null)} />}
     </div>
   )
 }

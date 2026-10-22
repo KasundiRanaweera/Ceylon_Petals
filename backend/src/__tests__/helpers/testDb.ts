@@ -31,7 +31,7 @@ export async function resetDb() {
   await (migrated ??= migrate())
   await pg.exec(`
     TRUNCATE "User","Address","Category","Occasion","Product","ProductImage","Order","OrderItem",
-             "OrderStatusHistory","Inquiry","DeliveryZone","PromoCode","ShopSettings","Review","StoredImage","_OccasionToProduct"
+             "OrderStatusHistory","Inquiry","DeliveryZone","PromoCode","ShopSettings","Review","StoredImage","PasswordReset","_OccasionToProduct"
              RESTART IDENTITY CASCADE;
     ALTER SEQUENCE "Order_number_seq" RESTART WITH 1050;
     ALTER SEQUENCE "Inquiry_number_seq" RESTART WITH 104;

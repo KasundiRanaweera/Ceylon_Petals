@@ -20,6 +20,7 @@ const ICONS = { success: CircleCheck, error: CircleAlert, info: Info }
 export default function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([])
   const nextId = useRef(1)
+  const [announced, setAnnounced] = useState({ status: { id: 0, text: '' }, alert: { id: 0, text: '' } })
 
   const dismiss = useCallback((id: number) => {
     setToasts((prev) => prev.filter((t) => t.id !== id))
@@ -29,6 +30,9 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
     (message: string, type: ToastType = 'success') => {
       const id = nextId.current++
       setToasts((prev) => [...prev, { id, message, type }])
+      // screen readers: errors are read out straight away, everything else when they are free
+      // (a new element each time, so the same message twice in a row is read twice)
+      setAnnounced((prev) => (type === 'error' ? { ...prev, alert: { id, text: message } } : { ...prev, status: { id, text: message } }))
       setTimeout(() => dismiss(id), 4000)
     },
     [dismiss]
@@ -39,11 +43,11 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <div
-        className="fixed top-4 inset-x-4 z-[80] flex flex-col items-center gap-2 pointer-events-none"
-        role="status"
-        aria-live="polite"
-      >
+      {/* What screen readers announce. The visible pop-ups below are not live regions themselves,
+          so each message is read once, with the right urgency. */}
+      <div className="sr-only" role="status" aria-live="polite" data-toast-status><span key={announced.status.id}>{announced.status.text}</span></div>
+      <div className="sr-only" role="alert" aria-live="assertive" data-toast-alert><span key={announced.alert.id}>{announced.alert.text}</span></div>
+      <div className="fixed top-4 inset-x-4 z-[80] flex flex-col items-center gap-2 pointer-events-none" data-toasts>
         <AnimatePresence initial={false}>
         {toasts.map((t) => {
           const Icon = ICONS[t.type]

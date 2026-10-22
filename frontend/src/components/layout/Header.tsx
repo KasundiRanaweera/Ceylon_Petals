@@ -89,8 +89,8 @@ export default function Header() {
     >
       {/* ---- Info bar: one calm, readable line ---- */}
       {shop.acceptingOrders ? (
-        <div className="bg-ink text-[13px] tracking-[0.02em] text-[#f3f0ef]">
-          <div className="mx-auto flex h-9 max-w-7xl items-center gap-6 px-4 lg:px-12">
+        <div className="bg-ink text-[12.5px] tracking-[0.02em] text-[#f3f0ef]">
+          <div className="mx-auto flex h-8 max-w-7xl items-center gap-6 px-4 lg:px-12">
             <Ticker />
             <div className="hidden shrink-0 items-center gap-6 md:flex">
               <a href={whatsapp('Hello! I have a question about an order.')} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-white">
@@ -116,7 +116,7 @@ export default function Header() {
       )}
 
       {/* ---- Main bar: logo · menu · actions ---- */}
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-4 lg:h-[76px] lg:px-12">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-6 px-4 lg:h-16 lg:px-12">
         <Logo onClick={close} />
 
         <nav aria-label="Shop categories" className="hidden xl:block">

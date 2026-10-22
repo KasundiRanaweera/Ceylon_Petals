@@ -17,6 +17,7 @@ import PayHerePayment from './pages/PayHerePayment'
 import OrderConfirmation from './pages/OrderConfirmation'
 import TrackOrder from './pages/TrackOrder'
 import AuthPage from './pages/AuthPage'
+import ResetPassword from './pages/ResetPassword'
 import NotFound from './pages/NotFound'
 import { CareGuide, DeliveryInfo, Faq, Privacy, RefundPolicy } from './pages/InfoPages'
 import AccountLayout from './pages/account/AccountLayout'
@@ -68,6 +69,7 @@ export default function App() {
         <Route path="/track-order" element={<TrackOrder />} />
         <Route path="/sign-in" element={<AuthPage mode="sign-in" />} />
         <Route path="/register" element={<AuthPage mode="register" />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/delivery" element={<DeliveryInfo />} />
         <Route path="/care-guide" element={<CareGuide />} />
         <Route path="/faq" element={<Faq />} />

@@ -61,6 +61,7 @@ While developing, card payments run in **simulated** mode: a test page where you
 | I want to… | Do this (in `backend/`) |
 | --- | --- |
 | Change the owner's password, or I forgot it | Set `OWNER_PASSWORD` in `.env`, then `npm run owner:reset` |
+| A customer forgot their password | Dashboard → Customers → key button → Send on WhatsApp |
 | Remove test orders and test accounts | `npm run db:clean-tests`, then `npm run db:clean-tests -- --apply` |
 | Add back sample data that is missing | `npm run db:seed` (never overwrites your changes) |
 | Wipe everything and start again | See [Resetting the data](backend/README.md#resetting-the-data) |
@@ -82,9 +83,14 @@ UptimeRobot) calling `https://<your-api>/api/health` every 5 minutes keeps it aw
 
 ## Good to know
 
-- **Forgotten customer passwords.** There is no reset-by-email yet, because the shop doesn't send
-  email. "Forgot your password?" on the sign-in page opens WhatsApp with a message to the shop.
-  Customers can change their password themselves while signed in (Account → Profile).
+- **Forgotten customer passwords.** The shop sends no email, so resets go through WhatsApp:
+  1. "Forgot your password?" on the sign-in page opens WhatsApp with a request to the shop.
+  2. The owner opens **Customers** in the dashboard, presses the **key button** next to the customer
+     and sends the one-time link with **Send on WhatsApp**.
+  3. The customer opens the link, chooses a new password and is signed in.
+
+  A link works once, for 30 minutes. Making a new one cancels the old one. Signed-in customers can
+  also change their password under Account → Profile.
 - **Secrets.** `backend/.env` holds the database password, the login secret and the owner password.
   It is never committed. Only `.env.example`, with placeholders, is.
 - **Photos.** With Cloudinary set up, product photos go there. Without it, the owner can still

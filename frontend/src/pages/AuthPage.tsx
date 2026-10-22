@@ -56,8 +56,8 @@ function SignInForm({ next }: { next: string }) {
       <TextField id="email" label="Email" type="email" required autoComplete="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
       <PasswordField id="password" label="Password" required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
       <div className="flex justify-end">
-        {/* TODO (backend): replace with a real password-reset email once the API sends mail. */}
-        <a href={whatsapp('Hello! I forgot my password for my account.')} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-label-md text-tertiary underline underline-offset-4 hover:text-on-surface">
+        {/* The shop sends no email: the owner sends a one-time reset link on WhatsApp (Customers page). */}
+        <a href={whatsapp(`Hello! I forgot my password. Could you send me a reset link, please?${email.trim() ? ` My account email is ${email.trim()}.` : ''}`)} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-label-md text-tertiary underline underline-offset-4 hover:text-on-surface">
           Forgot your password?
         </a>
       </div>

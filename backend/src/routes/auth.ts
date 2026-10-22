@@ -4,8 +4,9 @@ import { clearSessionCookie, setSessionCookie } from '../lib/cookies.js'
 import { emailSchema, passwordSchema, phoneSchema, textSchema } from '../lib/validation.js'
 import { requireAuth } from '../middleware/auth.js'
 import { noStore } from '../middleware/noStore.js'
-import { loginLimiter, registerLimiter } from '../middleware/rateLimit.js'
+import { loginLimiter, passwordResetLimiter, registerLimiter } from '../middleware/rateLimit.js'
 import { loginWithPassword, registerCustomer, revokeAllSessions } from '../services/auth.js'
+import { checkPasswordReset, resetPassword } from '../services/passwordResets.js'
 
 export const authRouter = Router()
 authRouter.use(noStore)
@@ -36,6 +37,23 @@ authRouter.post('/login', loginLimiter, async (req, res) => {
   const { email, password } = loginBody.parse(req.body)
   const { user, token } = await loginWithPassword(email, password)
   setSessionCookie(res, token)
+  res.json(user)
+})
+
+// A reset link's token: 32 random bytes in base64url (43 characters).
+const resetToken = z.string().regex(/^[A-Za-z0-9_-]{43}$/, 'This link is not complete. Please copy the whole link.')
+
+// POST /api/auth/password-reset/check  { token }  ->  { name }, or 422 when the link is expired or used
+authRouter.post('/password-reset/check', passwordResetLimiter, async (req, res) => {
+  const { token } = z.object({ token: resetToken }).parse(req.body)
+  res.json(await checkPasswordReset(token))
+})
+
+// POST /api/auth/password-reset  { token, password }  ->  user + login cookie. Other devices are signed out.
+authRouter.post('/password-reset', passwordResetLimiter, async (req, res) => {
+  const { token, password } = z.object({ token: resetToken, password: passwordSchema }).parse(req.body)
+  const { user, token: session } = await resetPassword(token, password)
+  setSessionCookie(res, session)
   res.json(user)
 })
 

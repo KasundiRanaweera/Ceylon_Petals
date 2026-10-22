@@ -4,6 +4,7 @@ import { DISTRICTS } from '../../lib/districts.js'
 import { emailSchema, idParams, phoneSchema, textSchema } from '../../lib/validation.js'
 import { getAnalytics } from '../../services/analytics.js'
 import { listCustomers } from '../../services/customers.js'
+import { createPasswordReset } from '../../services/passwordResets.js'
 import { adminListInquiries, updateInquiry } from '../../services/inquiries.js'
 import { getAdminSettings, updateAdminSettings } from '../../services/adminSettings.js'
 
@@ -101,6 +102,14 @@ adminShopRouter.patch('/inquiries/:id', async (req, res) => {
 
 adminShopRouter.get('/customers', async (_req, res) => {
   res.json(await listCustomers())
+})
+
+// POST /api/admin/customers/:id/password-reset  ->  { token, expiresAt, customer }
+// A one-time link for a customer who forgot their password. The website turns the token into
+// <site>/reset-password#<token>; the token is shown this once and only its hash is kept.
+adminShopRouter.post('/customers/:id/password-reset', async (req, res) => {
+  const { id } = idParams.parse(req.params)
+  res.status(201).json(await createPasswordReset(id))
 })
 
 // GET /api/admin/analytics?days=30

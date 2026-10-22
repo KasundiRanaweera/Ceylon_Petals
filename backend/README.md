@@ -30,7 +30,7 @@ http://localhost:5000/api/health/db (the database connection).
 | `npm run owner:reset` | Sets the owner's password to `OWNER_PASSWORD` from `.env` |
 | `npm run db:studio` | Opens Prisma Studio, a spreadsheet-like view of the tables |
 | `npm run typecheck` | Type-checks the code |
-| `npm test` | Runs the 282 tests |
+| `npm test` | Runs the 295 tests |
 
 ## Settings (`.env`)
 
@@ -112,9 +112,24 @@ On Render, run it from the Render Shell, or locally with `.env` pointing at the 
 
 ### Customer passwords
 
-There is no reset-by-email yet, because the shop doesn't send email. A customer who forgot their
-password contacts the shop on WhatsApp (the "Forgot your password?" link does this). While signed in,
-customers can change their own password under Account → Profile, which signs out their other devices.
+The shop sends no email, so the owner makes the reset link:
+
+1. The customer taps "Forgot your password?", which opens WhatsApp with a request to the shop.
+2. The owner opens **Customers** in the dashboard, presses the **key button** next to the customer
+   and sends the link with **Send on WhatsApp** (or copies it).
+3. The customer opens `<site>/reset-password#<token>`, chooses a new password and is signed in.
+   Their other devices are signed out.
+
+How the links are kept safe (`src/services/passwordResets.ts`):
+
+- 32 random bytes per link. Only a SHA-256 hash is stored, in the `PasswordReset` table.
+- Each link works **once**, for **30 minutes**. Making a new link cancels the customer's older ones.
+- The token sits after `#` in the address, so browsers never send it to a server or log it, and
+  the page removes it from the address bar.
+- Only registered customers can get one. The owner's own password is reset with `npm run owner:reset`.
+- Used and expired links are deleted by the clean-up job every few hours.
+
+While signed in, customers can also change their password under Account → Profile.
 
 ## API
 
@@ -125,6 +140,7 @@ Everything is under `/api`. Answers are JSON. Errors look like
 | --- | --- |
 | Health | `GET /health`, `GET /health/db` |
 | Sign-in | `POST /auth/register`, `/auth/login`, `/auth/logout`, `/auth/logout-all`, `GET /auth/me` |
+| Password reset | `POST /auth/password-reset/check { token }`, `POST /auth/password-reset { token, password }`, and for the owner `POST /admin/customers/:id/password-reset` |
 | My account (signed in) | `PATCH /me`, `POST /me/password`, `GET/POST /me/addresses`, `PUT/DELETE /me/addresses/:id`, `GET /me/orders` |
 | Catalogue | `GET /products`, `/products/:slug`, `/categories`, `/occasions` |
 | Orders | `POST /orders/quote`, `POST /orders`, `POST /orders/track`, `GET /orders/:orderNumber` |
@@ -141,11 +157,12 @@ Everything is under `/api`. Answers are JSON. Errors look like
 - Prices, discounts, delivery fees and stock are worked out on the server. Stock is taken inside a
   database transaction, so two customers can't buy the last item twice.
 - Rate limits (per address): 10 failed sign-ins per 15 minutes, 10 sign-ups per hour, 20 orders per
-  hour, 15 wrong tracking lookups per 15 minutes, 5 wrong password changes per 15 minutes. A blocked
+  hour, 15 wrong tracking lookups per 15 minutes, 5 wrong password changes per 15 minutes, 10 failed
+  reset-link tries per 15 minutes. A blocked
   request gets `429` and a "please wait" message.
 - Uploaded photos are checked by their actual content (JPEG, PNG, WebP or AVIF only, max 5 MB).
 - Unpaid card orders are cancelled after `PAYMENT_WINDOW_MINUTES`, and their stock returns. Photos
-  nothing uses are cleaned up after 24 hours.
+  nothing uses are cleaned up after 24 hours, along with used or expired password reset links.
 
 ## Tests
 

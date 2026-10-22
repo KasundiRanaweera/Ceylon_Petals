@@ -63,3 +63,15 @@ export interface CustomerSummary {
 export function listCustomers(): Promise<CustomerSummary[]> {
   return get<CustomerSummary[]>('/admin/customers')
 }
+
+export interface PasswordResetLink {
+  /** The full link to send the customer: <this site>/reset-password#<token>. */
+  url: string
+  expiresAt: string
+}
+
+/** Owner: a one-time link (valid 30 minutes) for a registered customer who forgot their password. */
+export async function createPasswordResetLink(customerId: string): Promise<PasswordResetLink> {
+  const { token, expiresAt } = await post<{ token: string; expiresAt: string }>(`/admin/customers/${customerId}/password-reset`)
+  return { url: `${window.location.origin}/reset-password#${token}`, expiresAt }
+}

@@ -31,6 +31,19 @@ export const loginLimiter = rateLimit({
   keyGenerator: (req) => `${ipOf(req)}|${String((req.body as { email?: unknown } | undefined)?.email ?? '').toLowerCase().slice(0, 100)}`,
 })
 
+/**
+ * Password reset links: 10 failed tries per 15 minutes per address. The links are far too long to
+ * guess, so this only stops someone hammering the endpoint.
+ */
+export const passwordResetLimiter = rateLimit({
+  ...common,
+  skip: skipInTests,
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  skipSuccessfulRequests: true,
+  keyGenerator: ipOf,
+})
+
 /** New accounts: 10 per hour per address. */
 export const registerLimiter = rateLimit({
   ...common,
