@@ -18,7 +18,7 @@ export interface SlotDef {
   sameDayZonesOnly?: boolean
 }
 
-export const DELIVERY_SLOTS: SlotDef[] = [
+const DELIVERY_SLOTS: SlotDef[] = [
   { key: 'morning', label: 'Morning', hours: '9:00 AM – 1:00 PM', startHour: 9, extraFee: 0 },
   { key: 'afternoon', label: 'Afternoon', hours: '2:00 PM – 6:00 PM', startHour: 14, extraFee: 0 },
   { key: 'evening', label: 'Evening', hours: '6:00 PM – 9:00 PM', startHour: 18, extraFee: 0 },

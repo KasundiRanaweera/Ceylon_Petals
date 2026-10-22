@@ -1,4 +1,4 @@
-import type { AdminOrder, DateRange, DayOrders, PaymentMethod } from '../types/admin'
+import type { AdminOrder, DateRange, PaymentMethod } from '../types/admin'
 import { isoDate, localDay } from './dates'
 
 // Sales maths for the owner's Overview and Analytics pages.
@@ -51,19 +51,6 @@ export function dashboardStats(orders: AdminOrder[], range: DateRange): Dashboar
 }
 
 /** One bar per day for the last `days` days, by the day the order was placed. */
-export function ordersByDay(orders: AdminOrder[], days: number): DayOrders[] {
-  return Array.from({ length: days }, (_, i) => {
-    const day = isoDate(i - (days - 1))
-    const sales = orders.filter((o) => isSale(o) && localDay(o.createdAt) === day)
-    const date = new Date(`${day}T00:00:00`)
-    return {
-      day: days <= 7 ? date.toLocaleDateString('en-GB', { weekday: 'short' }) : date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
-      orders: sales.length,
-      sales: sales.reduce((sum, o) => sum + o.total, 0),
-    }
-  })
-}
-
 export function topProducts(orders: AdminOrder[], limit = 5) {
   const totals = new Map<string, { name: string; quantity: number; revenue: number }>()
   for (const o of orders.filter(isSale)) {

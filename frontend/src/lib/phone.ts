@@ -1,7 +1,7 @@
 // Phone numbers are stored as digits in international format without "+", e.g. 94771234567,
 // which is exactly what wa.me links need. Customers can type them however they like.
 
-export function normalizePhone(input: string): string {
+function normalizePhone(input: string): string {
   const digits = input.replace(/\D/g, '')
   if (digits.length === 10 && digits.startsWith('0')) return `94${digits.slice(1)}` // 077 123 4567
   if (digits.length === 9 && digits.startsWith('7')) return `94${digits}` // 77 123 4567

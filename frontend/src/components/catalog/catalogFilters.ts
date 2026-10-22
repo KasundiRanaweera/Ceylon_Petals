@@ -60,7 +60,7 @@ export function applyFilters(products: Product[], f: CatalogFilters): Product[] 
   return sortProducts(result, f.sort)
 }
 
-export function sortProducts(products: Product[], sort: SortKey): Product[] {
+function sortProducts(products: Product[], sort: SortKey): Product[] {
   const list = [...products]
   if (sort === 'price-asc') list.sort((a, b) => effectivePrice(a) - effectivePrice(b))
   else if (sort === 'price-desc') list.sort((a, b) => effectivePrice(b) - effectivePrice(a))

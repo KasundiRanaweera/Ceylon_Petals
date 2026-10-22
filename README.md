@@ -125,8 +125,10 @@ cd frontend && npm run lint && npm run build          # build also type-checks
 
 Follow [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). In short: the database goes on Supabase, the API on
 Render and the website on Vercel. The free Render plan sleeps after 15 minutes without visits, so the
-first request after a quiet spell can take up to a minute. A free uptime monitor (for example
-UptimeRobot) calling `https://<your-api>/api/health` every 5 minutes keeps it awake.
+first request after a quiet spell can take up to a minute. The GitHub workflow
+[`.github/workflows/keep-api-awake.yml`](.github/workflows/keep-api-awake.yml) calls
+`/api/health` every 10 minutes to keep it awake (change the address in it if your API moves). An
+uptime monitor such as UptimeRobot does the same job if you prefer.
 
 ## Good to know
 

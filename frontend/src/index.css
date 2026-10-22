@@ -212,16 +212,12 @@ a {
   --color-outline-variant: #463e41;
   --color-ink: #0f0e0e;
 }
-/* Gold heading text: the deep gold that reads on cream is too dark on charcoal. */
-[data-theme="dark"] .text-gradient {
-  background-image: linear-gradient(110deg, #e9c349 0%, #f3d77a 45%, #e9c349 100%);
-}
 [data-theme="dark"] .btn-gradient:focus-visible { outline-color: #ece6e2; }
-/* The switch between themes fades instead of snapping (only while it switches). */
 /* The home hero's blush and gold glows, made softer on charcoal. */
 [data-theme="dark"] .hero-glow {
   background-image: radial-gradient(60% 55% at 85% 10%, rgba(214, 140, 160, 0.14) 0%, transparent 70%), radial-gradient(50% 60% at 5% 90%, rgba(233, 195, 73, 0.08) 0%, transparent 70%);
 }
+/* The switch between themes fades instead of snapping (only while it switches). */
 html.theme-switching, html.theme-switching * {
   transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease, fill 0.35s ease !important;
 }
@@ -245,35 +241,12 @@ input {
   100% { transform: translate3d(var(--petal-sway, 40px), 110vh, 0) rotate(var(--petal-spin, 300deg)); opacity: 0; }
 }
 
-@keyframes gentle-float {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -10px, 0); }
-}
-
 .animate-blob { animation: blob-drift 18s ease-in-out infinite; }
 .animate-petal { animation: petal-fall linear infinite; }
-.animate-float { animation: gentle-float 6s ease-in-out infinite; }
-
-/* Endless product carousel: the track holds two copies and slides by exactly one. */
-@keyframes carousel-scroll {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
-}
-.animate-carousel {
-  animation: carousel-scroll var(--carousel-duration, 60s) linear infinite;
-  will-change: transform;
-}
-.carousel:hover .animate-carousel,
-.carousel:focus-within .animate-carousel {
-  animation-play-state: paused;
-}
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-blob, .animate-petal, .animate-float { animation: none; }
+  .animate-blob, .animate-petal { animation: none; }
   .animate-petal { display: none; }
-  /* No auto-scroll: the row becomes a normal swipeable list. */
-  .animate-carousel { animation: none; }
-  .carousel { overflow-x: auto; }
 }
 
 /* ---- Brand gradients: metallic gold on ink ---- */
@@ -283,27 +256,11 @@ input {
 @utility bg-brand-gradient-hover {
   background-image: linear-gradient(120deg, #d4af37 0%, #e9c349 45%, #f3d77a 100%);
 }
-/* Gold text for light backgrounds — darker stops keep large text above 3:1 contrast. */
-@utility text-gradient {
-  background-image: linear-gradient(110deg, #735c00 0%, #8f7300 45%, #735c00 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-/* Bright champagne gold for text over dark photos and black sections. */
-@utility text-gradient-light {
-  background-image: linear-gradient(110deg, #e9c349 0%, #f3d77a 45%, #d4af37 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
 /* ==== Ceylon Petals gradient system ====
    One family, used on every page:
    - dawn  (light): blush rose -> peach -> champagne, for page heroes and feature panels
    - dusk  (dark):  ink -> deep wine -> warm ink, with a gold and a rose glow, for dark heroes and banners
-   - gold  (accent): buttons and highlighted words (btn-gradient, text-gradient)
+   - gold  (accent): buttons (btn-gradient) and the highlighted hero word (hero-bloom)
    Colours stay soft and low in saturation so text keeps its contrast. */
 @utility bg-ink-gradient {
   background-color: #303030;
@@ -343,16 +300,6 @@ input {
 .btn-gradient:hover { background-position: 100% 50%; box-shadow: 0 14px 28px -14px rgba(115, 92, 0, 0.7); }
 .btn-gradient:focus-visible { outline: 2px solid #303030; outline-offset: 3px; }
 .btn-gradient:disabled { opacity: 0.6; box-shadow: none; }
-
-@keyframes gradient-flow {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-.animate-gradient { animation: gradient-flow 10s ease-in-out infinite; }
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-gradient { animation: none; }
-}
 
 /* Cormorant is a fine-lined serif: default display text to semibold so headings stay legible.
    (In the base layer, so explicit weight utilities and type tokens still win.) */
@@ -443,9 +390,9 @@ html {
   border-radius: 80% 0 80% 0;
   background: linear-gradient(135deg, #f6c9d2 0%, #eaa6b4 60%, #d98a9b 100%);
   box-shadow: inset -1px -1px 2px rgba(150, 70, 90, 0.25);
-  animation: petal-fall linear infinite;
+  animation: hero-petal-fall linear infinite;
 }
-@keyframes petal-fall {
+@keyframes hero-petal-fall {
   0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0deg); }
   10% { opacity: 0.9; }
   50% { transform: translate3d(var(--drift), 160px, 0) rotate(160deg); }
@@ -455,12 +402,9 @@ html {
 /* Home hero: the WhatsApp icon gives a small wiggle when its button is hovered. */
 .group:hover .hero-wiggle { animation: hero-wiggle 0.6s ease-in-out; }
 @keyframes hero-wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-14deg); } 55% { transform: rotate(10deg); } 80% { transform: rotate(-4deg); } }
-/* Home hero: the gold dot slides down the scroll cue's line, over and over. */
-.hero-scroll-dot { animation: hero-scroll 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
-@keyframes hero-scroll { 0% { transform: translateY(-100%); } 100% { transform: translateY(340%); } }
 @media (prefers-reduced-motion: reduce) {
   .hero-bloom { animation: none; background-position: 50% 50%; }
-  .hero-bouquet-sway, .hero-petal, .group:hover .hero-wiggle, .hero-scroll-dot { animation: none; }
+  .hero-bouquet-sway, .hero-petal, .group:hover .hero-wiggle { animation: none; }
   .hero-petal { display: none; }
 }
 

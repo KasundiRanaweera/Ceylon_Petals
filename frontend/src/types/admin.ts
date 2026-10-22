@@ -66,36 +66,3 @@ export interface AdminOrder {
   statusHistory?: StatusChange[]
 }
 
-/** The same order, seen from the customer's side. */
-export type Order = AdminOrder
-
-export interface DashboardStats {
-  sales: number
-  salesChangePct: number | null
-  onlinePaymentPct: number
-  totalOrders: number
-  pendingOrders: number
-  inProgressOrders: number
-  deliveredOrders: number
-}
-
-export interface LowStockItem {
-  id: string
-  name: string
-  quantity: number
-  threshold: number
-}
-
-export interface RecentCustomer {
-  id: string
-  name: string
-  email: string
-  joined: string
-  orders: number
-}
-
-export interface DayOrders {
-  day: string
-  orders: number
-  sales?: number
-}

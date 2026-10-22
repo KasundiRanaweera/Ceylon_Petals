@@ -53,7 +53,7 @@ export type PaymentOutcome = { kind: 'paid'; reference: string | null } | { kind
  * resend notifications), and safe when two arrive at once: each change only happens if the order
  * is still in the state we expect, checked by the database in the same statement.
  */
-export async function applyPaymentOutcome(orderId: string, outcome: PaymentOutcome): Promise<'applied' | 'ignored'> {
+async function applyPaymentOutcome(orderId: string, outcome: PaymentOutcome): Promise<'applied' | 'ignored'> {
   return prisma.$transaction(async (tx) => {
     const order = await tx.order.findUnique({ where: { id: orderId }, include: { items: true } })
     if (!order || order.paymentMethod !== 'CARD') return 'ignored'

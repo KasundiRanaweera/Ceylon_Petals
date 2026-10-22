@@ -35,12 +35,6 @@ export const dateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use the date 
 export const uuidSchema = z.uuid('Invalid id')
 export const idParams = z.object({ id: uuidSchema })
 
-/** ?page=2&pageSize=20 */
-export const paginationQuery = z.object({
-  page: z.coerce.number().int().min(1).default(1),
-  pageSize: z.coerce.number().int().min(1).max(100).default(20),
-})
-
 /** An empty form field ("" or just spaces) means "not given". */
 export const blankToUndefined = (value: unknown) => (typeof value === 'string' && value.trim() === '' ? undefined : value)
 

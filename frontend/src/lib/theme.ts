@@ -5,7 +5,7 @@
 
 export type Theme = 'light' | 'dark'
 
-export const THEME_KEY = 'cp-theme'
+const THEME_KEY = 'cp-theme'
 
 export function storedTheme(): Theme | null {
   try {

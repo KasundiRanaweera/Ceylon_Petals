@@ -14,7 +14,7 @@ const CC0 = { license: 'CC0', licenseUrl: 'https://creativecommons.org/publicdom
 const BY_SA_4 = { license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/' }
 const COMMONS = 'https://commons.wikimedia.org/wiki/File:'
 
-export const PHOTO_CREDITS: Record<string, PhotoCredit> = {
+const PHOTO_CREDITS: Record<string, PhotoCredit> = {
   'poruwa-blush-bridal-bouquet': { author: 'Tamara Menzi', ...CC0, source: `${COMMONS}Bridal_bouquet_(Unsplash).jpg` },
   'sunset-rose-bridesmaid-posy': { author: 'Désirée Fawn', ...CC0, source: `${COMMONS}Bridesmaid_Bouquet_(Unsplash).jpg` },
   'kraft-wrapped-carnation-bunch': { author: 'Lizzie', ...CC0, source: `${COMMONS}Paper-wrapped_bouquet_(Unsplash).jpg` },

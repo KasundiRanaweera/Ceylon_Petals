@@ -45,7 +45,7 @@ export async function changePassword(
 
 // ---------------------------------------------------------------- addresses
 
-export const MAX_ADDRESSES = 10
+const MAX_ADDRESSES = 10
 
 export interface AddressDto {
   id: string

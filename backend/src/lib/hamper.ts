@@ -12,19 +12,19 @@ interface HamperOption {
   price: number
 }
 
-export const HAMPER_BASES: HamperOption[] = [
+const HAMPER_BASES: HamperOption[] = [
   { id: 'roses', name: 'Highland Roses', price: 12000 },
   { id: 'orchids', name: 'White Orchids', price: 14500 },
   { id: 'pastel', name: 'Pastel Meadow', price: 9500 },
 ]
 
-export const HAMPER_TREATS: HamperOption[] = [
+const HAMPER_TREATS: HamperOption[] = [
   { id: 'pralines', name: 'Swiss Chocolate Pralines (16 pcs)', price: 7500 },
   { id: 'macarons', name: 'French Macarons Box (10 pcs)', price: 6800 },
   { id: 'strawberries', name: '24K Gold Glazed Strawberries', price: 8200 },
 ]
 
-export const HAMPER_KEEPSAKES: HamperOption[] = [
+const HAMPER_KEEPSAKES: HamperOption[] = [
   { id: 'teacaddy', name: 'Single Estate Tea in Brass Caddy', price: 9500 },
   { id: 'candle', name: 'Aromatherapy Candle', price: 4500 },
   { id: 'fan', name: 'Hand-carved Sandalwood Keepsake Fan', price: 5500 },
