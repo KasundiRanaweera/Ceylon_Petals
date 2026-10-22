@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { Link, NavLink, useNavigate, useSearchParams } from 'react-router-dom'
 import { Search, Truck, UserRound, ShoppingBag, Menu, X, LayoutDashboard, MessageCircle, PenLine } from 'lucide-react'
@@ -57,17 +57,23 @@ export default function Header() {
   const [params] = useSearchParams()
   const currentQuery = params.get('q') ?? ''
 
-  // Hide the header while scrolling down, bring it back on any scroll up. Moving it with a
-  // transform (not by changing its height) means the page underneath never jumps.
+  // The header stays at the top the whole time; once the page moves it gains a soft shadow.
   const { scrollY } = useScroll()
-  const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  useMotionValueEvent(scrollY, 'change', (y) => {
-    const previous = scrollY.getPrevious() ?? 0
-    setScrolled(y > 8)
-    setHidden(y > 240 && y > previous + 2)
-    if (y < previous - 2) setHidden(false)
-  })
+  useMotionValueEvent(scrollY, 'change', (y) => setScrolled(y > 8))
+
+  // Publish the header's height (it changes with the announcement strip and screen size) as
+  // --header-h, so pinned sections such as the home hero sit just below it, never underneath.
+  const headerRef = useRef<HTMLElement>(null)
+  useEffect(() => {
+    const el = headerRef.current
+    if (!el) return
+    const publish = () => document.documentElement.style.setProperty('--header-h', `${Math.round(el.getBoundingClientRect().height)}px`)
+    publish()
+    const watch = new ResizeObserver(publish)
+    watch.observe(el)
+    return () => watch.disconnect()
+  }, [])
 
   const account =
     user?.role === 'OWNER'
@@ -80,9 +86,8 @@ export default function Header() {
 
 
   return (
-    <motion.header
-      animate={{ y: hidden && !menuOpen && !searchOpen ? '-100%' : '0%' }}
-      transition={{ duration: 0.3, ease: EASE }}
+    <header
+      ref={headerRef}
       className={`sticky top-0 z-50 w-full border-b bg-surface/85 backdrop-blur-xl transition-shadow duration-300 ${
         scrolled ? 'border-transparent shadow-[0_12px_30px_-20px_rgba(48,48,48,0.35)]' : 'border-outline-variant/60'
       }`}
@@ -271,6 +276,6 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   )
 }

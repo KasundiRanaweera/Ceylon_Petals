@@ -1,0 +1,12 @@
+{
+  "name": "Ceylon Petals",
+  "short_name": "Ceylon Petals",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#2b2a2a",
+  "background_color": "#fcf9f8",
+  "display": "standalone",
+  "start_url": "/"
+}

@@ -35,8 +35,6 @@ const STEM_BASE = '48% 98%'
 const FLOWER_CENTRE = '48% 48%'
 // The full bloom's head is this much larger than stage four's on the shared frame.
 const LAST_ZOOM = 1.45
-// the nav bar's height on large screens (top strip + main bar)
-const NAV_HEIGHT = 97
 
 export default function Hero({ ready = true }: { ready?: boolean }) {
   const reduce = useReducedMotion()
@@ -48,7 +46,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
   // 0 at the top of the hero, 1 once its extra scroll length has gone by, eased so a mouse wheel's
   // steps still feel smooth.
   const section = useRef<HTMLElement>(null)
-  const { scrollY, scrollYProgress } = useScroll({ target: section, offset: ['start start', 'end end'] })
+  const { scrollYProgress } = useScroll({ target: section, offset: ['start start', 'end end'] })
   const p = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4, restDelta: 0.0005 })
 
   // How open the lily is: 1 (full bloom) at the top of the hero, 0 (a closed bud) at the end.
@@ -62,10 +60,6 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
   // (read from bud to bloom) the camera is close on the bud and settles back as it opens, then the matched zoom from
   // stage four into the full bloom
   const camera = useTransform(bloom, [0, 0.76], [1.12, 1])
-  // At the very top the nav bar pushes the panel down, which would hide the bottom of the stem, so on
-  // large screens the flower is lifted by the nav bar's height until the panel pins.
-  const lift = useTransform(scrollY, [0, NAV_HEIGHT], [-NAV_HEIGHT, 0], { clamp: true })
-  const liftPx = useTransform(lift, (v) => `${v}px`)
   const growOut = useTransform(bloom, [0.78, 0.94], [1, LAST_ZOOM])
   const growIn = useTransform(bloom, [0.78, 0.94], [1 / LAST_ZOOM, 1])
   const cueOpacity = useTransform(p, [0, 0.85, 0.95], [1, 1, 0])
@@ -95,7 +89,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
       aria-labelledby="home-hero-title"
       className={`relative bg-[#0a090a] text-on-surface ${reduce ? '' : 'h-[200vh] lg:h-[260vh]'}`}
     >
-      <div className={`${reduce ? 'relative min-h-[calc(100svh-88px)] lg:min-h-[calc(100svh-96px)]' : 'sticky top-0 h-[100svh]'} overflow-hidden`}>
+      <div className={`${reduce ? 'relative min-h-[calc(100svh-var(--header-h,97px))]' : 'sticky top-[var(--header-h,97px)] h-[calc(100svh-var(--header-h,97px))]'} overflow-hidden`}>
         {/* the dark room: a warm glow behind the flower, darker towards the words */}
         <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(60%_70%_at_72%_45%,#2a1a1f_0%,#140f11_45%,#0a090a_75%)]" />
 
@@ -105,8 +99,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
           initial={{ opacity: 0 }}
           animate={play({ opacity: 1 })}
           transition={{ duration: 1.4, delay: 0.2, ease: EASE_OUT }}
-          style={reduce ? undefined : { ['--lift' as string]: liftPx }}
-          className="absolute lg:[translate:0_var(--lift,0px)] left-1/2 top-[3%] aspect-[1020/900] h-[46%] -translate-x-1/2 sm:h-[52%] lg:bottom-0 lg:left-auto lg:right-[-8%] lg:top-auto lg:h-[96%] lg:max-w-[58vw] lg:translate-x-0 [mask-image:radial-gradient(72%_72%_at_50%_52%,#000_58%,transparent_100%)]"
+          className="absolute left-1/2 top-[3%] aspect-[1020/900] h-[46%] -translate-x-1/2 sm:h-[52%] max-lg:[@media(max-height:700px)]:h-[36%] lg:bottom-0 lg:left-auto lg:right-[-8%] lg:top-auto lg:h-[96%] lg:max-w-[58vw] lg:translate-x-0 [mask-image:radial-gradient(72%_72%_at_50%_52%,#000_58%,transparent_100%)]"
         >
           {reduce ? (
             <img src={STAGES[4].src} srcSet={STAGES[4].srcSet} sizes={SIZES} alt="" className="h-full w-full object-cover" />
@@ -135,7 +128,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
         </motion.div>
         <span className="sr-only">A pink lily in full bloom that closes back into a bud as you scroll.</span>
 
-        <div className="relative mx-auto grid h-full max-w-7xl grid-cols-1 items-end px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom))] sm:pb-[calc(7.5rem+env(safe-area-inset-bottom))] lg:grid-cols-2 lg:content-start lg:items-start lg:gap-16 lg:px-12 lg:pb-0 lg:pt-[7vh]">
+        <div className="relative mx-auto grid h-full max-w-7xl grid-cols-1 items-end px-4 pb-[calc(5.75rem+env(safe-area-inset-bottom))] sm:pb-[calc(7.5rem+env(safe-area-inset-bottom))] lg:grid-cols-2 lg:content-start lg:items-start lg:gap-16 lg:px-12 lg:pb-0 lg:pt-[7vh]">
         {/* ---- the words ---- */}
         <div>
           <motion.p {...rise(0.15)} className="inline-flex items-center gap-2.5 rounded-full bg-[#1b1c1c] py-2 pl-3.5 pr-4 text-[13px] font-medium text-white sm:text-[14px]">
@@ -172,7 +165,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             )}
           </motion.p>
 
-          <h1 id="home-hero-title" className="mt-4 sm:mt-6 font-display text-[clamp(2.4rem,min(5.4vw,8.5svh),5rem)] font-normal leading-[1.03] tracking-[-0.015em] text-on-surface">
+          <h1 id="home-hero-title" className="mt-4 sm:mt-6 font-display text-[clamp(2.4rem,min(5.4vw,8.5svh),5rem)] max-lg:[@media(max-height:620px)]:text-[2rem] font-normal leading-[1.03] tracking-[-0.015em] text-on-surface">
             {HEADLINE.map((word, i) => (
               <span key={word}>
                 <span className="inline-block overflow-hidden pb-[0.08em] align-bottom">
@@ -198,11 +191,6 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
               </motion.span>
             </span>
           </h1>
-
-          <motion.p {...rise(0.8)} className="mt-3 max-w-[34rem] text-[15px] leading-[1.65] sm:mt-5 sm:text-[17.5px] sm:leading-[1.75] text-on-surface-variant">
-            Hand-tied bouquets of Nuwara Eliya roses, lilies and orchids — arranged in Colombo each morning and delivered across Sri Lanka with
-            a handwritten card.
-          </motion.p>
 
           <motion.div {...rise(0.95)} className="mt-5 flex flex-wrap gap-3 sm:mt-7">
             <Link
