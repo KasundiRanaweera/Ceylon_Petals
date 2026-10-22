@@ -3,10 +3,10 @@
 export const SITE_IMAGES = {
   weddingPoruwa:
     'https://lh3.googleusercontent.com/aida-public/AB6AXuAXKwuWqrDZ0SwyW_mu74z6OnMyMBubVk9Y4V73BW6XoBCilacZ8Ab5zRt4s_0aDkLK-LX5REYlASJJnR8uKqpTXS9hs51CdaeooboPV0x0JzEl6gfRA_c775F480YG3ieTPAYRNQ3OXNt6PB8WXQWGVNYDo1xG1BJardIzdpsqi8pdUR0iTKbub-BQiJpCrwGCnRv5GWmjFVED-4Jm0uXizyEQWNPP4iTDVKqJFiTDOSXBk_JmV3Vu5w=w1408',
-  aboutHighlands:
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDfEZqb2rdYT4qfGPZRsWQ5iDVPOIlF_jALfnqg4VwbWA_oB2uthdliMNCr6QA7mOdmlhfCl6Bdn8_5Ex6HiNw6xY0oQthmh9EYZl9gQoshKe-qiajs3OrkhO1x2EBkPjdW40m5LMljcSANV3Jk89CnVgTdykF_tbsXw31IFUDgC_RnW5jaN5Sbn8W5q3pQgwb7DKtP6KjJ3lepFLuHYc6e2mosvAcj7a3omEE7paKtMEuexyGOjNOAJA=w1408',
-  floristAtWork:
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuBniQRGdwXWnArawnX9GlWFoqEVMGcjuKxJk6eN4rWcUBB4TRo8n0juq9henCQ08PvnXhH86dneWgI5yv9ZV7X6QHDMFfWjvFFX1IOxzvn6-cx3VsGtlb32CQI6VgpWa6A-ViS6QXKRl65tTvagIbfZib8wQXvtPFy6BoKm1z9DVs1NOYEYbjo4KQxs-ROUfsM7wdA9I_U9gW1bQoQ68iPdxH-8O8qnnn0j1GxOWn9TRk8-c4DeuSStrA=w1408',
+  // rows of pink and red flowers below the hills: https://www.pexels.com/photo/27182695/ (Pexels licence, free to use)
+  aboutHighlands: '/images/home/flower-garden.webp',
+  // only the florist's hands, arranging roses: a still from https://www.pexels.com/video/5925967/ (Pexels licence)
+  floristAtWork: '/images/home/florist-hands.webp',
   highlandRoses:
     'https://lh3.googleusercontent.com/aida-public/AB6AXuD9JsU3dPZg4M1CbBLtbc_0ng47CsEd6l5GAGgnm2uj4CW2Ibh0Yw0SuRFLYhqOCCqzuTZpA7MZQVpNdegNzNulQVgU2n2O9oawruMxJp_NWgaiWQDhgXVg5-7sdcw52o4n059VK06sVLyWEGRZupHhiBBgMxNrLePbOrW-7sAColkX5sWdA1qsoAjICJ4YUowaKUFRbfdE3Vdn0tir41VwRUpPqSTWVqazrgmCRr2sijqBQYLOtJfeVg',
 }

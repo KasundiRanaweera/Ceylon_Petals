@@ -29,10 +29,11 @@ const STAGES = [1, 2, 3, 4, 5].map((n) => ({
   srcSet: `/images/home/bloom/stage-${n}-680.webp 680w, /images/home/bloom/stage-${n}.webp 1020w`,
 }))
 const SIZES = '(min-width: 1024px) 60vw, 90vw'
-// The bottom of the stem and the centre of the open flower, as fractions of the 1020 x 900 frame.
+// The bottom of the stem and the centre of the open flower, as fractions of the 1020 x 790 frame
+// (the frames had 110 px of empty sky trimmed off the top, so the lily sits close to the nav bar).
 // The camera grows from the first; the last zoom centres on the second.
-const STEM_BASE = '48% 98%'
-const FLOWER_CENTRE = '48% 48%'
+const STEM_BASE = '48% 97.7%'
+const FLOWER_CENTRE = '48% 40.8%'
 // The full bloom's head is this much larger than stage four's on the shared frame.
 const LAST_ZOOM = 1.45
 
@@ -91,16 +92,16 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
         {/* the dark room: a warm glow behind the flower, darker towards the edges */}
         <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_38%,#2a1a1f_0%,#140f11_45%,#0a090a_75%)]" />
 
-        <div className="relative mx-auto flex h-full max-w-5xl flex-col items-center px-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-[1svh] text-center sm:pb-[calc(3.5rem+env(safe-area-inset-bottom))] lg:pb-[4svh]">
+        <div className="relative mx-auto flex h-full max-w-5xl flex-col items-center px-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] text-center sm:pb-[calc(3.5rem+env(safe-area-inset-bottom))] lg:pb-[4svh]">
           {/* the lily takes whatever height the words leave, centred; the words start under its stem */}
-          <div className="flex min-h-0 w-full flex-1 items-end justify-center [container-type:size]">
+          <div className="flex min-h-0 w-full flex-1 items-center justify-center [container-type:size] sm:items-end">
           {/* ---- the lily ---- */}
           <motion.div
             aria-hidden="true"
             initial={{ opacity: 0 }}
             animate={play({ opacity: 1 })}
             transition={{ duration: 1.4, delay: 0.2, ease: EASE_OUT }}
-            className="relative aspect-[1020/900] w-[min(135cqw,113.33cqh)] shrink-0 sm:w-[min(100cqw,113.33cqh)] [mask-image:radial-gradient(52%_50%_at_50%_54%,#000_62%,transparent_100%)]"
+            className="relative aspect-[1020/790] w-[min(150cqw,129.1cqh)] shrink-0 sm:w-[min(110cqw,129.1cqh)] [mask-image:radial-gradient(54%_56%_at_50%_50%,#000_64%,transparent_100%)]"
           >
             {reduce ? (
               <img src={STAGES[4].src} srcSet={STAGES[4].srcSet} sizes={SIZES} alt="" className="h-full w-full object-cover" />

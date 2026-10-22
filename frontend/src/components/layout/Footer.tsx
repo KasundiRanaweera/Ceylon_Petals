@@ -49,11 +49,11 @@ export default function Footer() {
                 </Link>
               </div>
             </div>
-            {/* our florist at work: below the words on phones, beside them on large screens */}
+            {/* our florist's hands at work: below the words on phones, beside them on large screens */}
             <div className="relative h-56 sm:h-72 lg:h-auto">
               <img
                 src={sizedImage(SITE_IMAGES.floristAtWork, 960)}
-                alt="Our florist arranging roses in the Colombo studio"
+                alt="A florist's hands arranging pink and cream roses"
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover"
               />

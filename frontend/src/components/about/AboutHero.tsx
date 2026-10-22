@@ -31,7 +31,7 @@ export default function AboutHero() {
       ]}
       image={{
         src: SITE_IMAGES.aboutHighlands,
-        alt: 'Misty flower fields in the Sri Lankan highlands',
+        alt: 'Rows of pink and red flowers in a garden below the hills',
         caption: { eyebrow: 'Since day one', title: 'Highland to doorstep', text: 'Cut fresh, arranged in Colombo' },
       }}
     />
