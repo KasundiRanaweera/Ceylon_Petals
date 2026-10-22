@@ -95,3 +95,44 @@ export function salesByDistrict(orders: AdminOrder[]) {
   }
   return [...map.entries()].map(([district, v]) => ({ district, ...v })).sort((a, b) => b.sales - a.sales)
 }
+
+export interface DayPoint {
+  /** short label for the chart axis */
+  label: string
+  /** the full date, for tooltips and tables */
+  date: string
+  value: number
+  orders: number
+}
+
+/**
+ * Sales per day for `days` days ending today, or for the same-length window `periodsBack` periods
+ * earlier (used to draw the previous period beside the current one).
+ */
+export function dailySales(orders: AdminOrder[], days: number, periodsBack = 0): DayPoint[] {
+  const sales = orders.filter(isSale)
+  return Array.from({ length: days }, (_, i) => {
+    const day = isoDate(i - (days - 1) - days * periodsBack)
+    const that = sales.filter((o) => localDay(o.createdAt) === day)
+    const date = new Date(`${day}T00:00:00`)
+    return {
+      label: days <= 7 ? date.toLocaleDateString('en-GB', { weekday: 'short' }) : date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
+      date: date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }),
+      value: that.reduce((sum, o) => sum + o.total, 0),
+      orders: that.length,
+    }
+  })
+}
+
+/** Sales orders per delivery slot (what time of day people want their flowers). */
+export function ordersBySlot(orders: AdminOrder[]): Record<AdminOrder['deliverySlot'], number> {
+  const result = { morning: 0, afternoon: 0, evening: 0, midnight: 0 }
+  for (const o of orders.filter(isSale)) result[o.deliverySlot] += 1
+  return result
+}
+
+/** Change from `before` to `now` in percent, or null when there is nothing to compare with. */
+export function percentChange(now: number, before: number): number | null {
+  if (before <= 0) return null
+  return Math.round(((now - before) / before) * 100)
+}

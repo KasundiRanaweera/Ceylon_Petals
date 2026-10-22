@@ -111,7 +111,7 @@ export default function AdminSidebar({ open, onClose, shopOpen, onToggleShop, co
                                 />
                               )}
                               <span className="relative flex shrink-0">
-                                <Icon size={19} className={isActive ? 'text-[#e7c873]' : ''} />
+                                <Icon size={19} className={isActive ? 'text-[#e7c873] dark:text-[#8a6a00]' : ''} />
                                 {/* collapsed: a small dot on the icon instead of the count */}
                                 {collapsed && count > 0 && (
                                   <span aria-hidden="true" className={`absolute -right-1.5 -top-1.5 hidden h-2.5 w-2.5 rounded-full ring-2 ring-surface-container-low lg:block ${badge === 'lowStock' ? 'bg-error' : 'bg-[#e7c873]'}`} />
@@ -122,7 +122,7 @@ export default function AdminSidebar({ open, onClose, shopOpen, onToggleShop, co
                                 <span
                                   aria-label={`${count} need attention`}
                                   className={`min-w-6 rounded-full px-1.5 py-0.5 text-center text-[11px] font-bold ${wide} ${
-                                    badge === 'lowStock' ? 'bg-error text-on-error' : 'bg-[#e7c873] text-primary'
+                                    badge === 'lowStock' ? 'bg-error text-on-error' : 'bg-[#e7c873] text-[#2b2a2a]'
                                   }`}
                                 >
                                   {count}

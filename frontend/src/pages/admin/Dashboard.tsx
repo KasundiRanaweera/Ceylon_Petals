@@ -15,7 +15,7 @@ import { isoDate } from '../../lib/dates'
 import type { DateRange } from '../../types/admin'
 
 const TONES = {
-  gold: { border: 'border-[#c8930a]/40', icon: 'bg-tertiary-fixed text-tertiary' },
+  gold: { border: 'border-[#c8930a]/40', icon: 'bg-[#fbe7a6] text-[#6b5200]' },
   red: { border: 'border-error/30', icon: 'bg-error-container text-on-error-container' },
 }
 

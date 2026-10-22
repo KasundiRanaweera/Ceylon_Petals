@@ -482,3 +482,21 @@ html {
 .occasion-progress { width: 100%; transform-origin: left; animation: occasion-progress linear forwards; }
 @keyframes occasion-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @media (prefers-reduced-motion: reduce) { .occasion-panel { transition: none; } }
+
+/* ---- Chart colours (owner dashboard). Validated for colour-blind separation on both surfaces
+   (rose / gold / blue, in this fixed order). Text in charts always uses the text tokens. ---- */
+:root {
+  --chart-1: #c0517a;
+  --chart-2: #b8860b;
+  --chart-3: #3a6fc4;
+  --chart-grid: rgba(48, 48, 48, 0.08);
+  --chart-compare: #9a8f92;
+}
+:root[data-theme="dark"],
+[data-theme="dark"] {
+  --chart-1: #cf5e86;
+  --chart-2: #b88a14;
+  --chart-3: #6a84e0;
+  --chart-grid: rgba(236, 230, 226, 0.09);
+  --chart-compare: #8d8487;
+}
