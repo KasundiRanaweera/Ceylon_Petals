@@ -4,6 +4,7 @@ import { listPublishedReviews } from './reviews.js'
 import { listMyOrders, quoteOrder, type Viewer } from './orders.js'
 import { availableSlots, earliestDeliveryDate, MAX_DAYS_AHEAD, slotByKey, SLOT_KEYS } from '../lib/deliverySlots.js'
 import { addDays, colomboNow } from '../lib/colomboTime.js'
+import { formatPhone } from '../lib/phone.js'
 import { POLICIES, POLICY_TOPICS, SITE_PAGES, type PolicyTopic } from '../lib/chatKnowledge.js'
 
 // The only things the chatbot can do. Every tool is READ-ONLY and returns data straight from the
@@ -171,7 +172,7 @@ const TOOLS: Record<string, ToolDef> = {
         shop_name: s.shopName,
         tagline: s.tagline,
         phone: s.phone,
-        whatsapp: s.whatsappNumber,
+        whatsapp: formatPhone(s.whatsappNumber),
         email: s.email,
         address: s.address,
         opening_hours: s.openingHours,

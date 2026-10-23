@@ -9,6 +9,12 @@ export function normalizePhone(input: string): string {
   return digits.replace(/^00/, '') // 0044... -> 44...
 }
 
+/** How a stored number is shown to a person: 94771234567 -> "+94 77 123 4567" (same as the website). */
+export function formatPhone(stored: string): string {
+  if (stored.startsWith('94') && stored.length === 11) return `+94 ${stored.slice(2, 4)} ${stored.slice(4, 7)} ${stored.slice(7)}`
+  return `+${stored}`
+}
+
 /** Sri Lankan numbers, plus overseas numbers (customers often order from abroad). */
 export function isValidPhone(input: string): boolean {
   const n = normalizePhone(input)

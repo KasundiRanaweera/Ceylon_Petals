@@ -90,7 +90,8 @@ describe('POST /api/chat', () => {
     const res = await ask([{ role: 'user', content: 'hi' }])
     expect(res.status).toBe(200)
     expect(res.body.fallback).toBe(true)
-    expect(res.body.reply).toContain('94771234567')
+    expect(res.body.reply).toContain('+94 77 123 4567')
+    expect(res.body.reply).not.toContain('94771234567')
   })
 
   it('falls back on a network error', async () => {
@@ -185,5 +186,77 @@ describe('chat tools', () => {
   it('answers an unknown tool or bad arguments without throwing', async () => {
     expect(JSON.parse(await runTool('drop_database', '{}', guest)).error).toBeTruthy()
     expect(JSON.parse(await runTool('get_policy', 'not json', guest)).error).toBeTruthy()
+  })
+})
+
+describe('time limit (the website stops waiting after 20 seconds)', () => {
+  let chat: typeof import('../services/chat.js')
+  beforeEach(async () => {
+    chat = await import('../services/chat.js')
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] })
+  })
+  afterEach(() => vi.useRealTimers())
+
+  // A reply that arrives after `ms` milliseconds, or an abort error if the caller gives up first.
+  const slowReply = (ms: number, body: unknown) => (_url: unknown, init: { signal: AbortSignal }) =>
+    new Promise<Response>((resolve, reject) => {
+      const timer = setTimeout(() => resolve(new Response(JSON.stringify(body), { status: 200 })), ms)
+      init.signal.addEventListener('abort', () => {
+        clearTimeout(timer)
+        reject(new DOMException('aborted', 'AbortError'))
+      })
+    })
+
+  it('answers with the contact details once the whole time budget is used, without retrying', async () => {
+    fetchMock.mockImplementation(slowReply(60_000, aiText('too late')))
+    const pending = chat.answerChat([{ role: 'user', content: 'hi' }], undefined)
+    await vi.advanceTimersByTimeAsync(17_500)
+    const reply = await pending
+    expect(reply.fallback).toBe(true)
+    expect(reply.reply).toContain('+94 77 123 4567')
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('still answers normally when the AI is slow but inside the budget', async () => {
+    fetchMock.mockImplementation(slowReply(9_000, aiText('Here is a lovely bouquet.')))
+    const pending = chat.answerChat([{ role: 'user', content: 'hi' }], undefined)
+    await vi.advanceTimersByTimeAsync(9_500)
+    const reply = await pending
+    expect(reply.fallback).toBe(false)
+    expect(reply.reply).toBe('Here is a lovely bouquet.')
+  })
+
+  it('gives up between tool rounds when the rounds together take too long', async () => {
+    fetchMock
+      .mockImplementationOnce(slowReply(9_000, aiToolCall('get_shop_info', {})))
+      .mockImplementationOnce(slowReply(9_000, aiText('never shown')))
+    const pending = chat.answerChat([{ role: 'user', content: 'when are you open?' }], undefined)
+    await vi.advanceTimersByTimeAsync(18_500)
+    const reply = await pending
+    expect(reply.fallback).toBe(true)
+    expect(fetchMock.mock.calls.length).toBeLessThanOrEqual(2)
+  })
+})
+
+describe('shop details given to the AI', () => {
+  it('shows the WhatsApp number in the readable form', async () => {
+    const info = JSON.parse(await runTool('get_shop_info', '{}', { user: undefined, seenProducts: new Map() }))
+    expect(info.whatsapp).toBe('+94 77 123 4567')
+  })
+})
+
+describe('plain text answers', () => {
+  it('removes markdown the chat window would show as stray symbols, and keeps simple lists', async () => {
+    const { plainText } = await import('../services/chat.js')
+    expect(plainText('We have **Classic Red Rose Dozen** at Rs. 13,500.')).toBe('We have Classic Red Rose Dozen at Rs. 13,500.')
+    expect(plainText('## Options\n- **A** - Rs. 1,000  \n- __B__ - Rs. 2,000\n\n\n\nWhich one?')).toBe('Options\n- A - Rs. 1,000\n- B - Rs. 2,000\n\nWhich one?')
+    expect(plainText('Use `code` here')).toBe('Use code here')
+    expect(plainText('Rs. 5,000 * 2 = Rs. 10,000')).toBe('Rs. 5,000 * 2 = Rs. 10,000')
+  })
+
+  it('applies it to the answers the AI gives', async () => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify(aiText('Try the **Velvet Rose Box** for Rs. 20,000.')), { status: 200 }))
+    const res = await ask([{ role: 'user', content: 'a gift?' }])
+    expect(res.body.reply).toBe('Try the Velvet Rose Box for Rs. 20,000.')
   })
 })
