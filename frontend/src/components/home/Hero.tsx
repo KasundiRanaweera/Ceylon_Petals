@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
-import { ArrowRight, Clock, MessageCircle, PenLine, ShieldCheck, Star, Truck } from 'lucide-react'
+import { ArrowRight, Clock, PenLine, ShieldCheck, Star, Truck } from 'lucide-react'
 import { EASE_OUT } from '../motion/variants'
 import { useShop, useWhatsApp } from '../../hooks/useShop'
 import { useCutoffCountdown } from '../../hooks/useCutoffCountdown'
@@ -101,7 +101,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             initial={{ opacity: 0 }}
             animate={play({ opacity: 1 })}
             transition={{ duration: 1.4, delay: 0.2, ease: EASE_OUT }}
-            className="relative aspect-[1020/790] w-[min(175cqw,129.1cqh)] shrink-0 sm:-mb-[15cqh] sm:w-[min(130cqw,148.5cqh)] [mask-image:radial-gradient(54%_56%_at_50%_50%,#000_64%,transparent_100%)]"
+            className="relative aspect-[1020/790] w-[min(215cqw,158cqh)] shrink-0 sm:-mb-[15cqh] sm:w-[min(130cqw,148.5cqh)] [mask-image:radial-gradient(54%_56%_at_50%_50%,#000_64%,transparent_100%)]"
           >
             {reduce ? (
               <img src={STAGES[4].src} srcSet={STAGES[4].srcSet} sizes={SIZES} alt="" className="h-full w-full object-cover" />
@@ -204,9 +204,9 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
               href={whatsapp('Hello! I would like to order flowers.')}
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-spring group inline-flex min-h-[40px] items-center justify-center gap-2 rounded-lg border border-on-surface/15 bg-surface-container-lowest px-4 text-[11.5px] sm:min-h-[42px] sm:px-5 sm:text-[12px] font-semibold uppercase tracking-[0.12em] text-on-surface hover:border-on-surface/40 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-on-surface"
+              className="hero-spring group inline-flex max-sm:hidden min-h-[40px] items-center justify-center gap-2 rounded-lg border border-on-surface/15 bg-surface-container-lowest px-4 text-[11.5px] sm:min-h-[42px] sm:px-5 sm:text-[12px] font-semibold uppercase tracking-[0.12em] text-on-surface hover:border-on-surface/40 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-on-surface"
             >
-              <MessageCircle size={15} aria-hidden="true" className="hero-wiggle text-[#25D366]" /> Order on WhatsApp
+              Order on WhatsApp
             </a>
           </motion.div>
 
@@ -214,13 +214,13 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             initial="hidden"
             animate={play('show')}
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 1.1 } } }}
-            className="mt-4 hidden w-full max-w-[21rem] grid-cols-2 gap-2 text-[12px] text-on-surface [@media(min-height:620px)]:grid sm:mt-5 sm:flex sm:w-auto sm:max-w-none sm:gap-0 sm:divide-x sm:divide-white/15 sm:text-[11.5px] lg:text-[12px] sm:max-lg:[@media(max-height:760px)]:hidden lg:[@media(max-height:700px)]:mt-6"
+            className="mt-4 hidden w-full max-w-[21rem] grid-cols-2 gap-2 text-[12px] text-on-surface max-sm:[@media(min-height:620px)]:grid sm:mt-5 sm:flex sm:w-auto sm:max-w-none sm:gap-0 sm:divide-x sm:divide-white/15 sm:text-[11.5px] lg:text-[12px] sm:max-lg:[@media(max-height:760px)]:hidden lg:[@media(max-height:700px)]:mt-6"
           >
             {promises.map(({ icon: Icon, label, href }) => (
               <motion.li
                 key={label}
                 variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT } } }}
-                className="flex items-center justify-center gap-1.5 rounded-lg bg-white/[0.07] px-2 py-2 text-left leading-tight sm:flex-col sm:gap-1 sm:rounded-none sm:bg-transparent sm:px-4 sm:py-0 sm:text-center lg:px-7"
+                className="flex items-center justify-center gap-1.5 px-2 py-1.5 text-left leading-tight sm:flex-col sm:gap-1 sm:px-4 sm:py-0 sm:text-center lg:px-7"
               >
                 <Icon size={16} aria-hidden="true" className={`shrink-0 ${Icon === Star ? 'fill-[#d4af37] text-[#d4af37]' : 'text-[#e9c349]'}`} />
                 {href ? (
