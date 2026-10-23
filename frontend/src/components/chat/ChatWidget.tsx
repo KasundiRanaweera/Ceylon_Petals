@@ -9,8 +9,9 @@ import { closeChat, openChat, useChatOpen } from '../../lib/chatLauncher'
 
 // Customer support chatbot: a round chat button that opens a chat window. It only talks to our own
 // API (/api/chat); answers about products, prices and policies come from the shop's live data.
-// The button floats beside the WhatsApp button (same size and shape). On phones it floats only on
-// the home page; on other pages the nav bar has a chat button that opens this same window.
+// The button floats above the WhatsApp button (same size and shape) on tablets and larger screens.
+// On phones it floats on the home page only (WhatsApp is in the nav bar); on other pages the nav
+// bar has a chat button that opens this same window.
 
 interface Message extends ChatTurn {
   id: number
@@ -161,7 +162,7 @@ export default function ChatWidget() {
             aria-label="Chat with the Ceylon Petals Assistant"
             title="Ask us anything"
             className={`fixed right-6 z-40 h-14 w-14 items-center justify-center rounded-full bg-brand-gradient text-[#1b1c1c] shadow-[0_12px_32px_-4px_rgba(12,10,9,0.3)] transition-transform hover:scale-105 ${
-              onProductPage ? 'bottom-28 lg:bottom-24' : 'bottom-24'
+              onProductPage ? 'bottom-28 lg:bottom-24' : 'bottom-6 sm:bottom-24'
             } ${onHome ? 'flex' : 'hidden sm:flex'}`}
           >
             <MessageCircle size={28} aria-hidden="true" />

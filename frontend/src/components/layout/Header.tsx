@@ -51,8 +51,8 @@ export default function Header() {
   const { user } = useAuth()
   const shop = useShop()
   const whatsapp = useWhatsApp()
-  // On phones the chat and WhatsApp buttons float over the home page only; on every other page they
-  // sit here in the nav bar instead, so nothing floats over the content.
+  // On phones WhatsApp sits here in the nav bar on every page. The chat button sits here too, except on
+  // the home page, where it floats over the hero instead. Nothing else floats over the content.
   const onHome = useLocation().pathname === '/'
   const close = () => {
     setMenuOpen(false)
@@ -160,34 +160,32 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-1 sm:gap-2 max-[379px]:gap-0.5">
-          {/* On phones the theme switch lives in the menu, to leave room for the two buttons below. */}
+          {/* On phones the theme switch lives in the menu, to leave room for the WhatsApp (and chat) button below. */}
           <ThemeToggle className="max-sm:hidden" />
           {!onHome && (
-            <>
-              <button
-                type="button"
-                onClick={() => {
-                  close()
-                  openChat()
-                }}
-                aria-label="Chat with the Ceylon Petals Assistant"
-                title="Ask us anything"
-                className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-brand-gradient text-[#1b1c1c] transition-transform active:scale-95 max-[379px]:h-9 max-[379px]:w-9 sm:hidden"
-              >
-                <MessageCircle size={21} aria-hidden="true" />
-              </button>
-              <a
-                href={whatsapp("Hello! I'd like to order some flowers.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Chat with us on WhatsApp"
-                title="WhatsApp"
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white transition-transform active:scale-95 max-[379px]:h-9 max-[379px]:w-9 sm:hidden"
-              >
-                <WhatsAppIcon size={22} />
-              </a>
-            </>
+            <button
+              type="button"
+              onClick={() => {
+                close()
+                openChat()
+              }}
+              aria-label="Chat with the Ceylon Petals Assistant"
+              title="Ask us anything"
+              className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-brand-gradient text-[#1b1c1c] transition-transform active:scale-95 max-[379px]:h-9 max-[379px]:w-9 sm:hidden"
+            >
+              <MessageCircle size={21} aria-hidden="true" />
+            </button>
           )}
+          <a
+            href={whatsapp("Hello! I'd like to order some flowers.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat with us on WhatsApp"
+            title="WhatsApp"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white transition-transform active:scale-95 max-[379px]:h-9 max-[379px]:w-9 sm:hidden"
+          >
+            <WhatsAppIcon size={22} />
+          </a>
           <button
             type="button"
             onClick={() => {

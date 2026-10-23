@@ -214,13 +214,13 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             initial="hidden"
             animate={play('show')}
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 1.1 } } }}
-            className="mt-5 hidden divide-x divide-white/15 text-[11.5px] text-on-surface sm:flex lg:text-[12px] max-lg:[@media(max-height:760px)]:hidden lg:[@media(max-height:700px)]:mt-6"
+            className="mt-4 hidden w-full max-w-[21rem] grid-cols-2 gap-2 text-[12px] text-on-surface [@media(min-height:620px)]:grid sm:mt-5 sm:flex sm:w-auto sm:max-w-none sm:gap-0 sm:divide-x sm:divide-white/15 sm:text-[11.5px] lg:text-[12px] sm:max-lg:[@media(max-height:760px)]:hidden lg:[@media(max-height:700px)]:mt-6"
           >
             {promises.map(({ icon: Icon, label, href }) => (
               <motion.li
                 key={label}
                 variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT } } }}
-                className="flex flex-col items-center gap-1 px-4 lg:px-7"
+                className="flex items-center justify-center gap-1.5 rounded-lg bg-white/[0.07] px-2 py-2 text-left leading-tight sm:flex-col sm:gap-1 sm:rounded-none sm:bg-transparent sm:px-4 sm:py-0 sm:text-center lg:px-7"
               >
                 <Icon size={16} aria-hidden="true" className={`shrink-0 ${Icon === Star ? 'fill-[#d4af37] text-[#d4af37]' : 'text-[#e9c349]'}`} />
                 {href ? (
