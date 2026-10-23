@@ -102,7 +102,7 @@ export default function Footer() {
             <ul className="space-y-2 text-body-sm">
               {SHOP_NAV.slice(0, 7).map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="hover:text-tertiary transition-colors">{link.label}</Link>
+                  <Link to={link.path} className="inline-flex min-h-9 items-center hover:text-tertiary transition-colors sm:min-h-0">{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -113,11 +113,11 @@ export default function Footer() {
             <ul className="space-y-2 text-body-sm">
               {HELP_NAV.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="hover:text-tertiary transition-colors">{link.label}</Link>
+                  <Link to={link.path} className="inline-flex min-h-9 items-center hover:text-tertiary transition-colors sm:min-h-0">{link.label}</Link>
                 </li>
               ))}
               <li>
-                <Link to="/custom-order" className="hover:text-tertiary transition-colors">Bulk & corporate orders</Link>
+                <Link to="/custom-order" className="inline-flex min-h-9 items-center hover:text-tertiary transition-colors sm:min-h-0">Bulk & corporate orders</Link>
               </li>
             </ul>
           </div>
@@ -146,9 +146,9 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-3 border-t border-outline-variant/70 pt-6 text-[12px] uppercase tracking-[0.16em] text-outline md:flex-row">
           <p>© {new Date().getFullYear()} {shop.shopName}. All rights reserved.</p>
           <div className="flex items-center gap-5 normal-case tracking-normal text-[13px]">
-            <Link to="/privacy" className="hover:text-tertiary">Privacy & terms</Link>
-            <Link to="/refund-policy" className="hover:text-tertiary">Refund policy</Link>
-            <Link to="/admin/login" className="hover:text-tertiary">Owner login</Link>
+            <Link to="/privacy" className="inline-flex min-h-9 items-center hover:text-tertiary sm:min-h-0">Privacy & terms</Link>
+            <Link to="/refund-policy" className="inline-flex min-h-9 items-center hover:text-tertiary sm:min-h-0">Refund policy</Link>
+            <Link to="/admin/login" className="inline-flex min-h-9 items-center hover:text-tertiary sm:min-h-0">Owner login</Link>
           </div>
         </div>
       </div>
