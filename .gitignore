@@ -8,3 +8,4 @@ build/
 backend/src/generated/
 render.env
 .vite/
+.venv/

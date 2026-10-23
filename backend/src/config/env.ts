@@ -50,6 +50,12 @@ const schema = z.object({
   CLOUDINARY_API_KEY: z.string().optional(),
   CLOUDINARY_API_SECRET: z.string().optional(),
 
+  // ---- Customer chatbot (Groq, OpenAI-compatible API) ----
+  // Optional. Without a key the chat window still works but answers with the shop's contact details.
+  GROQ_API_KEY: z.string().optional(),
+  GROQ_MODEL: z.string().default('openai/gpt-oss-120b'),
+  GROQ_BASE_URL: z.string().default('https://api.groq.com/openai/v1'),
+
   // Owner account created by the seed script.
   OWNER_NAME: z.string().optional(),
   OWNER_EMAIL: z.string().optional(),
@@ -110,6 +116,12 @@ export const env = {
     apiKey: data.CLOUDINARY_API_KEY ?? '',
     apiSecret: data.CLOUDINARY_API_SECRET ?? '',
     folder: 'ceylon-petals/products',
+  },
+  groq: {
+    configured: Boolean(data.GROQ_API_KEY),
+    apiKey: data.GROQ_API_KEY ?? '',
+    model: data.GROQ_MODEL,
+    baseUrl: data.GROQ_BASE_URL.replace(/\/+$/, ''),
   },
   payhere: {
     mode: payhereMode as 'disabled' | 'simulated' | 'sandbox' | 'live',

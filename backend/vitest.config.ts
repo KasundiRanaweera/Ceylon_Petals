@@ -11,6 +11,8 @@ export default defineConfig({
       JWT_SECRET: 'test-secret-test-secret-test-secret-123456',
       FRONTEND_URL: 'http://localhost:5173',
       BCRYPT_ROUNDS: '4', // fast hashing in tests
+      GROQ_API_KEY: 'test-groq-key', // the AI itself is always mocked in tests
+      GROQ_API_KEY: 'test-groq-key', // the AI itself is always mocked in tests
     },
   },
 })

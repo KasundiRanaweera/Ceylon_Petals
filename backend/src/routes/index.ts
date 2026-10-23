@@ -9,6 +9,7 @@ import { paymentsRouter } from './payments.js'
 import { inquiriesRouter } from './inquiries.js'
 import { reviewsRouter } from './reviews.js'
 import { imagesRouter } from './images.js'
+import { chatRouter } from './chat.js'
 import { adminRouter } from './admin/index.js'
 
 // Every route group is mounted here, one line each.
@@ -23,5 +24,6 @@ apiRouter.use('/payments', paymentsRouter) // PayHere card payments
 apiRouter.use('/inquiries', inquiriesRouter) // custom order requests from the website
 apiRouter.use('/reviews', reviewsRouter) // published customer reviews
 apiRouter.use('/images', imagesRouter) // photos the owner uploaded to the shop
+apiRouter.use('/chat', chatRouter) // customer support chatbot (read-only)
 apiRouter.use('/admin', adminRouter) // the owner console (owner role only)
 apiRouter.use(catalogRouter) // /products, /products/:slug, /categories, /occasions

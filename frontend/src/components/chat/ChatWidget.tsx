@@ -6,7 +6,7 @@ import { sendChat, type ChatProduct, type ChatTurn } from '../../services/chat'
 import { formatLKR } from '../../lib/format'
 import { ApiError } from '../../lib/api'
 
-// Customer support chatbot: a floating button that opens a chat panel. It only talks to our own
+// Customer support chatbot: a floating button that opens a chat window. It only talks to our own
 // API (/api/chat); answers about products, prices and policies come from the shop's live data.
 
 interface Message extends ChatTurn {
@@ -82,7 +82,7 @@ export default function ChatWidget() {
     if (open) field.current?.focus()
   }, [open])
 
-  // Escape closes the window (but not while typing a long message by accident: only on plain Escape).
+  // Escape closes the chat window.
   useEffect(() => {
     if (!open) return
     const onKey = (e: globalThis.KeyboardEvent) => e.key === 'Escape' && close()
@@ -133,6 +133,7 @@ export default function ChatWidget() {
 
   return (
     <>
+      {/* The round chat icon: clicking it opens the chat window. */}
       <AnimatePresence>
         {!open && (
           <motion.button

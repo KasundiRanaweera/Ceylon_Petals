@@ -121,3 +121,12 @@ export const uploadSignLimiter = rateLimit({
   skip: skipInTests,
   keyGenerator: (req) => req.user?.id ?? ipOf(req),
 })
+
+/** Chatbot messages: 30 per 10 minutes per address. Each one costs an AI call, so this also caps the bill. */
+export const chatLimiter = rateLimit({
+  ...common,
+  windowMs: 10 * 60 * 1000,
+  limit: 30,
+  skip: skipInTests,
+  keyGenerator: ipOf,
+})
