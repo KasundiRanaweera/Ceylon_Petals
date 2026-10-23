@@ -57,6 +57,18 @@ afterEach(() => vi.unstubAllGlobals())
 const ask = (messages: unknown) => request(app).post('/api/chat').send({ messages })
 
 describe('POST /api/chat', () => {
+  it('gives the contact-us message instead of letting the model guess when every lookup fails', async () => {
+    productRows.mockRejectedValue(new Error('database unreachable'))
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify(aiToolCall('search_products', { query: 'rose' }))))
+
+    const res = await ask([{ role: 'user', content: 'red roses?' }])
+
+    expect(res.body.fallback).toBe(true)
+    expect(res.body.reply).toContain('+94 77 123 4567')
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    productRows.mockReset()
+  })
+
   it('recommends only catalogue products inside the budget and shows cards for the ones it names', async () => {
     productRows.mockResolvedValue([product('Crimson Rose Bouquet', 'crimson', 4500), product('Grand Rose Box', 'grand', 9000)])
     fetchMock

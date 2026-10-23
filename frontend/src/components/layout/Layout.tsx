@@ -3,7 +3,6 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { motion, useScroll, useSpring } from 'motion/react'
 import Header from './Header'
 import Footer from './Footer'
-import WhatsAppButton from './WhatsAppButton'
 import ChatWidget from '../chat/ChatWidget'
 
 // Wraps every customer-facing page with the same Header, Footer and WhatsApp button.
@@ -34,7 +33,6 @@ export default function Layout() {
         </motion.div>
       </main>
       <Footer />
-      <WhatsAppButton />
       <ChatWidget />
     </div>
   )

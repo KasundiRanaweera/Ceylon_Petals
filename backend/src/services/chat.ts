@@ -1,5 +1,5 @@
 import { env } from '../config/env.js'
-import { runTool, toolSpecs, type ChatProduct, type ToolContext } from './chatTools.js'
+import { runTool, toolSpecs, TOOL_UNAVAILABLE, type ChatProduct, type ToolContext } from './chatTools.js'
 import { getPublicSettings } from './settings.js'
 import { buildSystemPrompt } from '../lib/chatPrompt.js'
 import { formatPhone } from '../lib/phone.js'
@@ -153,9 +153,14 @@ export async function answerChat(history: ChatTurn[], user: Viewer['user']): Pro
         return { reply, products: mentionedProducts(reply, ctx.seenProducts), fallback: false }
       }
       messages.push({ role: 'assistant', content: message.content ?? null, tool_calls: calls })
+      let failed = 0
       for (const call of calls) {
-        messages.push({ role: 'tool', tool_call_id: call.id, content: await runTool(call.function.name, call.function.arguments, ctx) })
+        const content = await runTool(call.function.name, call.function.arguments, ctx)
+        if (content === TOOL_UNAVAILABLE) failed++
+        messages.push({ role: 'tool', tool_call_id: call.id, content })
       }
+      // With every lookup down (e.g. the database is unreachable) the model would have to guess, so give the contact-us message instead.
+      if (failed === calls.length) return fallbackReply()
     }
     return fallbackReply()
   } catch (error) {

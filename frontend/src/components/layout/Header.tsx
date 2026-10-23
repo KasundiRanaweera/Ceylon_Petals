@@ -182,9 +182,9 @@ export default function Header() {
             rel="noopener noreferrer"
             aria-label="Chat with us on WhatsApp"
             title="WhatsApp"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white transition-transform active:scale-95 max-[379px]:h-9 max-[379px]:w-9 sm:hidden"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white transition-transform active:scale-95 max-[379px]:h-8 max-[379px]:w-8 sm:hidden"
           >
-            <WhatsAppIcon size={22} />
+            <WhatsAppIcon size={20} />
           </a>
           <button
             type="button"

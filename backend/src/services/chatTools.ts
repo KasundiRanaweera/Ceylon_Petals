@@ -381,6 +381,9 @@ export const toolSpecs = Object.entries(TOOLS).map(([name, t]) => ({
 }))
 
 /** Runs one tool call. Failures come back as data so the model can apologise instead of crashing the chat. */
+/** What a tool returns when its lookup failed; chat.ts stops asking the model to guess when every tool in a round returns this. */
+export const TOOL_UNAVAILABLE = JSON.stringify({ error: 'That information is not available right now.' })
+
 export async function runTool(name: string, rawArgs: string, ctx: ToolContext): Promise<string> {
   const tool = TOOLS[name]
   if (!tool) return JSON.stringify({ error: `Unknown tool ${name}` })
@@ -390,6 +393,6 @@ export async function runTool(name: string, rawArgs: string, ctx: ToolContext): 
     return JSON.stringify(await tool.run(args, ctx))
   } catch (error) {
     console.error(`chat tool ${name} failed:`, error instanceof Error ? error.message : error)
-    return JSON.stringify({ error: 'That information is not available right now.' })
+    return TOOL_UNAVAILABLE
   }
 }

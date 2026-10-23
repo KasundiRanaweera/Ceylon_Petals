@@ -161,11 +161,11 @@ export default function ChatWidget() {
             transition={{ duration: 0.2 }}
             aria-label="Chat with the Ceylon Petals Assistant"
             title="Ask us anything"
-            className={`fixed right-6 z-40 h-14 w-14 items-center justify-center rounded-full bg-brand-gradient text-[#1b1c1c] shadow-[0_12px_32px_-4px_rgba(12,10,9,0.3)] transition-transform hover:scale-105 ${
-              onProductPage ? 'bottom-28 lg:bottom-24' : 'bottom-6 sm:bottom-24'
+            className={`fixed right-6 z-40 h-12 w-12 items-center sm:h-14 sm:w-14 justify-center rounded-full bg-brand-gradient text-[#1b1c1c] shadow-[0_12px_32px_-4px_rgba(12,10,9,0.3)] transition-transform hover:scale-105 ${
+              onProductPage ? 'bottom-28 lg:bottom-6' : 'bottom-6'
             } ${onHome ? 'flex' : 'hidden sm:flex'}`}
           >
-            <MessageCircle size={28} aria-hidden="true" />
+            <MessageCircle aria-hidden="true" className="h-6 w-6 sm:h-7 sm:w-7" />
           </motion.button>
         )}
       </AnimatePresence>
