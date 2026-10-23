@@ -12,6 +12,7 @@ analytics and shop settings.
 | [`frontend/`](frontend/) | The website and the owner dashboard (React) | [frontend/README.md](frontend/README.md) |
 | [`backend/`](backend/) | The API and database (Node.js, Express, PostgreSQL) | [backend/README.md](backend/README.md) |
 | [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | How to put the shop online (Supabase, Render, Vercel) | |
+| [`docs/chatbot-lab.ipynb`](docs/chatbot-lab.ipynb) | The chatbot step by step in a Jupyter notebook: tools, prompt, chat loop and safety tests | |
 | [`docs/HERO-FILM.md`](docs/HERO-FILM.md) | How to make the bouquet-making film for the home page (AI video prompts) | |
 | [`render.yaml`](render.yaml) | Render settings for the API | |
 
@@ -21,6 +22,7 @@ analytics and shop settings.
 - **Build their own gift:** design a hamper in the hamper builder, or write a card message in the card studio.
 - **Order** as a guest or with an account. Choose the delivery date and time slot, add a card message and a promo code, then pay by **card (PayHere)**, **cash on delivery** or **WhatsApp**. Prices, delivery fees and stock are checked on the server.
 - **Track an order** with its order number and phone number, no account needed.
+- **Chat with the Ceylon Petals Assistant:** an AI chatbot answers questions about flowers, prices, stock, delivery and policies, suggests bouquets for a budget and shows product cards. Signed-in customers can ask about their own orders. See [The chatbot](#the-chatbot).
 - **Ask for something special:** weddings, events, corporate or bulk orders, or a custom design, through the custom order form.
 - **With an account:** see past orders and their status, save delivery addresses, update their name and phone, and change their password.
 - **Forgot the password?** Tap "Forgot your password?" to ask the shop on WhatsApp. The shop sends back a one-time reset link.
@@ -52,6 +54,7 @@ The **Accepting orders** switch at the top of the dashboard pauses online checko
           ▼
   Website (frontend, Vercel) ──/api──►  API (backend, Render)  ──►  PostgreSQL database (Supabase)
                                               │
+                                              ├──► Groq (AI model for the chatbot)
                                               ├──► PayHere (card payments)
                                               └──► Cloudinary (optional, product photos)
 ```
@@ -59,6 +62,29 @@ The **Accepting orders** switch at the top of the dashboard pauses online checko
 The browser only ever talks to the website's address. Requests to `/api/...` are forwarded to the
 API, so the sign-in cookie works like a normal same-site cookie. Prices, stock, delivery fees and
 promo codes are always worked out on the server, never trusted from the browser.
+
+## The chatbot
+
+The round chat button (bottom right on the home page, and in the phone navigation bar on other
+pages) opens the **Ceylon Petals Assistant**. It is built to help without being able to do harm:
+
+- **Facts come from the shop, not from the AI.** The model (Groq, `openai/gpt-oss-120b`) can only call
+  13 small **read-only tools**: search products, product details, compare, featured picks, delivery
+  fees and slots per district, an order cost estimate, shop contact details and hours, policies,
+  reviews, site pages and the signed-in customer's own orders. Prices, stock, fees and hours are read
+  from the live database every time, so they cannot be invented or out of date.
+- **It cannot change anything.** No tool places, edits, cancels or refunds an order, and none returns
+  another customer's name, phone, e-mail or address. Messages that try to override the rules are
+  treated as data, not instructions.
+- **Product cards.** A photo card appears only for products the answer actually names.
+- **It fails safely.** No API key, a slow model, a rate limit or a database error all give the same
+  friendly message with the shop's WhatsApp number, e-mail and hours. The chat never blocks an order.
+- **Protected.** Only user and assistant messages are accepted, each up to 1000 characters, the last
+  12 turns are used, and each visitor gets 30 messages per 10 minutes.
+
+Set `GROQ_API_KEY` in `backend/.env` to switch it on (see [backend/README.md](backend/README.md#the-chatbot)
+and [frontend/README.md](frontend/README.md#chatbot)). [`docs/chatbot-lab.ipynb`](docs/chatbot-lab.ipynb)
+walks through the same bot step by step in Python.
 
 ## Tech stack
 
@@ -68,6 +94,7 @@ promo codes are always worked out on the server, never trusted from the browser.
 | API | Node.js 22+, Express 5, TypeScript, Zod 4, Helmet, express-rate-limit |
 | Database | PostgreSQL on Supabase, through Prisma 7 |
 | Sign-in | JWT in an httpOnly cookie, bcrypt password hashing |
+| Chatbot | Groq (OpenAI-compatible API) with tool calling over the shop's own services |
 | Payments | PayHere (simulated, sandbox or live) |
 | Photos | Cloudinary, or stored in the shop's own database |
 | Tests | Vitest and Supertest against an in-memory PostgreSQL (PGlite); ESLint for the website |
@@ -93,6 +120,9 @@ cd frontend
 npm install
 npm run dev             # http://localhost:5173
 ```
+
+The chatbot is optional: add a free `GROQ_API_KEY` to `backend/.env` to enable it. Without one, the
+chat window replies with the shop's contact details.
 
 Then open:
 
@@ -124,8 +154,8 @@ cd frontend && npm run lint && npm run build          # build also type-checks
 ## Putting it online
 
 Follow [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). In short: the database goes on Supabase, the API on
-Render and the website on Vercel. The free Render plan sleeps after 15 minutes without visits, so the
-first request after a quiet spell can take up to a minute. The GitHub workflow
+Render and the website on Vercel. `render.yaml` asks for a paid instance. On Render's free plan the API sleeps after 15 minutes
+without visits, so the first request after a quiet spell can take up to a minute. The GitHub workflow
 [`.github/workflows/keep-api-awake.yml`](.github/workflows/keep-api-awake.yml) calls
 `/api/health` every 10 minutes to keep it awake (change the address in it if your API moves). An
 uptime monitor such as UptimeRobot does the same job if you prefer.

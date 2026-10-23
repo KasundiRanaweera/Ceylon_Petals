@@ -4,7 +4,7 @@ The API behind the shop website and the owner dashboard.
 
 What customers and the owner can do with it is listed in the main [README](../README.md#what-customers-can-do); the owner dashboard is described page by page in [frontend/README.md](../frontend/README.md#owner-dashboard).
 
-**Node.js 22+ · Express 5 · TypeScript · Prisma 7 · PostgreSQL (Supabase) · Zod · JWT in an httpOnly cookie**
+**Node.js 22+ · Express 5 · TypeScript · Prisma 7 · PostgreSQL (Supabase) · Zod · JWT in an httpOnly cookie · Groq AI chatbot**
 
 ## Tech stack
 
@@ -23,7 +23,7 @@ What customers and the owner can do with it is listed in the main [README](../RE
 | Settings from `.env` | `dotenv` | 17 |
 | Tests | `vitest`, `supertest`, `@electric-sql/pglite` with `pglite-prisma-adapter` | 5.0, 7.3, 0.4 |
 
-PayHere and Cloudinary are called over plain HTTPS (`src/lib/payhere.ts`, `src/lib/cloudinary.ts`), with no extra SDK.
+PayHere, Cloudinary and the chatbot's AI model (Groq) are called over plain HTTPS (`src/lib/payhere.ts`, `src/lib/cloudinary.ts`, `src/services/chat.ts`), with no extra SDK.
 
 ## Setup
 
@@ -51,7 +51,7 @@ http://localhost:5000/api/health/db (the database connection).
 | `npm run owner:reset` | Sets the owner's password to `OWNER_PASSWORD` from `.env` |
 | `npm run db:studio` | Opens Prisma Studio, a spreadsheet-like view of the tables |
 | `npm run typecheck` | Type-checks the code |
-| `npm test` | Runs the 295 tests |
+| `npm test` | Runs the 325 tests |
 
 ## Settings (`.env`)
 
@@ -66,6 +66,7 @@ Copy `.env.example` to `.env`. Every setting is explained in that file. The impo
 | `OWNER_EMAIL`, `OWNER_PASSWORD`, `OWNER_NAME` | The owner account created by `npm run db:seed` |
 | `PAYHERE_MODE` | `simulated` (local testing, the default in development), `sandbox`, `live` or `disabled` (the default in production) |
 | `CLOUDINARY_*` | Optional. Without them, uploaded photos are stored in the database |
+| `GROQ_API_KEY`, `GROQ_MODEL` | Optional. Turns the chatbot on (default model `openai/gpt-oss-120b`). Without a key the chat replies with the shop's contact details |
 | `BCRYPT_ROUNDS` | How slow password hashing is. 10 is a good balance on Render's free plan |
 
 `.env` is private. Never commit it, and never paste its values into chats or screenshots. If a
@@ -166,6 +167,7 @@ Everything is under `/api`. Answers are JSON. Errors look like
 | Catalogue | `GET /products`, `/products/:slug`, `/categories`, `/occasions` |
 | Orders | `POST /orders/quote`, `POST /orders`, `POST /orders/track`, `GET /orders/:orderNumber` |
 | Payments | `POST /payments/payhere/start`, `POST /payments/payhere/notify` (called by PayHere), `POST /payments/dev/simulate` (simulated mode only) |
+| Chatbot | `POST /chat { messages: [{ role, content }] }` returns `{ reply, products, fallback }` |
 | Shop | `GET /settings`, `GET /reviews`, `POST /inquiries`, `GET /images/:id` |
 | Owner only (`/admin`) | products, categories, photo uploads, orders and their status/payment, reviews, settings, inquiries, customers, analytics |
 
@@ -185,13 +187,38 @@ Everything is under `/api`. Answers are JSON. Errors look like
 - Unpaid card orders are cancelled after `PAYMENT_WINDOW_MINUTES`, and their stock returns. Photos
   nothing uses are cleaned up after 24 hours, along with used or expired password reset links.
 
+## The chatbot
+
+`POST /api/chat` powers the chat window on the website.
+
+| File | What it does |
+| --- | --- |
+| `src/routes/chat.ts` | Checks the request: only `user` and `assistant` roles, 1 to 30 messages, 1000 characters each, last message from the customer. Only the latest 12 turns are used |
+| `src/services/chat.ts` | The chat loop. Calls Groq, runs the tools the model asks for (up to 3 rounds), strips markdown, picks the product cards the answer names, and falls back to the contact-us message |
+| `src/services/chatTools.ts` | The 13 read-only tools. They call the same services as the website (catalogue, settings, delivery slots, order quote, reviews), so answers match what customers see at checkout |
+| `src/lib/chatPrompt.ts`, `src/lib/chatKnowledge.ts` | The assistant's personality and rules, and the verified policy text (payment, refunds, delivery rules, care…) |
+
+How it stays safe:
+
+- The model gets no database access, only the tools. None of them writes anything, and none returns a
+  customer's name, phone, e-mail or address. `get_my_orders` works only for the signed-in customer and
+  returns the status of their own orders, never contact details.
+- The prompt tells the model to look facts up and never guess. If every lookup in a round fails, the
+  customer gets the contact-us message instead of a guess.
+- The whole answer has a 17 second budget (the website waits 20), with one retry for a short rate limit.
+- The API key stays on the server and is never logged. 30 messages per 10 minutes per address
+  (`chatLimiter`) keep the AI bill small.
+- Without `GROQ_API_KEY` nothing breaks: the same contact-us message is returned.
+
+To try the bot outside the website, open [../docs/chatbot-lab.ipynb](../docs/chatbot-lab.ipynb).
+
 ## Tests
 
 ```bash
 npm test
 ```
 
-The tests run against a real PostgreSQL that lives **in memory** (PGlite), built from the same
+The tests (the chatbot is covered too: tools, privacy, failure handling; the AI call is mocked so no key is needed) run against a real PostgreSQL that lives **in memory** (PGlite), built from the same
 migrations. They never touch your Supabase database or your `.env` secrets, and need nothing installed.
 
 ## Folders
@@ -205,10 +232,10 @@ src/
   index.ts, app.ts     start-up and the Express app
   config/              reads and checks .env
   routes/              the HTTP endpoints (admin/ for the owner)
-  services/            the business rules (pricing, orders, payments, stock…)
+  services/            the business rules (pricing, orders, payments, stock, chatbot…)
   middleware/          sign-in checks, rate limits, origin check, error handler
   jobs/                timers: cancel unpaid card orders, clean up unused photos
-  lib/                 small helpers (Colombo time, phone numbers, PayHere signing…)
+  lib/                 small helpers (Colombo time, phone numbers, PayHere signing, chatbot prompt…)
   seed/                seed.ts and the starting data in seed/data/*.json
   __tests__/           the tests
 ```

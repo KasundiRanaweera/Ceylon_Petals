@@ -4,6 +4,8 @@ The shop website customers use, and the owner dashboard at `/admin`. Both are in
 
 **React 19 · Vite · TypeScript · Tailwind CSS v4 · React Router 7 · TanStack Query · Motion · Axios**
 
+Includes the customer chatbot window (see [Chatbot](#chatbot)).
+
 ## Tech stack
 
 | Purpose | Package | Version |
@@ -68,6 +70,23 @@ When the API's address changes in production, update the `/api/:path*` rewrite i
 
 The dashboard is loaded only when someone opens it, so customers never download it. It checks the
 owner role, and the API checks it again on every request.
+
+## Chatbot
+
+The **Ceylon Petals Assistant** is a chat window on the shop pages (not in the owner dashboard). The
+answers come from the API (`POST /api/chat`, see [../backend/README.md](../backend/README.md#the-chatbot)).
+
+- **Opening it.** A round chat button floats above the WhatsApp button. On phones, the home page
+  shows the same two round buttons and every other page has chat and WhatsApp buttons in the bottom
+  navigation bar. All of them open one shared window (`lib/chatLauncher.ts`).
+- **The window** (`components/chat/ChatWidget.tsx`): a welcome message, five suggested questions, a
+  typing indicator, a **new conversation** button, a 1000 character limit, Enter to send and
+  Shift+Enter for a new line. On phones it fills the screen. Escape closes it.
+- **Product cards.** When an answer names a product, a card with its photo and price links to the
+  product page. Page paths in answers (such as `/track-order`) become links.
+- **Errors.** If the server can't be reached, a red message appears in the chat suggesting WhatsApp.
+  Too many messages in a short time gives a "please wait a minute" note.
+- **Privacy.** The conversation lives only in the open tab. Nothing is saved in the browser.
 
 ## Owner dashboard
 
@@ -177,10 +196,10 @@ public/              images, the hero bloom frames (images/home/bloom), videos, 
 src/
   pages/             one file per page; account/ customer area; admin/ owner dashboard
   components/        building blocks, grouped by area (home, shop, catalog, admin, layout, ui…)
-  services/          the calls to the API, one file per area
+  services/          the calls to the API, one file per area (chat.ts for the chatbot)
   hooks/, context/   shared state: cart, sign-in, shop settings, toasts
   data/              fixed content: occasions, default shop settings, decorative photos, photo credits
-  lib/               helpers: api client, prices, delivery slots, dates, WhatsApp messages, theme
+  lib/               helpers: api client, prices, delivery slots, dates, WhatsApp messages, theme, chat launcher
   types/             TypeScript types shared by the pages
   index.css          Tailwind setup, colours for light and dark mode
 ```

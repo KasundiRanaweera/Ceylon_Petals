@@ -42,6 +42,9 @@ services:
       # This service's own public address, e.g. https://ceylon-petals-api.onrender.com
       - key: PUBLIC_API_URL
         sync: false
+      # Optional: the customer chatbot. Without a key the chat window replies with the shop's contact details.
+      - key: GROQ_API_KEY
+        sync: false
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
       - key: CLOUDINARY_API_KEY

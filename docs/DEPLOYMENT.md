@@ -60,6 +60,7 @@ Afterwards put your development URLs back in `backend/.env`.
 | `DATABASE_URL`, `DIRECT_URL` | from step 1 |
 | `PUBLIC_API_URL` | this service's address, e.g. `https://ceylon-petals-api.onrender.com` |
 | `CLOUDINARY_*` | optional, see step 4 |
+| `GROQ_API_KEY` | optional, the customer chatbot, see step 4b |
 | `PAYHERE_MERCHANT_*` | leave empty until step 5 |
 
 `JWT_SECRET` is generated for you. Keep `PAYHERE_MODE=disabled` for now (customers can still pay by
@@ -95,6 +96,16 @@ Create a free account, then copy *Cloud name*, *API Key*, *API Secret* into the 
 variables on Render and redeploy. In the admin, product forms can then upload photos directly. Without
 them, the owner can still paste photo links.
 
+## 4b. Chatbot (Groq, optional)
+
+The chat button on the site is answered by an AI model on [Groq](https://console.groq.com). Create a
+free API key, put it in `GROQ_API_KEY` on Render and redeploy. `GROQ_MODEL` is optional (the default
+is `openai/gpt-oss-120b`). The key lives only on the server, never in the website code.
+
+Without a key the chat window still opens, but every answer is the shop's contact details. If Groq is
+slow or down, customers get the same message, so the chat can never block an order. Each visitor is
+limited to 30 messages per 10 minutes, which also caps the AI bill.
+
 ## 5. Card payments (PayHere)
 
 1. Create a PayHere merchant account and **add your website domain** under *Domains & Credentials*.
@@ -112,6 +123,7 @@ them, the owner can still paste photo links.
 - [ ] Sign in at `/admin/login` with the owner account. The order appears. Move it to *Confirmed*.
 - [ ] Change a product's stock or price in the admin; the shop shows it.
 - [ ] Upload a product photo (if Cloudinary is set up).
+- [ ] Press the chat button and ask "How much is delivery to Kandy?" (if `GROQ_API_KEY` is set). The fee must match Settings.
 - [ ] Card payment in sandbox: the order turns *Paid* without you doing anything.
 - [ ] **Rate limits are per visitor, not shared:** from your phone, enter a wrong password 6 times at sign-in
       (you get locked out), then sign in from another device or network. If that also says "too many

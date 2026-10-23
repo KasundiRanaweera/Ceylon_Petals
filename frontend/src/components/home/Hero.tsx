@@ -101,7 +101,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             initial={{ opacity: 0 }}
             animate={play({ opacity: 1 })}
             transition={{ duration: 1.4, delay: 0.2, ease: EASE_OUT }}
-            className="relative aspect-[1020/790] w-[min(215cqw,158cqh)] shrink-0 sm:-mb-[15cqh] sm:w-[min(130cqw,148.5cqh)] [mask-image:radial-gradient(54%_56%_at_50%_50%,#000_64%,transparent_100%)]"
+            className="relative aspect-[1020/790] w-[min(215cqw,158cqh)] shrink-0 max-sm:mt-[3cqh] sm:-mb-[15cqh] sm:w-[min(130cqw,148.5cqh)] [mask-image:radial-gradient(54%_56%_at_50%_50%,#000_64%,transparent_100%)]"
           >
             {reduce ? (
               <img src={STAGES[4].src} srcSet={STAGES[4].srcSet} sizes={SIZES} alt="" className="h-full w-full object-cover" />
