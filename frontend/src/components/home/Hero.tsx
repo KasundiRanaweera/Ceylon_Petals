@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
-import { ArrowRight, Clock, PenLine, ShieldCheck, Star, Truck } from 'lucide-react'
+import { ArrowRight, Clock, MessageCircle, PenLine, ShieldCheck, Star, Truck } from 'lucide-react'
 import { EASE_OUT } from '../motion/variants'
 import { useShop, useWhatsApp } from '../../hooks/useShop'
 import { useCutoffCountdown } from '../../hooks/useCutoffCountdown'
@@ -101,7 +101,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             initial={{ opacity: 0 }}
             animate={play({ opacity: 1 })}
             transition={{ duration: 1.4, delay: 0.2, ease: EASE_OUT }}
-            className="relative aspect-[1020/790] w-[min(215cqw,158cqh)] shrink-0 sm:-mb-[15cqh] sm:w-[min(130cqw,148.5cqh)] [mask-image:radial-gradient(54%_56%_at_50%_50%,#000_64%,transparent_100%)]"
+            className="relative aspect-[1020/790] w-[min(215cqw,158cqh)] shrink-0 max-sm:-mt-[12cqh] sm:-mb-[15cqh] sm:w-[min(130cqw,148.5cqh)] [mask-image:radial-gradient(54%_56%_at_50%_50%,#000_64%,transparent_100%)]"
           >
             {reduce ? (
               <img src={STAGES[4].src} srcSet={STAGES[4].srcSet} sizes={SIZES} alt="" className="h-full w-full object-cover" />
@@ -206,7 +206,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
               rel="noopener noreferrer"
               className="hero-spring group inline-flex max-sm:hidden min-h-[40px] items-center justify-center gap-2 rounded-lg border border-on-surface/15 bg-surface-container-lowest px-4 text-[11.5px] sm:min-h-[42px] sm:px-5 sm:text-[12px] font-semibold uppercase tracking-[0.12em] text-on-surface hover:border-on-surface/40 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-on-surface"
             >
-              Order on WhatsApp
+              <MessageCircle size={15} aria-hidden="true" className="hero-wiggle text-[#25D366]" /> Order on WhatsApp
             </a>
           </motion.div>
 
