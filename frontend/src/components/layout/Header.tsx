@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
-import { Link, NavLink, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { Search, Truck, UserRound, ShoppingBag, Menu, X, LayoutDashboard, MessageCircle, PenLine } from 'lucide-react'
 import Logo from './Logo'
 import Ticker from './Ticker'
 import ThemeToggle from './ThemeToggle'
+import WhatsAppIcon from '../ui/WhatsAppIcon'
+import { openChat } from '../../lib/chatLauncher'
 import { SHOP_NAV } from './navLinks'
 import { useCart } from '../../hooks/useCart'
 import { useAuth } from '../../hooks/useAuth'
@@ -49,6 +51,9 @@ export default function Header() {
   const { user } = useAuth()
   const shop = useShop()
   const whatsapp = useWhatsApp()
+  // On phones the chat and WhatsApp buttons float over the home page only; on every other page they
+  // sit here in the nav bar instead, so nothing floats over the content.
+  const onHome = useLocation().pathname === '/'
   const close = () => {
     setMenuOpen(false)
     setSearchOpen(false)
@@ -121,7 +126,7 @@ export default function Header() {
       )}
 
       {/* ---- Main bar: logo · menu · actions ---- */}
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:gap-6 lg:h-16 lg:px-12">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 max-[379px]:px-3 sm:gap-6 lg:h-16 lg:px-12">
         <Logo onClick={close} />
 
         <nav aria-label="Shop categories" className="hidden xl:block">
@@ -154,8 +159,35 @@ export default function Header() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-1 sm:gap-2">
-          <ThemeToggle />
+        <div className="flex items-center gap-1 sm:gap-2 max-[379px]:gap-0.5">
+          {/* On phones the theme switch lives in the menu, to leave room for the two buttons below. */}
+          <ThemeToggle className="max-sm:hidden" />
+          {!onHome && (
+            <>
+              <button
+                type="button"
+                onClick={() => {
+                  close()
+                  openChat()
+                }}
+                aria-label="Chat with the Ceylon Petals Assistant"
+                title="Ask us anything"
+                className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-brand-gradient text-[#1b1c1c] transition-transform active:scale-95 max-[379px]:h-9 max-[379px]:w-9 sm:hidden"
+              >
+                <MessageCircle size={21} aria-hidden="true" />
+              </button>
+              <a
+                href={whatsapp("Hello! I'd like to order some flowers.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with us on WhatsApp"
+                title="WhatsApp"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white transition-transform active:scale-95 max-[379px]:h-9 max-[379px]:w-9 sm:hidden"
+              >
+                <WhatsAppIcon size={22} />
+              </a>
+            </>
+          )}
           <button
             type="button"
             onClick={() => {
@@ -181,7 +213,7 @@ export default function Header() {
             to="/cart"
             onClick={close}
             aria-label={`Cart, ${count} ${count === 1 ? 'item' : 'items'}`}
-            className="btn-gradient flex h-11 items-center gap-2 px-3.5 text-[14px] sm:ml-1 sm:px-5"
+            className="btn-gradient flex h-11 items-center gap-1.5 px-3 text-[14px] max-[379px]:h-9 max-[379px]:px-2 sm:ml-1 sm:gap-2 sm:px-5"
           >
             <ShoppingBag size={18} />
             <span className="hidden sm:inline">Cart</span>
@@ -263,6 +295,10 @@ export default function Header() {
                     </NavLink>
                   ))}
                 </nav>
+                <div className="flex items-center justify-between rounded-sm bg-surface-container-low py-0.5 pl-3 pr-1 sm:hidden">
+                  <span className="text-[14px] font-medium text-primary">Light or dark theme</span>
+                  <ThemeToggle />
+                </div>
                 <div className="grid grid-cols-2 gap-2 border-t border-outline-variant pt-4">
                   <Link to="/track-order" onClick={close} className="flex items-center justify-center gap-2 rounded-sm bg-surface-container-low px-3 py-3 text-[14px] font-medium text-primary">
                     <Truck size={16} /> Track order

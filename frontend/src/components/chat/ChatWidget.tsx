@@ -5,9 +5,12 @@ import { MessageCircle, Send, X, Flower2, RotateCcw } from 'lucide-react'
 import { sendChat, type ChatProduct, type ChatTurn } from '../../services/chat'
 import { formatLKR } from '../../lib/format'
 import { ApiError } from '../../lib/api'
+import { closeChat, openChat, useChatOpen } from '../../lib/chatLauncher'
 
-// Customer support chatbot: a floating button that opens a chat window. It only talks to our own
+// Customer support chatbot: a round chat button that opens a chat window. It only talks to our own
 // API (/api/chat); answers about products, prices and policies come from the shop's live data.
+// The button floats beside the WhatsApp button (same size and shape). On phones it floats only on
+// the home page; on other pages the nav bar has a chat button that opens this same window.
 
 interface Message extends ChatTurn {
   id: number
@@ -61,7 +64,8 @@ function ProductCard({ product, onNavigate }: { product: ChatProduct; onNavigate
 
 export default function ChatWidget() {
   const { pathname } = useLocation()
-  const [open, setOpen] = useState(false)
+  const open = useChatOpen()
+  const onHome = pathname === '/'
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
@@ -71,7 +75,17 @@ export default function ChatWidget() {
   // Product pages have a sticky bar on phones, so the launcher sits a little higher there.
   const onProductPage = pathname.startsWith('/product/')
 
-  const close = useCallback(() => setOpen(false), [])
+  const close = useCallback(() => closeChat(), [])
+
+  // A full-screen window on phones: keep the page behind it from scrolling.
+  useEffect(() => {
+    if (!open || !window.matchMedia('(max-width: 639px)').matches) return
+    const before = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = before
+    }
+  }, [open])
 
   // Keep the newest message in view.
   useEffect(() => {
@@ -139,18 +153,18 @@ export default function ChatWidget() {
           <motion.button
             key="launcher"
             type="button"
-            onClick={() => setOpen(true)}
+            onClick={openChat}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.2 }}
             aria-label="Chat with the Ceylon Petals Assistant"
             title="Ask us anything"
-            className={`btn-gradient fixed right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full shadow-[0_12px_32px_-4px_rgba(12,10,9,0.35)] transition-transform hover:scale-105 ${
+            className={`fixed right-6 z-40 h-14 w-14 items-center justify-center rounded-full bg-brand-gradient text-[#1b1c1c] shadow-[0_12px_32px_-4px_rgba(12,10,9,0.3)] transition-transform hover:scale-105 ${
               onProductPage ? 'bottom-28 lg:bottom-24' : 'bottom-24'
-            }`}
+            } ${onHome ? 'flex' : 'hidden sm:flex'}`}
           >
-            <MessageCircle size={26} aria-hidden="true" />
+            <MessageCircle size={28} aria-hidden="true" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -165,9 +179,9 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.97 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed z-50 flex flex-col overflow-hidden bg-surface text-on-surface shadow-[0_24px_60px_-12px_rgba(12,10,9,0.45)] ring-1 ring-outline-variant/60 max-sm:inset-0 sm:bottom-6 sm:right-6 sm:h-[min(640px,calc(100dvh-3rem))] sm:w-[400px] sm:rounded-2xl"
+            className="fixed z-50 flex flex-col overflow-hidden bg-surface text-on-surface shadow-[0_24px_60px_-12px_rgba(12,10,9,0.45)] ring-1 ring-outline-variant/60 max-sm:inset-0 max-sm:h-dvh sm:bottom-6 sm:right-6 sm:h-[min(640px,calc(100dvh-3rem))] sm:w-[400px] sm:rounded-2xl"
           >
-            <header className="flex items-center gap-3 border-b border-outline-variant/50 bg-surface-container-low px-4 py-3">
+            <header className="flex items-center gap-3 border-b border-outline-variant/50 bg-surface-container-low px-4 py-3 max-sm:pt-[max(0.75rem,env(safe-area-inset-top))]">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-gradient text-white"><Flower2 size={20} aria-hidden="true" /></span>
               <div className="min-w-0 flex-1">
                 <h2 className="font-display text-[18px] leading-tight text-on-surface">Ceylon Petals Assistant</h2>
@@ -180,7 +194,7 @@ export default function ChatWidget() {
                   disabled={busy}
                   aria-label="Start a new conversation"
                   title="New conversation"
-                  className="flex h-9 w-9 items-center justify-center rounded-full text-on-surface-variant transition-colors hover:bg-surface-container-high disabled:opacity-40"
+                  className="flex h-11 w-11 items-center justify-center rounded-full text-on-surface-variant transition-colors hover:bg-surface-container-high disabled:opacity-40 sm:h-9 sm:w-9"
                 >
                   <RotateCcw size={17} aria-hidden="true" />
                 </button>
@@ -189,7 +203,7 @@ export default function ChatWidget() {
                 type="button"
                 onClick={close}
                 aria-label="Close chat"
-                className="flex h-9 w-9 items-center justify-center rounded-full text-on-surface-variant transition-colors hover:bg-surface-container-high"
+                className="flex h-11 w-11 items-center justify-center rounded-full text-on-surface-variant transition-colors hover:bg-surface-container-high sm:h-9 sm:w-9"
               >
                 <X size={20} aria-hidden="true" />
               </button>
@@ -205,7 +219,7 @@ export default function ChatWidget() {
                       key={s}
                       type="button"
                       onClick={() => void send(s, messages)}
-                      className="rounded-full border border-[#d4af37]/60 px-3 py-1.5 text-left text-[13px] text-on-surface transition-colors hover:bg-surface-container-high"
+                      className="min-h-10 rounded-full border border-[#d4af37]/60 px-3.5 py-2 text-left text-[13.5px] text-on-surface transition-colors hover:bg-surface-container-high sm:min-h-0 sm:px-3 sm:py-1.5 sm:text-[13px]"
                     >
                       {s}
                     </button>
@@ -248,7 +262,7 @@ export default function ChatWidget() {
               )}
             </div>
 
-            <form onSubmit={onSubmit} className="flex items-end gap-2 border-t border-outline-variant/50 bg-surface-container-low p-3">
+            <form onSubmit={onSubmit} className="flex items-end gap-2 border-t border-outline-variant/50 bg-surface-container-low p-3 max-sm:pb-[max(0.75rem,env(safe-area-inset-bottom))]">
               <label htmlFor="chat-input" className="sr-only">Your message</label>
               <textarea
                 id="chat-input"
@@ -258,7 +272,7 @@ export default function ChatWidget() {
                 onKeyDown={onKeyDown}
                 rows={1}
                 placeholder="Type your question…"
-                className="max-h-28 min-h-11 flex-1 resize-none rounded-xl border border-outline-variant bg-surface px-3 py-2.5 text-[15px] text-on-surface placeholder:text-on-surface-variant/70 focus:border-[#d4af37] focus:outline-none"
+                className="max-h-28 min-h-11 flex-1 resize-none rounded-xl border border-outline-variant bg-surface px-3 py-2.5 text-[16px] text-on-surface sm:text-[15px] placeholder:text-on-surface-variant/70 focus:border-[#d4af37] focus:outline-none"
               />
               <button
                 type="submit"
