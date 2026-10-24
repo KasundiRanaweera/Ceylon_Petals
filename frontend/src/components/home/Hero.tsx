@@ -92,7 +92,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
         {/* the dark room: a warm glow behind the flower, darker towards the edges */}
         <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_38%,#2a1a1f_0%,#140f11_45%,#0a090a_75%)]" />
 
-        <div className="relative mx-auto flex h-full max-w-5xl flex-col items-center px-4 pb-[calc(4.25rem+env(safe-area-inset-bottom))] text-center max-sm:pt-2 sm:pb-[calc(3.5rem+env(safe-area-inset-bottom))] lg:pb-[4svh]">
+        <div className="relative mx-auto flex h-full max-w-5xl flex-col items-center px-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] text-center sm:pb-[calc(3.5rem+env(safe-area-inset-bottom))] lg:pb-[4svh]">
           {/* the lily takes whatever height the words leave, centred; the words start under its stem */}
           <div className="flex min-h-0 w-full flex-1 items-center justify-center [container-type:size] sm:items-end">
           {/* ---- the lily ---- */}
