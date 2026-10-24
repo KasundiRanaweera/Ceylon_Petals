@@ -2,7 +2,7 @@
 
 **Live site:** [ceylon-petals.vercel.app](https://ceylon-petals.vercel.app)
 
-A complete online flower shop for a studio in Colombo. Customers browse bouquets, hampers and plants,
+A complete online flower shop for a studio in Colombo with an AI chat assistant. Customers browse bouquets, hampers and plants,
 pay by card (PayHere), cash on delivery or WhatsApp, and track their order. The owner runs the shop
 from a private dashboard: orders, products, photos, stock, customers, custom requests, reviews,
 analytics and shop settings.
