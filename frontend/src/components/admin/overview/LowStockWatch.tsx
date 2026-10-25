@@ -8,7 +8,7 @@ export default function LowStockWatch({ products }: { products: Product[] }) {
     .slice(0, 5)
 
   return (
-    <div className="bg-surface-container-lowest rounded-xl shadow-sm p-4 space-y-4">
+    <div className="space-y-4 rounded-xl bg-surface-container-lowest p-5 shadow-sm ring-1 ring-outline-variant/30">
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-display text-headline-sm text-primary">Low Stock Watch</h3>
         <span className="text-[11px] text-secondary">{low.length} items</span>

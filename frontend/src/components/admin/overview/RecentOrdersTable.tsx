@@ -9,8 +9,8 @@ import { SLOT_LABEL } from '../../../lib/deliverySlots'
 // The newest orders at a glance. Status changes happen on the Orders page (with its safety checks).
 export default function RecentOrdersTable({ orders }: { orders: AdminOrder[] }) {
   return (
-    <div className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
-      <div className="p-4 flex items-center justify-between gap-3 border-b border-surface-container">
+    <div className="overflow-hidden rounded-xl bg-surface-container-lowest shadow-sm ring-1 ring-outline-variant/30">
+      <div className="px-5 py-4 flex items-center justify-between gap-3 border-b border-surface-container">
         <h2 className="font-display text-headline-sm text-primary">Recent Orders</h2>
         <Link to="/admin/orders" className="text-label-md text-primary hover:underline">Manage orders</Link>
       </div>
@@ -21,7 +21,7 @@ export default function RecentOrdersTable({ orders }: { orders: AdminOrder[] }) 
         <ul className="divide-y divide-surface-container">
           {orders.map((o) => (
             <li key={o.id}>
-              <Link to={`/admin/orders/${o.id}`} className="flex items-center gap-4 px-4 py-3 hover:bg-surface-container-low/60 transition-colors">
+              <Link to={`/admin/orders/${o.id}`} className="flex items-center gap-4 px-5 py-3 hover:bg-surface-container-low/60 transition-colors">
                 <div className="w-24 shrink-0">
                   <span className="block text-title-md text-primary">{o.orderNumber}</span>
                   <span className="block text-[11px] text-secondary">{formatPlacedAt(o.createdAt ?? o.placedAt)}</span>

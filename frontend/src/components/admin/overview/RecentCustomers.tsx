@@ -21,7 +21,7 @@ export default function RecentCustomers() {
     .slice(0, 4)
 
   return (
-    <div className="bg-surface-container-lowest rounded-xl shadow-sm p-4 space-y-4">
+    <div className="space-y-4 rounded-xl bg-surface-container-lowest p-5 shadow-sm ring-1 ring-outline-variant/30">
       <h3 className="font-display text-headline-sm text-primary">Recent Customers</h3>
 
       <ul className="space-y-3">

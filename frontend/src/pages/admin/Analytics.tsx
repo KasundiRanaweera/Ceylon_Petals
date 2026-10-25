@@ -5,6 +5,8 @@ import { adminListCategories } from '../../services/catalog'
 import { formatPhone } from '../../lib/phone'
 import AdminPageHeader from '../../components/admin/AdminPageHeader'
 import StatCard from '../../components/admin/StatCard'
+import Panel from '../../components/admin/Panel'
+import ExportMenu from '../../components/admin/ExportMenu'
 import TrendChart from '../../components/admin/charts/TrendChart'
 import ColumnChart from '../../components/admin/charts/ColumnChart'
 import BarList from '../../components/admin/charts/BarList'
@@ -36,18 +38,6 @@ function Change({ now, before, against }: { now: number; before: number; against
       <span className={`font-semibold ${tone}`}>{pct > 0 ? 'Up' : pct < 0 ? 'Down' : 'No change'}{pct !== 0 && ` ${Math.abs(pct)}%`}</span>
       <span>on {against}</span>
     </p>
-  )
-}
-
-function Panel({ title, note, children, className = '' }: { title: string; note?: string; children: React.ReactNode; className?: string }) {
-  return (
-    <section className={`bg-surface-container-lowest rounded-xl shadow-sm p-5 ${className}`}>
-      <div className="mb-4">
-        <h2 className="font-display text-headline-sm text-primary">{title}</h2>
-        {note && <p className="mt-0.5 text-[12px] text-secondary">{note}</p>}
-      </div>
-      {children}
-    </section>
   )
 }
 
@@ -112,6 +102,7 @@ export default function Analytics() {
         title="Analytics"
         subtitle="Sales and orders, counted by the day each order was placed. Cancelled and failed orders are not counted as sales."
         actions={
+          <>
           <div className="flex items-center bg-surface-container rounded-lg p-0.5" role="tablist" aria-label="Date range">
             {RANGES.map((r) => (
               <button
@@ -126,6 +117,8 @@ export default function Analytics() {
               </button>
             ))}
           </div>
+          <ExportMenu orders={all} products={products} range={range} disabled={isLoading} />
+          </>
         }
       />
 

@@ -12,7 +12,7 @@ interface StatCardProps {
 // Shared shell for the four dashboard stat cards.
 export default function StatCard({ title, icon: Icon, children, footer, alert = false }: StatCardProps) {
   return (
-    <div className="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col justify-between gap-3">
+    <div className="flex flex-col justify-between gap-3 rounded-xl bg-surface-container-lowest p-5 shadow-sm ring-1 ring-outline-variant/30">
       <div className="flex items-center justify-between">
         <span className="text-[11px] uppercase tracking-wider text-secondary">{title}</span>
         <span

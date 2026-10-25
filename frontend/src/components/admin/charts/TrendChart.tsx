@@ -44,7 +44,7 @@ export default function TrendChart({ title, points, previous, previousLabel = 'P
   const h = hover !== null ? points[hover] : undefined
 
   return (
-    <section className="bg-surface-container-lowest rounded-xl shadow-sm p-5">
+    <section className="rounded-xl bg-surface-container-lowest p-5 shadow-sm ring-1 ring-outline-variant/30">
       <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="font-display text-headline-sm text-primary">{title}</h2>
