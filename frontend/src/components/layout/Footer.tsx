@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { MapPin, Phone, Mail, Clock, Sparkles, ArrowRight } from 'lucide-react'
 import WhatsAppIcon from '../ui/WhatsAppIcon'
+import InstagramIcon from '../ui/InstagramIcon'
 import { Reveal } from '../motion/Reveal'
 import { Petals } from '../motion/Ambient'
 import Logo from './Logo'
@@ -13,7 +14,7 @@ import { sizedImage } from '../../lib/images'
 export default function Footer() {
   const shop = useShop()
   const socials = [
-    { label: 'Instagram', url: shop.instagramUrl },
+    { label: 'Instagram', url: shop.instagramUrl, icon: InstagramIcon },
     { label: 'Facebook', url: shop.facebookUrl },
     { label: 'TikTok', url: shop.tiktokUrl },
   ].filter((s) => s.url)
@@ -87,8 +88,9 @@ export default function Footer() {
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex min-h-[44px] items-center rounded-full border border-outline-variant bg-white/70 px-4 text-label-md text-primary transition-colors hover:border-primary hover:bg-primary hover:text-on-primary"
+                      className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-outline-variant bg-white/70 px-4 text-label-md text-primary transition-colors hover:border-primary hover:bg-primary hover:text-on-primary"
                     >
+                      {s.icon && <s.icon size={18} />}
                       {s.label}
                     </a>
                   </li>

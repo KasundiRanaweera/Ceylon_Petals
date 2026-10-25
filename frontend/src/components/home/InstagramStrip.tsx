@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue, type Variants } from 'motion/react'
 import { ArrowUpRight } from 'lucide-react'
+import InstagramIcon from '../ui/InstagramIcon'
 import { useShop } from '../../hooks/useShop'
 import { EASE_OUT, fadeUp, staggerContainer } from '../motion/variants'
 
@@ -113,6 +114,7 @@ export default function InstagramStrip() {
             rel="noopener noreferrer"
             className="mt-5 inline-flex items-center gap-1.5 border-b border-on-surface-variant pb-1 text-[15px] text-on-surface-variant transition-colors hover:border-tertiary hover:text-tertiary"
           >
+            <InstagramIcon size={18} />
             Follow {handle || 'us on Instagram'} <ArrowUpRight size={16} aria-hidden="true" />
           </motion.a>
         )}
