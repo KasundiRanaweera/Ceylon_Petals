@@ -28,7 +28,7 @@ export const DEFAULT_SETTINGS: ShopSettings = {
   announcement: '',
   instagramUrl: 'https://www.instagram.com/ceylonpetals',
   facebookUrl: '',
-  tiktokUrl: '',
+  tiktokUrl: 'https://www.tiktok.com/@ceylonpetals',
   deliveryZones: [
     { id: 'z-colombo', district: 'Colombo', fee: 500, sameDay: true, active: true },
     { id: 'z-gampaha', district: 'Gampaha', fee: 900, sameDay: true, active: true },

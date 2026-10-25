@@ -10,7 +10,8 @@
     "sameDayCutoff": "14:00",
     "acceptingOrders": true,
     "freeDeliveryOver": 25000,
-    "instagramUrl": "https://www.instagram.com/ceylonpetals"
+    "instagramUrl": "https://www.instagram.com/ceylonpetals",
+    "tiktokUrl": "https://www.tiktok.com/@ceylonpetals"
   },
   "deliveryZones": [
     {

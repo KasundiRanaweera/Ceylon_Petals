@@ -2,6 +2,8 @@ import { Link, useLocation } from 'react-router-dom'
 import { MapPin, Phone, Mail, Clock, Sparkles, ArrowRight } from 'lucide-react'
 import WhatsAppIcon from '../ui/WhatsAppIcon'
 import InstagramIcon from '../ui/InstagramIcon'
+import FacebookIcon from '../ui/FacebookIcon'
+import TikTokIcon from '../ui/TikTokIcon'
 import { Reveal } from '../motion/Reveal'
 import { Petals } from '../motion/Ambient'
 import Logo from './Logo'
@@ -15,8 +17,8 @@ export default function Footer() {
   const shop = useShop()
   const socials = [
     { label: 'Instagram', url: shop.instagramUrl, icon: InstagramIcon },
-    { label: 'Facebook', url: shop.facebookUrl },
-    { label: 'TikTok', url: shop.tiktokUrl },
+    { label: 'Facebook', url: shop.facebookUrl, icon: FacebookIcon },
+    { label: 'TikTok', url: shop.tiktokUrl, icon: TikTokIcon },
   ].filter((s) => s.url)
   const whatsapp = useWhatsApp()
   const { pathname } = useLocation()
@@ -90,7 +92,7 @@ export default function Footer() {
                       rel="noopener noreferrer"
                       className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-outline-variant bg-white/70 px-4 text-label-md text-primary transition-colors hover:border-primary hover:bg-primary hover:text-on-primary"
                     >
-                      {s.icon && <s.icon size={18} />}
+                      <s.icon size={18} colored />
                       {s.label}
                     </a>
                   </li>
