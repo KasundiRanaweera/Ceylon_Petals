@@ -58,7 +58,7 @@ When the API's address changes in production, update the `/api/:path*` rewrite i
 
 | Address | Page |
 | --- | --- |
-| `/` | Home: a lily that closes from full bloom to a bud as you scroll, then the bouquet feature, products, occasions and reviews |
+| `/` | Home: a lily that closes from full bloom to a bud as you scroll (with loose petals drifting behind it on wider screens), then the bouquet feature, products, occasions and reviews |
 | `/shop`, `/products/:category`, `/product/:slug` | Shop, category listings with filters, product page |
 | `/products/occasions`, `/products/luxury-hampers`, `/products/indoor-plants`, `/wedding-events` | Special collections |
 | `/cart`, `/checkout`, `/payment/:orderNumber`, `/order-confirmation/:orderNumber` | Buying: card (PayHere), cash on delivery, or WhatsApp |
@@ -97,9 +97,14 @@ Sign in at `/admin/login` with the owner account (`OWNER_EMAIL` and `OWNER_PASSW
 - Live Colombo clock, and a link to view the shop as a customer.
 
 **Overview** (`/admin`)
-- Today's numbers: orders to prepare, out for delivery, delivered today, and sales for today, this week or this month.
-- **Needs your attention:** orders waiting to be confirmed, failed or unpaid payments, products low on stock and new custom requests. Each one opens the right page.
-- An orders-this-week chart, the latest orders, new customers and a low-stock watch list.
+- A greeting with the number of deliveries still to go out today.
+- **Needs your attention:** orders waiting to be confirmed, failed or unpaid payments, products low on stock and new custom requests. Each one opens the right page. These always show what needs doing now, whatever period is chosen.
+- **Period picker** and **Download** button (see [Periods and downloads](#periods-and-downloads)).
+- **Headline cards** for the chosen period: sales, orders, average order and money still to collect from cash and WhatsApp orders. Each has a small trend line and says how it changed against the same number of days before ("Up 12% on the 7 days before"), with an arrow and words so the change never relies on colour.
+- **Sales per day** chart with the previous period as a dashed line, a hover tooltip and a table view.
+- **What the numbers say:** short sentences worked out from the orders, such as the sales change, the best day, the best seller, the area that orders most, the most chosen delivery slot, money still to collect and a high cancellation rate. The ones that need action link to the right page.
+- **Order progress** (pending to delivered, plus cancelled or failed), **best sellers**, and **how customers pay** with the delivery slots chosen.
+- The latest orders, a low-stock watch list and new customers.
 
 **Orders** (`/admin/orders`)
 - Two views: a **board** with one column per delivery slot (morning, afternoon, evening, midnight), so you can see what to prepare and when it goes out, or a **table**.
@@ -140,8 +145,17 @@ Sign in at `/admin/login` with the owner account (`OWNER_EMAIL` and `OWNER_PASSW
 - The reviews shown on the home page: add, edit, hide or show, choose the order, delete. The star rating in the home hero comes from these.
 
 **Analytics** (`/admin/analytics`)
-- For today, this week or this month: sales, orders, average order, amount paid, amount still to collect, refunded, and cancelled or failed.
-- A chart of sales per day, best sellers, best customers, and sales by category, delivery area and payment method.
+- For the chosen period: sales, orders, average order, amount paid, amount still to collect, refunded, and cancelled or failed.
+- A chart of sales per day, orders per day, delivery slots, best sellers, best customers, and sales by category, delivery area and payment method.
+- The same period picker and Download button as Overview.
+
+**Periods and downloads** <a id="periods-and-downloads"></a>
+- **Period picker** (`components/admin/PeriodPicker.tsx`): today, last 7 days, last 30 days, last 90 days, this month, last month, or a **custom range** with From and To dates (up to 366 days, no future dates). Every number is compared with the same number of days just before (`lib/period.ts`). Periods shorter than a week still chart the 7 days around them. The choice is shared by Overview and Analytics and kept until the tab is closed (`hooks/usePeriod.ts`).
+- **Download** (`components/admin/ExportMenu.tsx`):
+  - **Orders as CSV:** one row per order in the period, with customer, delivery, items, amounts, payment and status. Opens in Excel with Sinhala and Tamil text intact.
+  - **Full report as Excel (.xlsx):** six sheets: *Summary* (each measure against the period before, with the change), *Orders*, *Sales per day*, *Best sellers*, *Delivery areas* and *Stock*. Amounts are real numbers formatted as rupees, and the header row stays in view while scrolling.
+  - Files are named after the dates, for example `ceylon-petals-report-2026-10-01-to-2026-10-15.xlsx`. They are made in the browser (`lib/reportExport.ts`, `lib/spreadsheet.ts`), so no data is sent anywhere and no extra package is needed.
+- **Charts** are plain SVG (`components/admin/charts/`): thin marks, light gridlines, hover tooltips, and labels or a legend beside every colour. Chart colours are a fixed blue, gold and green (`--chart-1` to `--chart-3` in `index.css`), checked for colour-blind readers in light and dark mode.
 
 **Settings** (`/admin/settings`)
 - **Shop details:** name, tagline, phone, WhatsApp number, email, studio address and opening hours.
@@ -170,7 +184,8 @@ Sign in at `/admin/login` with the owner account (`OWNER_EMAIL` and `OWNER_PASSW
 - **Light and dark mode.** The toggle in the header (and in the dashboard) is remembered on the
   device. The colours are defined once in `src/index.css`. The home hero is always dark.
 - **Motion.** Animations use Motion and respect the device's "reduce motion" setting. With it on,
-  the hero shows the open lily without the scroll animation.
+  the hero shows the open lily without the scroll animation and without the drifting petals. The
+  petals are simple CSS loops (`.hero-drift-petal` in `index.css`) shown on tablet and desktop only.
 - **Photos.** Product photos the owner uploads are shrunk in the browser first (to WebP, max 1600 px;
   iPhone HEIC photos are converted), then sent to Cloudinary or to the shop's own database.
 
@@ -197,9 +212,10 @@ src/
   pages/             one file per page; account/ customer area; admin/ owner dashboard
   components/        building blocks, grouped by area (home, shop, catalog, admin, layout, ui…)
   services/          the calls to the API, one file per area (chat.ts for the chatbot)
-  hooks/, context/   shared state: cart, sign-in, shop settings, toasts
+  hooks/, context/   shared state: cart, sign-in, shop settings, toasts, the owner's report period
   data/              fixed content: occasions, default shop settings, decorative photos, photo credits
-  lib/               helpers: api client, prices, delivery slots, dates, WhatsApp messages, theme, chat launcher
+  lib/               helpers: api client, prices, delivery slots, dates, WhatsApp messages, theme, chat launcher,
+                     owner reports (orderStats, period, reportExport, spreadsheet)
   types/             TypeScript types shared by the pages
   index.css          Tailwind setup, colours for light and dark mode
 ```

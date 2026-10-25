@@ -2,7 +2,7 @@
 
 **Live site:** [ceylon-petals.vercel.app](https://ceylon-petals.vercel.app)
 
-A complete online flower shop for a studio in Colombo with an AI chat assistant. Customers browse bouquets, hampers and plants,
+A complete online flower shop  with an AI chat assistant. Customers browse bouquets, hampers and plants,
 pay by card (PayHere), cash on delivery or WhatsApp, and track their order. The owner runs the shop
 from a private dashboard: orders, products, photos, stock, customers, custom requests, reviews,
 analytics and shop settings.
@@ -15,6 +15,45 @@ analytics and shop settings.
 | [`docs/chatbot-lab.ipynb`](docs/chatbot-lab.ipynb) | The chatbot step by step in a Jupyter notebook: tools, prompt, chat loop and safety tests | |
 | [`docs/HERO-FILM.md`](docs/HERO-FILM.md) | How to make the bouquet-making film for the home page (AI video prompts) | |
 | [`render.yaml`](render.yaml) | Render settings for the API | |
+
+## Not a typical flower shop website
+
+Most flower sites are a product grid, a cart and a contact form. Ceylon Petals is built around how a
+Colombo flower studio really works, for the people buying and for the person running it.
+
+**A first screen you remember.** The home page opens on a real lily in full bloom that slowly closes
+back into a bud as you scroll. It is made from five photographs of the same flower at different
+stages, not a stock video. Loose petals drift behind it on larger screens. Under it, a live countdown
+shows how long is left to order for same-day delivery.
+
+**Made for Sri Lanka, not adapted from somewhere else.**
+- Customers pay the way people here actually pay: **card (PayHere)**, **cash on delivery** or
+  **ordering on WhatsApp**.
+- Delivery fees and same-day delivery are set **per district**. Delivery slots include a
+  **midnight surprise**, and "today" always means today in Colombo, whatever the visitor's clock says.
+- The shop sends no email, so a forgotten password is handled the local way: the owner sends a
+  one-time reset link on **WhatsApp**.
+- Customers can order as a guest and **track an order** with just the order number and phone number.
+
+**An assistant that can't make things up.** The AI chat assistant answers only from the shop's live
+data: real prices, real stock, real delivery fees and opening hours. It can't place, change or cancel
+orders, and it never sees other customers' details. If anything goes wrong, it gives the shop's
+WhatsApp number instead of a guess.
+
+**Gifts, not just products.** Customers can design their own hamper, write their card message in a
+card studio, and ask for weddings, events and corporate orders through a custom request form.
+
+**A dashboard that helps the owner decide.** The owner side is a working tool, not just an admin
+panel:
+- Orders are laid out as a **board by delivery slot**, so it's clear what to make and when it goes out.
+- The Overview compares any period the owner picks with the one before it, then says what the numbers
+  mean in plain sentences: the best seller, the best day, the busiest area and money still to collect.
+- Reports **download as CSV or Excel**, and one switch **pauses online orders** on a holiday.
+- The morning stock count, delivery slips and WhatsApp messages to customers are one tap away.
+
+**Safe and fair by design.** Prices, stock, delivery fees and promo codes are always worked out on the
+server, so a changed price in the browser is never charged. Animations respect the device's "reduce
+motion" setting, and chart colours are checked for colour-blind readers.
 
 ## What customers can do
 
@@ -33,7 +72,7 @@ Everything is in the owner dashboard at `/admin`. The full page-by-page guide is
 
 | Page | What it's for |
 | --- | --- |
-| **Overview** | Today at a glance: orders to prepare, out for delivery, delivered, and a "Needs your attention" list (orders to confirm, payment problems, low stock, new requests) |
+| **Overview** | A "Needs your attention" list (orders to confirm, payment problems, low stock, new requests), then the chosen period at a glance: sales, orders, average order and money still to collect, each compared with the period before, a sales chart, plain-language insights, order progress, best sellers and how customers pay |
 | **Orders** | Every order, as a board by delivery slot or as a table. Change the status, mark cash and WhatsApp orders as paid, mark refunds, message the customer, print a delivery slip, export to a spreadsheet |
 | **Products** | Add, edit, hide or delete products. Upload photos from the phone or computer, and set prices, sale prices, stock and badges |
 | **Categories** | The groups shown in the shop menu: names, photos, order, show or hide |
@@ -42,6 +81,11 @@ Everything is in the owner dashboard at `/admin`. The full page-by-page guide is
 | **Custom inquiries** | Wedding, corporate, bulk and custom-design requests, with a status and private notes for each |
 | **Reviews** | The customer reviews shown on the home page: add, edit, hide, reorder, delete |
 | **Analytics** | Sales over time, best sellers, best customers, sales by category, delivery area and payment method |
+
+On **Overview** and **Analytics** the owner picks the period: today, the last 7, 30 or 90 days, this
+month, last month, or any custom from–to range. Both pages can **download** the period as a CSV of
+orders or as a full Excel report (summary, orders, sales per day, best sellers, delivery areas and
+stock).
 | **Settings** | Shop details, opening hours, the announcement bar, social links, delivery zones and fees, the free-delivery amount, the same-day cut-off and promo codes |
 
 The **Accepting orders** switch at the top of the dashboard pauses online checkout at once, for example on a holiday. Customers are then asked to order on WhatsApp.
