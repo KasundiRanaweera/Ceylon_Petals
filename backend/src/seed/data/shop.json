@@ -9,7 +9,8 @@
     "openingHours": "8:00 AM – 9:00 PM, every day",
     "sameDayCutoff": "14:00",
     "acceptingOrders": true,
-    "freeDeliveryOver": 25000
+    "freeDeliveryOver": 25000,
+    "instagramUrl": "https://www.instagram.com/ceylonpetals"
   },
   "deliveryZones": [
     {

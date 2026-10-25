@@ -26,7 +26,7 @@ export const DEFAULT_SETTINGS: ShopSettings = {
   acceptingOrders: true,
   freeDeliveryOver: 25000,
   announcement: '',
-  instagramUrl: '',
+  instagramUrl: 'https://www.instagram.com/ceylonpetals',
   facebookUrl: '',
   tiktokUrl: '',
   deliveryZones: [
