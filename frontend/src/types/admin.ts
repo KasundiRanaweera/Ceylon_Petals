@@ -13,7 +13,6 @@ export type OrderStatus =
 
 export type PaymentMethod = 'CARD' | 'CASH_ON_DELIVERY' | 'WHATSAPP'
 export type PaymentStatus = 'PENDING' | 'PAID' | 'FAILED' | 'REFUNDED'
-export type DateRange = 'today' | 'week' | 'month'
 export type DeliverySlotKey = 'morning' | 'afternoon' | 'evening' | 'midnight'
 
 export interface OrderItem {

@@ -1,56 +1,23 @@
-import type { AdminOrder, DateRange, PaymentMethod } from '../types/admin'
-import { isoDate, localDay } from './dates'
+import type { AdminOrder, PaymentMethod } from '../types/admin'
+import { localDay } from './dates'
+import { addDays, periodDays } from './period'
 
 // Sales maths for the owner's Overview and Analytics pages.
 // TODO (backend): move to GET /api/admin/stats once there are too many orders to load at once.
-
-const RANGE_DAYS: Record<DateRange, number> = { today: 1, week: 7, month: 30 }
 
 /** Orders that count as a sale: not cancelled and not failed. */
 export function isSale(o: AdminOrder): boolean {
   return o.status !== 'CANCELLED' && o.status !== 'PAYMENT_FAILED'
 }
 
-function placedBetween(o: AdminOrder, fromDay: string, toDay: string) {
-  const day = localDay(o.createdAt)
-  return day >= fromDay && day <= toDay
+/** Orders placed between two Colombo days, both included. */
+export function ordersInPeriod(orders: AdminOrder[], p: { from: string; to: string }): AdminOrder[] {
+  return orders.filter((o) => {
+    const day = localDay(o.createdAt)
+    return day >= p.from && day <= p.to
+  })
 }
 
-export function ordersInRange(orders: AdminOrder[], range: DateRange, periodsBack = 0): AdminOrder[] {
-  const days = RANGE_DAYS[range]
-  const to = isoDate(-days * periodsBack)
-  const from = isoDate(-days * periodsBack - (days - 1))
-  return orders.filter((o) => placedBetween(o, from, to))
-}
-
-export interface DashboardStats {
-  sales: number
-  salesChangePct: number | null
-  onlinePaymentPct: number
-  totalOrders: number
-  pendingOrders: number
-  inProgressOrders: number
-  deliveredOrders: number
-}
-
-export function dashboardStats(orders: AdminOrder[], range: DateRange): DashboardStats {
-  const current = ordersInRange(orders, range).filter(isSale)
-  const previous = ordersInRange(orders, range, 1).filter(isSale)
-  const sales = current.reduce((sum, o) => sum + o.total, 0)
-  const prevSales = previous.reduce((sum, o) => sum + o.total, 0)
-  const cardSales = current.filter((o) => o.paymentMethod === 'CARD').reduce((sum, o) => sum + o.total, 0)
-  return {
-    sales,
-    salesChangePct: prevSales > 0 ? Math.round(((sales - prevSales) / prevSales) * 1000) / 10 : null,
-    onlinePaymentPct: sales > 0 ? Math.round((cardSales / sales) * 100) : 0,
-    totalOrders: current.length,
-    pendingOrders: current.filter((o) => o.status === 'PENDING').length,
-    inProgressOrders: current.filter((o) => ['CONFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY'].includes(o.status)).length,
-    deliveredOrders: current.filter((o) => o.status === 'DELIVERED').length,
-  }
-}
-
-/** One bar per day for the last `days` days, by the day the order was placed. */
 export function topProducts(orders: AdminOrder[], limit = 5) {
   const totals = new Map<string, { name: string; quantity: number; revenue: number }>()
   for (const o of orders.filter(isSale)) {
@@ -92,21 +59,27 @@ export interface DayPoint {
   orders: number
 }
 
-/**
- * Sales per day for `days` days ending today, or for the same-length window `periodsBack` periods
- * earlier (used to draw the previous period beside the current one).
- */
-export function dailySales(orders: AdminOrder[], days: number, periodsBack = 0): DayPoint[] {
-  const sales = orders.filter(isSale)
+/** Sales per day from one Colombo day to another, both included (days with no orders are zero). */
+export function dailySales(orders: AdminOrder[], p: { from: string; to: string }): DayPoint[] {
+  const days = periodDays(p)
+  const byDay = new Map<string, { value: number; orders: number }>()
+  for (const o of orders) {
+    if (!isSale(o)) continue
+    const day = localDay(o.createdAt)
+    const row = byDay.get(day) ?? { value: 0, orders: 0 }
+    row.value += o.total
+    row.orders += 1
+    byDay.set(day, row)
+  }
+  const multiYear = p.from.slice(0, 4) !== p.to.slice(0, 4)
   return Array.from({ length: days }, (_, i) => {
-    const day = isoDate(i - (days - 1) - days * periodsBack)
-    const that = sales.filter((o) => localDay(o.createdAt) === day)
+    const day = addDays(p.from, i)
     const date = new Date(`${day}T00:00:00`)
     return {
       label: days <= 7 ? date.toLocaleDateString('en-GB', { weekday: 'short' }) : date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
-      date: date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }),
-      value: that.reduce((sum, o) => sum + o.total, 0),
-      orders: that.length,
+      date: date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', ...(multiYear ? { year: 'numeric' } : {}) }),
+      value: byDay.get(day)?.value ?? 0,
+      orders: byDay.get(day)?.orders ?? 0,
     }
   })
 }

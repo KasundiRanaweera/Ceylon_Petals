@@ -1,10 +1,10 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import { useQuery } from '@tanstack/react-query'
 import { Banknote, Boxes, ChevronRight, ClipboardCheck, ClipboardList, CreditCard, HandCoins, MessageSquareText, Plus, Receipt } from 'lucide-react'
 import Panel from '../../components/admin/Panel'
 import ExportMenu from '../../components/admin/ExportMenu'
+import PeriodPicker from '../../components/admin/PeriodPicker'
 import KpiCard, { Delta } from '../../components/admin/overview/KpiCard'
 import Insights from '../../components/admin/overview/Insights'
 import TrendChart from '../../components/admin/charts/TrendChart'
@@ -16,14 +16,15 @@ import LowStockWatch from '../../components/admin/overview/LowStockWatch'
 import RecentCustomers from '../../components/admin/overview/RecentCustomers'
 import { useAdminOrders, useAdminProducts } from '../../hooks/useAdminData'
 import { useAuth } from '../../hooks/useAuth'
+import { usePeriod } from '../../hooks/usePeriod'
 import { listInquiries } from '../../services/shop'
 import { isoDate } from '../../lib/dates'
 import { formatLKR } from '../../lib/format'
-import { dailySales, isSale, ordersBySlot, ordersInRange, salesByPaymentMethod, topProducts } from '../../lib/orderStats'
+import { dailySales, isSale, ordersBySlot, ordersInPeriod, salesByPaymentMethod, topProducts } from '../../lib/orderStats'
 import { ORDER_STATUS_LABEL, PAYMENT_METHOD_LABEL } from '../../lib/orderStatus'
 import { SLOT_LABEL } from '../../lib/deliverySlots'
-import { RANGE_INFO } from '../../lib/reportExport'
-import type { DateRange, DeliverySlotKey, OrderStatus, PaymentMethod } from '../../types/admin'
+import { chartWindow, comparisonLabel, periodDays, periodLabel, previousPeriod, rangeText } from '../../lib/period'
+import type { DeliverySlotKey, OrderStatus, PaymentMethod } from '../../types/admin'
 
 // The owner's home: what needs doing now, the period's headline numbers, the sales trend with plain
 // insights beside it, where orders stand, what sells and how people pay, then the latest orders.
@@ -32,14 +33,13 @@ const TONES = {
   gold: { border: 'ring-[#c8930a]/45', icon: 'bg-[#fbe7a6] text-[#6b5200]' },
   red: { border: 'ring-error/35', icon: 'bg-error-container text-on-error-container' },
 }
-const RANGES: DateRange[] = ['today', 'week', 'month']
 const PIPELINE: OrderStatus[] = ['PENDING', 'CONFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED']
 const METHODS: PaymentMethod[] = ['CARD', 'CASH_ON_DELIVERY', 'WHATSAPP']
 const SLOTS: DeliverySlotKey[] = ['morning', 'afternoon', 'evening', 'midnight']
 const orderWord = (n: number) => `${n} ${n === 1 ? 'order' : 'orders'}`
 
 export default function Dashboard() {
-  const [range, setRange] = useState<DateRange>('week')
+  const [period, setPeriod] = usePeriod('week')
   const { user } = useAuth()
   const { data: all = [], isLoading } = useAdminOrders()
   const { data: products = [], isSuccess: productsReady } = useAdminProducts()
@@ -67,9 +67,9 @@ export default function Dashboard() {
   ]
 
   // ---- the chosen period against the one before
-  const { label: rangeLabel, days, previous: against } = RANGE_INFO[range]
-  const orders = ordersInRange(all, range)
-  const before = ordersInRange(all, range, 1)
+  const against = comparisonLabel(period)
+  const orders = ordersInPeriod(all, period)
+  const before = ordersInPeriod(all, previousPeriod(period))
   const sales = orders.filter(isSale)
   const salesBefore = before.filter(isSale)
   const revenue = sales.reduce((s, o) => s + o.total, 0)
@@ -82,9 +82,11 @@ export default function Dashboard() {
   const toCollectBefore = unpaid(before).reduce((s, o) => s + o.total, 0)
 
   // the charts always show at least a week, so a single day still has some shape around it
-  const chartDays = Math.max(days, 7)
-  const daily = dailySales(all, chartDays)
-  const dailyBefore = dailySales(all, chartDays, 1).map((d) => d.value)
+  const span = chartWindow(period)
+  const chartDays = periodDays(span)
+  const daily = dailySales(all, span)
+  const dailyBefore = dailySales(all, previousPeriod(span)).map((d) => d.value)
+  const chartTitle = span.to === isoDate(0) ? `Sales per day, last ${chartDays} days` : `Sales per day, ${rangeText(span)}`
   const statusCount = (s: OrderStatus) => orders.filter((o) => o.status === s).length
   const lost = orders.length - sales.length
   const byMethod = salesByPaymentMethod(orders)
@@ -106,23 +108,8 @@ export default function Dashboard() {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center rounded-lg bg-surface-container p-0.5" role="tablist" aria-label="Period">
-            {RANGES.map((r) => (
-              <button
-                key={r}
-                type="button"
-                role="tab"
-                aria-selected={range === r}
-                onClick={() => setRange(r)}
-                className={`cursor-pointer whitespace-nowrap rounded-md px-3 py-1.5 text-label-md transition-colors ${
-                  range === r ? 'bg-surface-container-lowest font-bold text-primary shadow-sm' : 'text-secondary hover:text-on-surface'
-                }`}
-              >
-                {RANGE_INFO[r].label}
-              </button>
-            ))}
-          </div>
-          <ExportMenu orders={all} products={products} range={range} disabled={isLoading} />
+          <PeriodPicker value={period} onChange={setPeriod} />
+          <ExportMenu orders={all} products={products} period={period} disabled={isLoading} />
           <Link
             to="/admin/products/new"
             className="flex min-h-[38px] items-center gap-2 rounded-lg bg-primary px-4 py-2 text-label-md text-on-primary shadow-sm transition-colors hover:bg-primary-container"
@@ -179,7 +166,7 @@ export default function Dashboard() {
           {/* ---- headline numbers for the period ---- */}
           <section aria-labelledby="kpi-title">
             <h2 id="kpi-title" className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-secondary">
-              {rangeLabel} <span className="font-normal normal-case tracking-normal">· compared with {against}</span>
+              {periodLabel(period)} <span className="font-normal normal-case tracking-normal">· {rangeText(period)}, compared with {against}</span>
             </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
               <KpiCard
@@ -224,7 +211,7 @@ export default function Dashboard() {
           {/* ---- the trend, with what it means beside it ---- */}
           <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-3">
             <div className="xl:col-span-2">
-              <TrendChart title={`Sales per day, last ${chartDays} days`} points={daily} previous={dailyBefore} previousLabel={`The ${chartDays} days before`} height={280} />
+              <TrendChart title={chartTitle} points={daily} previous={dailyBefore} previousLabel={`The ${chartDays} days before`} height={280} />
             </div>
             <Insights orders={orders} before={before} daily={daily} against={against} />
           </div>
@@ -233,7 +220,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             <Panel
               title="Order progress"
-              note={`Orders placed ${rangeLabel.toLowerCase()}, by where they are now.`}
+              note="Orders placed in this period, by where they are now."
               action={<Link to="/admin/orders" className="text-label-md text-primary hover:underline">Orders</Link>}
             >
               <BarList rows={PIPELINE.map((s) => ({ key: s, label: ORDER_STATUS_LABEL[s], value: statusCount(s), valueText: orderWord(statusCount(s)) }))} empty="No orders in this period." />

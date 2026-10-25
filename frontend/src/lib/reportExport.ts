@@ -1,20 +1,15 @@
-import type { AdminOrder, DateRange } from '../types/admin'
+import type { AdminOrder } from '../types/admin'
 import type { Product } from '../types'
-import { dailySales, isSale, ordersInRange, salesByDistrict, topProducts } from './orderStats'
+import { dailySales, isSale, ordersInPeriod, salesByDistrict, topProducts } from './orderStats'
 import { ORDER_STATUS_LABEL, PAYMENT_METHOD_LABEL, PAYMENT_STATUS_LABEL } from './orderStatus'
 import { SLOT_LABEL } from './deliverySlots'
 import { formatPhone } from './phone'
 import { isoDate } from './dates'
+import { chartWindow, comparisonLabel, previousPeriod, rangeText, type Period } from './period'
 import { downloadCsv, downloadXlsx, type Cell, type Sheet } from './spreadsheet'
 
 // The owner's report downloads: the orders of the chosen period as CSV, or a workbook with a summary,
 // the orders, sales per day, best sellers, delivery areas and stock.
-
-export const RANGE_INFO: Record<DateRange, { label: string; days: number; previous: string; file: string }> = {
-  today: { label: 'Today', days: 1, previous: 'yesterday', file: 'today' },
-  week: { label: 'Last 7 days', days: 7, previous: 'the 7 days before', file: 'last-7-days' },
-  month: { label: 'Last 30 days', days: 30, previous: 'the 30 days before', file: 'last-30-days' },
-}
 
 const placed = (o: AdminOrder) => {
   const at = o.createdAt ?? o.placedAt
@@ -73,10 +68,10 @@ function ordersSheet(orders: AdminOrder[]): Sheet {
   }
 }
 
-function buildSheets(all: AdminOrder[], products: Product[], range: DateRange): Sheet[] {
-  const info = RANGE_INFO[range]
-  const orders = ordersInRange(all, range)
-  const before = ordersInRange(all, range, 1)
+function buildSheets(all: AdminOrder[], products: Product[], period: Period): Sheet[] {
+  const previous = previousPeriod(period)
+  const orders = ordersInPeriod(all, period)
+  const before = ordersInPeriod(all, previous)
   const sales = orders.filter(isSale)
   const salesBefore = before.filter(isSale)
   const sum = (list: AdminOrder[]) => list.reduce((s, o) => s + o.total, 0)
@@ -87,17 +82,18 @@ function buildSheets(all: AdminOrder[], products: Product[], range: DateRange): 
   const money = (value: number): Cell => ({ value, format: 'money' })
   const row = (label: string, now: number, was: number, fmt: (n: number) => Cell = (n) => n): Cell[] => [label, fmt(now), fmt(was), change(now, was)]
 
-  const chartDays = Math.max(info.days, 7)
-  const daily = dailySales(all, chartDays)
-  const dailyBefore = dailySales(all, chartDays, 1)
+  // a single day still gets the week around it, as on the page
+  const days = chartWindow(period)
+  const daily = dailySales(all, days)
+  const dailyBefore = dailySales(all, previousPeriod(days))
 
   return [
     {
       name: 'Summary',
       columns: [
-        { header: `Measure (${info.label}, exported ${isoDate(0)})`, width: 40 },
+        { header: `Measure (${rangeText(period)}, exported ${isoDate(0)})`, width: 44 },
         { header: 'This period', width: 16 },
-        { header: `Previous (${info.previous})`, width: 22 },
+        { header: `Previous (${comparisonLabel(period)}: ${rangeText(previous)})`, width: 36 },
         { header: 'Change', width: 10 },
       ],
       rows: [
@@ -155,12 +151,12 @@ function buildSheets(all: AdminOrder[], products: Product[], range: DateRange): 
   ]
 }
 
-const fileName = (range: DateRange, ext: string) => `ceylon-petals-report-${RANGE_INFO[range].file}-${isoDate(0)}.${ext}`
+const fileName = (kind: string, p: Period, ext: string) => `ceylon-petals-${kind}-${p.from === p.to ? p.from : `${p.from}-to-${p.to}`}.${ext}`
 
-export function exportOrdersCsv(all: AdminOrder[], range: DateRange) {
-  downloadCsv(ordersSheet(ordersInRange(all, range)), fileName(range, 'csv').replace('report', 'orders'))
+export function exportOrdersCsv(all: AdminOrder[], period: Period) {
+  downloadCsv(ordersSheet(ordersInPeriod(all, period)), fileName('orders', period, 'csv'))
 }
 
-export function exportReportXlsx(all: AdminOrder[], products: Product[], range: DateRange) {
-  downloadXlsx(buildSheets(all, products, range), fileName(range, 'xlsx'))
+export function exportReportXlsx(all: AdminOrder[], products: Product[], period: Period) {
+  downloadXlsx(buildSheets(all, products, period), fileName('report', period, 'xlsx'))
 }

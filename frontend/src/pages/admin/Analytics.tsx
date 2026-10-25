@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Banknote, ClipboardList, HandCoins, Minus, Receipt, RotateCcw, TrendingDown, TrendingUp, Wallet, XCircle } from 'lucide-react'
+import { Banknote, ClipboardList, HandCoins, Receipt, RotateCcw, Wallet, XCircle } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { adminListCategories } from '../../services/catalog'
 import { formatPhone } from '../../lib/phone'
@@ -7,46 +6,31 @@ import AdminPageHeader from '../../components/admin/AdminPageHeader'
 import StatCard from '../../components/admin/StatCard'
 import Panel from '../../components/admin/Panel'
 import ExportMenu from '../../components/admin/ExportMenu'
+import PeriodPicker from '../../components/admin/PeriodPicker'
+import { Delta as Change } from '../../components/admin/overview/KpiCard'
 import TrendChart from '../../components/admin/charts/TrendChart'
 import ColumnChart from '../../components/admin/charts/ColumnChart'
 import BarList from '../../components/admin/charts/BarList'
 import ShareBar from '../../components/admin/charts/ShareBar'
 import { useAdminOrders, useAdminProducts } from '../../hooks/useAdminData'
+import { usePeriod } from '../../hooks/usePeriod'
 import { formatLKR } from '../../lib/format'
-import { dailySales, isSale, ordersBySlot, ordersInRange, percentChange, salesByDistrict, salesByPaymentMethod, topProducts } from '../../lib/orderStats'
+import { isoDate } from '../../lib/dates'
+import { dailySales, isSale, ordersBySlot, ordersInPeriod, salesByDistrict, salesByPaymentMethod, topProducts } from '../../lib/orderStats'
+import { chartWindow, comparisonLabel, periodDays, previousPeriod, rangeText } from '../../lib/period'
 import { PAYMENT_METHOD_LABEL } from '../../lib/orderStatus'
 import { SLOT_LABEL } from '../../lib/deliverySlots'
-import type { DateRange, DeliverySlotKey, PaymentMethod } from '../../types/admin'
+import type { DeliverySlotKey, PaymentMethod } from '../../types/admin'
 
-const RANGES: { id: DateRange; label: string; days: number; previous: string }[] = [
-  { id: 'today', label: 'Today', days: 1, previous: 'yesterday' },
-  { id: 'week', label: 'Last 7 days', days: 7, previous: 'the 7 days before' },
-  { id: 'month', label: 'Last 30 days', days: 30, previous: 'the 30 days before' },
-]
 const SLOTS: DeliverySlotKey[] = ['morning', 'afternoon', 'evening', 'midnight']
 const METHODS: PaymentMethod[] = ['CARD', 'CASH_ON_DELIVERY', 'WHATSAPP']
 
-// "Up 12% on the 30 days before", with an arrow and words, so the change never relies on colour alone.
-function Change({ now, before, against }: { now: number; before: number; against: string }) {
-  const pct = percentChange(now, before)
-  if (pct === null) return <p className="text-[12px] text-secondary">Nothing to compare with {against}</p>
-  const Icon = pct > 0 ? TrendingUp : pct < 0 ? TrendingDown : Minus
-  const tone = pct > 0 ? 'text-emerald-700 dark:text-emerald-400' : pct < 0 ? 'text-error' : 'text-secondary'
-  return (
-    <p className="flex items-center gap-1 text-[12px] text-secondary">
-      <Icon size={14} aria-hidden="true" className={tone} />
-      <span className={`font-semibold ${tone}`}>{pct > 0 ? 'Up' : pct < 0 ? 'Down' : 'No change'}{pct !== 0 && ` ${Math.abs(pct)}%`}</span>
-      <span>on {against}</span>
-    </p>
-  )
-}
-
 export default function Analytics() {
-  const [range, setRange] = useState<DateRange>('month')
+  const [period, setPeriod] = usePeriod('month')
   const { data: all = [], isLoading } = useAdminOrders()
-  const { days, previous: against } = RANGES.find((r) => r.id === range)!
-  const orders = ordersInRange(all, range)
-  const before = ordersInRange(all, range, 1)
+  const against = comparisonLabel(period)
+  const orders = ordersInPeriod(all, period)
+  const before = ordersInPeriod(all, previousPeriod(period))
   const sales = orders.filter(isSale)
   const salesBefore = before.filter(isSale)
   const revenue = sales.reduce((s, o) => s + o.total, 0)
@@ -56,9 +40,11 @@ export default function Analytics() {
   const cancelled = orders.length - sales.length
 
   // the charts always show at least a week, so a single day still has some shape around it
-  const chartDays = Math.max(days, 7)
-  const daily = dailySales(all, chartDays)
-  const dailyBefore = dailySales(all, chartDays, 1).map((d) => d.value)
+  const span = chartWindow(period)
+  const chartDays = periodDays(span)
+  const daily = dailySales(all, span)
+  const dailyBefore = dailySales(all, previousPeriod(span)).map((d) => d.value)
+  const spanText = span.to === isoDate(0) ? `last ${chartDays} days` : rangeText(span)
   const bySlot = ordersBySlot(orders)
   const byMethod = salesByPaymentMethod(orders)
   const top = topProducts(orders, 6)
@@ -103,21 +89,8 @@ export default function Analytics() {
         subtitle="Sales and orders, counted by the day each order was placed. Cancelled and failed orders are not counted as sales."
         actions={
           <>
-          <div className="flex items-center bg-surface-container rounded-lg p-0.5" role="tablist" aria-label="Date range">
-            {RANGES.map((r) => (
-              <button
-                key={r.id}
-                type="button"
-                role="tab"
-                aria-selected={range === r.id}
-                onClick={() => setRange(r.id)}
-                className={`whitespace-nowrap px-3 py-1 rounded text-label-md ${range === r.id ? 'bg-surface-container-lowest text-primary font-bold shadow-sm' : 'text-secondary hover:text-on-surface'}`}
-              >
-                {r.label}
-              </button>
-            ))}
-          </div>
-          <ExportMenu orders={all} products={products} range={range} disabled={isLoading} />
+            <PeriodPicker value={period} onChange={setPeriod} />
+            <ExportMenu orders={all} products={products} period={period} disabled={isLoading} />
           </>
         }
       />
@@ -167,14 +140,14 @@ export default function Analytics() {
 
           {/* ---- the trend ---- */}
           <TrendChart
-            title={`Sales per day, last ${chartDays} days`}
+            title={`Sales per day, ${spanText}`}
             points={daily}
             previous={dailyBefore}
             previousLabel={`The ${chartDays} days before`}
           />
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <Panel title="Orders per day" note={`Last ${chartDays} days. Hover a bar for the day.`}>
+            <Panel title="Orders per day" note={`${spanText.charAt(0).toUpperCase()}${spanText.slice(1)}. Hover a bar for the day.`}>
               <ColumnChart
                 columns={daily.map((d) => ({ label: d.label, detail: d.date, value: d.orders }))}
                 describe={orderWord}

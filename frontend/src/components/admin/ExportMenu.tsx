@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { ChevronDown, Download, FileSpreadsheet, FileText } from 'lucide-react'
-import { exportOrdersCsv, exportReportXlsx, RANGE_INFO } from '../../lib/reportExport'
+import { exportOrdersCsv, exportReportXlsx } from '../../lib/reportExport'
+import { rangeText, type Period } from '../../lib/period'
 import { useToast } from '../../hooks/useToast'
-import type { AdminOrder, DateRange } from '../../types/admin'
+import type { AdminOrder } from '../../types/admin'
 import type { Product } from '../../types'
 
 // "Download" button for the owner pages: the period's orders as CSV, or the full report as Excel.
-export default function ExportMenu({ orders, products, range, disabled = false }: { orders: AdminOrder[]; products: Product[]; range: DateRange; disabled?: boolean }) {
+export default function ExportMenu({ orders, products, period, disabled = false }: { orders: AdminOrder[]; products: Product[]; period: Period; disabled?: boolean }) {
   const [open, setOpen] = useState(false)
   const box = useRef<HTMLDivElement>(null)
   const { showToast } = useToast()
@@ -35,8 +36,8 @@ export default function ExportMenu({ orders, products, range, disabled = false }
   }
 
   const items = [
-    { icon: FileText, label: 'Orders as CSV', hint: 'One row per order', go: () => run(() => exportOrdersCsv(orders, range), 'CSV file') },
-    { icon: FileSpreadsheet, label: 'Full report as Excel', hint: 'Summary, orders, sales per day, best sellers, areas, stock', go: () => run(() => exportReportXlsx(orders, products, range), 'Excel report') },
+    { icon: FileText, label: 'Orders as CSV', hint: 'One row per order', go: () => run(() => exportOrdersCsv(orders, period), 'CSV file') },
+    { icon: FileSpreadsheet, label: 'Full report as Excel', hint: 'Summary, orders, sales per day, best sellers, areas, stock', go: () => run(() => exportReportXlsx(orders, products, period), 'Excel report') },
   ]
 
   return (
@@ -55,7 +56,7 @@ export default function ExportMenu({ orders, products, range, disabled = false }
       </button>
       {open && (
         <div role="menu" className="absolute right-0 z-30 mt-2 w-72 overflow-hidden rounded-xl bg-surface-container-lowest p-1.5 shadow-lg ring-1 ring-outline-variant/50">
-          <p className="px-3 pb-1.5 pt-1 text-[11px] uppercase tracking-wider text-secondary">{RANGE_INFO[range].label}</p>
+          <p className="px-3 pb-1.5 pt-1 text-[11px] uppercase tracking-wider text-secondary">{rangeText(period)}</p>
           {items.map(({ icon: Icon, label, hint, go }) => (
             <button
               key={label}
