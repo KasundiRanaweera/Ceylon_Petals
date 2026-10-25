@@ -71,34 +71,35 @@ export default function Footer() {
             <p className="text-body-sm leading-relaxed text-on-surface-variant">
               Fresh flowers, hampers and plants, hand-arranged in Colombo and delivered with care across Sri Lanka.
             </p>
-            <a
-              href={whatsapp('Hello! I have a question.')}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Message ${shop.shopName} on WhatsApp`}
-              title="WhatsApp"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-primary transition-colors hover:bg-[#1EBE5D]"
-            >
-              <WhatsAppIcon size={22} />
-            </a>
-            {socials.length > 0 && (
-              // The owner adds these in Admin -> Settings -> Storefront.
-              <ul className="flex flex-wrap gap-2" aria-label="Follow us">
-                {socials.map((s) => (
-                  <li key={s.label}>
-                    <a
-                      href={s.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-outline-variant bg-white/70 px-4 text-label-md text-primary transition-colors hover:border-primary hover:bg-primary hover:text-on-primary"
-                    >
-                      <s.icon size={18} colored />
-                      {s.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
+            {/* round icon buttons; the social links are added in Admin -> Settings -> Storefront */}
+            <ul className="flex flex-wrap gap-2.5" aria-label="Contact and follow us">
+              <li>
+                <a
+                  href={whatsapp('Hello! I have a question.')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Message ${shop.shopName} on WhatsApp`}
+                  title="WhatsApp"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-primary transition-colors hover:bg-[#1EBE5D]"
+                >
+                  <WhatsAppIcon size={22} />
+                </a>
+              </li>
+              {socials.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${shop.shopName} on ${s.label}`}
+                    title={s.label}
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-outline-variant bg-white text-[#111] transition-transform hover:scale-105"
+                  >
+                    <s.icon size={22} colored />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div>
