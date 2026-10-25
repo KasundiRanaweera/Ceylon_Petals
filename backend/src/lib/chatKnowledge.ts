@@ -29,7 +29,7 @@ export const POLICIES: Record<PolicyTopic, { text: string; page: string }> = {
     page: '/delivery',
   },
   ordering: {
-    text: 'How to order: browse the Shop or use the search, open a product and press Add to cart, then open the Cart and press Checkout. At checkout enter your details, the recipient, address, district, delivery date and time slot, an optional card message, and choose a payment method. A guest checkout works without an account; an account saves addresses and order history. Promo codes are entered at checkout.',
+    text: 'How to order: browse the Shop or use the search, open a product and press Add to cart, then open the Cart and press Checkout. At checkout enter your details, the recipient, address, district, delivery date and time slot, an optional card message, and choose a payment method. A guest checkout works without an account; an account saves addresses and order history. Promo codes are entered at checkout. After the order is placed the order confirmation page shows the order number; the shop does not send e-mails, so keep the order number to track the order.',
     page: '/shop',
   },
   tracking: {
