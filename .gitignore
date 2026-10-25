@@ -9,3 +9,4 @@ backend/src/generated/
 render.env
 .vite/
 .venv/
+brag-output/
