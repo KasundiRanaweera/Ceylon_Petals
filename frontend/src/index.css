@@ -399,13 +399,25 @@ html {
   85% { opacity: 0.75; }
   100% { opacity: 0; transform: translate3d(calc(var(--drift) * -0.4), 340px, 0) rotate(320deg); }
 }
+/* Home hero (wide screens): lily petals drift down behind the flower. The outer span falls
+   (.animate-petal); this inner one flutters side to side and tips over, like a petal catching air. */
+.hero-drift-petal {
+  border-radius: 80% 0 80% 0;
+  background: linear-gradient(135deg, #f8d3db 0%, #eaa6b4 55%, #c97689 100%);
+  box-shadow: inset -1px -1px 2px rgba(120, 50, 70, 0.3);
+  animation: hero-petal-flutter ease-in-out infinite alternate;
+}
+@keyframes hero-petal-flutter {
+  from { transform: translate3d(-18px, 0, 0) rotateY(0deg) rotate(-12deg); }
+  to { transform: translate3d(18px, 0, 0) rotateY(65deg) rotate(14deg); }
+}
 /* Home hero: the WhatsApp icon gives a small wiggle when its button is hovered. */
 .group:hover .hero-wiggle { animation: hero-wiggle 0.6s ease-in-out; }
 @keyframes hero-wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-14deg); } 55% { transform: rotate(10deg); } 80% { transform: rotate(-4deg); } }
 @media (prefers-reduced-motion: reduce) {
   .hero-bloom { animation: none; background-position: 50% 50%; }
-  .hero-bouquet-sway, .hero-petal, .group:hover .hero-wiggle { animation: none; }
-  .hero-petal { display: none; }
+  .hero-bouquet-sway, .hero-petal, .hero-drift-petal, .group:hover .hero-wiggle { animation: none; }
+  .hero-petal, .hero-drift-petal { display: none; }
 }
 
 /* Home: the row of every product slides left on a loop (two copies, so it never jumps). It pauses

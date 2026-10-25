@@ -36,6 +36,21 @@ const STEM_BASE = '48% 97.7%'
 const FLOWER_CENTRE = '48% 40.8%'
 // The full bloom's head is this much larger than stage four's on the shared frame.
 const LAST_ZOOM = 1.45
+// Loose lily petals drifting behind the flower on wide screens. Positions are fixed so nothing shifts
+// between renders; the small, faint, blurred ones read as further away. Negative delays mean the
+// petals are already mid-fall when the page opens.
+const DRIFT_PETALS = [
+  { left: '6%', size: 16, delay: '-2s', fall: '19s', flutter: '3.2s', far: false, sway: '70px', spin: '280deg' },
+  { left: '14%', size: 10, delay: '-11s', fall: '26s', flutter: '4.1s', far: true, sway: '-50px', spin: '-240deg' },
+  { left: '23%', size: 13, delay: '-6s', fall: '22s', flutter: '3.6s', far: false, sway: '45px', spin: '300deg' },
+  { left: '31%', size: 8, delay: '-17s', fall: '28s', flutter: '4.6s', far: true, sway: '-35px', spin: '-200deg' },
+  { left: '64%', size: 9, delay: '-4s', fall: '27s', flutter: '4.3s', far: true, sway: '40px', spin: '220deg' },
+  { left: '72%', size: 15, delay: '-13s', fall: '20s', flutter: '3.4s', far: false, sway: '-65px', spin: '-310deg' },
+  { left: '81%', size: 11, delay: '-8s', fall: '24s', flutter: '3.9s', far: true, sway: '55px', spin: '260deg' },
+  { left: '91%', size: 14, delay: '-15s', fall: '21s', flutter: '3.5s', far: false, sway: '-45px', spin: '-280deg' },
+  { left: '44%', size: 9, delay: '-20s', fall: '29s', flutter: '4.4s', far: true, sway: '30px', spin: '240deg' },
+  { left: '56%', size: 12, delay: '-9s', fall: '23s', flutter: '3.8s', far: false, sway: '-40px', spin: '-260deg' },
+]
 
 export default function Hero({ ready = true }: { ready?: boolean }) {
   const reduce = useReducedMotion()
@@ -91,6 +106,36 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
       <div className={`${reduce ? 'relative min-h-[calc(100svh-var(--header-h,97px))]' : 'sticky top-[var(--header-h,97px)] h-[calc(100svh-var(--header-h,97px))]'} overflow-hidden`}>
         {/* the dark room: a warm glow behind the flower, darker towards the edges */}
         <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_38%,#2a1a1f_0%,#140f11_45%,#0a090a_75%)]" />
+
+        {/* loose petals drifting down behind the lily and the words (wide screens only) */}
+        {!reduce && (
+          <motion.div
+            aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={play({ opacity: 1 })}
+            transition={{ duration: 2, delay: 1.2, ease: EASE_OUT }}
+            className="pointer-events-none absolute inset-0 overflow-hidden max-sm:hidden"
+          >
+            {DRIFT_PETALS.map((p) => (
+              <span
+                key={p.left}
+                className="animate-petal absolute top-0"
+                style={{
+                  left: p.left,
+                  animationDelay: p.delay,
+                  animationDuration: p.fall,
+                  ['--petal-sway' as string]: p.sway,
+                  ['--petal-spin' as string]: p.spin,
+                }}
+              >
+                <span
+                  className={`hero-drift-petal block ${p.far ? 'opacity-40 blur-[1.5px]' : 'opacity-80'}`}
+                  style={{ width: p.size, height: p.size * 1.35, animationDuration: p.flutter }}
+                />
+              </span>
+            ))}
+          </motion.div>
+        )}
 
         <div className="relative mx-auto flex h-full max-w-5xl flex-col items-center px-4 pb-[calc(4.25rem+env(safe-area-inset-bottom))] text-center max-sm:pt-2 sm:pb-[calc(3.5rem+env(safe-area-inset-bottom))] lg:pb-[4svh]">
           {/* the lily takes whatever height the words leave, centred; the words start under its stem */}
